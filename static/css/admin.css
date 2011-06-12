@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+
+table.timeline { width: 100%; }
+table.timeline td { color: #fff; -moz-border-radius:5px 5px 5px 5px; font-weight: bold; }
+table.timeline td.even { background-color: #acd7e5; }
+table.timeline td.odd { background-color: #309bbf; }
+
+table.timeline td table td { cursor: pointer; font-weight: normal; padding: 0; -moz-border-radius:0; border: 0; }
+
+table.pricing-summary { width: 100%; }
+table.pricing-summary tr.sum td { -moz-border-radius:5px 5px 5px 5px; background-color: #acd7e5; font-weight: bold; }

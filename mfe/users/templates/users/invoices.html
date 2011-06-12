@@ -1,0 +1,105 @@
+{% extends "users/base.html" %}
+
+{% load i18n thumbnail %}
+
+{% block extra_css_overload %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $('.j-bill-detail').dialog({
+        'title': '{% trans "Fuel bill" %}',
+        'autoOpen': false
+    });
+    
+    $('#invoices a.j-bill-detail-link').click(function () {
+        $($(this).attr('href')).dialog('open');
+        return false;
+    });
+});
+
+</script>
+{% endblock %}
+
+{% block left_col_title %}{% trans "My invoices and bills" %}{% endblock %}
+
+{% block left_col_content %}
+<div id="invoices">
+
+{% blocktrans %}
+<p>This page lists all money related informations for your account. You can 
+review your invoices, watch your fuel bill claims and see if they were approved
+or not.</p>
+{% endblocktrans %}
+
+<span class="button button-green">
+    <span><a href="{% url mfe_users_account_invoices_and_bills_claim_bill %}" class="green">{% trans "Make new fuel bill claim" %}</a></span>
+</span>
+
+<span class="button button-green">
+    <span><a href="" class="green">{% trans "Transfer money to my account" %}</a></span>
+</span>
+
+<div class="clear"></div>
+
+<h3>{% trans "List of invoices" %}</h3>
+{% if invoices %}
+    <ul class="ul-01 invoice-list">
+        {% for invoice in invoices %}
+        <li>
+            {{ invoice.draw_date|date:"F Y" }} ({{ invoice.variable_symbol }})
+            <a href="{{ invoice.pdf_invoice.url }}" class="attachment pdf">{% trans "pdf" %}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>{% trans "No invoices yet" %}.</p>
+{% endif %}
+
+<h3>{% trans "Claimed fuel bills" %}</h3>
+
+{% if fuel_bills %}
+    <table>
+        <tr>
+            <th>{% trans "Code" %}</th>
+            <th>{% trans "Datetime" %}</th>
+            <th>{% trans "Place" %}</th>
+            <th>{% trans "Value" %}[Kč]</th>
+            <th>{% trans "Approved" %}</th>
+        </tr>
+        {% for bill in fuel_bills %}
+        <tr class="smaller">
+            <td>
+                <a href="#j-bill-detail-{{ bill.pk }}" class="j-bill-detail-link">{{ bill.code }}</a>
+                <div id="j-bill-detail-{{ bill.pk }}" class="j-bill-detail" style="display: none;">
+                    <ul class="ul-01">
+                        <li><strong>{% trans "Datetime" %}</strong>: {{ bill.datetime|date:"DATETIME_FORMAT" }}</li>
+                        <li><strong>{% trans "Place" %}</strong>: {{ bill.place }}</li>
+                        <li><strong>{% trans "Liter count" %}</strong>: {{ bill.liter_count|floatformat:"2" }} l</li>
+                        <li><strong>{% trans "Value" %}</strong>: {{ bill.money_amount|floatformat:"2" }} Kč</li>
+                    </ul>
+                    <p class="smaller"><strong>{% trans "Bill preview" %}</strong></p>
+                    {% if bill.image %}
+                        {% thumbnail bill.image 150x150 as thumb %}
+                        <img src="{{ thumb }}" width="{{ thumb.width }}" height="{{ thumb.height }}" />
+                    {% else %}
+                        <p class="smaller">{% trans "No bill preview submitted" %}.</p>
+                    {% endif %}
+                </div>
+            </td>
+            <td>{{ bill.datetime|date:"DATETIME_FORMAT" }}</td>
+            <td>{{ bill.place }}</td>
+            <td>{{ bill.money_amount|floatformat:"2" }}</td>
+            <td>{% if bill.approved %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>{% trans "No fuel bills yet" %}.</p>
+{% endif %}
+
+</div>
+{% endblock %}

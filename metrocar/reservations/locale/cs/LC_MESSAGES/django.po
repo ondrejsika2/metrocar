@@ -1,0 +1,201 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-04 15:44+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
+
+#: admin.py:22
+msgid "Basic information"
+msgstr "Základní informace"
+
+#: admin.py:23
+msgid "Additional information"
+msgstr "Další informace"
+
+#: admin.py:24
+msgid "Track"
+msgstr "Trasa"
+
+#: forms.py:17 models.py:102
+msgid "Reserved from"
+msgstr "Rezervováno od"
+
+#: forms.py:19 models.py:103
+msgid "Reserved until"
+msgstr "Rezervováno do"
+
+#: forms.py:21
+msgid "Select a car"
+msgstr "Zvolte automobil"
+
+#: forms.py:41
+msgid "Missing some data"
+msgstr "Chybějí některá data"
+
+#: models.py:94
+msgid "Cancelled"
+msgstr "Zrušená"
+
+#: models.py:95
+msgid "Comment"
+msgstr "Komentář"
+
+#: models.py:96
+msgid "Created"
+msgstr "Vytvořená"
+
+#: models.py:97
+msgid "Ended"
+msgstr "Ukončená"
+
+#: models.py:98
+msgid "Finished"
+msgstr "Dokončená"
+
+#: models.py:99
+msgid "Is service"
+msgstr "Servisní"
+
+#: models.py:100
+msgid "Modified"
+msgstr "Upravená"
+
+#: models.py:101
+msgid "Price"
+msgstr "Cena"
+
+#: models.py:104
+msgid "Started"
+msgstr "Začátek"
+
+#: models.py:105
+msgid "Path"
+msgstr "Trasa"
+
+#: models.py:106
+msgid "User"
+msgstr "Uživatel"
+
+#: models.py:107
+msgid "Car"
+msgstr "Automobil"
+
+#: models.py:112 models.py:382 models.py:415
+msgid "Reservation"
+msgstr "Rezervace"
+
+#: models.py:113
+msgid "Reservations"
+msgstr "Rezervace"
+
+#: models.py:142
+msgid "From datetime must be after till."
+msgstr "Datum od musí být pozdějí než datum do."
+
+#: models.py:145
+msgid "Cannot create reservation in the past."
+msgstr "Nelze vytvořit rezervaci v minulosti"
+
+#: models.py:148
+#, python-format
+msgid "Minimum duration of %s minutes not reached."
+msgstr "Minimální doba trvání (%s minut) nebyla dosažena."
+
+#: models.py:151
+#, python-format
+msgid "Maximum duration of %s has been exceeded."
+msgstr "Maximální doba trvání (%s) byla překročena."
+
+#: models.py:154
+msgid "No valid pricelist for selected car model."
+msgstr "Nebyl nalezen žádný platný ceník pro zvolený model automobilu."
+
+#: models.py:163
+msgid "You don't have enough money "
+msgstr "Nemáte dostatek peněz"
+
+#: models.py:172
+msgid "Reservation cannot be created due "
+msgstr "Rezervace nemůže být dokončena kvůli "
+
+#: models.py:253
+msgid "Cannot cancel reservation which already begun"
+msgstr "Nelze zrušit již započatou rezervaci"
+
+#: models.py:380
+msgid "Date time"
+msgstr "Datum a čas"
+
+#: models.py:381
+msgid "Sent"
+msgstr "Odesláno"
+
+#: models.py:387
+msgid "Reservation reminder"
+msgstr "Připomínka rezervace"
+
+#: models.py:388
+msgid "Reservation reminders"
+msgstr "Připomínky rezervací"
+
+#: models.py:420
+msgid "Reservation bill"
+msgstr "Účet za rezervaci"
+
+#: models.py:421
+msgid "Reservation bills"
+msgstr "Účty za rezervace"
+
+#: models.py:424
+#, python-format
+msgid "Bill for reservation %s"
+msgstr "Účet za rezervaci %s"
+
+#: plugins/plugins.py:31
+msgid "Cannot create reservation reminder in the past."
+msgstr "Nelze vytvořit připomínku rezervace v minulosti."
+
+#: plugins/plugins.py:33
+msgid "Cannot create reminder after reservation start."
+msgstr "Nelze vytvořit připomínku rezervace, protože rezervace již začala."
+
+#: plugins/plugins.py:46
+msgid "Reservation sucessfull"
+msgstr "Rezervace byla úspěšně vytvořena."
+
+#: plugins/plugins.py:46
+msgid "Your reservation has been successfull."
+msgstr "Vaše rezervace byla úspěšně vytvořena."
+
+#: templates/admin/reservations/reservation/change_form.html:13
+msgid "Pricing summary"
+msgstr "Souhrn cen"
+
+#: templates/admin/reservations/reservation/change_form.html:14
+msgid "Detailed information about journey price"
+msgstr "Detailní informace o ceně jízdy"
+
+#: templates/admin/reservations/reservation/change_form.html:18
+msgid "Price for kms driven"
+msgstr "Cena za ujeté kilometry"
+
+#: templates/admin/reservations/reservation/change_form.html:24
+msgid "Price for time elapsed"
+msgstr "Cena za uplynulý čas"
+
+#: templates/admin/reservations/reservation/change_form.html:30
+msgid "Total price"
+msgstr "Celková cena"

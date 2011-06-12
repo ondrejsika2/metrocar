@@ -1,0 +1,18 @@
+{% extends "users/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Edit my details" %}{% endblock %}
+
+{% block left_col_content %}
+
+<form action="{% url mfe_users_account_edit %}" method="post">
+	{% include "includes/standard_form.html" %}
+	<p class="submit-row">
+		<span class="button button-green">
+			<span><button class="green" type="submit">{% trans "Change my account details" %}</button></span>
+		</span>
+	</p>
+</form>
+
+{% endblock %}

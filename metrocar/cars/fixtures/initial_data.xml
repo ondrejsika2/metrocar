@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object pk="1" model="cars.carmodelmanufacturer">
+		<field type="SlugField" name="slug">hyundai</field>
+		<field type="CharField" name="name">Hyundai</field>
+	</object>
+	<object pk="1" model="cars.fuel">
+		<field type="CharField" name="title">Natural</field>
+	</object>
+	<object pk="1" model="cars.cartype">
+		<field type="CharField" name="type">Hatchback</field>
+	</object>
+	<object pk="1" model="cars.carmodel">
+		<field type="CharField" name="engine">1.2TDi</field>
+		<field type="TextField" name="notes">Poznamka</field>
+		<field type="IntegerField" name="seats_count">5</field>
+		<field type="IntegerField" name="storage_capacity">300</field>
+		<field type="CharField" name="name">Vagon</field>
+		<field to="cars.cartype" name="type" rel="OneToOneRel">1</field>
+		<field to="cars.fuel" name="main_fuel" rel="ManyToOneRel">1</field>
+		<field to="cars.carmodelmanufacturer" name="manufacturer" rel="ManyToOneRel">1</field>
+	</object>
+	<object pk="1" model="cars.carcolor">
+		<field type="CharField" name="color">Černá</field>
+	</object>
+	<object pk="1" model="cars.car">
+		<field type="BooleanField" name="active">1</field>
+		<field type="CharField" name="imei">123123123</field>
+		<field type="CharField" name="authorization_key">6a032f5aa3c90284feb5007b09670555a0289613</field>
+		<field type="BooleanField" name="dedicated_parking_only">0</field>
+		<field type="DateTimeField" name="last_echo">2010-03-03 22:35:02</field>
+		<field type="DateTimeField" name="manufacture_date">2009-12-21 13:22:04</field>
+		<field type="CharField" name="mobile_number">420 777883133</field>
+		<field type="IntegerField" name="registration_number">123</field>
+		<field type="PointField" name="last_position">POINT (14.5099999999999998 51.2700000000000031)</field>
+		<field to="cars.carmodel" name="model" rel="ManyToOneRel">1</field>
+		<field to="cars.carcolor" name="color" rel="ManyToOneRel">1</field>
+		<field to="user_management.metrocaruser" name="owner" rel="ManyToOneRel">2</field>
+		<field to="subsidiaries.subsidiary" name="home_subsidiary" rel="ManyToOneRel">1</field>
+	</object>
+	<object pk="1" model="cars.parking">
+        <field type="CharField" name="name">Karlovo náměstí</field>
+        <field type="IntegerField" name="places_count">100</field>
+        <field type="CharField" name="land_registry_number">0</field>
+        <field type="CharField" name="street">Karlovo náměstí</field>
+        <field type="CharField" name="city">Praha</field>
+        <field type="PolygonField" name="polygon">POLYGON ((14.4195342038008416 50.0779089721368962, 14.4212508175702556 50.0779915942364653, 14.4198560688825488 50.0735297971083497, 14.4189333889819480 50.0735297971083497, 14.4186973545883994 50.0736261983479309, 14.4191694233746048 50.0758296024162277, 14.4195342038008416 50.0779089721368962))</field>
+    </object>
+	
+</django-objects>

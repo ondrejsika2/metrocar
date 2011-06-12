@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<div class="form-row">
+<h4><span>{{ day.date|date:"l, d.n.Y" }}</span></h4>
+<table class="timeline">
+	<tr>
+		{% for record in timeline %}
+		<td title="{% trans "Fares" %} - <p><strong>{% trans "used" %}:</strong> {{ record.coefs.used|floatformat:"-2" }} Kč</p><p><strong>{% trans "unused" %}:</strong> {{ record.coefs.unused|floatformat:"-2" }} Kč</p><p><strong>{% trans "late return" %}:</strong> {{ record.coefs.late_return|floatformat:"-2" }} Kč</p>" id="j-trec-{{ date }}-{{ forloop.counter }}" class="{% cycle 'even' 'odd' %}" style="width: {% widthratio record.minutes 1439 100 %}%">{{ record.from }} - {{ record.till }}</td>
+		{% endfor %}
+	</tr>
+</table>
+
+<script type="text/javascript">
+{% for record in timeline %}
+$("#j-trec-{{ date }}-{{ forloop.counter }}").tooltip({
+	track: true, 
+    delay: 0, 
+    showURL: false, 
+    opacity: 1, 
+    fixPNG: true, 
+    showBody: " - ", 
+    extraClass: "pretty", 
+    top: -15, 
+    left: 5 
+});
+{% endfor %}
+</script>
+
+</div>

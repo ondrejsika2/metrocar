@@ -1,0 +1,11 @@
+{% load i18n %}
+
+<h4><span>{% trans "Cars" %}</span></h4>
+<ul class="ul-01">
+	{% block local_menu %}
+	<li><a href="/general-info/">{% trans "General info" %}</a></li>
+	<li><a href="{% url mfe_cars_list %}">{% trans "Find cars" %}</a></li>
+	<li><a href="{% url mfe_cars_parking_list %}">{% trans "Parkings" %}</a></li>
+	<li><a href="{% url mfe_cars_fares %}">{% trans "Fares" %}</a></li>
+	{% endblock %}				
+</ul>

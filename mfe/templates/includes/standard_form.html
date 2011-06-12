@@ -1,0 +1,12 @@
+{% csrf_token %}
+{{ form.non_field_errors }}
+{% for field in form %}
+<p>
+	<label>{{ field.label }}</label>
+	{{ field }}
+	{% include "includes/field_errors.html" %}
+	{% if field.help_text %}
+		<span class="help-text">{{ field.help_text }}</span>
+	{% endif %}
+</p>
+{% endfor %}

@@ -1,0 +1,44 @@
+{% extends "users/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Account activities" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% blocktrans %}
+<p>Below, you will find summary of activities on your user account. You 
+filter and search.</p>
+{% endblocktrans %}
+
+<p><strong>{% trans "Current account balance" %}:</strong> <span class="highlight">{{ user.account.balance|floatformat:"-2" }} Kč</span></p>
+
+<h3 class="dot">{% trans "Account activity list" %}</h3>
+
+<table>
+	<tr>
+		<th>
+			<a {% if table.columns.datetime.is_ordered %}class="{% if table.columns.datetime.is_ordered_reverse %}sort-up{% else %}sort-down{% endif %}"{% endif %} href="?sort={{ table.columns.datetime.name_toggled }}">{% trans "Time" %}</a>
+		</th>
+		<th>{% trans "Description" %}</a></th>
+		<th>
+			<a {% if table.columns.money_amount.is_ordered %}class="{% if table.columns.money_amount.is_ordered_reverse %}sort-up{% else %}sort-down{% endif %}"{% endif %} href="?sort={{ table.columns.money_amount.name_toggled }}">{% trans "Value" %}[Kč]</a>
+		</th>
+		<th>
+			<a {% if table.columns.account_balance.is_ordered %}class="{% if table.columns.account_balance.is_ordered_reverse %}sort-up{% else %}sort-down{% endif %}"{% endif %} href="?sort={{ table.columns.account_balance.name_toggled }}">{% trans "Account balance" %}[Kč]</a>
+		</th>
+	</tr>
+
+	{% for row in table.rows %}
+	{% if row.as_concrete_class.ready_to_be_invoiced %}
+	<tr class="{% cycle "even" "odd" %}">
+		<td class="smaller">{{ row.datetime|date:"DATETIME_FORMAT" }}</td>
+		<td class="smaller">{{ row.as_concrete_class }}</td>
+		<td class="smaller">{% if row.as_concrete_class.is_positive %}<span class="number-positive">+{{ row.money_amount|floatformat:"2" }}</span>{% else %}<span class="number-negative">{{ row.money_amount|floatformat:"2" }}</span>{% endif %}</td>
+		<td class="smaller">{{ row.account_balance|floatformat:"2" }}</td>
+	</tr>
+	{% endif %}
+	{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-04 15:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
+
+#: models.py:11
+msgid "Description"
+msgstr "Popis"
+
+#: models.py:12
+msgid "Free km per month"
+msgstr "Měsíční volné kilometry"
+
+#: models.py:13
+msgid "Name"
+msgstr "Název"
+
+#: models.py:14
+msgid "Price correction ratio"
+msgstr "Korekční koeficient"
+
+#: models.py:15
+msgid "Price per month"
+msgstr "Cena za měsíc"
+
+#: models.py:16
+msgid "Valid from"
+msgstr "Platný od"
+
+#: models.py:17
+msgid "Valid until"
+msgstr "Platný do"
+
+#: models.py:18
+msgid "Visible"
+msgstr "Viditelný"
+
+#: models.py:21 models.py:28 models.py:34
+msgid "Fixed payment tariff"
+msgstr "Tarif"
+
+#: models.py:22
+msgid "Fixed payment tariffs"
+msgstr "Tarify"
+
+#: models.py:29 models.py:35 models.py:54 models.py:74
+msgid "User"
+msgstr "Uživatel"
+
+#: models.py:30
+msgid "Day count"
+msgstr "Počet dní"
+
+#: models.py:33
+msgid "Accumulated free km"
+msgstr "Nastřádané volné kilometry"
+
+#: models.py:38 models.py:39
+msgid "Fixed payment tariff user details"
+msgstr "Detaily tarifu uživatele"
+
+#: models.py:42
+#, python-format
+msgid "%s tariff details"
+msgstr "Detail tarifu %s"
+
+#: models.py:51
+msgid "Date from"
+msgstr "Od"
+
+#: models.py:52
+msgid "Date until"
+msgstr "Do"
+
+#: models.py:53
+msgid "Tariff"
+msgstr "Tarif"
+
+#: models.py:57 models.py:58
+msgid "Fixed payment tariff history"
+msgstr "Historie tarifu"
+
+#: models.py:72
+msgid "Km amount"
+msgstr "Počet kilometrů"
+
+#: models.py:73
+msgid "Datetime"
+msgstr "Čas"
+
+#: models.py:77 models.py:78
+msgid "Free Km usage history"
+msgstr "Historie využití volných kilometrů"
+
+#: models.py:81
+#, python-format
+msgid "Free km usage history for %s"
+msgstr "Historie využití volných kilometrů %s"

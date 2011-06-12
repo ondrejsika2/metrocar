@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>metrocar.tarification.managers &mdash; Metrocar v0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.9',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Metrocar v0.9 documentation" href="index.html" />
+    <link rel="up" title="Tarification module" href="metrocar_tarification.html" />
+    <link rel="next" title="metrocar.tarification.models" href="metrocar_tarification_models.html" />
+    <link rel="prev" title="Tarification module" href="metrocar_tarification.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="metrocar_tarification_models.html" title="metrocar.tarification.models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="metrocar_tarification.html" title="Tarification module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Metrocar v0.9 documentation</a> &raquo;</li>
+          <li><a href="metrocar_tarification.html" accesskey="U">Tarification module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-metrocar.tarification.managers">
+<h1>metrocar.tarification.managers<a class="headerlink" href="#module-metrocar.tarification.managers" title="Permalink to this headline">¶</a></h1>
+<p>Created on 7.5.2010</p>
+<p>&#64;author: xaralis</p>
+<dl class="class">
+<dt id="metrocar.tarification.managers.PricelistManager">
+<em class="property">class </em><tt class="descclassname">metrocar.tarification.managers.</tt><tt class="descname">PricelistManager</tt><a class="headerlink" href="#metrocar.tarification.managers.PricelistManager" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="metrocar.tarification.managers.PricelistManager.valid">
+<tt class="descname">valid</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.tarification.managers.PricelistManager.valid" title="Permalink to this definition">¶</a></dt>
+<dd>Returns only pricelists which are valid and available at the moment.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.tarification.managers.PricelistDayManager">
+<em class="property">class </em><tt class="descclassname">metrocar.tarification.managers.</tt><tt class="descname">PricelistDayManager</tt><a class="headerlink" href="#metrocar.tarification.managers.PricelistDayManager" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="metrocar.tarification.managers.PricelistDayManager.dates">
+<tt class="descname">dates</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.tarification.managers.PricelistDayManager.dates" title="Permalink to this definition">¶</a></dt>
+<dd>Returns only date record order by their date</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.tarification.managers.PricelistDayManager.weekdays">
+<tt class="descname">weekdays</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.tarification.managers.PricelistDayManager.weekdays" title="Permalink to this definition">¶</a></dt>
+<dd>Returns only weekday records order by weekday succession</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.tarification.managers.StornoFeeManager">
+<em class="property">class </em><tt class="descclassname">metrocar.tarification.managers.</tt><tt class="descname">StornoFeeManager</tt><a class="headerlink" href="#metrocar.tarification.managers.StornoFeeManager" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="metrocar.tarification.managers.StornoFeeManager.create_for_reservation">
+<tt class="descname">create_for_reservation</tt><big>(</big><em>reservation</em><big>)</big><a class="headerlink" href="#metrocar.tarification.managers.StornoFeeManager.create_for_reservation" title="Permalink to this definition">¶</a></dt>
+<dd>Generates new StornoFee for reservation (used when it&#8217;s cancelled)</dd></dl>
+
+<dl class="classmethod">
+<dt id="metrocar.tarification.managers.StornoFeeManager.get_record_for_reservation">
+<em class="property">classmethod </em><tt class="descname">get_record_for_reservation</tt><big>(</big><em>reservation</em>, <em>now=datetime.datetime(2010</em>, <em>5</em>, <em>7</em>, <em>15</em>, <em>43</em>, <em>40</em>, <em>403490)</em><big>)</big><a class="headerlink" href="#metrocar.tarification.managers.StornoFeeManager.get_record_for_reservation" title="Permalink to this definition">¶</a></dt>
+<dd>Searches for right StornoFeeTimeline record by comaring time duration 
+till reservation start</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="metrocar_tarification.html"
+                                  title="previous chapter">Tarification module</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="metrocar_tarification_models.html"
+                                  title="next chapter">metrocar.tarification.models</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/metrocar_tarification_managers.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="metrocar_tarification_models.html" title="metrocar.tarification.models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="metrocar_tarification.html" title="Tarification module"
+             >previous</a> |</li>
+        <li><a href="index.html">Metrocar v0.9 documentation</a> &raquo;</li>
+          <li><a href="metrocar_tarification.html" >Tarification module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Filip Vařecha.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

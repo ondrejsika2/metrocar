@@ -1,0 +1,32 @@
+{% extends "base-one-col.html" %}
+
+{% load i18n %}
+
+{% block col_content %}
+<h1>{% trans "Login required" %}</h1>
+
+{% blocktrans %}
+<p>The page you have chosen requires you to be logged in. Please, supply your 
+credentials to continue.</p>
+{% endblocktrans %}
+
+<form class="sidebar-login-form" action="{% url mfe_users_login %}" method="post">
+	<p>
+		<label>{% trans "Username" %}</label>
+		<input type="text" size="20" value="" name="username" />
+	</p>
+	<p>
+		<label>{% trans "Password" %}</label>
+		<input type="password" size="20" value="heslo" name="password" />
+	</p>
+	{% if next %}
+	<input type="hidden" value="{{ next }}" name="next" />
+	{% endif %}
+	
+	<p class="submit-row">
+		<span class="button button-green">
+			<span><button class="green" type="submit">{% trans "Log in" %}</button></span>
+		</span>
+	</p>
+</form>
+{% endblock %}

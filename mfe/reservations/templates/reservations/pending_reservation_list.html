@@ -1,0 +1,31 @@
+{% extends "reservations/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Pending reservations" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% if object_list %}
+	<p>{% trans "You have following pending reservations" %}:</p>
+	<table>
+		<tr>
+			<th>{% trans "Car" %}</th>
+			<th>{% trans "Reservation start" %}</th>
+			<th colspan="2">{% trans "Reservation end" %}</th>
+		</tr>
+		{% for reservation in object_list %}
+		<tr class="{% cycle "even" "odd" %}">
+			<td>{{ reservation.car }}</td>
+			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
+			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
+			<td><a href="{% url mfe_reservations_submit_cancel_reservation reservation.pk %}">{% trans "cancel" %}</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% include "pagination.html" %}
+{% else %}
+<p>{% trans "No pending reservations." %}</p>
+{% endif %}
+
+{% endblock %}

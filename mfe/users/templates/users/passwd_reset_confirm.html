@@ -1,0 +1,15 @@
+{% extends 'base-one-col.html' %}
+{% load i18n %}
+
+{% block col_content %}
+<h1>{% trans "Set your new password" %}</h1>
+
+<form class="sidebar-login-form" action="./" method="post">
+	{{ form }}
+	<p class="submit-row">
+		<span class="button button-green">
+			<span><button class="green" type="submit">{% trans "CHANGE PASSWORD" %}</button></span>
+		</span>
+	</p>
+</form>
+{% endblock %}

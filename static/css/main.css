@@ -1,0 +1,256 @@
+/* ----------------------------------------------------------------------------------------------------------
+
+    Output device: screen, projection
+
+    Author:     Nuvio (www.nuvio.cz)
+    Update:     2008-07-29, 18:30 GMT+1
+    Version:    2.2.6 (2008-07-13, 14:28 GMT+1)
+
+    Structure:
+        display; position; z-index; float; clear; width; height; overflow; margin; padding; border; background; align; font;
+
+    Content:
+    
+        1) HTML tags
+        2) HTML styles
+        3) Layout
+        4-1) Page: Homepage
+        5) Others
+
+---------------------------------------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------------------------------------
+1) HTML tags
+---------------------------------------------------------------------------------------------------------- */
+
+body {background:url("../img/bg.gif") 0 0 repeat-x; font:0.8em/1.5 "arial", sans-serif;}
+
+h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px 0;}
+
+h1, h2 { margin: 0; }
+
+h3.dot { background:url("../img/dot.gif") 0 50% repeat-x;}
+h3.dot span {padding-right: 10px;background-color: #fff;}
+
+form { padding: 0 10px; }
+form span.help-text { margin-left: 20px; color:#9a9a9a; }
+
+button { cursor: pointer; }
+span.button { display: block; float: left; height: 29px; margin:0 5px 0 0; padding:0 0 0 13px; }
+span.button span { float: left; height: 29px; margin:0; padding:0 13px 0 0; }
+span.button button, span.button a { display: block; height: 29px; line-height: 29px; border: 0; margin: 0; padding: 0 0; text-transform: uppercase; text-decoration: none; }
+
+span.button-green { background:url("../img/btn-green-left.png") no-repeat left; }
+span.button-green span { background:url("../img/btn-green-right.png") no-repeat right; }
+span.button-green button, span.button-green a { background:url("../img/btn-green-fill.png") repeat-x; color: #fff; font-weight: bold; font-family: "Myriad Pro", sans-serif; }
+
+span.button-grey { background:url("../img/btn-grey-left.png") no-repeat left; }
+span.button-grey span { background:url("../img/btn-grey-right.png") no-repeat right; }
+span.button-grey button, span.button-grey a { background:url("../img/btn-grey-fill.png") repeat-x; color: #fff; font-weight: bold; font-family: "Myriad Pro", sans-serif; }
+
+span.search { display: block; float: left; height: 29px; margin:0 5px 0 0; padding:0 0 0 12px; background:url("../img/search-box-left.png") no-repeat left; }
+span.search span { float: left; height: 29px; margin:0; padding:0 12px 0 0; background:url("../img/search-box-right.png") no-repeat right; }
+span.search input { display: block; height: 29px; line-height: 29px; border: 0; margin: 0; padding: 0 0;  background:url("../img/search-box-fill.png") repeat-x; color: #000; }
+input.search-submit { width: 29px; height: 29px; border: 0; float: left; }
+
+a.sort-down { background: url("../img/down.png") right no-repeat; padding: 5px 20px 5px 0; }
+a.sort-up { background: url("../img/up.png") right no-repeat; padding: 5px 20px 5px 0; }
+
+form p.submit-row { margin: 20px 0; }
+
+form span.error, ul.errorlist li { color: #FF7300; font-weight: bold; }
+ul.errorlist li { margin-left: 20px; }
+
+label {display: block; font-weight: bold;}
+
+table { width: 100%; border-collapse: collapse; }
+table th { padding: 0 10px 5px 10px; text-align: left; color: #009900; background: url("../img/dot-02.gif") repeat-x scroll 0 bottom transparent; }
+table th a { color: #009900; }
+table td { padding: 10px; text-align: left; vertical-align: middle; }
+table tr.even td { }
+table tr.odd td { background-color: #EEF8E4; }
+
+table.timeline { width: 100%; font-size: 0.8em; }
+table.timeline td { color: #fff; -moz-border-radius:5px 5px 5px 5px; font-weight: bold; }
+table.timeline td.even { background-color: #EEF8E4; color:#404040; }
+table.timeline td.odd { background-color:#009900; }
+table.timeline td table td p { padding: 0; margin: 0; }
+
+table.timeline td table td { cursor: pointer; font-weight: normal; padding: 0; -moz-border-radius:0; border: 0; }
+
+table.pricing-summary { width: 100%; }
+table.pricing-summary tr.sum td { -moz-border-radius:5px 5px 5px 5px; background-color: #acd7e5; font-weight: bold; }
+
+img.float-right { margin: 5px 0px 5px 15px; }
+img.float-left { margin: 5px 15px 5px 0px; }
+
+/* ----------------------------------------------------------------------------------------------------------
+2) HTML styles
+---------------------------------------------------------------------------------------------------------- */
+
+ul.ul-01 {margin:15px 0; list-style:none;}
+ul.ul-01 li {padding:2px 0 2px 25px; background:url("../img/right.png") 0 50% no-repeat; font-size:85%;}
+
+ul.ul-list {margin:15px 0; list-style:none;}
+ul.ul-list li {padding:1px 0;}
+ul.ul-list span.date {padding-right:10px;}
+
+/* ----------------------------------------------------------------------------------------------------------
+3) Layout
+---------------------------------------------------------------------------------------------------------- */
+
+#main {width:960px; margin:0 auto; overflow:hidden;}
+
+    #header {position:relative; height:90px; padding:30px 20px 15px 20px;}
+
+        #logo a {position: absolute;top:55px;font: bold 1.9em "trebuchet MS", Arial, Tahoma, Sans-Serif;margin: 0; padding:0;color:#009900;letter-spacing:-2px;border: none;text-decoration: none;}
+            #logo a span {color:#ff7300;}
+            #logo a span.desc {position:absolute;width:auto;top:45px;left:0;font-size: 0.5em;color:#606060;}  
+    
+        #nav {position:absolute; top:80px; right:20px; margin:0;}
+        #nav span {margin:0 8px;}
+        #nav #nav-active {font-weight:bold; text-decoration:none;}
+        
+        #logged-user {position:absolute; top:110px; right:20px; margin:0;z-index: 1000;}
+        #logged-user a {color:#090;}
+        #logged-user strong {margin:0 8px;}
+        
+        #login-box { position: absolute; top: 100px; right: 240px; padding: 0 10px 10px 10px; background-color: #fff; z-index: 9999; border: 1px #dfdfdf solid; }
+        
+        #subsidiary-list { position: absolute; width: 400px; top: 20px; padding: 10px; background-color: #fff; z-index: 9999; border: 1px #dfdfdf solid; }
+    
+    #tray {position:relative; width:960px; height:45px; background:url("../img/tray.gif") 0 0 no-repeat; overflow:hidden; font:bold 90%/1 "tahoma",sans-serif;}
+    #tray ul {margin:0 20px; list-style:none;}
+    #tray li {display:inline;}
+    #tray li a {display:block; float:left; padding:17px 20px 17px 18px; background:url("../img/tray-separator.gif") 100% 0 no-repeat; text-decoration:none;}
+    #tray li a:hover {background:url("../img/tray-hover.gif");}
+    #tray li#tray-active a {background:url("../img/tray-active.gif");}
+
+        #page-search {position:absolute; top:8px; right:20px;}
+
+    #footer {clear:both; padding:20px 20px 40px 20px; font-size:85%;}
+    #footer p {margin:0;}
+
+/* ----------------------------------------------------------------------------------------------------------
+4-1) Page: Homepage
+---------------------------------------------------------------------------------------------------------- */
+
+#col-top {width:960px; height:5px; margin-top:15px; background:url("../img/col-top.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden;}
+#col-bottom {width:960px; height:5px; margin-bottom:15px; background:url("../img/col-bottom.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden;}
+#col {position:relative; padding:15px 30px 15px 20px; background:url("../img/col.gif") 0 0 repeat-y;}
+
+    #ribbon {position:absolute; top:-5px; left:0; width:100px; height:100px; background:url("../img/ribbon.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden; z-index:10;}
+
+    #col-browser {position:relative; float:left; width:280px; height:215px; background:url("../img/metrocar-logo.png") center center no-repeat;}
+    #col-browser img {position:absolute; top:28px; left:10px;}
+
+    #col-text {float:right; width:600px; padding-top:15px; line-height:1.7;}
+
+        #slogan {position:relative; width:289px; height:33px; overflow:hidden; margin:0; padding:0; font-size:180%;}
+        #slogan span {display:block; position:absolute; top:0; left:0; z-index:1; width:100%; height:100%; margin:0; padding:0; }
+        #btns {margin-top:25px; margin-bottom:0;}
+
+#cols2-top {width:960px; height:5px; margin-top:15px; background:url("../img/cols2-top.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden;}
+#cols2-bottom {width:960px; height:5px; margin-bottom:15px; background:url("../img/cols2-bottom.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden;}
+#cols2 {background:url("../img/cols2.gif") 0 0 repeat-y;}
+
+    #cols2 #col-left {float:left; width:595px; padding:20px;}
+    #cols2 #col-right {float:right; width:268px; margin-right:1px; padding:20px;}
+    
+        #cols2 #col-left h4, #cols2 #col-right h4 {margin:0; font-size:100%;}
+        #cols2 #col-left .title {background:url("../img/dot.gif") 0 50% repeat-x;}
+        #cols2 #col-left .title h4, #cols2 #col-left .title h2 {display:inline; padding-right:10px;}
+        #cols2 #col-left .title span {padding-left:10px;}
+        #cols2 #col-left h4 { background:url("../img/dot.gif") 0 50% repeat-x;}
+        #cols2 #col-left h4 span {padding-right: 10px;background-color: #fff;}
+
+        #cols2 .box {margin-top:15px;}
+        #cols2 #col-right h4 {background:url("../img/dot-02.gif") 0 50% repeat-x;}
+        #cols2 #col-right h4 span {padding-right:10px;}
+        #cols2 .col-right-img {float:left; width:65px;}
+        #cols2 .col-right-text {float:right; width:190px;}
+        #cols2 .col-right-text p {margin:0;}
+        
+
+#cols3-top {width:960px; height:5px; margin-top:15px; background:url("../img/cols3-top.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden;}
+#cols3-bottom {width:960px; height:5px; margin-bottom:15px; background:url("../img/cols3-bottom.gif") 0 0 no-repeat; font-size:0; line-height:0; overflow:hidden;}
+#cols3 {background:url("../img/cols3.gif") 0 0 repeat-y;}
+
+    .col {float:left; width:308px; padding:0 1px; margin-right:15px;}
+    .col.last {margin-right:0;}
+    .col h3 {margin:0; padding:7px 15px 12px 50px; background:url("../img/cols3-title.gif") 20px 40% no-repeat; font-size:120%;}
+
+        .col-text {padding:20px; border-top:1px solid #DFDFDF;}
+        .col-text p {margin:0;}
+        .col-text ul {margin-bottom:0;}
+        .col-more {padding:10px 10px 1px 0; text-align:right;}
+
+#car-search-box {position:relative; width:930px; height:568px; padding:5px 15px 5px 15px; background:url("../img/search-box.png") 0 0;}
+    #car-search-box #car-search-header { width: 100%; height: 50px; line-height: 50px; color: #fff; }
+        #car-search-box #car-search-header h2 { float: left; }
+        #car-search-box #car-search-header div { float: right; margin-top: 10px; }
+        #car-search-box #search-results { line-height: normal; color: #000; background-color:#fff; border:1px solid #DFDFDF; padding:10px; position:absolute; top:40px; width:470px;z-index:9999; }
+        #car-search-box #search-results p { padding: 0; margin: 0 0 5px 0; }
+#car-search-box .col-left { width: 600px; background-color: #F5F5F5; }
+#car-search-box .col-left #car-map { width: 100%; height: 505px; }
+#car-search-box .col-right { width: 308px; height: 485px; padding: 10px; border-left: 1px #dfdfdf solid; background-color: #fff; }
+    #car-search-box .col-right h4 { color: #009900; background:url("../img/dot-02.gif") 0 50% repeat-x; }
+    #car-search-box .col-right h4 span { padding-right: 10px;background-color: #fff; }
+    #car-search-box .col-right a { color: #009900; }
+    
+#invoices { position: relative; }
+    #invoices ul.invoice-list { margin-right: 60px; margin-left: 0; padding-left: 0; }
+    #invoices ul.invoice-list a { margin-left: 20px; } 
+    
+#reservation-edit-container { font-size: 0.8em; }
+
+/* ----------------------------------------------------------------------------------------------------------
+5) Others
+---------------------------------------------------------------------------------------------------------- */
+
+
+.button {
+    outline: 0;
+    margin:0 10px 0 5px;
+    padding: 0.4em 1em;
+    text-decoration:none !important;
+    cursor:pointer;
+    position: relative;
+    text-align: center;
+}
+
+.button .ui-icon { left: 50%; margin-left: -8px; margin-top: -8px; position: absolute; top: 50%; }
+
+.button-icon-left { padding-left: 20px; }
+    .button-icon-left .ui-icon { left: 0.2em; margin-left: 0; right: auto; }
+
+    .button-icon-right { padding-right: 20px; }
+    .button-icon-right .ui-icon { left: auto; margin-right: 0; right: 0.2em; }
+
+    .button-icon-solo .ui-icon { display: block; }
+
+    .icon-left { float: left; position: relative; bottom: 2px; }
+
+.attachment { padding: 3px 0 3px 20px; background: url(../img/icons/doc-default.png) no-repeat; color: #0075a4; }
+.pdf { background: url(../img/icons/doc-pdf.png) no-repeat; }
+.doc { background: url(../img/icons/doc-doc.png) no-repeat; }
+.xls { background: url(../img/icons/doc-xls.png) no-repeat; }
+
+.ui-widget { font-size: 0.9em; }
+
+.inner-2cols .col-left {float: left; width: 50%; }
+.inner-2cols .col-right {float: right; width: 50%;}
+
+.float-left { float: left; }
+.float-right { float: right; }
+.ico-comment {padding-left:18px; background:url("../img/ico-comment.gif") 0 50% no-repeat;}
+.ico-rss {padding-left:18px; background:url("../img/ico-rss.gif") 0 50% no-repeat;}
+
+.number-positive { color: #009900; }
+.number-negative { color: red; }
+
+.center { text-align: center; }
+.smaller {font-size:85%;}
+.bigger {font-size:125%;}
+.highlight { font-weight: bold; color: #009900; }
+

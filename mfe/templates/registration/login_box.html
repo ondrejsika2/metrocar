@@ -1,0 +1,30 @@
+{% load i18n %}
+
+{% if request.user.is_authenticated %}
+<h1>{% trans "User" %}</h1>
+<form class="sidebar-login-form" action="{% url mfe_users_logout %}" method="post">
+	<p>
+		<strong>{% trans "Logged in" %}:</strong> <a href="{% url mfe_users_account %}">{{ user.full_name }}</a><br />
+		<strong>{% trans "Account balance" %}:</strong> {{ user.account.balance|floatformat:"-2" }} Kč
+		<p class="submit-row">
+			<input class="button" type="submit" value="{% trans "Log out" %}" />
+		</p>
+	</p>
+</form>
+{% else %}
+<h1>{% trans "Login" %}</h1>
+<form class="sidebar-login-form" action="{% url mfe_users_login %}" method="post">
+	<label>{% trans "Username" %}</label>
+	<p>
+		<input type="text" size="20" value="" name="username" />
+	</p>
+	<label>{% trans "Password" %}</label>
+	<p>
+		<input type="password" size="20" value="heslo" name="password" />
+	</p>
+	<p class="submit-row">
+		<input class="button" type="submit" value="{% trans "Log in" %}" /><br />
+		<a href="">{% trans "Forgot password" %}</a>
+	</p>
+</form>
+{% endif %}

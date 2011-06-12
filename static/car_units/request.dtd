@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT r (a, m, v*, z?)>
+<!ELEMENT a (#PCDATA)> <!--autorizacni klic-->
+<!ELEMENT m (#PCDATA)> <!--imei-->
+<!ELEMENT v (i, s?, p, q*, l, t?)> <!--usage-->
+<!ELEMENT i (#PCDATA)> <!--user id int-->
+<!ELEMENT s (#PCDATA)> <!--since same like till (t tag)-->
+<!ELEMENT p (b, c)> <!--base position-->
+<!ELEMENT b (#PCDATA)> <!--base latitude double-->
+<!ELEMENT c (#PCDATA)> <!--base longitude double-->
+<!ELEMENT q (d,e)> <!--incremental position=what to add to base to get real position-->
+<!ELEMENT d (#PCDATA)> <!--incremental latitude int-->
+<!ELEMENT e (#PCDATA)> <!--incremental longitude int-->
+<!ELEMENT l (#PCDATA)> <!--length in metres int-->
+<!ELEMENT t (#PCDATA)> <!--till string formated "YY-MM-DD HH:MM"-->
+<!ELEMENT z (x+)> <!--what i need-->
+<!ELEMENT x (#PCDATA)> <!--requested info, one of RESERVATIONS, SETTINGS-->

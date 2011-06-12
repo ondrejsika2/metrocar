@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>metrocar.cars.models &mdash; Metrocar v0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.9',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Metrocar v0.9 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li><a href="index.html">Metrocar v0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-metrocar.cars.models">
+<h1>metrocar.cars.models<a class="headerlink" href="#module-metrocar.cars.models" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="metrocar.cars.models.CarModelManufacturer">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">CarModelManufacturer</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarModelManufacturer" title="Permalink to this definition">¶</a></dt>
+<dd>CarModelManufacturer(id, slug, name)</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.Fuel">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">Fuel</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Fuel" title="Permalink to this definition">¶</a></dt>
+<dd>Fuel(id, title)</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.CarType">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">CarType</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarType" title="Permalink to this definition">¶</a></dt>
+<dd>CarType(id, type)</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.CarColor">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">CarColor</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarColor" title="Permalink to this definition">¶</a></dt>
+<dd>CarColor(id, color)</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.CarModel">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">CarModel</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>CarModel(id, name, manufacturer_id, type_id, engine, seats_count, storage_capacity, main_fuel_id, alternative_fuel_id, notes, image)</p>
+<dl class="method">
+<dt id="metrocar.cars.models.CarModel.get_pricelist">
+<tt class="descname">get_pricelist</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarModel.get_pricelist" title="Permalink to this definition">¶</a></dt>
+<dd>Returns available and valid pricelist for current car model if possible
+If no pricelist is found, returns False</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.Car">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">Car</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car" title="Permalink to this definition">¶</a></dt>
+<dd><p>Car(id, active, imei, authorization_key, dedicated_parking_only, last_echo, manufacture_date, mobile_number, registration_number, last_position, last_address, image, model_id, color_id, owner_id, home_subsidiary_id)</p>
+<dl class="method">
+<dt id="metrocar.cars.models.Car.get_allowed_users">
+<tt class="descname">get_allowed_users</tt><big>(</big><em>dt=datetime.datetime(2010</em>, <em>5</em>, <em>7</em>, <em>14</em>, <em>33</em>, <em>39</em>, <em>233765)</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.get_allowed_users" title="Permalink to this definition">¶</a></dt>
+<dd>Returns list of users who are allowed to access the car along with times,
+when they are allowed to.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.get_current_journey">
+<tt class="descname">get_current_journey</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.get_current_journey" title="Permalink to this definition">¶</a></dt>
+<dd>Returns current journey for the car or None if it doesn&#8217;t exist.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.get_upcoming_reservations">
+<tt class="descname">get_upcoming_reservations</tt><big>(</big><em>format='json'</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.get_upcoming_reservations" title="Permalink to this definition">¶</a></dt>
+<dd>Returns JSON object with reservation events suitable for using in
+calendar view.
+Each record has an id, title (containing username of reservee),
+start and end. Also, there is readOnly property for calendar use.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.get_upcoming_reservations_json">
+<tt class="descname">get_upcoming_reservations_json</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.get_upcoming_reservations_json" title="Permalink to this definition">¶</a></dt>
+<dd>Shortcut for get_upcoming_reservations to be used in templates, where 
+json is needed.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.is_locked">
+<tt class="descname">is_locked</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.is_locked" title="Permalink to this definition">¶</a></dt>
+<dd>Returns true if car is locked</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.is_user_allowed">
+<tt class="descname">is_user_allowed</tt><big>(</big><em>user</em>, <em>datetime</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.is_user_allowed" title="Permalink to this definition">¶</a></dt>
+<dd>Returns True if user is allowed to access the car in given time</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.save">
+<tt class="descname">save</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.save" title="Permalink to this definition">¶</a></dt>
+<dd>If position text is none, query it and save it.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.set_auth_key">
+<tt class="descname">set_auth_key</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.set_auth_key" title="Permalink to this definition">¶</a></dt>
+<dd>Sets the encrypted authorization key</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.state">
+<tt class="descname">state</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.state" title="Permalink to this definition">¶</a></dt>
+<dd>Returns car state (locked or opened).</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.update_comm_status">
+<tt class="descname">update_comm_status</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.update_comm_status" title="Permalink to this definition">¶</a></dt>
+<dd>Updates last echo information for the car to be &#8216;now&#8217;</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Car.update_last_position">
+<tt class="descname">update_last_position</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Car.update_last_position" title="Permalink to this definition">¶</a></dt>
+<dd>Updates car&#8217;s last position according to last saved CarPosition object.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.CarPosition">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">CarPosition</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>CarPosition(id, position, journey_id)</p>
+<dl class="method">
+<dt id="metrocar.cars.models.CarPosition.get_sequence_nr">
+<tt class="descname">get_sequence_nr</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarPosition.get_sequence_nr" title="Permalink to this definition">¶</a></dt>
+<dd>Returns CarPosition order in journey.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.CarPosition.save">
+<tt class="descname">save</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.CarPosition.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overload save to update journey last position.</p>
+<p>We also add posibility to evade car position update by setting the
+parameter no_pos_update to True</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.Journey">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">Journey</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Journey(id, comment, start_datetime, end_datetime, length, path, total_price, type, reservation_id, car_id, user_id)</p>
+<dl class="method">
+<dt id="metrocar.cars.models.Journey.finish">
+<tt class="descname">finish</tt><big>(</big><em>time</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.finish" title="Permalink to this definition">¶</a></dt>
+<dd>Finishes journey and sets end_datetime to time param</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Journey.get_pricing_info">
+<tt class="descname">get_pricing_info</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.get_pricing_info" title="Permalink to this definition">¶</a></dt>
+<dd>Stands as proxy for counting prices</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Journey.is_finished">
+<tt class="descname">is_finished</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.is_finished" title="Permalink to this definition">¶</a></dt>
+<dd>Returns true if journey is already finished.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Journey.is_service">
+<tt class="descname">is_service</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.is_service" title="Permalink to this definition">¶</a></dt>
+<dd>Returns true if journey is service type</dd></dl>
+
+<dl class="classmethod">
+<dt id="metrocar.cars.models.Journey.refresh_path">
+<em class="property">classmethod </em><tt class="descname">refresh_path</tt><big>(</big><em>sender</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.refresh_path" title="Permalink to this definition">¶</a></dt>
+<dd>Forces refresh of journey path from CarPosition objects.</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Journey.save">
+<tt class="descname">save</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.save" title="Permalink to this definition">¶</a></dt>
+<dd>Overload to add custom validation</dd></dl>
+
+<dl class="method">
+<dt id="metrocar.cars.models.Journey.update_total_price">
+<tt class="descname">update_total_price</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.Journey.update_total_price" title="Permalink to this definition">¶</a></dt>
+<dd>Refreshes total price of journey forcing recount</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.Parking">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">Parking</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.Parking" title="Permalink to this definition">¶</a></dt>
+<dd>Parking(id, name, places_count, land_registry_number, street, city, polygon)</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.ParkingDescription">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">ParkingDescription</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.ParkingDescription" title="Permalink to this definition">¶</a></dt>
+<dd>ParkingDescription(id, description, parking_id, car_id)</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.cars.models.FuelBill">
+<em class="property">class </em><tt class="descclassname">metrocar.cars.models.</tt><tt class="descname">FuelBill</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#metrocar.cars.models.FuelBill" title="Permalink to this definition">¶</a></dt>
+<dd><p>FuelBill(id, account_id, datetime, comment, money_amount, account_balance, content_type_id, credited, accountactivity_ptr_id, code, approved, car_id, fuel_id, liter_count, place, image)</p>
+<dl class="method">
+<dt id="metrocar.cars.models.FuelBill.ready_to_be_invoiced">
+<tt class="descname">ready_to_be_invoiced</tt><big>(</big><big>)</big><a class="headerlink" href="#metrocar.cars.models.FuelBill.ready_to_be_invoiced" title="Permalink to this definition">¶</a></dt>
+<dd>Returns true if item is ready to be invoiced.</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/metrocar_cars_models.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Metrocar v0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Filip Vařecha.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+        ServerName static.metrocar.dev.vlasta.fragaria.cz
+
+        DocumentRoot "/var/www/metrocar/static"
+        ErrorLog /var/log/apache2/error.modwsgi.metrocar.static.log
+</VirtualHost>
+
+# vim: set ft=apache:

@@ -1,0 +1,32 @@
+{% extends "reservations/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Finished reservations" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% if object_list %}
+	<p>{% trans "You have finished following reservations" %}:</p>
+	<table>
+		<tr>
+			<th>{% trans "Car" %}</th>
+			<th>{% trans "Reservation start" %}</th>
+			<th>{% trans "Reservation end" %}</th>
+			<th>{% trans "Price" %}</th>
+		</tr>
+		{% for reservation in object_list %}
+		<tr class="{% cycle "even" "odd" %}">
+			<td>{{ reservation.car }}</td>
+			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
+			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
+			<td>{{ reservation.price }} Kč</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% include "pagination.html" %}
+{% else %}
+<p>{% trans "No finished reservations yet." %}</p>
+{% endif %}
+
+{% endblock %}

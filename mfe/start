@@ -1,0 +1,3 @@
+#!/bin/bash
+export PYTHONPATH=../pythonpath
+python manage.py $@

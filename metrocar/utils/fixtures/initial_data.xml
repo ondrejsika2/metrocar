@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object pk="1" model="utils.sitesettings">
+		<field type="IntegerField" name="gps_check_interval">8000</field>
+		<field type="DecimalField" name="gps_min_distance_location">100.00</field>
+		<field type="DecimalField" name="gps_min_time_location">30000.00</field>
+		<field type="IntegerField" name="gps_location_send_interval">900000</field>
+		<field type="IntegerField" name="gps_retry_send_interval">180000</field>
+		<field type="IntegerField" name="gps_echo_interval">1800000</field>
+		<field type="IntegerField" name="reservation_min_duration">1300</field>
+		<field type="IntegerField" name="reservation_max_duration">60000</field>
+		<field type="BooleanField" name="reservation_use_storno_fees">1</field>
+		<field type="IntegerField" name="reservation_cancel_interval">1200</field>
+		<field type="DecimalField" name="reservation_money_multiplier">1.5</field>
+	</object>
+    <object pk="1" model="flatpages.flatpage">
+        <field type="CharField" name="url">/</field>
+        <field type="CharField" name="title">About carsharing</field>
+        <field type="TextField" name="content">{% load i18n %}
+
+    &lt;!-- Promo --&gt;
+    &lt;div id="col-top"&gt;&lt;/div&gt;
+    &lt;div id="col" class="box"&gt;
+    
+        
+        &lt;!-- Screenshot in browser (replace tmp/browser.gif) --&gt;
+        &lt;div id="col-browser"&gt;&lt;/div&gt; 
+        
+        &lt;div id="col-text"&gt;
+
+            &lt;h2 id="slogan"&gt;&lt;span&gt;&lt;/span&gt;O carsharingu&lt;/h2&gt;
+            
+&lt;p&gt;Carsharing je model půjčování automobilů, kde si lidé automobily půjčují na krátké časové úseky, často v jednotkách hodn. Je atraktivní pro klienty, kteří používají automobil pouze občas a také pro ty, kteří pořebují sem tam využít jíný druh automobilu (např. dodávku), než který používají na běžnou přepravu. Organizace provozující carsharing může být komerční společnost, nebo uživatelé mohou být organizování jako nezisková společnost. V současnosti existuje více než šest set měst kde lidé mohou využívat carsharing.&lt;/p&gt;
+
+            
+            &lt;p id="btns"&gt;
+
+&lt;span class="button button-green"&gt;
+	&lt;span&gt;&lt;a href="{% url mfe_users_registration %}" class="green"&gt;{% trans "I want to take part" %}&lt;/a&gt;&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;span class="button button-grey"&gt;
+	&lt;span&gt;&lt;a href="/jak-to-funguje/" class="grey"&gt;{% trans "How it works" %}&lt;/a&gt;&lt;/span&gt;
+&lt;/span&gt;
+            &lt;/p&gt;
+
+        &lt;/div&gt; &lt;!-- /col-text --&gt;
+    
+    &lt;/div&gt; &lt;!-- /col --&gt;
+    &lt;div id="col-bottom"&gt;&lt;/div&gt;
+    
+    &lt;hr class="noscreen" /&gt;
+    
+    &lt;!-- 3 columns --&gt;
+    &lt;div id="cols3-top"&gt;&lt;/div&gt;
+    &lt;div id="cols3" class="box"&gt;
+    
+        &lt;!-- Column I. --&gt;
+        &lt;div class="col"&gt;
+
+            &lt;h3&gt;&lt;a href="#"&gt;{% trans "Think green" %}&lt;/a&gt;&lt;/h3&gt;
+            
+            &lt;p class="nom t-center"&gt;&lt;a href="#"&gt;&lt;img src="static/img/200x140.gif" alt="" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+            &lt;div class="col-text"&gt;
+
+                &lt;p&gt;Lorem ipsum dolor sit amet &lt;a href="#"&gt;consectetuer&lt;/a&gt; amit adipiscing elit. &lt;strong&gt;Nunc feugiat.&lt;/strong&gt;
+                Inam massa est feugiat &lt;a href="#"&gt;pharetra&lt;/a&gt; lacus. In non arcu nec liberom pharetra rutrum est.&lt;/p&gt;
+                
+                &lt;ul class="ul-01"&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                &lt;/ul&gt;
+
+            &lt;/div&gt; &lt;!-- /col-text --&gt;
+
+            &lt;div class="col-more"&gt;&lt;a href="#"&gt;&lt;img src="static/img/cols3-more.gif" alt="" /&gt;&lt;/a&gt;&lt;/div&gt;
+
+        &lt;/div&gt; &lt;!-- /col --&gt;
+
+        &lt;hr class="noscreen" /&gt;
+
+        &lt;!-- Column II. --&gt;
+        &lt;div class="col"&gt;
+
+            &lt;h3&gt;&lt;a href="#"&gt;{% trans "Save money" %}&lt;/a&gt;&lt;/h3&gt;
+
+            &lt;p class="nom t-center"&gt;&lt;a href="#"&gt;&lt;img src="static/img/200x140.gif" alt="" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+            &lt;div class="col-text"&gt;
+
+                &lt;p&gt;Lorem ipsum dolor sit amet consectetuer amit adipiscing elit. &lt;strong&gt;Nunc feugiat.&lt;/strong&gt;
+                Inam massa est feugiat &lt;a href="#"&gt;pharetra&lt;/a&gt; lacus. In non arcu nec liberom pharetra rutrum est.&lt;/p&gt;
+
+                &lt;ul class="ul-01"&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                &lt;/ul&gt;
+
+            &lt;/div&gt; &lt;!-- /col-text --&gt;
+
+            &lt;div class="col-more"&gt;&lt;a href="#"&gt;&lt;img src="static/img/cols3-more.gif" alt="" /&gt;&lt;/a&gt;&lt;/div&gt;
+
+        &lt;/div&gt; &lt;!-- /col --&gt;
+
+        &lt;hr class="noscreen" /&gt;
+
+        &lt;!-- Column III. --&gt;
+        &lt;div class="col last"&gt;
+
+            &lt;h3&gt;&lt;a href="#"&gt;{% trans "Be mobile" %}&lt;/a&gt;&lt;/h3&gt;
+
+            &lt;p class="nom t-center"&gt;&lt;a href="#"&gt;&lt;img src="static/img/200x140.gif" alt="" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+            &lt;div class="col-text"&gt;
+
+                &lt;p&gt;Lorem ipsum dolor sit amet consectetuer amit adipiscing elit. &lt;strong&gt;Nunc feugiat.&lt;/strong&gt;
+                Inam massa est feugiat pharetra lacus. In non arcu nec liberom &lt;a href="#"&gt;pharetra rutrum est&lt;/a&gt;.&lt;/p&gt;
+
+                &lt;ul class="ul-01"&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                    &lt;li&gt;Lorem ipsum dolor sit amet&lt;/li&gt;
+                &lt;/ul&gt;
+
+            &lt;/div&gt; &lt;!-- /col-text --&gt;
+
+            &lt;div class="col-more"&gt;&lt;a href="#"&gt;&lt;img src="static/img/cols3-more.gif" alt="" /&gt;&lt;/a&gt;&lt;/div&gt;
+
+        &lt;/div&gt; &lt;!-- /col --&gt;
+
+        &lt;hr class="noscreen" /&gt;
+    
+    &lt;/div&gt; &lt;!-- /cols3 --&gt;
+    &lt;div id="cols3-bottom"&gt;&lt;/div&gt;
+
+    &lt;!-- 2 columns --&gt;
+    &lt;div id="cols2-top"&gt;&lt;/div&gt;
+    &lt;div id="cols2" class="box"&gt;
+    
+        &lt;!-- Blog --&gt;
+        &lt;div id="col-left"&gt;
+
+            &lt;div class="title"&gt;
+                &lt;span class="f-right"&gt;&lt;a href="#" class="ico-rss"&gt;{% trans "RSS feed" %}&lt;/a&gt;&lt;/span&gt;
+                &lt;h4&gt;{% trans "News" %}&lt;/h4&gt;
+            &lt;/div&gt; &lt;!-- /title --&gt;
+            
+       
+        
+        &lt;/div&gt; &lt;!-- /col-left --&gt;
+
+        &lt;hr class="noscreen" /&gt;
+
+        &lt;!-- Testimonials --&gt;
+        &lt;div id="col-right"&gt;
+        
+            &lt;h4&gt;&lt;span&gt;{% trans "FAQs" %}&lt;/span&gt;&lt;/h4&gt;
+
+            &lt;div class="box"&gt;
+   
+                    &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc feugiat. &lt;strong&gt;In a massa.&lt;/strong&gt; In feugiat pharetra lacus. In non arcu nec libero pharetra rutrum.&lt;/p&gt;
+            
+            &lt;/div&gt; &lt;!-- /box --&gt;
+        
+        &lt;/div&gt; &lt;!-- /col-right --&gt;
+    
+    &lt;/div&gt; &lt;!-- /cols2 --&gt;
+    &lt;div id="cols2-bottom"&gt;&lt;/div&gt;
+
+    &lt;hr class="noscreen" /&gt;</field>
+        <field type="BooleanField" name="enable_comments">False</field>
+        <field type="CharField" name="template_name">index.html</field>
+        <field type="BooleanField" name="registration_required">False</field>
+        <field to="sites.site" name="sites" rel="ManyToManyRel"><object pk="1"></object></field>
+    </object>
+    <object pk="6" model="flatpages.flatpage">
+        <field type="CharField" name="url">/jak-to-funguje/</field>
+        <field type="CharField" name="title">Jak to funguje</field>
+        <field type="TextField" name="content">&lt;div id="col-top"&gt;&lt;/div&gt;
+&lt;div id="col" class="box"&gt;
+
+&lt;h1&gt;{{ flatpage.title }}&lt;/h1&gt;
+
+Jak to funguje
+
+&lt;/div&gt;
+&lt;div id="col-bottom"&gt;&lt;/div&gt;
+&lt;hr class="noscreen" /&gt;</field>
+        <field type="BooleanField" name="enable_comments">False</field>
+        <field type="CharField" name="template_name"></field>
+        <field type="BooleanField" name="registration_required">False</field>
+        <field to="sites.site" name="sites" rel="ManyToManyRel"><object pk="1"></object></field>
+    </object>
+    <object pk="5" model="flatpages.flatpage">
+        <field type="CharField" name="url">/kontakt/</field>
+        <field type="CharField" name="title">Kontakt</field>
+        <field type="TextField" name="content">&lt;div id="col-top"&gt;&lt;/div&gt;
+&lt;div id="col" class="box"&gt;
+
+&lt;h1&gt;{{ flatpage.title }}&lt;/h1&gt;
+
+Kontakt
+
+&lt;/div&gt;
+&lt;div id="col-bottom"&gt;&lt;/div&gt;
+&lt;hr class="noscreen" /&gt;</field>
+        <field type="BooleanField" name="enable_comments">False</field>
+        <field type="CharField" name="template_name"></field>
+        <field type="BooleanField" name="registration_required">False</field>
+        <field to="sites.site" name="sites" rel="ManyToManyRel"><object pk="1"></object></field>
+    </object>
+    <object pk="2" model="flatpages.flatpage">
+        <field type="CharField" name="url">/o-nas/</field>
+        <field type="CharField" name="title">O nás</field>
+        <field type="TextField" name="content">&lt;div id="col-top"&gt;&lt;/div&gt;
+&lt;div id="col" class="box"&gt;
+
+&lt;h1&gt;{{ flatpage.title }}&lt;/h1&gt;
+
+Informace o nás
+
+&lt;/div&gt;
+&lt;div id="col-bottom"&gt;&lt;/div&gt;
+&lt;hr class="noscreen" /&gt;</field>
+        <field type="BooleanField" name="enable_comments">False</field>
+        <field type="CharField" name="template_name"></field>
+        <field type="BooleanField" name="registration_required">False</field>
+        <field to="sites.site" name="sites" rel="ManyToManyRel"><object pk="1"></object></field>
+    </object>
+    <object pk="4" model="flatpages.flatpage">
+        <field type="CharField" name="url">/podminky-pouziti/</field>
+        <field type="CharField" name="title">Podmínky použití</field>
+        <field type="TextField" name="content">&lt;div id="col-top"&gt;&lt;/div&gt;
+&lt;div id="col" class="box"&gt;
+
+&lt;h1&gt;{{ flatpage.title }}&lt;/h1&gt;
+
+Podmínky použití
+
+&lt;/div&gt;
+&lt;div id="col-bottom"&gt;&lt;/div&gt;
+&lt;hr class="noscreen" /&gt;</field>
+        <field type="BooleanField" name="enable_comments">False</field>
+        <field type="CharField" name="template_name"></field>
+        <field type="BooleanField" name="registration_required">False</field>
+        <field to="sites.site" name="sites" rel="ManyToManyRel"><object pk="1"></object></field>
+    </object>
+
+<object pk="2" model="utils.emailtemplate">
+  <field type="CharField" name="code">REG_REQ</field>
+  <field type="CharField" name="name">REG_REQ</field>
+  <field type="CharField" name="subject">Metrocar - Zájem o registraci</field>
+  <field type="TextField" name="content">Vážený/á pane/paní váš zájem o registraci byl zařazen do fronty. O přijetí či zamítnutí registrace budete informováni e-mailem.
+Použili jste následující data:
+Jméno a příjmení: {{ fields.first_name }} {{ fields.last_name }}
+Uživatelské jméno: {{ fields.username }}
+Číslo OP: {{ fields.identity_card_number }}
+Čislo ŘP: {{ fields.drivers_licence_number }}
+Datum narození: {{ fields.date_of_birth }}
+
+V případě nejasností či nesrovnalostí prosíme kontaktuje administrátora serveru Metrocar.
+Přejeme pěkný den.</field>
+    <field type="CharField" name="language">CS</field>
+</object>
+
+<object pk="4" model="utils.emailtemplate">
+  <field type="CharField" name="code">REG_DNY</field>
+  <field type="CharField" name="name">REG_DNY</field>
+  <field type="CharField" name="subject">Metrocar - Registrace zamítnuta</field>
+  <field type="TextField" name="content">Dobrý den, 
+děkujeme za váš zájem o naše služby, bohužel vám, ale musíme oznámit, že vaše registrace na server Metrocar byla zamítnuta.  
+Zřejmě jste nesplnil/a některou z podmínek pro použití našich služeb, pro více informací navštivte naše webové stránky.
+Děkujeme a nashledanou.</field>
+    <field type="CharField" name="language">CS</field>
+</object>
+
+<object pk="5" model="utils.emailtemplate">
+  <field type="CharField" name="code">RES_SUC</field>
+  <field type="CharField" name="name">RES_SUC</field>
+  <field type="CharField" name="subject">Metrocar - Potvrzení přijetí rezervace</field>
+  <field type="TextField" name="content">Dobrý den,
+vaše rezervace byla přijata. Vámi vybrané auto bylo rezervováno od {{ fields.reserved_from }} do {{ fields.reserved_until }}.
+Děkujeme za použit našich služeb a přejeme pěkný zbytek dne.</field>
+    <field type="CharField" name="language">CS</field>
+</object>
+
+<object pk="6" model="utils.emailtemplate">
+  <field type="CharField" name="code">RES_SUC</field>
+  <field type="CharField" name="name">RES_SUC</field>
+  <field type="CharField" name="subject">Metrocar - Reservation succeded</field>
+  <field type="TextField" name="content">Hello,
+we would like to inform you, that your reservation request was accepted. The car of choice was reserved from {{ fields.reserved_from }} till {{ fields.reserved_until }}. 
+Thanks for using our services. Have a nice day.</field>
+    <field type="CharField" name="language">EN</field>
+</object>
+
+<object pk="7" model="utils.emailtemplate">
+  <field type="CharField" name="code">REG_DNY</field>
+  <field type="CharField" name="name">REG_DNY</field>
+  <field type="CharField" name="subject">Metrocar - Registration denied</field>
+  <field type="TextField" name="content">Hello,
+thank for applying for our services, but we regretfully inform you that you probably did not meet all our conditions, thus your registration request was denied, for more information visit our website.
+Thanks for your time and have a nice day.</field>
+    <field type="CharField" name="language">EN</field>
+</object>
+
+<object pk="3" model="utils.emailtemplate">
+  <field type="CharField" name="code">REG_APP</field>
+  <field type="CharField" name="name">REG_APP</field>
+  <field type="CharField" name="subject">Metrocar - Registrace přijata</field>
+  <field type="TextField" name="content">Dobrý den,
+dovolujeme si vám oznámit, že vaše registrace na server Metrocar byla přijata. Děkujeme za váš zájem o naše služby.
+
+Pro přihlášní použijte vaše uživateské jméno: {{ fields.username }} a heslo zadané při registraci. Toto heslo si pečlivě uchovejte a nikomu ho neukazujte. V případě ztráty/zapomenutí hesla hesla kontaktujte prosím administrátora.
+
+Pro více informací navštivte naše stránky serveru Metrocar.</field>
+    <field type="CharField" name="language">CS</field>
+</object>
+
+<object pk="8" model="utils.emailtemplate">
+  <field type="CharField" name="code">REG_APP</field>
+  <field type="CharField" name="name">REG_APP</field>
+  <field type="CharField" name="subject">Metrocar - Registration approved</field>
+  <field type="TextField" name="content">Hello,
+your registration request was approved, you can now login as {{ fields.username }} with password you provided during registration. Please keep your password secret and do not show it to anyone. In case of password loss, please contact administrator.
+Thanks for choosing us, have a nice day.</field>
+    <field type="CharField" name="language">EN</field>
+</object>
+
+<object pk="9" model="utils.emailtemplate">
+  <field type="CharField" name="code">REG_REQ</field>
+  <field type="CharField" name="name">REG_REQ</field>
+  <field type="CharField" name="subject">Metrocar - Registration request</field>
+  <field type="TextField" name="content">Hello,
+we would like to inform you, that your registration request was forwarded to our administration. You will be informed if your registration was denied or approved by email.
+
+You registered with following data:
+Name and surname: {{ fields.first_name }} {{ fields.last_name }}
+Username: {{ fields.username }}
+Identity card number: {{ fields.identity_card_number }}
+Driver's license number: {{ fields.drivers_licence_number }}
+Day of birth: {{ fields.date_of_birth }}
+
+In case of discrepancy or any other problem please contact our administration.
+Thanks for using our services, have a nice day.</field>
+    <field type="CharField" name="language">EN</field>
+</object>
+
+<object pk="10" model="utils.emailtemplate">
+  <field type="CharField" name="code">REQ_RES</field>
+  <field type="CharField" name="name">REQ_RES</field>
+  <field type="CharField" name="subject">Metrocar - Žádost o reset hesla</field>
+  <field type="TextField" name="content">Dobrý den,
+Požádal jste o reset vašeho hesla, navštivte prosím následující adresu a vyplňte požadované údaje pro získání nového hesla.
+{{ password_reset_url }}</field>
+    <field type="CharField" name="language">CS</field>
+</object>
+
+<object pk="11" model="utils.emailtemplate">
+  <field type="CharField" name="code">REQ_RES</field>
+  <field type="CharField" name="name">REQ_RES</field>
+  <field type="CharField" name="subject">Metrocar - Password reset request</field>
+  <field type="TextField" name="content">Hello,
+You have requested password reset function, please go to the address below and fill needed values for new password.
+{{ password_reset_url }}</field>
+    <field type="CharField" name="language">EN</field>
+</object>
+
+</django-objects>
+
+

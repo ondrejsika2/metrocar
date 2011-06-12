@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>metrocar.invoices.printing &mdash; Metrocar v0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.9',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Metrocar v0.9 documentation" href="index.html" />
+    <link rel="up" title="Invoices module" href="metrocar_invoices.html" />
+    <link rel="next" title="metrocar.invoices.views" href="metrocar_invoices_views.html" />
+    <link rel="prev" title="metrocar.invoices.models" href="metrocar_invoices_models.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="metrocar_invoices_views.html" title="metrocar.invoices.views"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="metrocar_invoices_models.html" title="metrocar.invoices.models"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Metrocar v0.9 documentation</a> &raquo;</li>
+          <li><a href="metrocar_invoices.html" accesskey="U">Invoices module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-metrocar.invoices.printing">
+<h1>metrocar.invoices.printing<a class="headerlink" href="#module-metrocar.invoices.printing" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="metrocar.invoices.printing.PrintableInvoice">
+<em class="property">class </em><tt class="descclassname">metrocar.invoices.printing.</tt><tt class="descname">PrintableInvoice</tt><big>(</big><em>invoice</em><big>)</big><a class="headerlink" href="#metrocar.invoices.printing.PrintableInvoice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoice representation which is printable and can be returned as
+django HttpResponse object.</p>
+<dl class="classmethod">
+<dt id="metrocar.invoices.printing.PrintableInvoice.create_printable_invoice">
+<em class="property">classmethod </em><tt class="descname">create_printable_invoice</tt><big>(</big><em>invoice</em>, <em>format</em><big>)</big><a class="headerlink" href="#metrocar.invoices.printing.PrintableInvoice.create_printable_invoice" title="Permalink to this definition">¶</a></dt>
+<dd>Returns correct PrintableInvoice instance for given invoice and format.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="metrocar.invoices.printing.PrintableInvoicePdf">
+<em class="property">class </em><tt class="descclassname">metrocar.invoices.printing.</tt><tt class="descname">PrintableInvoicePdf</tt><big>(</big><em>invoice</em><big>)</big><a class="headerlink" href="#metrocar.invoices.printing.PrintableInvoicePdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="metrocar.invoices.printing.PrintableInvoiceHtml">
+<em class="property">class </em><tt class="descclassname">metrocar.invoices.printing.</tt><tt class="descname">PrintableInvoiceHtml</tt><big>(</big><em>invoice</em><big>)</big><a class="headerlink" href="#metrocar.invoices.printing.PrintableInvoiceHtml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="metrocar_invoices_models.html"
+                                  title="previous chapter">metrocar.invoices.models</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="metrocar_invoices_views.html"
+                                  title="next chapter">metrocar.invoices.views</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/metrocar_invoices_printing.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="metrocar_invoices_views.html" title="metrocar.invoices.views"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="metrocar_invoices_models.html" title="metrocar.invoices.models"
+             >previous</a> |</li>
+        <li><a href="index.html">Metrocar v0.9 documentation</a> &raquo;</li>
+          <li><a href="metrocar_invoices.html" >Invoices module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Filip Vařecha.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+{% extends "reservations/reservation/reservation.html" %}
+
+{% load i18n %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.weekcalendar.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/date.fromat.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/j.calendar-form.js"></script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery.weekcalendar.css" type="text/css" />
+{% endblock %}
+
+{% block reservation_content %}
+
+{% blocktrans %}
+<p>You are requesting a reservation of <strong>{{ car }}</strong>.</p>
+<p>Please, select when you want to reserve the car by marking up in
+calendar.</p>
+{% endblocktrans %}
+
+
+{% autoescape off %}
+<script type="text/javascript">
+  var car_reservations = {'events': {{ car.get_upcoming_reservations_json }} };
+</script>
+{% endautoescape %}
+
+{% if form.errors %}
+<form>
+	<p>{% trans "An error occured when validating your request" %}:</p>
+	{% for field in form %}
+		{% if field.errors %}
+			{{ field.errors }}
+		{% endif %}
+	{% endfor %}
+	{{ form.non_field_errors }}
+</form>
+{% endif %}
+
+<div id="calendar"></div>
+<div id="reservation-edit-container" style="display: none;">
+	<h2 class="hidden">{% trans "New reservation" %}</h2>
+	<form>
+		<p>
+			<input type="hidden" />
+			<label>{% trans "Date" %}</label>
+			<span class="date-holder"></span>
+		</p>
+		<p>
+			<label>{% trans "Start time" %}</label>
+			<select name="start"></select>
+		</p>
+		<p>
+			<label>{% trans "End time" %}</label>
+			<select name="end"></select>
+		</p>
+		<input name="title" type="hidden" value="{% trans "Your reservation" %}" />
+	</form>
+</div>
+
+<form id="reservation-form" action="." method="post">
+	{% csrf_token %}
+	
+	{% comment %}
+	Little hack - we need to manually set value of 1-car_id field to be same 
+	as 0-car_id field and 1-user_id to have current user id. It's for 
+	validation.
+	{% endcomment %}
+	{% for field in form %}
+		{% ifnotequal field.name "car_id" %}
+			{% ifnotequal field.name "user_id" %}
+				{{ field }}
+			{% else %}
+				<input id="id_1-user_id" type="hidden" name="1-user_id" value="{{ user.id }}" />
+			{% endifnotequal %}
+		{% else %}
+			<input id="id_1-car_id" type="hidden" name="1-car_id" value="{{ car.pk }}" />
+		{% endifnotequal %}
+	{% endfor %}
+	
+	<input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
+	{{ previous_fields|safe }}
+	<p class="submit-row">
+		<span class="button button-grey">
+			<span><button class="grey" disabled="disabled" type="submit">{% trans "Proceed" %}</button></span>
+		</span>
+	</p>
+	
+</form>
+
+{% endblock %}

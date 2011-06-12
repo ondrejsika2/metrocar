@@ -1,0 +1,42 @@
+{% extends "cars/base.html" %}
+
+{% load i18n thumbnail %}
+
+{% block left_col_title %}{% trans "Fares" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% blocktrans %}
+<p>Fares vary for different car models, but all cars of given car model have 
+same fare. They have two basic compounds: price for <strong>distance 
+driven</strong> and price for <strong>time elapsed</strong>.</p>
+<p>Also, fares can be different during day - but only their time-based compound.
+Price for distance always remains the same.</p>
+<p>There are <strong>personal plans</strong> available, which can reduce the 
+cost dramatically for frequent users. If your intrested in personal plan, 
+please continue <a href="">here</a>.</p>
+{% endblocktrans %}
+
+{% for type in car_types %}
+	<h3>{{ type.type }}</h3>
+	
+	{% for model in type.models.all %}
+		<h4><span>{{ model }}</span></h4>
+		{% if model.image %}
+		{% thumbnail model.image 120x120 as thumb %}
+		<img src="{{ thumb }}" class="float-right" width="{{ thumb.width }}" height="{{ thumb.height }}" />
+		{% endif %}
+		<div>
+		<ul class="ul-01">
+			<li><strong>{% trans "Price for km" %}:</strong> {{ model.get_pricelist.price_per_km|floatformat:"-2" }} Kč</li>
+			<li><strong>{% trans "Price per hour" %}:</strong> {% trans "from" %} {{ model.get_pricelist.get_basic_price_dict.price_per_hour_from|floatformat:"-2" }} Kč</li>
+		</ul>
+		</div>
+		<hr class="noscreen" />
+	{% endfor %}		
+	
+{% empty %}
+	<p>{% trans "No cars available." %}</p>
+{% endfor %}
+
+{% endblock %}

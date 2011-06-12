@@ -1,0 +1,24 @@
+{% extends "users/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Claim sucessfully added" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% blocktrans %}
+<p>Your fuell bill claim has been recorded. Please, mark the bill with 
+following code before giving the bill to us:</p>
+{% endblocktrans %}
+<p class="highlight bigger center">{{ bill.code }}</p>
+{% blocktrans %}
+<p>Please keep that bill code for your further reference. You will find list 
+of your bills in
+{% endblocktrans %}
+<a href="{% url mfe_users_account_invoices_and_bills %}">
+{% trans "invoices" %}</a> section.</p>
+
+<a href="{% url mfe_users_account_invoices_and_bills %}">
+{% trans "Go back to invoices &raquo;" %}</a>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "users/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "My account" %}{% endblock %}
+
+{% block left_col_content %}
+
+<div class="inner-2cols">
+<div class="col-left">
+<h3>{% trans "User details" %}</h3>
+<ul class="ul-01">
+	<li><strong>{% trans "Username" %}:</strong> {{ user.username }}</li>
+	<li><strong>{% trans "Full name" %}:</strong> {{ user.full_name }}</li>
+	<li><strong>{% trans "Date of birth" %}:</strong> {{ user.date_of_birth }}</li>
+    <li><strong>{% trans "Preferred language" %}:</strong> {{ user.get_language }}</li>
+	<li><strong>{% trans "E-mail" %}:</strong> <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
+	<li><strong>{% trans "Drivers licence number" %}:</strong> {{ user.drivers_licence_number }}</li>
+	<li><strong>{% trans "Invoice address" %}:</strong> {{ user.invoice_address }}</li>
+</ul>
+</div>
+
+<div class="col-right">
+<h3>{% trans "Account details" %}</h3>
+<ul class="ul-01">
+	<li><strong>{% trans "Last login" %}:</strong> {{ user.last_login|date:"DATETIME_FORMAT" }}</li>
+	<li><strong>{% trans "Home subsidiary" %}:</strong> <a href="{{ user.home_subsidiary.get_absolute_url }}">{{ user.home_subsidiary }}</a></li>
+	<li><strong>{% trans "Account balance" %}:</strong> <a href="{% url mfe_users_account_activities %}">{{ user.account.balance|floatformat:"-2" }} Kč</a></li>
+	<li><strong>{% trans "User card number" %}:</strong> {{ user.user_card.code }}</li>
+</ul>
+</div>
+
+</div>
+
+<div class="clear"></div>
+
+<span class="button button-green">
+	<span><a href="{% url mfe_users_account_edit %}" class="green">{% trans "Change my details" %}</a></span>
+</span>
+<span class="button button-green">
+	<span><a href="{% url mfe_users_account_edit_address %}" class="green">{% trans "Change my invoice address" %}</a></span>
+</span>
+<span class="button button-grey">
+	<span><a href="{% url mfe_users_change_password %}" class="grey">{% trans "Change my password" %}</a></span>
+</span>
+
+<div class="clear"></div>
+
+{% if pending_reservations %}
+	<h3>{% trans "Upcoming reservations" %}</h3>
+	<table>
+		<tr>
+			<th>{% trans "Car" %}</th>
+			<th>{% trans "Reservation start" %}</th>
+			<th colspan="2">{% trans "Reservation end" %}</th>
+		</tr>
+		{% for reservation in pending_reservations %}
+		<tr class="{% cycle "even" "odd" %}">
+			<td>{{ reservation.car }}</td>
+			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
+			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
+			<td><a href="">{% trans "cancel" %}</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endif %}
+
+{% if finished_reservations %}
+	<h3>{% trans "Lately finished reservations" %}</h3>
+	<table>
+		<tr>
+			<th>{% trans "Car" %}</th>
+			<th>{% trans "Reservation start" %}</th>
+			<th>{% trans "Reservation end" %}</th>
+			<th>{% trans "Price" %}</th>
+		</tr>
+		{% for reservation in finished_reservations %}
+		<tr class="{% cycle "even" "odd" %}">
+			<td>{{ reservation.car }}</td>
+			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
+			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
+			<td><strong>{{ reservation.price }}</strong></td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endif %}
+
+{% endblock %}

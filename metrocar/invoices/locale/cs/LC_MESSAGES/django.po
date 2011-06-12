@@ -1,0 +1,239 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-21 18:48+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
+
+#: admin.py:14
+msgid "Basic information"
+msgstr "Základní informace"
+
+#: models.py:26
+msgid "Street"
+msgstr "Ulice"
+
+#: models.py:28
+msgid "Land registry number"
+msgstr "Číslo popisné"
+
+#: models.py:30
+msgid "House number"
+msgstr "Čislo orientační"
+
+#: models.py:32
+msgid "Zip code"
+msgstr "PSČ"
+
+#: models.py:34
+msgid "City"
+msgstr "Město"
+
+#: models.py:36
+msgid "Czech Republic"
+msgstr "Česká Republika"
+
+#: models.py:36
+msgid "State"
+msgstr "Stát"
+
+#: models.py:38
+msgid "Deleted"
+msgstr "Smazáno"
+
+#: models.py:42
+msgid "Invoice address"
+msgstr "Fakturační adresa"
+
+#: models.py:43
+msgid "Invoice addresses"
+msgstr "Fakturační adresy"
+
+#: models.py:50
+msgid "Company"
+msgstr "Společnost"
+
+#: models.py:52
+msgid "IC"
+msgstr "IČ"
+
+#: models.py:53
+msgid "DIC"
+msgstr "DIČ"
+
+#: models.py:56
+msgid "Company invoice address"
+msgstr "Fakturační adresa společnosti"
+
+#: models.py:57
+msgid "Company invoice addresses"
+msgstr "Fakturační adresy společností"
+
+#: models.py:60 models.py:97
+msgid "User"
+msgstr "Uživatel"
+
+#: models.py:64
+msgid "User invoice address"
+msgstr "Fakturační adresa uživatele"
+
+#: models.py:65
+msgid "User invoice addresses"
+msgstr "Fakturační adresy uživatelů"
+
+#: models.py:69
+msgid "Name"
+msgstr "Jméno"
+
+#: models.py:71 templates/invoice_template.html:84
+msgid "Description"
+msgstr "Popis"
+
+#: models.py:73
+msgid "Code"
+msgstr "Kód"
+
+#: models.py:76
+msgid "Payment method"
+msgstr "Druh platby"
+
+#: models.py:77
+msgid "Payment methods"
+msgstr "Druhy plateb"
+
+#: models.py:83
+msgid "Active"
+msgstr "Aktivní"
+
+#: models.py:83
+msgid "Overdue"
+msgstr "Prošlá"
+
+#: models.py:83
+msgid "Paid"
+msgstr "Zaplacená"
+
+#: models.py:86
+msgid "Draw date"
+msgstr "Datum vystavení"
+
+#: models.py:88
+msgid "Due date"
+msgstr "Datum splatnosti"
+
+#: models.py:90 templates/invoice_template.html:71
+msgid "Variable symbol"
+msgstr "Variabilní symbol"
+
+#: models.py:92 templates/invoice_template.html:76
+msgid "Specific symbol"
+msgstr "Specifický symbol"
+
+#: models.py:94
+msgid "Date and time of payment"
+msgstr "Datum a čas platby"
+
+#: models.py:96
+msgid "Invoice status"
+msgstr "Stav faktury"
+
+#: models.py:102 models.py:232
+msgid "Invoice"
+msgstr "Faktura"
+
+#: models.py:103
+msgid "Invoices"
+msgstr "Faktury"
+
+#: models.py:229
+msgid "Account activity"
+msgstr "Aktivita na účtu"
+
+#: models.py:237
+msgid "Invoice item"
+msgstr "Položka faktury"
+
+#: models.py:238
+msgid "Invoice items"
+msgstr "Položky faktur"
+
+#: templates/invoice_template.html:32
+msgid "Invoice - Metrocar"
+msgstr "Faktura - Metrocar"
+
+#: templates/invoice_template.html:35
+msgid "Invoice - tax document no. "
+msgstr "Faktura - daňový doklad č. "
+
+#: templates/invoice_template.html:39
+msgid "Provider"
+msgstr "Dodavatel"
+
+#: templates/invoice_template.html:48
+msgid "Customer"
+msgstr "Příjemce"
+
+#: templates/invoice_template.html:61
+msgid "Draw Date"
+msgstr "Datum vystavení"
+
+#: templates/invoice_template.html:66
+msgid "Due Date"
+msgstr "Datum splatnosti"
+
+#: templates/invoice_template.html:85
+msgid "Quantity"
+msgstr "Množství"
+
+#: templates/invoice_template.html:86
+msgid "Line Total excl. Tax"
+msgstr "Cena bez DPH"
+
+#: templates/invoice_template.html:87
+msgid "Line Total incl. Tax"
+msgstr "Cena vč. DPH"
+
+#: templates/invoice_template.html:103
+msgid "Total Excl. Tax"
+msgstr "Cena celkem bez DPH"
+
+#: templates/invoice_template.html:108
+msgid "Total with Tax"
+msgstr "Cena celkem vč. DPH"
+
+#: templates/admin/invoices/invoice/change_form.html:8
+msgid "History"
+msgstr "Historie"
+
+#: templates/admin/invoices/invoice/change_form.html:9
+msgid "View on site"
+msgstr "Zobrazit na webu"
+
+#: templates/admin/invoices/invoice/change_form.html:10
+msgid "Print"
+msgstr "Vytisknout"
+
+#: urls/common.py:17 urls/common.py:18
+msgid "print"
+msgstr "tisk"
+
+#~ msgid "Variable symbol:"
+#~ msgstr "Variabilní symbol:"
+
+#~ msgid "Unit Price"
+#~ msgstr "Cena za kus"
+
+#~ msgid "Line Total"
+#~ msgstr "Cena celkem"

@@ -1,0 +1,16 @@
+<VirtualHost *:8080>
+        ServerName metrocar.koala.felk.cvut.cz
+
+        DocumentRoot "/home/metrocar/metrocar/mfe/"
+        ErrorLog /var/log/apache2/error.modwsgi.metrocar.mfe.log
+
+        WSGIScriptAlias / /home/metrocar/metrocar/mfe/config/wsgi.metrocar.mfe.py
+        
+        # je potreba si vsimnout parametru python-path=...,
+        # ktery nam rika, kde jsou pythonpath pro tohoto hosta
+        WSGIDaemonProcess metrocar-mfe user=metrocar group=metrocar threads=1 processes=3 display-name=%{GROUP} python-path=/home/metrocar/metrocar/pythonpath/
+
+        WSGIProcessGroup metrocar-mfe
+</VirtualHost>
+
+# vim: set ft=apache:

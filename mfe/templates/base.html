@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="robots" content="all,follow" />
+
+    <meta name="author" lang="cs" content="Metrocar.cz" />
+    <meta name="copyright" lang="cs" content="Metrocar.cz" />
+
+    <meta name="description" content="..." />
+    <meta name="keywords" content="..." />
+
+    {% block extra_css_overload %}{% endblock %}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/reset.css" />
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/main.css" />
+    <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
+    <link rel="stylesheet" media="print" type="text/css" href="{{ MEDIA_URL }}css/print.css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/j.page.js"></script>
+    {% block extra_css %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+
+    <title>{% block title %}Metrocar{% endblock %}</title>
+</head>
+
+{% load i18n active_pages %}
+
+<body>
+
+<div id="main">
+
+    <!-- Header -->
+    <div id="header">
+
+        <h1 id="logo"><a href="/" title="[Go to homepage]">metro<span>car</span><span class="desc">carsharing company</span></a></h1>
+        <hr class="noscreen" />
+
+        <!-- Navigation -->
+        <div id="nav">
+            <a href="/"  {% in_active_pages "/" 'id="nav-active"' strict %}>{% trans "Introduction" %}</a> <span>|</span>
+            {% if not user.is_authenticated %}
+            <a href="#" id="j-open-login-box">{% trans "Log in" %}</a> <span>|</span>
+            <a href="/jak-to-funguje/" {% in_active_pages "/jak-to-funguje/" 'id="nav-active"' %}>{% trans "How it works" %}</a> <span>|</span>
+            {% endif %}
+            <a href="/o-nas/" {% in_active_pages "/o-nas/" 'id="nav-active"' %}>{% trans "About us" %}</a> <span>|</span>
+            <a href="/podminky-pouziti/" {% in_active_pages "/podminky-pouziti/" 'id="nav-active"' %}>{% trans "Terms of usage" %}</a> <span>|</span>
+            <a href="/kontakt/" {% in_active_pages "/kontakt/" 'id="nav-active"' %}>{% trans "Contact" %}</a>
+        </div> <!-- /nav -->
+        
+        <div id="login-box" style="display: none;">
+            <form action="{% url mfe_users_login %}" method="post">
+                <p>
+                    <label>{% trans "Username" %}</label>
+                    <input type="text" size="20" value="" name="username" />
+                </p>
+                <p>
+                    <label>{% trans "Password" %}</label>
+                    <input type="password" size="20" value="heslo" name="password" />
+                </p>
+                <p class="submit-row">
+                    <span class="button button-green">
+                        <span><button class="green" type="submit">{% trans "Log in" %}</button></span>
+                    </span>
+                </p>
+            </form>
+        </div>
+        
+        <div id="logged-user">
+            {% trans "Current subsidiary" %}: <strong>{{ subsidiary }}</strong>
+            <a id="j-open-subsidiary-selector" href="#subsidiary-list">{% trans "change" %}&raquo;</a>
+            <div id="subsidiary-list" style="display: none;">
+                <strong>{% trans "By city" %}</strong>
+                <ul class="ul-01">
+                    {% for s in subsidiary_list %}
+                        <li><a href="http://{{ s.site.domain }}">{{ s.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if user.is_authenticated %}
+                <strong>{% trans "Logged in" %}:</strong>&nbsp;<a href="{% url mfe_users_account %}">{{ user }}</a>&nbsp;(<a href="{% url mfe_users_logout %}">x</a>)&nbsp;
+                <strong>{% trans "Account balance" %}:</strong>&nbsp;{{ user.account.balance|floatformat:"-2" }}&nbsp;Kč
+            {% endif %}
+        </div>
+
+    </div> <!-- /header -->
+    
+    <!-- Tray -->
+    <div id="tray">
+        <ul>
+            <li  {% in_active_pages "/" 'id="tray-active"' strict %}><a href="/">{% trans "Introduction" %}</a></li> <!-- Active page -->
+            {% if user.is_authenticated %}
+                <li {% in_active_pages "/uzivatele/" 'id="tray-active"' %}><a href="{% url mfe_users_account %}">{% trans "My account" %}</a></li>
+            {% else %}
+                <li {% in_active_pages "/registrace/" 'id="tray-active"' %}><a href="{% url mfe_users_registration %}">{% trans "Join us" %}</a></li>
+            {% endif %}
+            <li {% in_active_pages "/automobily/" 'id="tray-active"' strict %}><a href="{% url mfe_cars %}">{% trans "Find cars" %}</a></li>
+            <li {% in_active_pages "/automobily/ceny/" 'id="tray-active"' %}><a href="{% url mfe_cars_fares %}">{% trans "Rates" %}</a></li>
+        </ul>
+        
+        <!-- Search -->
+        <form id="page-search" action="{% url mfe_utils_search %}" method="post">
+            <span class="search"><span><input type="text" style="width: 150px;" value="{% trans "Search" %}" name="search_query"></span></span>
+            <input type="image" value="OK" src="{{ MEDIA_URL }}img/search-box-submit.png" class="search-submit" />
+        </form><!-- /search -->
+
+    <hr class="noscreen" />
+    </div> <!-- /tray -->
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <div id="footer">
+
+        <!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+        <p class="f-right"><a href="http://www.nuviotemplates.com/">Free web templates</a> presented by <a href="http://www.qartin.cz/">QARTIN</a> &ndash; Our tip: <a href="http://last-minute.invia.pl">Wakacje</a> <a href="http://dovolenka.invia.sk">Dovolenka</a></p>
+        <!-- Do you want remove this backlinks? Look at www.nuviotemplates.com/payment.php -->
+
+        <p>Copyright &copy;&nbsp;2010 <strong><a href="/">Metrocar</a></strong>, {% trans "All Rights Reserved &reg;" %}</p>
+
+    </div> <!-- /footer -->
+
+</div> <!-- /main -->
+
+</body>
+</html>

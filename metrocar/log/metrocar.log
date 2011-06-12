@@ -1,0 +1,12 @@
+2011-03-14 21:30:21,775 INFO Mail REG_REQ_CS sent to [u'pensimus@seznam.cz']
+2011-03-14 23:06:20,855 INFO Mail REG_REQ_CS sent to [u'pensimus@seznam.cz']
+2011-04-12 21:27:01,356 INFO Mail REG_APP_CS sent to [u'pensimusm@seznam.cz']
+2011-04-12 22:35:49,054 INFO Mail REG_DNY_CS sent to [u'pensimus@seznam.cz']
+2011-04-13 01:14:35,039 INFO Mail REG_APP_CS sent to [u'pensimus@seznam.cz']
+2011-04-13 01:37:49,133 INFO Mail REG_APP_CS sent to [u'pensimusm@seznam.cz']
+2011-04-13 15:06:23,322 ERROR Mail REG_APP_CS could not be sent. Exception was: [Errno 110] Connection timed out
+2011-04-27 01:27:06,841 INFO Mail REG_REQ_CS sent to [u'pensimus@seznam.cz']
+2011-04-27 01:28:21,279 INFO Mail REG_APP_CS sent to [u'pensimus@seznam.cz']
+2011-04-27 10:06:45,492 INFO Mail REG_APP_CS sent to [u'pensimus@seznam.cz']
+2011-05-23 00:03:51,820 INFO Mail REG_REQ_CS sent to [u'aaa@www.ss']
+2011-06-11 14:48:41,054 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']

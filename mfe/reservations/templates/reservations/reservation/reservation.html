@@ -1,0 +1,10 @@
+{% extends "reservations/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% block step_title %}{% trans "New reservation - step " %}{{ step }}{% endblock %}{% endblock %}
+
+{% block left_col_content %}
+
+{% block reservation_content %}{% endblock %}
+{% endblock %}

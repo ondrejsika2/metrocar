@@ -1,0 +1,26 @@
+{% extends "reservations/reservation/reservation.html" %}
+
+{% load i18n %}
+
+{% block reservation_content %}
+{% blocktrans %}
+<p>Please choose a car below to proceed.</p>
+{% endblocktrans %}
+
+<form action="." method="post">
+	{% csrf_token %}
+	{% for field in form %}
+		<p>
+			<label>{{ field.label }}</label>
+			{{ field }}
+		</p>
+	{% endfor %}
+	<input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
+	{{ previous_fields|safe }}
+	<p class="submit-row">
+		<span class="button button-green">
+			<span><button class="green" type="submit">{% trans "Proceed" %}</button></span>
+		</span>
+	</p>
+</form>
+{% endblock %}

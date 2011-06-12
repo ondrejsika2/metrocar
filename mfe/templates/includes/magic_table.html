@@ -1,0 +1,18 @@
+<table>
+	<tr>
+		{% for column in table.columns %}
+		<th>
+			{% if column.sortable %}<a href="?sort={{ column.name_toggled }}">{{ column }}</a>
+			{% if column.is_ordered_reverse %}<img src="up.png" />{% else %}<img src="down.png" />{% endif %} {% else %} {{ column }} {% endif %}
+		</th>
+		{% endfor %}
+	</tr>
+
+	{% for row in table.rows %}
+	<tr class="{% cycle "even" "odd" %}">
+		{% for value in row %}
+		<td>{{ value }}<td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>

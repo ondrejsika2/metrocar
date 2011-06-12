@@ -1,0 +1,29 @@
+{% extends "users/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "New fuel bill claim" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% blocktrans %}
+<p>Fuel is part of car rental price. You <strong>are not supposed</strong> to pay it! There might 
+be situations, when you run out of fuel during jour journeys thought. If that's 
+the case, you don't need to worry. You can buy the fuel from your own, document 
+it and then claim the request for refund - and your money will be refunded on 
+your account.</p>
+
+<p>The part of this form is a bill photo. Although not required, it's very welcome
+as it simplifies the bill validation from our staff.</p>
+{% endblocktrans %}
+
+<form action="{% url mfe_users_account_invoices_and_bills_claim_bill %}" method="post">
+	{% include "includes/standard_form.html" %}
+	<p class="submit-row">
+		<span class="button button-green">
+			<span><button class="green" type="submit">{% trans "Make claim" %}</button></span>
+		</span>
+	</p>
+</form>
+
+{% endblock %}

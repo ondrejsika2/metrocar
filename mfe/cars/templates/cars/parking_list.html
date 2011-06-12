@@ -1,0 +1,25 @@
+{% extends "cars/base.html" %}
+
+{% load i18n maps %}
+
+{% block title %}{% trans "Parking list" %} - {{ block.super }}{% endblock %}
+{% block left_col_title %}{% trans "Parking list" %}{% endblock %}
+
+{% block left_col_content %}
+	{% if object_list %}
+		{% for parking in object_list %}
+			<div class="float-left" style="margin-right: 20px;">
+				{% map_for_geometry parking.polygon 150 150 as map %}
+				{{ map.media }}
+				{{ map }}
+			</div>
+			<h4><span>{{ parking }}</span></h4>
+			<p><strong>{% trans "City" %}:</strong> {{ parking.city }}</p>
+			<p><strong>{% trans "Places count" %}:</strong> {{ parking.places_count }}</p>
+			<div class="clear"></div>
+		{% endfor %}
+	{% else %}
+		<p>{% trans "No parkings available." %}</p>
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,5 @@
+repo: fa2e361e1adb65c13a4324108e82eed790666926
+node: f96186c5b9df35d535201eda999b69343fdbe8a8
+branch: default
+latesttag: django-sane-testing-0.5.6
+latesttagdistance: 17

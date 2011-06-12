@@ -1,0 +1,7 @@
+{% for day, timeline in timeline.weekdays %}
+	{% include "includes/timeline_row.html" %}
+{% endfor %}
+
+{% for day, timeline in timeline.dates %}
+	{% include "includes/timeline_row_date.html" %}
+{% endfor %}

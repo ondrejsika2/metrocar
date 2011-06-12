@@ -1,0 +1,427 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-23 15:38+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
+
+#: admin.py:38 admin.py:95
+msgid "Basic information"
+msgstr "Základní informace"
+
+#: admin.py:39
+msgid "Connection information"
+msgstr "Informace o spojení"
+
+#: admin.py:40
+msgid "Location"
+msgstr "Poloha"
+
+#: admin.py:55
+msgid "Authorization key changed successfully."
+msgstr "Autorizační klíč byl úspěšně změněn."
+
+#: admin.py:62
+#, python-format
+msgid "Change authorization key for %s"
+msgstr "Změnit autorizační klíč pro %s"
+
+#: admin.py:96
+msgid "Track"
+msgstr "Trasa"
+
+#: models.py:22
+msgid "Slug"
+msgstr "Slug"
+
+#: models.py:23 models.py:55 models.py:377
+msgid "Name"
+msgstr "Jméno"
+
+#: models.py:26
+msgid "Car manufacturer"
+msgstr "Výrobce"
+
+#: models.py:27
+msgid "Car manufacturers"
+msgstr "Výrobci"
+
+#: models.py:34
+msgid "Title"
+msgstr "Titulek"
+
+#: models.py:37 models.py:38 models.py:320
+msgid "Fuel"
+msgstr "Palivo"
+
+#: models.py:45 models.py:48 models.py:57
+msgid "Car type"
+msgstr "Typ automobilu"
+
+#: models.py:49
+msgid "Car types"
+msgstr "Typy automobilů"
+
+#: models.py:56
+msgid "Manufacturer"
+msgstr "Výrobce"
+
+#: models.py:58
+msgid "Engine"
+msgstr "Motor"
+
+#: models.py:59
+msgid "Seats count"
+msgstr "Počet sedadel"
+
+#: models.py:60
+msgid "Storage capacity"
+msgstr "Úložný prostor"
+
+#: models.py:61
+msgid "Main fuel"
+msgstr "Hlavní palivo"
+
+#: models.py:62
+msgid "Alternative fuel"
+msgstr "Náhradní palivo"
+
+#: models.py:63
+msgid "Notes"
+msgstr "Poznámky"
+
+#: models.py:64 models.py:114
+msgid "Image"
+msgstr "Obrázek"
+
+#: models.py:67 models.py:116
+msgid "Car model"
+msgstr "Model"
+
+#: models.py:68
+msgid "Car models"
+msgstr "Modely"
+
+#: models.py:87
+msgid "Color"
+msgstr "Barva"
+
+#: models.py:90 models.py:117
+msgid "Car color"
+msgstr "Barva"
+
+#: models.py:91
+msgid "Car colors"
+msgstr "Barvy"
+
+#: models.py:100
+msgid "Active"
+msgstr "Aktivní"
+
+#: models.py:101
+msgid "IMEI"
+msgstr "IMEI"
+
+#: models.py:103 templates/admin/cars/car/change_auth_key.html:33
+msgid "Authorization key"
+msgstr ""
+
+#: models.py:104
+msgid "SHA1 encoded. Use the "
+msgstr ""
+
+#: models.py:107
+msgid "Dedicated parking only"
+msgstr "Pouze vyhrazená parkoviště"
+
+#: models.py:108
+msgid "Last echo"
+msgstr "Poslední ohlášení"
+
+#: models.py:109
+msgid "Manufacture date"
+msgstr "Datum výroby"
+
+#: models.py:110
+msgid "Mobile number"
+msgstr "Mobilní číslo"
+
+#: models.py:111
+msgid "Registration number"
+msgstr "SPZ"
+
+#: models.py:112
+msgid "Last position"
+msgstr "Poslední pozice"
+
+#: models.py:113
+msgid "Last address"
+msgstr "Poslední adresa"
+
+#: models.py:118
+msgid "Owner"
+msgstr "Vlastník"
+
+#: models.py:119
+msgid "Subsidiary"
+msgstr "Pobočka"
+
+#: models.py:124 models.py:319 models.py:352 models.py:405 models.py:479
+msgid "Car"
+msgstr "Automobil"
+
+#: models.py:125
+msgid "Cars"
+msgstr "Automobily"
+
+#: models.py:316 models.py:349
+msgid "Code"
+msgstr "Kód"
+
+#: models.py:318 models.py:351
+msgid "Approved"
+msgstr "Schváleno"
+
+#: models.py:322
+msgid "Liter count"
+msgstr "Počet litrů"
+
+#: models.py:324 models.py:353
+msgid "Place"
+msgstr "Místo"
+
+#: models.py:326 models.py:354
+msgid "Bill image"
+msgstr "Obrázek účtu"
+
+#: models.py:329
+msgid "Fuel bill"
+msgstr "Účet za palivo"
+
+#: models.py:330
+msgid "Fuel bills"
+msgstr "Účty za palivo"
+
+#: models.py:345
+msgid "Refuel"
+msgstr "Doplnění paliva"
+
+#: models.py:350
+msgid "Purpose"
+msgstr "Účel"
+
+#: models.py:357
+msgid "Maintenance bill"
+msgstr "Účet za údržbu"
+
+#: models.py:358
+msgid "Maintenance bills"
+msgstr "Účty za údržbu"
+
+#: models.py:373
+msgid "Maintenance"
+msgstr "Údržba"
+
+#: models.py:379
+msgid "Places count"
+msgstr "Počet míst"
+
+#: models.py:381
+msgid "Land registry number"
+msgstr "Číslo popisné"
+
+#: models.py:383
+msgid "Street"
+msgstr "Ulice"
+
+#: models.py:385
+msgid "City"
+msgstr "Město"
+
+#: models.py:386
+msgid "Area"
+msgstr "Oblast"
+
+#: models.py:392 models.py:404
+msgid "Parking"
+msgstr "Parkoviště"
+
+#: models.py:393
+msgid "Parkings"
+msgstr "Parkoviště"
+
+#: models.py:401
+msgid "Description"
+msgstr "Popis"
+
+#: models.py:408
+msgid "Parking description"
+msgstr "Popis parkoviště"
+
+#: models.py:409
+msgid "Parking descriptions"
+msgstr "Popisy parkovišť"
+
+#: models.py:415 models.py:422
+msgid "Car position"
+msgstr "Pozice"
+
+#: models.py:417 models.py:485
+msgid "Journey"
+msgstr "Jízda"
+
+#: models.py:423 templates/admin/cars/car/change_list.html:13
+msgid "Car positions"
+msgstr "Pozice"
+
+#: models.py:457
+msgid "Waiting"
+msgstr "Čekání"
+
+#: models.py:458
+msgid "Trip"
+msgstr "Cesta"
+
+#: models.py:459
+msgid "Late return"
+msgstr "Pozdní návrat"
+
+#: models.py:462
+msgid "Comment"
+msgstr "Komentář"
+
+#: models.py:464
+msgid "Start datetime"
+msgstr "Čas začátku"
+
+#: models.py:466
+msgid "End datetime"
+msgstr "Čas konce"
+
+#: models.py:468
+msgid "Length"
+msgstr "Délka"
+
+#: models.py:470
+msgid "Path"
+msgstr "Trasa"
+
+#: models.py:472 templates/admin/cars/journey/change_form.html:45
+msgid "Price"
+msgstr "Cena"
+
+#: models.py:475
+msgid "Journey type"
+msgstr "Druh jízdy"
+
+#: models.py:480
+msgid "User"
+msgstr "Uživatel"
+
+#: models.py:486
+msgid "Journeys"
+msgstr "Jízdy"
+
+#: templates/admin/cars/car/change_auth_key.html:10
+msgid "Home"
+msgstr "Domů"
+
+#: templates/admin/cars/car/change_auth_key.html:13
+#: templates/admin/cars/car/change_auth_key.html:46
+#: templates/admin/cars/car/change_form.html:9
+msgid "Change authorization key"
+msgstr "Změna autorizačního klíče"
+
+#: templates/admin/cars/car/change_auth_key.html:22
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: templates/admin/cars/car/change_auth_key.html:26
+#, python-format
+msgid ""
+"Enter a new authorization key for the car <strong>%(car_name)s</strong>."
+msgstr "Zadejte nový autorizační klíč pro <strong>%(car_name)s</strong>."
+
+#: templates/admin/cars/car/change_auth_key.html:39
+msgid "Authorization key (again)"
+msgstr "Autorizační klíč (znovu)"
+
+#: templates/admin/cars/car/change_auth_key.html:40
+msgid "Enter the same authorization key as above, for verification."
+msgstr "Zadejte stejný autorizační klíč jako výše pro kontrolu."
+
+#: templates/admin/cars/car/change_form.html:10
+msgid "History"
+msgstr "Historie"
+
+#: templates/admin/cars/car/change_form.html:11
+msgid "View on site"
+msgstr "Zobrazit na webu"
+
+#: templates/admin/cars/journey/change_form.html:13
+msgid "Pricing summary"
+msgstr "Cenový souhrn"
+
+#: templates/admin/cars/journey/change_form.html:14
+msgid "Detailed information about journey price"
+msgstr "Podrobné informace o ceně jízdy"
+
+#: templates/admin/cars/journey/change_form.html:18
+msgid "Journey is service journey and therefore has no pricing."
+msgstr "Jízda je servisní a proto nemá žádné informace o ceně."
+
+#: templates/admin/cars/journey/change_form.html:23
+#: templates/admin/cars/journey/change_form.html:56
+msgid "Price for kms driven"
+msgstr "Cena za ujeté kilometry"
+
+#: templates/admin/cars/journey/change_form.html:29
+msgid "Price for time elapsed"
+msgstr "Cena za uplynulý čas"
+
+#: templates/admin/cars/journey/change_form.html:35
+#: templates/admin/cars/journey/change_form.html:60
+msgid "Total price"
+msgstr "Celková cena"
+
+#: templates/admin/cars/journey/change_form.html:39
+msgid "Pricing details"
+msgstr "Detaily ceny"
+
+#: templates/admin/cars/journey/change_form.html:42
+msgid "From"
+msgstr "Od"
+
+#: templates/admin/cars/journey/change_form.html:43
+msgid "Till"
+msgstr "Do"
+
+#: templates/admin/cars/journey/change_form.html:44
+msgid "Price per hour"
+msgstr "Cena za hodinu"
+
+#~ msgid ""
+#~ "SHA1 encoded. Use the <a href=\"change-authorization-key/\">change "
+#~ "authorization key form</a> to change."
+#~ msgstr ""
+#~ "Zakódováno pomocí SHA1. Použijte <a href=\"change-authorization-key/"
+#~ "\">formulář změny autorizačního klíče</a> pro změnu."
+
+#~ msgid "Connection code"
+#~ msgstr "Kód spojení"

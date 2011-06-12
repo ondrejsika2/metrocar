@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load flatpagesmeta render %}
+
+{% block keywords %}{% meta_keywords flatpage.id %}{% endblock %}
+
+{% block description %}{% meta_description flatpage.id %}{% endblock %}
+
+{% block title %}{{ flatpage.title }} - Metrocar{% endblock %}
+
+{% block content %}
+	{% render flatpage.content %}
+{% endblock %}	

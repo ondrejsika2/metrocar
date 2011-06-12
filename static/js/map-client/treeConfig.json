@@ -1,0 +1,49 @@
+[
+  {
+    nodeType: "gx_baselayercontainer"
+  },
+  {
+    text: "Food &amp; Drink",
+    children: [
+      {nodeType: 'gx_layer', layer: 'restaurants'},
+      {nodeType: 'gx_layer', layer: 'fast food'},
+      {nodeType: 'gx_layer', layer: 'cafes'},
+      {nodeType: 'gx_layer', layer: 'bars'},
+      {nodeType: 'gx_layer', layer: 'pubs'},
+  	]
+  }, {
+    text: "Money",
+    children: [
+      {nodeType: 'gx_layer', layer: 'banks'},
+      {nodeType: 'gx_layer', layer: 'ATM'},
+  	]
+  }, {
+    text: "Transportation",
+    children: [
+      {nodeType: 'gx_layer', layer: 'fuel stations'},
+  	]
+  }, {
+    text: "Tourism",
+    children: [
+      {nodeType: 'gx_layer', layer: 'hotels'},
+  	]
+  }, {
+    text: "Emergency &amp; Health",
+    children: [
+      {nodeType: 'gx_layer', layer: 'fire stations'},
+      {nodeType: 'gx_layer', layer: 'police'},
+      {nodeType: 'gx_layer', layer: 'ambulance'},
+      {nodeType: 'gx_layer', layer: 'doctors'},
+      {nodeType: 'gx_layer', layer: 'hospitals'},
+      {nodeType: 'gx_layer', layer: 'pharmacies'},
+      {nodeType: 'gx_layer', layer: 'emergency access points'},
+  	]
+  }, {
+    text: "Communication",
+    children: [
+      {nodeType: 'gx_layer', layer: 'post offices'},
+      {nodeType: 'gx_layer', layer: 'post boxes'},
+      {nodeType: 'gx_layer', layer: 'telephones'},
+  	]
+  }
+]

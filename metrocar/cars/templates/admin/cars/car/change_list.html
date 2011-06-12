@@ -1,0 +1,17 @@
+{% extends "admin/change_list.html" %}
+
+{% load i18n %}
+
+{% block extrahead %}
+{{ car_position_map.media }}
+{% endblock %}}
+
+{% block pagination %}
+{{ block.super }}
+</div>
+<fieldset class="module" style="margin-top: 10px;">
+<h2>{% trans "Car positions" %}</h2>
+<div class="form-row">
+{{ car_position_map }}
+</fieldset>
+{% endblock %}

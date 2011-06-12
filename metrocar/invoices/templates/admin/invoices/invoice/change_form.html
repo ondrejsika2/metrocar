@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+
+{% load i18n admin_modify adminmedia grp_tags grp_csrf %}
+
+{% block object-tools %}
+{% if change %}
+{% if not is_popup %}
+<ul class="object-tools"><li><a href="history/">{% trans "History" %}</a></li>
+    {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="focus" target="_blank">{% trans "View on site" %}</a></li>{% endif%}
+    <li><a href="{% url metrocar_invoices_print object_id "pdf" %}">{% trans "Print" %}</a></li>
+</ul>
+{% endif %}
+{% endif %}
+{% endblock %}
