@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-04 15:44+0200\n"
+"POT-Creation-Date: 2011-06-13 01:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,115 +22,119 @@ msgstr ""
 msgid "Enter a valid telephone number with format XXX XXXXXXXXX."
 msgstr "Zadejte platné telefonní čístlo ve formátu 123 123456789"
 
-#: fields.py:43 fields.py:56
+#: fields.py:44 fields.py:47
 msgid "Enter valid IC number."
 msgstr "Zadejte platné IČ."
 
-#: fields.py:69 fields.py:71
+#: fields.py:62 fields.py:64
 msgid "Enter valid DIC number."
 msgstr "Zadejte platné DIČ."
 
-#: models.py:38
+#: models.py:40
 msgid "Deleteable"
 msgstr "Smazetelné"
 
-#: models.py:53
+#: models.py:55
 msgid "Level number"
 msgstr "Úroveň"
 
-#: models.py:54
+#: models.py:56
 msgid "Time"
 msgstr "Čas"
 
-#: models.py:55
+#: models.py:57
 msgid "Message"
 msgstr "Zpráva"
 
-#: models.py:58
+#: models.py:60
 msgid "Log message"
 msgstr "Log"
 
-#: models.py:59
+#: models.py:61
 msgid "Log messages"
 msgstr "Logy"
 
-#: models.py:71
+#: models.py:74
 msgid "GPS check interval"
 msgstr "Interval kontroly GPS"
 
-#: models.py:72
+#: models.py:77
 msgid "GPS minimal distance location"
 msgstr "Minimální vzdálenost lokace GPS"
 
-#: models.py:73
+#: models.py:80
 msgid "GPS minimal time location"
 msgstr "Minimální časová vzdálenost GPS"
 
-#: models.py:74
+#: models.py:82
 msgid "GPS location send interval"
 msgstr "Interval posílání GPS"
 
-#: models.py:75
+#: models.py:84
 msgid "GPS retry send interval"
 msgstr "Interval opakování pokusu o odeslání GPS"
 
-#: models.py:76
+#: models.py:86
 msgid "GPS echo interval"
 msgstr "Interval oznámení polohy GPS"
 
-#: models.py:77
+#: models.py:88
 msgid "Minimal duration of reservation"
 msgstr "Minimální doba trvání rezervace"
 
-#: models.py:78
+#: models.py:90
 msgid "Maximal duration of reservation"
 msgstr "Maximální doba trvání rezervace"
 
-#: models.py:79
+#: models.py:92
 msgid "Use storno fees for reservations"
 msgstr "Používat storno poplatky pro rezervace"
 
-#: models.py:80
+#: models.py:94
 msgid "Reservation cancel interval"
 msgstr "Interval pro zrušení rezervace"
 
-#: models.py:83
+#: models.py:97
 msgid "Required money multiplier"
 msgstr "Koeficient násobku požadovaného stavu účtu při vytváření rezervace"
 
-#: models.py:83
+#: models.py:97
 msgid "Multiplier "
 msgstr "Násobitel "
 
-#: models.py:89
+#: models.py:103
 msgid "Site"
 msgstr "Web"
 
-#: models.py:90
+#: models.py:104
 msgid "Sites"
 msgstr "Weby"
 
-#: models.py:106
+#: models.py:121
 msgid "Code"
 msgstr "Kód"
 
-#: models.py:107
+#: models.py:123
 msgid "Name"
 msgstr "Název"
 
-#: models.py:108
+#: models.py:125
 msgid "Subject"
 msgstr "Předmět zprávy"
 
-#: models.py:109
+#: models.py:127
 msgid "Content"
 msgstr "Obsah"
 
-#: models.py:112
+#: models.py:128
+msgid "Language"
+msgstr "Jazyk"
+
+#: models.py:131
 msgid "E-mail template"
 msgstr "E-mailová šablona"
 
-#: models.py:113
+#: models.py:132
 msgid "E-mail templates"
 msgstr "E-mailové šablony"
 
@@ -165,32 +170,32 @@ msgstr "Meta informace"
 msgid "Meta informations"
 msgstr "Meta informace"
 
-msgid "Metrocar user management"
-msgstr "Správa uživatelů Metrocar"
+#~ msgid "Metrocar user management"
+#~ msgstr "Správa uživatelů Metrocar"
 
-msgid "Django user management"
-msgstr "Správa uživatelů Django"
+#~ msgid "Django user management"
+#~ msgstr "Správa uživatelů Django"
 
-msgid "Car pool"
-msgstr "Vozový park"
+#~ msgid "Car pool"
+#~ msgstr "Vozový park"
 
-msgid "Reservations"
-msgstr "Rezervace"
+#~ msgid "Reservations"
+#~ msgstr "Rezervace"
 
-msgid "Invoices"
-msgstr "Faktury"
+#~ msgid "Invoices"
+#~ msgstr "Faktury"
 
-msgid "Tarification"
-msgstr "Tarifikace"
+#~ msgid "Tarification"
+#~ msgstr "Tarifikace"
 
-msgid "Utils"
-msgstr "Pomůcky"
+#~ msgid "Utils"
+#~ msgstr "Pomůcky"
 
-msgid "System settings"
-msgstr "Systémová nastavení"
+#~ msgid "System settings"
+#~ msgstr "Systémová nastavení"
 
-msgid "User mangement"
-msgstr "Správa uživatelů"
+#~ msgid "User mangement"
+#~ msgstr "Správa uživatelů"
 
-msgid "Reservations/Tarification"
-msgstr "Rezervace/Tarifikace"
+#~ msgid "Reservations/Tarification"
+#~ msgstr "Rezervace/Tarifikace"
