@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-30 15:26+0100\n"
-"PO-Revision-Date: 2010-11-23 14:48+0100\n"
+"PO-Revision-Date: 2011-06-13 02:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"\"sPOT-Creation-Date: 2010-11-20 12:33+0100\n"
+""sPOT-Creation-Date: 2010-11-20 12:33+0100\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
 "X-Generator: Lokalize 1.1\n"
 
@@ -70,43 +70,54 @@ msgstr "Jméno"
 msgid "Last name"
 msgstr "Příjmení"
 
-#: forms.py:28 forms.py:55 models.py:20
+#: forms.py:28
+#: forms.py:55
+#: models.py:20
 msgid "E-mail"
 msgstr "E-mail"
 
-#: forms.py:28 forms.py:55
+#: forms.py:28
+#: forms.py:55
 msgid "E-mail, where the activation announcment will be send."
 msgstr "E-mail, kam bude zasláno oznámení o aktivaci."
 
-#: forms.py:30 forms.py:57
+#: forms.py:30
+#: forms.py:57
 msgid "Telephone number"
 msgstr "Telefonní číslo"
 
-#: forms.py:31 forms.py:34 forms.py:58 forms.py:61
+#: forms.py:31
+#: forms.py:34
+#: forms.py:58
+#: forms.py:61
 msgid "Phone number with country code in format 123 123456789."
 msgstr "Telefonní číslo s kódem státu ve formátu 123 123456789."
 
-#: forms.py:33 forms.py:60
+#: forms.py:33
+#: forms.py:60
 msgid "Additional phone"
 msgstr "Další telefon"
 
-#: forms.py:36 models.py:41
+#: forms.py:36
+#: models.py:41
 msgid "Date of birth"
 msgstr "Datum narození"
 
 #: forms.py:36
 msgid "YYYY-MM-DD"
-msgstr ""
+msgstr "RRRR-MM-DD"
 
 #: forms.py:37
 msgid "Driver licence number"
 msgstr "Čislo ŘP"
 
-#: forms.py:39 models.py:47
+#: forms.py:39
+#: models.py:47
 msgid "Identity card number"
 msgstr "Číslo OP"
 
-#: forms.py:41 forms.py:63
+#: forms.py:41
+#: forms.py:63
 #, fuzzy
 msgid "Preferred language"
 msgstr "Preferovaný jazyk"
@@ -143,7 +154,8 @@ msgstr "Číslo orientační"
 msgid "Land registry number"
 msgstr "Číslo popisné"
 
-#: models.py:30 models.py:57
+#: models.py:30
+#: models.py:57
 msgid "Company"
 msgstr "Firma"
 
@@ -177,17 +189,20 @@ msgstr "Další telefonní číslo"
 
 #: models.py:53
 msgid "Variable symbol"
-msgstr ""
+msgstr "Variabilní symbol"
 
 #: models.py:55
 msgid "Invoice date"
-msgstr ""
+msgstr "Datum vystavení faktury"
 
 #: models.py:59
 msgid "Home subsidiary"
 msgstr "Domácí pobočka"
 
-#: models.py:66 models.py:178 models.py:231 models.py:280
+#: models.py:66
+#: models.py:178
+#: models.py:231
+#: models.py:280
 msgid "User"
 msgstr "Uživatel"
 
@@ -196,9 +211,8 @@ msgid "Users"
 msgstr "Uživatelé"
 
 #: models.py:152
-#, fuzzy
 msgid "password reset"
-msgstr "resethesla"
+msgstr "Reset hesla"
 
 #: models.py:179
 msgid "Approved"
@@ -220,7 +234,8 @@ msgstr "Požadavky o registraci"
 msgid "Active"
 msgstr "Aktivní"
 
-#: models.py:223 models.py:234
+#: models.py:223
+#: models.py:234
 msgid "User card"
 msgstr "Uživatelská karta"
 
@@ -280,10 +295,12 @@ msgstr "Druh obsahu"
 msgid "Credited"
 msgstr "Započítáno"
 
-#: models.py:368 models.py:372
+#: models.py:368
+#: models.py:372
 msgid "Deposit"
 msgstr "Vklad"
 
 #: models.py:369
 msgid "Deposits"
 msgstr "Vklady"
+

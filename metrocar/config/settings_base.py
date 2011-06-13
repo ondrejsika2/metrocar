@@ -31,7 +31,7 @@ TIME_ZONE = 'Europe/Prague'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'cs'
-LANG_CHOICES = (('CS', 'Czech'), ('EN', 'English'),)
+LANG_CHOICES = (('CS', _('Czech')), ('EN', _('English')),)
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
