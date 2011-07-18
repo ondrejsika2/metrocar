@@ -243,6 +243,14 @@ ul.ul-list span.date {padding-right:10px;}
 
 .float-left { float: left; }
 .float-right { float: right; }
+.cleaner {
+    clear:both;
+    height:1px;
+    margin: -1px 0 0 0;
+    padding:0;
+    border:none;
+    visibility: hidden;
+}
 .ico-comment {padding-left:18px; background:url("../img/ico-comment.gif") 0 50% no-repeat;}
 .ico-rss {padding-left:18px; background:url("../img/ico-rss.gif") 0 50% no-repeat;}
 

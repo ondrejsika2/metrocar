@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     # car list
     url(r'^$', 'mfe.cars.views.car_list', name='mfe_cars'),
     url(r'^%s/$' % slugify(_('find cars')), 'mfe.cars.views.car_list', name='mfe_cars_list'),
+    url(r'^load_car_list/(?P<start_date>([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})+)/(?P<start_time>([0-9]{2}:[0-9]{2})+)/(?P<end_date>([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})+)/(?P<end_time>([0-9]{2}:[0-9]{2})+)/$','mfe.cars.views.load_car_list', name='mfe_load_car_list'),
     
     # parkings
     url(r'^%s/$' % slugify(_('parking list')), 'mfe.cars.views.parking_list', name='mfe_cars_parking_list'),

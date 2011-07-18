@@ -89,50 +89,51 @@ class Reservation(models.Model):
             - no conflicting reservation exists 
         """
         from metrocar.cars.models import Car
-        
+
         assert isinstance(user, MetrocarUser)
         assert isinstance(car, Car)
         assert isinstance(datetime_from, datetime)
         assert isinstance(datetime_till, datetime)
-        
+
         site_settings = SiteSettings.objects.get_current()
         errors = []
-        
+
         # datetime checks
         if datetime_from > datetime_till:
             errors.append(force_unicode(_('From datetime must be before till.')))
         now = datetime.now()
         if now >= datetime_from:
             errors.append(force_unicode(_('Cannot create reservation in the past.')))
-        duration = datetime_till - datetime_from
-        if duration.seconds < site_settings.reservation_min_duration:
-            errors.append(force_unicode(_('Minimum duration of %s minutes not reached.')) 
+        duration = int(datetime_till.strftime('%s')) - int(datetime_from.strftime('%s'))
+        print duration
+        if duration < site_settings.reservation_min_duration:
+            errors.append(force_unicode(_('Minimum duration of %s minutes not reached.'))
                 % str(round(site_settings.reservation_min_duration / 60)))
-        if duration.seconds > site_settings.reservation_max_duration:
-            errors.append(force_unicode(_('Maximum duration of %s has been exceeded.')) 
+        if duration > site_settings.reservation_max_duration:
+            errors.append(force_unicode(_('Maximum duration of %s has been exceeded.'))
                 % str(round(site_settings.reservation_max_duration / 86400)))
         if car.model.get_pricelist() == False:
             errors.append(force_unicode(_('No valid pricelist for selected car model.')))
-        
+
         # user account checks
-        price_estimation = cls.get_price_estimation(car, datetime_from, 
+        price_estimation = cls.get_price_estimation(car, datetime_from,
             datetime_till)
         required_money_amount = price_estimation * \
             site_settings.reservation_money_multiplier
-        
+
         if user.account.balance < required_money_amount:
             errors.append(force_unicode(_('You don\'t have enough money '
-                'to create reservation. Required account balance is %d.')) 
+                'to create reservation. Required account balance is %d.'))
                 % required_money_amount)
-        
+
         # conflicts check
         conflicts = cls.find_conflicts(car, datetime_from, datetime_till)
-        
+
         # check for conflicts with other reservations
         if len(conflicts) != 0:
             errors.append(force_unicode(_('Reservation cannot be created due '
                 'to conflicting time')))
-        
+
         if len(errors) == 0:
             return True, []
         else:
@@ -296,7 +297,7 @@ class Reservation(models.Model):
         from decimal import Decimal
         pricelist = car.model.get_pricelist()
         if pricelist:
-            duration = Decimal((dt_till - dt_from).seconds) / Decimal(3600)
+            duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
             # try to estimate time and kms, expect ~ 10km per hour
             return (pricelist.price_per_hour + pricelist.price_per_km * 10) * duration
         else:

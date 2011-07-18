@@ -2,19 +2,62 @@
 
 {% load i18n %}
 
+{% block extra_js %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/date.format.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/reservation-form.js"></script>
+{% endblock %}
+
 {% block reservation_content %}
+
+{% autoescape off %}
+<script type="text/javascript">
+    $(function() {
+        var car_id = $('#id_0-car_id').find('option:selected').val();
+        disableReservationButton($('button'), car_id == 0);
+    });
+</script>
+{% endautoescape %}
+
+{% if form.errors %}
+    <form>
+        <p>{% trans "An error occured when validating your request" %}:</p>
+        {% for field in form %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% endif %}
+        {% endfor %}
+        {{ form.non_field_errors }}
+    </form>
+{% endif %}
+
 {% blocktrans %}
 <p>Please choose a car below to proceed.</p>
 {% endblocktrans %}
 
 <form action="." method="post">
 	{% csrf_token %}
+    <div class="float-left">
 	{% for field in form %}
+        <p>{{ field.error }}</p>
 		<p>
-			<label>{{ field.label }}</label>
-			{{ field }}
+            {%  if field.name != 'car_id' %}
+			    <label>{{ field.label }}</label>
+			    {{ field }}
+            {% endif %}
 		</p>
 	{% endfor %}
+    </div>
+    <div class="float-right">
+    {% for field in form %}
+		<p>
+            {%  if field.name == 'car_id' %}
+			    <label>{{ field.label }}</label>
+			    {{ field }}
+            {% endif %}
+		</p>
+	{% endfor %}
+    </div>
+    <div class="cleaner"></div>
 	<input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
 	{{ previous_fields|safe }}
 	<p class="submit-row">

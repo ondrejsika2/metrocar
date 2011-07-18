@@ -11,3 +11,28 @@
 2011-05-23 00:03:51,820 INFO Mail REG_REQ_CS sent to [u'aaa@www.ss']
 2011-06-11 14:48:41,054 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
 2011-06-13 04:29:33,482 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
+2011-06-16 21:24:20,312 INFO Created new permission: user_management | User registration request | Can deny registration request Hradec Kralove
+2011-06-16 21:24:20,365 INFO Created new permission: user_management | User registration request | Can approve registration request Hradec Kralove
+2011-06-16 21:24:20,369 INFO Created new permission: cars | Car | Can add car to subsidiary Hradec Kralove
+2011-06-16 21:24:20,373 INFO Created new permission: cars | Car | Can change car in subsidiary Hradec Kralove
+2011-06-16 21:24:20,381 INFO Created new permission: cars | Car | Can delete car in subsidiary Hradec Kralove
+2011-06-16 21:24:20,385 INFO Created new permission: user_management | User | Can add user in subsidiary Hradec Kralove
+2011-06-16 21:24:20,391 INFO Created new permission: user_management | User | Can change user in subsidiary Hradec Kralove
+2011-06-16 21:24:20,396 INFO Created new permission: user_management | User | Can delete user in subsidiary Hradec Kralove
+2011-07-06 11:01:17,949 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
+2011-07-06 11:03:42,995 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
+2011-07-06 13:23:51,477 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
+2011-07-06 17:30:51,818 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
+2011-07-09 11:02:19,387 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
+2011-07-09 18:19:38,809 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-11 11:31:53,093 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-11 15:40:07,340 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 11:43:47,162 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 11:55:17,267 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 11:57:21,129 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 13:42:16,262 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 13:42:51,365 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 13:43:38,651 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-17 13:56:30,229 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-18 08:52:19,811 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
+2011-07-18 09:55:44,937 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']

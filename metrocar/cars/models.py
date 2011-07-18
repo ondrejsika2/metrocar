@@ -316,6 +316,22 @@ class Car(models.Model):
 
         return [fuelCount, kmTotal, fuelPriceCount, maintenancePriceCount, (fuelPriceCount + maintenancePriceCount), pricePerKm, timeTotal * 24]
 
+    @classmethod
+    def list_of_available_cars(cls, datetime_start, datetime_end, home_subsidiary=None):
+        """
+        Vrati vsechny automobily, ktere jsou v zadanem obdobi dostupne a patri ke zvolene pobocce
+        """
+        cars = Car.objects.filter()
+        if (home_subsidiary is not None):
+            cars = cars.filter(home_subsidiary=home_subsidiary)
+
+        result = []
+        for c in cars:
+            reservations = Reservation.find_conflicts(c, datetime_start, datetime_end)
+            if len(reservations) == 0:
+                result.append(c)
+
+        return result
 
 class FuelBill(AccountActivity):
     code = models.CharField(max_length=20, blank=False, null=False,

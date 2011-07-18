@@ -45,3 +45,8 @@ LOGIN_URL = '/uzivatele/prihlaseni/'
 SECRET_KEY = 'lka234][pjl951.,;dah123998(+-;adh281la;ds*/.,c1;'
 
 SITE_ID = 1
+
+# minimalni minutovy interval mezi zacatkem a koncem rezervace automobilu
+RESERVATION_TIME_INTERVAL   = 30
+# rezervaci je mozne si nacasovat po ctvrt hodine
+RESERVATION_TIME_SHIFT      = 15

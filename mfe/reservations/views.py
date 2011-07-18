@@ -13,44 +13,41 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template.context import RequestContext
 from django.utils.translation import gettext_lazy as _
-
+from datetime import datetime
 from metrocar.cars.models import Car
 from metrocar.reservations.models import Reservation, ReservationError
-
 from mfe.utils.forms import render_to_wizard, ViewFormWizard
 
 class ReservationWizard(ViewFormWizard):
-    from metrocar.reservations.forms import ReservationForm
     from mfe.reservations.forms import ReservationFormOne, ReservationFormThree
-    _forms = [ ReservationFormOne, ReservationForm, ReservationFormThree ]
-    
+    _forms = [ ReservationFormOne, ReservationFormThree ]
+
     def get_template(self, step):
         return 'reservations/reservation/%s.html' % step
             
     
     def process_step(self, request, form, step):
-        from datetime import datetime
         " Overload to add extra content "
-        
         if request.POST.has_key('0-car_id'):
             self.extra_context['car'] = Car.objects.get(
                 pk=request.POST['0-car_id']
             )
-        if step == 1:
+
+        if step == 0:
             if hasattr(form, 'cleaned_data'):
                 self.extra_context['price_estimation'] = Reservation.get_price_estimation(
-                    self.extra_context['car'], 
-                    form.cleaned_data['reserved_from'], 
+                    self.extra_context['car'],
+                    form.cleaned_data['reserved_from'],
                     form.cleaned_data['reserved_until']
                 )
                 self.extra_context['reserved_from'] = form.cleaned_data['reserved_from']
                 self.extra_context['reserved_until'] = form.cleaned_data['reserved_until']
-    
+
     def done(self, request, form_list):
-        clean_data = form_list[1].cleaned_data
+        clean_data = form_list[0].cleaned_data
         car = Car.objects.get(pk=clean_data['car_id'])
         reservation = Reservation.objects.create_reservation(
-            request.user, car, clean_data['reserved_from'], 
+            request.user, car, clean_data['reserved_from'],
             clean_data['reserved_until'])
         return HttpResponseRedirect(reverse('mfe_reservations_reservation_success'))
     
@@ -61,11 +58,10 @@ def reservation(request, car_id=None):
     initial = {
         0: context,
         1: context,
-        2: context
     }
-    return render_to_wizard(ReservationWizard, context=context, 
+    return render_to_wizard(ReservationWizard, context=context,
         request=request, initial=initial)
-    
+
 @login_required
 def pending_list(request, page=None):
     pending_reservations_dict = {

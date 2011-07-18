@@ -85,6 +85,7 @@ or not.</p>
                     {% if bill.image %}
                         {% thumbnail bill.image 150x150 as thumb %}
                         <img src="{{ thumb }}" width="{{ thumb.width }}" height="{{ thumb.height }}" />
+                        {% endthumbnail %}
                     {% else %}
                         <p class="smaller">{% trans "No bill preview submitted" %}.</p>
                     {% endif %}
