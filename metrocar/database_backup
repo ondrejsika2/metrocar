@@ -1,0 +1,54 @@
+#!/bin/bash
+# Skript pro vytvoreni zalohy databaze. Po kazdem zavolani skriptu se vytahne
+# struktura databaze s aktualnimi daty a ulozi se do souboru. Podle aktualniho
+# data se vytvori adresarova struktura (napr. 2011/07/) a tohoho adresare se 
+# ulozi soubor, jehoz nazev je aktualni den.
+# ----------------------------------------------------------------------------
+# Copyright (C) 2011 Jan Wagner
+
+self=`basename $0`
+
+# kontrola vstupu
+if [ $# -ne 2 ]; then
+  echo "Usage: $self <database_user> <database_name>"
+  exit 1
+fi
+
+# nastaveni databaze
+DB_USER="$1"
+DB_NAME="$2"
+
+# shellove prikazy
+PG_DUMP="$(which pg_dump)"
+GZIP="$(which gzip)"
+CHOWN="$(which chown)"
+CHMOD="$(which chmod)"
+
+# cesty k zalohovanym souborum
+MAIN_BACKUP_DIR="/home/komarem/metrocar/sql/backup"
+SUB_BACKUP_DIR="$(date +"%Y")/$(date +"%m")"
+BACKUP_DIR="$MAIN_BACKUP_DIR/$SUB_BACKUP_DIR"
+FILENAME="$(date +"%d").psql.gz"
+FILEPATH="$BACKUP_DIR/$FILENAME"
+
+# kontroly existence adresaru
+if [ ! -w $MAIN_BACKUP_DIR ]; then
+  echo "Do adresare '$MAIN_BACKUP_DIR' nelze zapisovat!"
+  exit 1
+else 
+  [ ! -d $BACKUP_DIR ] && mkdir -p $BACKUP_DIR || :
+   
+  # nastaveni prav pro zapis
+  $CHMOD 0700 $BACKUP_DIR
+fi
+
+# vytvoreni zalohy a zapsani do souboru
+$PG_DUMP -U $DB_USER $DB_NAME | $GZIP > $FILEPATH
+
+if [ -e $FILEPATH ]; then
+  echo "Zaloha databaze byla uspesne ulozena do souboru '$FILEPATH'."
+  exit 0
+else
+  echo "Chyba: Zalohu databaze se nepodarilo vytvorit."
+  exit 1
+fi
