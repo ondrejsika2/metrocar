@@ -40,7 +40,7 @@ class ReservationFormOne(forms.Form):
         CARS = [(c.id, c.__unicode__()) for c in Car.list_of_available_cars(from_time, until_time, request.user.home_subsidiary)]
         if len(CARS) == 0:
            CARS = [('0', _('No car is available in chosen time.'))]
-        self.fields.insert(2, 'car_id', forms.ChoiceField(label=_('Select a car'), choices=CARS))
+        self.fields.insert(2, 'car_id', forms.ChoiceField(label=_('Available cars - select one'), choices=CARS))
         # pridame na ctvrte misto skryte policko s id uzivatele
         self.fields.insert(3, 'user_id', forms.IntegerField(widget=forms.HiddenInput, label=''))
 
