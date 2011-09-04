@@ -105,7 +105,6 @@ class Reservation(models.Model):
         if now >= datetime_from:
             errors.append(force_unicode(_('Cannot create reservation in the past.')))
         duration = int(datetime_till.strftime('%s')) - int(datetime_from.strftime('%s'))
-        print duration
         if duration < site_settings.reservation_min_duration:
             errors.append(force_unicode(_('Minimum duration of %s minutes not reached.'))
                 % str(round(site_settings.reservation_min_duration / 60)))

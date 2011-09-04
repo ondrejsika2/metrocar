@@ -68,13 +68,6 @@ class ReservationFormOne(forms.Form):
             datetime_format = '%d.%m.%Y %H:%M'
             from_time, until_time = self.create_reservation_time(datetime.strptime(data['0-reserved_from_0'] + ' ' + data['0-reserved_from_1'], datetime_format),
                                                                  datetime.strptime(data['0-reserved_until_0'] + ' ' + data['0-reserved_until_1'], datetime_format))
-            # v aktualnim dnu nelze rezervovat od casu mensiho nez aktualni cas
-            if from_time.strftime('%d.%m.%Y') > datetime.now().strftime('%d.%m.%Y'):
-                from_time = datetime.strptime(data['0-reserved_from_0'] + ' 00:00', datetime_format)
-                until_time = datetime.strptime(data['0-reserved_until_0'] + ' 00:00', datetime_format)
-            else:
-                if from_time.strftime('%d.%m.%Y') == datetime.now().strftime('%d.%m.%Y'):
-                    from_time, until_time = self.create_reservation_time()
 
         return from_time, until_time
 

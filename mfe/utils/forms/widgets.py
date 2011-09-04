@@ -41,10 +41,10 @@ class CalendarSelectTimeWidget(forms.Select):
         startHour = initTime.hour
         startMinute = initTime.minute
 
-        for hour in range(startHour, 24):
+        for hour in range(0, 24):
             if start == False and startMinute != 0:
                 startMinute = 0
-            for minute in range(startMinute, 60, RESERVATION_TIME_SHIFT):
+            for minute in range(0, 60, RESERVATION_TIME_SHIFT):
                 t = time(hour, minute).strftime('%H:%M')
                 TIMES.append([t, t])
             start = False

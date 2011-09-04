@@ -152,7 +152,7 @@ $(function() {
             if (currentStartDateText == defaultStartDate) {
                 startTime = defaultStartTime;
             }
-            loadReservationTime($reservedStartDate, $reservedStartTime, startTime, currentStartTimeText);
+            //loadReservationTime($reservedStartDate, $reservedStartTime, startTime, currentStartTimeText);
 
             if (currentStartDate >= currentEndDate) {
                 currentEndDateText = $reservedEndDate.val(currentStartDateText).val();
@@ -160,7 +160,7 @@ $(function() {
                 if (currentEndDateText == defaultEndDate) {
                     endTime = defaultEndTime;
                 }
-                loadReservationTime($reservedEndDate, $reservedEndTime, endTime, currentEndTimeText);
+                //loadReservationTime($reservedEndDate, $reservedEndTime, endTime, currentEndTimeText);
             }
         }
         loadAvailableCars();
@@ -183,7 +183,7 @@ $(function() {
             if (currentEndDateText == defaultEndDate) {
                 endTime = defaultEndTime;
             }
-            loadReservationTime($reservedEndDate, $reservedEndTime, endTime, currentEndTimeText);
+            //loadReservationTime($reservedEndDate, $reservedEndTime, endTime, currentEndTimeText);
 
             if (currentEndDate <= currentStartDate) {
                 currentStartDateText = $reservedStartDate.val(currentEndDateText).val();
@@ -191,19 +191,25 @@ $(function() {
                 if (currentStartDateText == defaultStartDate) {
                     startTime = defaultStartTime;
                 }
-                loadReservationTime($reservedStartDate, $reservedStartTime, startTime, currentStartTimeText);
+                //loadReservationTime($reservedStartDate, $reservedStartTime, startTime, currentStartTimeText);
             }
         }
         loadAvailableCars();
     }
 
     // zmena zacatku rezervace
-    $reservedStartDate.change(changeReservationStartDate);
-    $reservedStartDate.keyup(changeReservationStartDate);
+    //$reservedStartDate.change(changeReservationStartDate);
+    //$reservedStartDate.keyup(changeReservationStartDate);
 
     // zmena konce rezervace
-    $reservedEndDate.change(changeReservationEndDate);
-    $reservedEndDate.keyup(changeReservationEndDate);
+    //$reservedEndDate.change(changeReservationEndDate);
+    //$reservedEndDate.keyup(changeReservationEndDate);
+
+    $reservedStartDate.change(loadAvailableCars);
+    $reservedStartDate.keyup(loadAvailableCars);
+
+    $reservedEndDate.change(loadAvailableCars);
+    $reservedEndDate.keyup(loadAvailableCars);
 
     $reservedStartTime.change(loadAvailableCars);
     $reservedEndTime.change(loadAvailableCars);
