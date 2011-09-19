@@ -14,7 +14,7 @@ from metrocar.reservations.forms import CHOICES
 
 from mfe.config.settings_prod import RESERVATION_TIME_INTERVAL
 from metrocar.user_management.models import MetrocarUser
-from metrocar.cars.models import Car
+from metrocar.cars.models import Car, Journey
 from metrocar.reservations.models import Reservation
 from datetime import datetime, timedelta
 from mfe.utils.forms.widgets import *
@@ -98,4 +98,22 @@ class ReservationFormThree(forms.Form):
     balance is sufficent.
     """
     pass
+
+class AddJourneyForm(forms.ModelForm):
+
+    def clean(self):
+        comment = self.cleaned_data.get('comment')
+        if len(comment) == 0:
+            raise forms.ValidationError(_('Comment can not be empty.'))
+        return self.cleaned_data
+    
+    class Meta:
+        model = Journey
+        exclude = ('user', 'car', 'reservation', 'total_price', 'path')
+        widgets = {
+            'start_datetime': CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
+                                                        CalendarSelectTimeWidget()]),
+            'end_datetime': CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
+                                                        CalendarSelectTimeWidget()]),
+        }
         

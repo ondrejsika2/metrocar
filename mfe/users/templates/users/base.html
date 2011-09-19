@@ -17,6 +17,9 @@
     <li><a href="{% url mfe_reservations_reservation %}">{% trans "New reservation" %}</a></li>
     <li><a href="{% url mfe_reservations_pending_list %}">{% trans "Pending reservations" %}</a></li>
     <li><a href="{% url mfe_reservations_finished_list %}">{% trans "Reservation history" %}</a></li>
+    {% if not user.home_subsidiary.use_onboard_unit %}
+        <li><a href="{% url mfe_reservations_non_finished_list %}">{% trans "Non finished reservations" %}</a></li>
+    {% endif %}
     <li><a href="#TODO">{% trans "Statistics" %}</a></li>            
 </ul>
 {% endif %}

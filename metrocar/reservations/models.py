@@ -89,6 +89,7 @@ class Reservation(models.Model):
             - no conflicting reservation exists 
         """
         from metrocar.cars.models import Car
+        from mfe.config.settings_prod import RESERVATION_TIME_SHIFT
 
         assert isinstance(user, MetrocarUser)
         assert isinstance(car, Car)
@@ -102,7 +103,8 @@ class Reservation(models.Model):
         if datetime_from > datetime_till:
             errors.append(force_unicode(_('From datetime must be before till.')))
         now = datetime.now()
-        if now >= datetime_from:
+        # lze udelat rezervaci nazpet v case o 1x RESERVATION_TIME_SHIFT
+        if (now - timedelta(minutes=RESERVATION_TIME_SHIFT)) >= datetime_from:
             errors.append(force_unicode(_('Cannot create reservation in the past.')))
         duration = int(datetime_till.strftime('%s')) - int(datetime_from.strftime('%s'))
         if duration < site_settings.reservation_min_duration:
@@ -258,8 +260,11 @@ class Reservation(models.Model):
             return None
         pricing = []
         total_price, km_price, time_price = (0, 0, 0)
-        for j in self.journeys.all().order_by('pk'):
+        journeys = self.journeys.all().order_by('pk')
+        for j in journeys:
             pi = j.get_pricing_info()
+            if pi == None:
+                continue
             total_price += pi['total_price']
             km_price += pi['km_price']
             time_price += pi['time_price']

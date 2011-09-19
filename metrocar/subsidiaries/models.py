@@ -34,6 +34,9 @@ class Subsidiary(models.Model):
                                  verbose_name=_('Tax rate'))
     
     site = models.OneToOneField(Site)
+
+    use_onboard_unit = models.BooleanField(blank=False, null=False,
+        default=True, verbose_name=_('Use onboard unit in cars'))
     
     objects = SubsidiaryManager()
     

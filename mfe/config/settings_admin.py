@@ -11,7 +11,7 @@ SERVE_STATIC_FILES = True
 MEDIA_ROOT = '/home/komarem/metrocar/static/'
 STATIC_DOC_ROOT = '/home/komarem/metrocar/static/'
 
-import socket
-if socket.gethostname() != 'honca':
-    DEBUG = False
-    TEMPLATE_DEBUG = DEBUG
+#import socket
+#if socket.gethostname() == 'honca':
+#    DEBUG = False
+#    TEMPLATE_DEBUG = DEBUG

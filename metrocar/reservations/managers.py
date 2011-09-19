@@ -80,6 +80,12 @@ class ReservationManager(models.GeoManager):
         Returns only reservations which have been finished
         """
         return self.get_query_set().filter(finished=True)
+
+    def non_finished(self):
+        """
+        Returns only reservations which have not been finished
+        """
+        return self.get_query_set().filter(finished=False)
     
     def to_cancel(self):
         """
@@ -89,6 +95,12 @@ class ReservationManager(models.GeoManager):
         cancel_interval = SiteSettings.objects.get_current().reservation_cancel_interval
         datetime_limit = datetime.now() - timedelta(seconds=cancel_interval)
         return self.get_query_set().filter(reserved_from__lte=datetime_limit)
+
+    def without_journey(self):
+        """
+        Returns all reservations without set journey information
+        """
+        return self.get_query_set().filter(path__isnull=True, reserved_until__lte=datetime.now())
     
 class ReservationReminderManager(models.Manager):
     def create_for_reservation(self, reservation, datetime):

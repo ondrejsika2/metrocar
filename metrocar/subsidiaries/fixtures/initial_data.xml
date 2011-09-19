@@ -9,6 +9,15 @@
 		<field type="CharField" name="street">Karlovo nám.</field>
 		<field type="IntegerField" name="house_number">13</field>
 		<field type="CharField" name="city">Praha</field>
+        <field type="BooleanField" name="use_onboard_unit">1</field>
 		<field to="sites.site" name="site" rel="OneToOneRel">1</field>
+	</object>
+	<object pk="2" model="subsidiaries.subsidiary">
+		<field type="CharField" name="name">Hradec Kralove</field>
+		<field type="CharField" name="street">dsfsdffds</field>
+		<field type="IntegerField" name="house_number">13</field>
+		<field type="CharField" name="city">Hradec</field>
+        <field type="BooleanField" name="use_onboard_unit">1</field>
+		<field to="sites.site" name="site" rel="OneToOneRel">2</field>
 	</object>
 </django-objects>

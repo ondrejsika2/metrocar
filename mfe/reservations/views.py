@@ -14,7 +14,7 @@ from django.contrib import messages
 from django.template.context import RequestContext
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
-from metrocar.cars.models import Car
+from metrocar.cars.models import Car, Journey
 from metrocar.reservations.models import Reservation, ReservationError
 from mfe.utils.forms import render_to_wizard, ViewFormWizard
 
@@ -91,10 +91,85 @@ def cancel_reservation(request, reservation_id, confirmed=False):
             reservation.cancel()
         except ReservationError:
             messages.error(request, _('It is not possible to cancel reservation that has already begun.'))
+        except Exception, e:
+           messages.error(request, e.message)
             
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
         messages.warning(request, _('Do you want to cancel reservation %s for car %s? <a href="%s">Yes</a> | <a href="%s">No</a>') % (reservation, reservation.car, reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), request.META['HTTP_REFERER']))
 
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def edit_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+
+    if not reservation.user == request.user:
+        messages.error(request, _('Access to reservation is denied.'))
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        journeys = Journey.objects.filter(user=request.user,reservation=reservation)
+        return render_to_response('reservations/edit_reservation.html', {
+            'reservation': reservation,
+            'journeys': journeys
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def non_finished_list(request, page=None):
+    reservations = Reservation.objects.non_finished().filter(user=request.user)
+    non_finished_reservations_dict = {
+        'queryset': reservations,
+        'paginate_by': 20,
+        'page': page,
+        'template_name': 'reservations/non_finished_list.html'
+    }
+    return object_list(request, **non_finished_reservations_dict)
+
+@login_required
+def add_journey(request, reservation_id):
+    from mfe.reservations.forms import AddJourneyForm
+
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+
+    if request.method == 'POST':
+        f_data = request.POST.copy()
+        f_data['start_datetime_0'] = datetime.strptime(f_data['start_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        f_data['end_datetime_0'] = datetime.strptime(f_data['end_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        form = AddJourneyForm(f_data)
+        if form.is_valid():
+            try:
+                data = {
+                    'comment': form.cleaned_data['comment'],
+                    'start_datetime': form.cleaned_data['start_datetime'],
+                    'end_datetime': form.cleaned_data['end_datetime'],
+                    'length': form.cleaned_data['length'],
+                    'reservation': reservation,
+                    'car': reservation.car,
+                    'user': request.user,
+                }
+                journey = Journey.objects.create(**data)
+                if not journey.is_valid:
+                    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+                else:
+                    journey.update_total_price()
+                    journey.save()
+                    return HttpResponseRedirect(reverse('mfe_reservations_edit_reservation', kwargs={'reservation_id':reservation_id}))
+            except AssertionError, e:
+                messages.error(request, e.message)
+            except Exception:
+                messages.error(request, _('Error'))
+
+            form.data['start_datetime_0'] = request.POST['start_datetime_0']
+            form.data['end_datetime_0'] = request.POST['end_datetime_0']
+        else:
+            form.data['start_datetime_0'] = request.POST['start_datetime_0']
+            form.data['end_datetime_0'] = request.POST['end_datetime_0']
+    else:
+        form = AddJourneyForm()
+
+    return render_to_response(
+        "reservations/add_journey.html", {'form': form},
+        context_instance=RequestContext(request)
+    )
 

@@ -1,0 +1,28 @@
+{% extends "reservations/base.html" %}
+{% load i18n %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Add journey" %}{% endblock %}
+
+{% block left_col_content %}
+
+{% if not user.home_subsidiary.use_onboard_unit %}
+    {% blocktrans %}
+    <p>Please fill-up journey information.</p>
+    {% endblocktrans %}
+    <form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p>
+        <span class="button button-green">
+            <span><button class="green" type="submit">{% trans "Add" %}</button></span>
+        </span> 
+    <p>
+    </form>
+{% else %}
+    {% blocktrans %}
+    <p>It is not possible to record journey information while subsidiary is using onboard unit in cars.</p>
+    {% endblocktrans %}
+{% endif %}
+
+{% endblock %}
