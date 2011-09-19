@@ -169,7 +169,71 @@ def add_journey(request, reservation_id):
         form = AddJourneyForm()
 
     return render_to_response(
-        "reservations/add_journey.html", {'form': form},
+        "reservations/add_journey.html", {'form': form, 'view': 'add'},
         context_instance=RequestContext(request)
     )
+
+@login_required
+def edit_journey(request, journey_id):
+    from mfe.reservations.forms import AddJourneyForm
+    journey = get_object_or_404(Journey, pk=journey_id, user=request.user)
+
+    if request.method == 'POST':
+        f_data = request.POST.copy()
+        f_data['start_datetime_0'] = datetime.strptime(f_data['start_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        f_data['end_datetime_0'] = datetime.strptime(f_data['end_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        form = AddJourneyForm(data=f_data, instance=journey)
+        if form.is_valid():
+            try:
+                data = {
+                    'comment': form.cleaned_data['comment'],
+                    'start_datetime': form.cleaned_data['start_datetime'],
+                    'end_datetime': form.cleaned_data['end_datetime'],
+                    'length': form.cleaned_data['length'],
+                    'reservation': journey.reservation,
+                    'car': journey.car,
+                    'user': request.user,
+                }
+                if not journey.is_valid:
+                    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+                else:
+                    journey.update_total_price()
+                    journey.save()
+                    return HttpResponseRedirect(reverse('mfe_reservations_edit_reservation', kwargs={'reservation_id':journey.reservation.pk}))
+            except AssertionError, e:
+                messages.error(request, e.message)
+            except Exception:
+                messages.error(request, _('Error'))
+
+            form.data['start_datetime_0'] = request.POST['start_datetime_0']
+            form.data['end_datetime_0'] = request.POST['end_datetime_0']
+        else:
+            form.data['start_datetime_0'] = request.POST['start_datetime_0']
+            form.data['end_datetime_0'] = request.POST['end_datetime_0']
+    else:
+        data = {
+            'comment': journey.comment,
+            'start_datetime_0': journey.start_datetime.strftime('%d.%m.%Y'),
+            'start_datetime_1': journey.start_datetime.strftime('%H:%M'),
+            'end_datetime_0': journey.end_datetime.strftime('%d.%m.%Y'),
+            'end_datetime_1': journey.end_datetime.strftime('%H:%M'),
+            'length': journey.length,
+        }
+        form = AddJourneyForm(data=data)
+
+    return render_to_response(
+        "reservations/add_journey.html", {'form': form, 'view': 'edit'},
+        context_instance=RequestContext(request)
+    )
+
+@login_required
+def delete_journey(request, journey_id):
+    journey = get_object_or_404(Journey, pk=journey_id, user = request.user)
+
+    try:
+        journey.delete()
+    except Exception:
+        messages.error(request, _('Error'))
+
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 

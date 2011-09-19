@@ -36,8 +36,8 @@
 			<td>{{ journey.end_datetime|date:"DATETIME_FORMAT" }}</td>
 			<td>{{ journey.length }} km</td>
             <td>{{ journey.total_price }} Kč</td>
-            <td>{% trans "Change" %}</td>
-            <td>{% trans "Delete" %}</td>
+            <td><a href="{% url mfe_reservations_edit_journey journey.pk %}">{% trans "Change" %}</a></td>
+            <td><a onclick="javascript: return confirm('{% trans "Do you realy want to delete this journey?" %}');" href="{% url mfe_reservations_delete_journey journey.pk %}">{% trans "Delete" %}</a></td>
 		</tr>
 		{% endfor %}
 	</table>

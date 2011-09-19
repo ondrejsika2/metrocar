@@ -15,7 +15,7 @@
     {{ form.as_p }}
     <p>
         <span class="button button-green">
-            <span><button class="green" type="submit">{% trans "Add" %}</button></span>
+            <span><button class="green" type="submit">{% if view == 'add' %}{% trans "Add" %}{% else %}{% trans "Change" %}{% endif %}</button></span>
         </span> 
     <p>
     </form>
