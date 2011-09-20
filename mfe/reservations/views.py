@@ -143,11 +143,13 @@ def add_journey(request, reservation_id):
                     'comment': form.cleaned_data['comment'],
                     'start_datetime': form.cleaned_data['start_datetime'],
                     'end_datetime': form.cleaned_data['end_datetime'],
-                    'length': form.cleaned_data['length'],
+                    'length': form.cleaned_data['speedometer_end'] - form.cleaned_data['speedometer_start'],
+                    'speedometer_start': form.cleaned_data['speedometer_start'],
+                    'speedometer_end': form.cleaned_data['speedometer_end'],
                     'reservation': reservation,
                     'car': reservation.car,
                     'user': request.user,
-                }
+                    }
                 journey = Journey.objects.create(**data)
                 if not journey.is_valid:
                     return HttpResponseRedirect(request.META['HTTP_REFERER'])

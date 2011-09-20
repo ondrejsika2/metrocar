@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-29 14:42+0200\n"
-"PO-Revision-Date: 2011-08-29 14:44+0100\n"
+"POT-Creation-Date: 2011-09-20 22:59+0200\n"
+"PO-Revision-Date: 2011-09-20 23:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -36,9 +36,8 @@ msgstr "ceny"
 
 #: cars/views.py:34
 #: reservations/forms.py:42
-#, fuzzy
 msgid "No car is available in chosen time."
-msgstr "Žádné automobily k dispozici."
+msgstr "Ve zvolený čas není k dispozici žádné auto."
 
 #: cars/templates/cars/car_detail.html:23
 #: cars/templates/cars/car_detail_ajax.html:11
@@ -85,7 +84,7 @@ msgstr "Ne"
 #: cars/templates/cars/car_detail.html:32
 #: cars/templates/cars/car_detail_ajax.html:20
 msgid "Reserve this car now"
-msgstr "Zarezrvovat nyní"
+msgstr "Zarezervovat nyní"
 
 #: cars/templates/cars/car_detail.html:38
 msgid "Current location"
@@ -269,13 +268,17 @@ msgstr "Čas konce"
 msgid "Available cars - select one"
 msgstr "Dostupné automobily - zvolte jeden"
 
-#: reservations/forms.py:89
+#: reservations/forms.py:82
 msgid "You have to choose any available car"
-msgstr ""
+msgstr "Musíte si vybrat nějaké vozidlo"
 
-#: reservations/forms.py:100
+#: reservations/forms.py:93
 msgid "Missing some data"
-msgstr ""
+msgstr "Chybí nějaká data."
+
+#: reservations/forms.py:107
+msgid "Comment can not be empty."
+msgstr "Komentář musí být vyplněný."
 
 #: reservations/urls.py:14
 msgid "reserve car"
@@ -296,9 +299,131 @@ msgstr "zrušit"
 msgid "cancel"
 msgstr "zrušit"
 
+#: reservations/urls.py:22
+#: users/urls.py:30
+msgid "edit"
+msgstr "upravit"
+
+#: reservations/urls.py:25
+msgid "non finished"
+msgstr "nedokončené"
+
+#: reservations/urls.py:26
+msgid "add journey"
+msgstr "přidat jízdu"
+
+#: reservations/urls.py:27
+msgid "delete journey"
+msgstr "smazat jízdu"
+
+#: reservations/urls.py:28
+msgid "edit journey"
+msgstr "upravit jízdu"
+
 #: reservations/views.py:93
 msgid "It is not possible to cancel reservation that has already begun."
+msgstr "Není možné zrušit již probíhající rezervaci."
+
+#: reservations/views.py:108
+msgid "Access to reservation is denied."
+msgstr "Přístup k této rezervaci je zakázaný."
+
+#: reservations/views.py:163
+#: reservations/views.py:208
+#: reservations/views.py:238
+msgid "Error"
+msgstr "Chyba"
+
+#: reservations/templates/reservations/add_journey.html:6
+#: reservations/templates/reservations/edit_reservation.html:49
+msgid "Add journey"
+msgstr "Přidat jízdu"
+
+#: reservations/templates/reservations/add_journey.html:11
+#, fuzzy
+msgid ""
+"\n"
+"    <p>Please fill-up journey information.</p>\n"
+"    "
 msgstr ""
+"\n"
+"<p>Pro změnu hesla prosím vyplňte níže uvedené informace.</p>\n"
+
+#: reservations/templates/reservations/add_journey.html:18
+msgid "Add"
+msgstr "Přidat"
+
+#: reservations/templates/reservations/add_journey.html:18
+#: reservations/templates/reservations/edit_reservation.html:39
+msgid "Change"
+msgstr "Změnit"
+
+#: reservations/templates/reservations/add_journey.html:23
+msgid ""
+"\n"
+"    <p>It is not possible to record journey information while subsidiary is using onboard unit in cars.</p>\n"
+"    "
+msgstr ""
+
+#: reservations/templates/reservations/edit_reservation.html:5
+msgid "Reservation details"
+msgstr "Detaily rezervace"
+
+#: reservations/templates/reservations/edit_reservation.html:12
+#: reservations/templates/reservations/finished_reservation_list.html:13
+#: reservations/templates/reservations/non_finished_list.html:13
+#: reservations/templates/reservations/pending_reservation_list.html:13
+#: users/templates/users/account_detail.html:53
+#: users/templates/users/account_detail.html:72
+msgid "Car"
+msgstr "Automobil"
+
+#: reservations/templates/reservations/edit_reservation.html:13
+msgid "Reserved from"
+msgstr "Zarezervováno od"
+
+#: reservations/templates/reservations/edit_reservation.html:14
+msgid "Reserved until"
+msgstr "Zarezervováno do"
+
+#: reservations/templates/reservations/edit_reservation.html:22
+msgid "Reservation journeys"
+msgstr "Jízdy rezervace"
+
+#: reservations/templates/reservations/edit_reservation.html:26
+msgid "Start"
+msgstr "Začátek"
+
+#: reservations/templates/reservations/edit_reservation.html:27
+msgid "End"
+msgstr "Konec"
+
+#: reservations/templates/reservations/edit_reservation.html:28
+msgid "Length"
+msgstr "Délka"
+
+#: reservations/templates/reservations/edit_reservation.html:29
+#: reservations/templates/reservations/finished_reservation_list.html:16
+#: users/templates/users/account_detail.html:75
+msgid "Price"
+msgstr "Cena"
+
+#: reservations/templates/reservations/edit_reservation.html:40
+msgid "Do you realy want to delete this journey?"
+msgstr "Chcete opravdu smazat tuto jízdu?"
+
+#: reservations/templates/reservations/edit_reservation.html:40
+msgid "Delete"
+msgstr "Smazat"
+
+#: reservations/templates/reservations/edit_reservation.html:45
+msgid "No journey for this reservation yet."
+msgstr "Pro tuto rezervaci zatím nejsou žádné jízdy."
+
+#: reservations/templates/reservations/edit_reservation.html:53
+#: reservations/templates/reservations/reservation/1.html:24
+msgid "Finish reservation"
+msgstr "Dokončit rezervaci"
 
 #: reservations/templates/reservations/finished_reservation_list.html:5
 msgid "Finished reservations"
@@ -308,14 +433,8 @@ msgstr "Dokončené rezervace"
 msgid "You have finished following reservations"
 msgstr "Evidujeme následující čekající rezervace"
 
-#: reservations/templates/reservations/finished_reservation_list.html:13
-#: reservations/templates/reservations/pending_reservation_list.html:13
-#: users/templates/users/account_detail.html:53
-#: users/templates/users/account_detail.html:72
-msgid "Car"
-msgstr "Automobil"
-
 #: reservations/templates/reservations/finished_reservation_list.html:14
+#: reservations/templates/reservations/non_finished_list.html:14
 #: reservations/templates/reservations/pending_reservation_list.html:14
 #: users/templates/users/account_detail.html:54
 #: users/templates/users/account_detail.html:73
@@ -323,20 +442,33 @@ msgid "Reservation start"
 msgstr "Začátek rezervace"
 
 #: reservations/templates/reservations/finished_reservation_list.html:15
+#: reservations/templates/reservations/non_finished_list.html:15
 #: reservations/templates/reservations/pending_reservation_list.html:15
 #: users/templates/users/account_detail.html:55
 #: users/templates/users/account_detail.html:74
 msgid "Reservation end"
 msgstr "Konec rezervace"
 
-#: reservations/templates/reservations/finished_reservation_list.html:16
-#: users/templates/users/account_detail.html:75
-msgid "Price"
-msgstr "Cena"
-
 #: reservations/templates/reservations/finished_reservation_list.html:29
 msgid "No finished reservations yet."
 msgstr "Zatím žádné dokončené rezervace."
+
+#: reservations/templates/reservations/non_finished_list.html:5
+#: users/templates/users/base.html:21
+msgid "Non finished reservations"
+msgstr "Nedokončené rezervace"
+
+#: reservations/templates/reservations/non_finished_list.html:10
+msgid "Following reservations are waiting for finish"
+msgstr "Následující rezervace čekají na dokončení"
+
+#: reservations/templates/reservations/non_finished_list.html:23
+msgid "Edit"
+msgstr "Upravit"
+
+#: reservations/templates/reservations/non_finished_list.html:29
+msgid "No non finished reservations yet."
+msgstr "Zatím žádné nedokončené rezervace."
 
 #: reservations/templates/reservations/pending_reservation_list.html:5
 #: reservations/templates/reservations/reservation/success.html:13
@@ -395,10 +527,6 @@ msgstr "Čas rezervace"
 #: reservations/templates/reservations/reservation/1.html:17
 msgid "Price estimation"
 msgstr "Odhad ceny rezervace"
-
-#: reservations/templates/reservations/reservation/1.html:24
-msgid "Finish reservation"
-msgstr "Dokončit rezervaci"
 
 #: reservations/templates/reservations/reservation/1.html:27
 msgid "Cancel"
@@ -671,10 +799,6 @@ msgstr "heslo změněno"
 msgid "password reset"
 msgstr "heslo změněno"
 
-#: users/urls.py:30
-msgid "edit"
-msgstr "upravit"
-
 #: users/urls.py:33
 msgid "edit address"
 msgstr "upravit adresu"
@@ -705,7 +829,7 @@ msgstr "dokončené"
 
 #: users/views.py:36
 msgid "You have been successfully logged in."
-msgstr ""
+msgstr "Byli jste úspěšně přihlášeni."
 
 #: users/views.py:76
 #, fuzzy
@@ -792,7 +916,7 @@ msgstr "Datum narození"
 
 #: users/templates/users/account_detail.html:16
 msgid "Preferred language"
-msgstr ""
+msgstr "Jazyk"
 
 #: users/templates/users/account_detail.html:17
 msgid "E-mail"
@@ -872,15 +996,14 @@ msgid "Change password"
 msgstr "Změnit heslo"
 
 #: users/templates/users/base.html:15
-#, fuzzy
 msgid "My activities"
-msgstr "aktivity na účtu"
+msgstr "Mé aktivity"
 
 #: users/templates/users/base.html:19
 msgid "Reservation history"
 msgstr "Historie rezervací"
 
-#: users/templates/users/base.html:20
+#: users/templates/users/base.html:23
 msgid "Statistics"
 msgstr "Statistiky"
 
@@ -1169,12 +1292,6 @@ msgstr "registrace"
 
 #~ msgid "My reservations"
 #~ msgstr "Moje rezervace"
-
-#~ msgid "Reserved from"
-#~ msgstr "Zarezervováno od"
-
-#~ msgid "Reserved until"
-#~ msgstr "Zarezervováno do"
 
 #~ msgid ""
 #~ "You have chosen time which is in conflict with another reservation(s)."

@@ -487,7 +487,7 @@ class Journey(models.Model):
     end_datetime = models.DateTimeField(blank=True, null=True, default=None,
                                         verbose_name=_('End datetime'))
     length = models.DecimalField(decimal_places=3, max_digits=8, blank=False,
-                                 null=False, default=0, verbose_name=_('Length'))
+                                 null=False, default=0, verbose_name=_('Length'), editable=False)
     path = models.MultiLineStringField(null=True, blank=True,
                                        spatial_index=False, verbose_name=_('Path'))
     total_price = models.DecimalField(decimal_places=2, max_digits=8,
@@ -500,6 +500,12 @@ class Journey(models.Model):
                                     related_name='journeys')
     car = models.ForeignKey(Car, null=False, verbose_name=_('Car'))
     user = models.ForeignKey(MetrocarUser, null=False, verbose_name=_('User'))
+
+    speedometer_start = models.IntegerField(null=False, verbose_name=_("Speedometer start state"),
+                                            blank=False)
+
+    speedometer_end = models.IntegerField(null=False, verbose_name=_("Speedometer start state"),
+                                            blank=False)
 
     objects = managers.JourneyManager()
 
@@ -532,6 +538,11 @@ class Journey(models.Model):
                 raise AssertionError('Journey end time must be after journey '
                                      'start time')
                 return False
+
+        if self.speedometer_end <= self.speedometer_start:
+            raise AssertionError('State of speedometer in the end of the journey '
+                                 'must be higher than in the beginning of the journey.')
+            return False
         return True
 		
     def update_total_price(self):
