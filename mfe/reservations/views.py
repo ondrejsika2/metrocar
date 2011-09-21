@@ -156,6 +156,9 @@ def add_journey(request, reservation_id):
                 else:
                     journey.update_total_price()
                     journey.save()
+                    if reservation.started == None:
+                        reservation.started = form.cleaned_data['start_datetime']
+                        reservation.save();
                     return HttpResponseRedirect(reverse('mfe_reservations_edit_reservation', kwargs={'reservation_id':reservation_id}))
             except AssertionError, e:
                 messages.error(request, e.message)
@@ -238,4 +241,19 @@ def delete_journey(request, journey_id):
         messages.error(request, _('Error'))
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def finish_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+
+    try:
+        reservation.finish()
+    except Exception, e:
+        messages.error(request, e.message)
+        messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
+        #return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+    return HttpResponseRedirect(reverse('mfe_reservations_non_finished_list'))
+
+
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-20 22:59+0200\n"
-"PO-Revision-Date: 2011-09-20 23:10+0100\n"
+"POT-Creation-Date: 2011-09-21 07:07+0200\n"
+"PO-Revision-Date: 2011-09-21 07:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -240,7 +240,7 @@ msgstr "Základní informace"
 
 #: cars/templates/cars/right_col_menu.html:8
 msgid "Parkings"
-msgstr "Pakroviště"
+msgstr "Parkoviště"
 
 #: config/urls.py:8
 msgid "cars"
@@ -354,7 +354,6 @@ msgid "Add"
 msgstr "Přidat"
 
 #: reservations/templates/reservations/add_journey.html:18
-#: reservations/templates/reservations/edit_reservation.html:39
 msgid "Change"
 msgstr "Změnit"
 

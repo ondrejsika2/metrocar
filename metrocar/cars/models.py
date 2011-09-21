@@ -501,10 +501,10 @@ class Journey(models.Model):
     car = models.ForeignKey(Car, null=False, verbose_name=_('Car'))
     user = models.ForeignKey(MetrocarUser, null=False, verbose_name=_('User'))
 
-    speedometer_start = models.IntegerField(null=False, verbose_name=_("Speedometer start state"),
+    speedometer_start = models.IntegerField(null=False, verbose_name=_('Speedometer start state'),
                                             blank=False)
 
-    speedometer_end = models.IntegerField(null=False, verbose_name=_("Speedometer start state"),
+    speedometer_end = models.IntegerField(null=False, verbose_name=_('Speedometer start state'),
                                             blank=False)
 
     objects = managers.JourneyManager()
@@ -539,10 +539,11 @@ class Journey(models.Model):
                                      'start time')
                 return False
 
-        if self.speedometer_end <= self.speedometer_start:
-            raise AssertionError('State of speedometer in the end of the journey '
-                                 'must be higher than in the beginning of the journey.')
-            return False
+        if self.speedometer_end is not None and self.speedometer_start is not None:
+            if self.speedometer_end <= self.speedometer_start:
+                raise AssertionError('State of speedometer in the end of the journey '
+                                     'must be higher than in the beginning of the journey.')
+                return False
         return True
 		
     def update_total_price(self):

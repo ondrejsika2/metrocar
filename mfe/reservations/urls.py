@@ -26,4 +26,5 @@ urlpatterns = patterns('',
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('add journey')), 'mfe.reservations.views.add_journey', name='mfe_reservations_add_journey'),
     url('^%s/(?P<journey_id>\d+)/$' % slugify(_('delete journey')), 'mfe.reservations.views.delete_journey', name='mfe_reservations_delete_journey'),
     url('^%s/(?P<journey_id>\d+)/$' % slugify(_('edit journey')), 'mfe.reservations.views.edit_journey', name='mfe_reservations_edit_journey'),
+    url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('finish reservation')), 'mfe.reservations.views.finish_reservation', name='mfe_reservations_finish_reservation'),
 )
