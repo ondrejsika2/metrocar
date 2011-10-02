@@ -4,6 +4,10 @@
 		<field type="CharField" name="domain">www.autonapul.cz</field>
 		<field type="CharField" name="name">Metrocar</field>
 	</object>
+	<object pk="2" model="sites.site">
+		<field type="CharField" name="domain">www.autonapul-hk.cz</field>
+		<field type="CharField" name="name">Autonapul v HK</field>
+	</object>
 	<object pk="1" model="subsidiaries.subsidiary">
 		<field type="CharField" name="name">Praha</field>
 		<field type="CharField" name="street">Karlovo nám.</field>

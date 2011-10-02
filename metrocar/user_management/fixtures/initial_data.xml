@@ -46,7 +46,7 @@
         <field type="DateField" name="invoice_date">2011-04-12</field>
 	</object>
 
-    <object pk="1" model="user_management.usercard">
+	<object pk="1" model="user_management.usercard">
 		<field type="BooleanField" name="active">1</field>
 		<field type="IntegerField" name="code">123</field>
 		<field type="DateTimeField" name="last_modified">2009-12-21 15:58:41</field>
