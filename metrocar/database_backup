@@ -10,7 +10,7 @@ self=`basename $0`
 
 # kontrola vstupu
 if [ $# -ne 2 ]; then
-  echo "Usage: $self <database_user> <database_name>"
+  #echo "Usage: $self <database_user> <database_name>"
   exit 1
 fi
 
@@ -33,7 +33,7 @@ FILEPATH="$BACKUP_DIR/$FILENAME"
 
 # kontroly existence adresaru
 if [ ! -w $MAIN_BACKUP_DIR ]; then
-  echo "Do adresare '$MAIN_BACKUP_DIR' nelze zapisovat!"
+  #echo "Do adresare '$MAIN_BACKUP_DIR' nelze zapisovat!"
   exit 1
 else 
   [ ! -d $BACKUP_DIR ] && mkdir -p $BACKUP_DIR || :
@@ -46,9 +46,9 @@ fi
 $PG_DUMP -U $DB_USER $DB_NAME | $GZIP > $FILEPATH
 
 if [ -e $FILEPATH ]; then
-  echo "Zaloha databaze byla uspesne ulozena do souboru '$FILEPATH'."
+  #echo "Zaloha databaze byla uspesne ulozena do souboru '$FILEPATH'."
   exit 0
 else
-  echo "Chyba: Zalohu databaze se nepodarilo vytvorit."
+  #echo "Chyba: Zalohu databaze se nepodarilo vytvorit."
   exit 1
 fi
