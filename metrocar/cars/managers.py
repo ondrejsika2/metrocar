@@ -117,13 +117,13 @@ class JourneyManager(models.GeoManager):
         """
         journeys = self.filter(reservation=reservation).order_by('start_datetime')
         assert len(journeys) >= 1
-        # if last journey exceeds regular reservation end datetime, split it 
+        # if last journey exceeds regular reservation end datetime, split it
         # to two parts (last one will be late return type)
         last_journey = journeys[len(journeys) - 1]
         if last_journey.end_datetime > reservation.reserved_until:
             import itertools
             new_journey = self.model(
-                start_datetime=reservation.reserved_until, 
+                start_datetime=reservation.reserved_until,
                 end_datetime=last_journey.end_datetime,
                 reservation=reservation,
                 car=last_journey.car,
@@ -135,7 +135,7 @@ class JourneyManager(models.GeoManager):
             last_journey.save()
             # add new journey to the end of the iterator for future usage
             journeys = itertools.chain(journeys, [ new_journey ])
-        # now iterate throught the journeys and fill up the missing parts 
+        # now iterate throught the journeys and fill up the missing parts
         # with waiting journeys
         start_dt = reservation.reserved_from
         for j in journeys:

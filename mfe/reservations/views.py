@@ -233,7 +233,7 @@ def edit_journey(request, journey_id):
 
 @login_required
 def delete_journey(request, journey_id):
-    journey = get_object_or_404(Journey, pk=journey_id, user = request.user)
+    journey = get_object_or_404(Journey, pk=journey_id, user=request.user)
 
     try:
         journey.delete()
@@ -247,11 +247,12 @@ def finish_reservation(request, reservation_id):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
 
     try:
-        reservation.finish()
+        if not reservation.finish(by_daemon=True):
+            messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
     except Exception, e:
         messages.error(request, e.message)
         messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
-        #return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     return HttpResponseRedirect(reverse('mfe_reservations_non_finished_list'))
 
