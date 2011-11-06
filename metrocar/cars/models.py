@@ -504,7 +504,7 @@ class Journey(models.Model):
     speedometer_start = models.IntegerField(null=False, verbose_name=_('Speedometer start state'),
                                             blank=False)
 
-    speedometer_end = models.IntegerField(null=False, verbose_name=_('Speedometer start state'),
+    speedometer_end = models.IntegerField(null=False, verbose_name=_('Speedometer end state'),
                                             blank=False)
 
     objects = managers.JourneyManager()

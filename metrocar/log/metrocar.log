@@ -49,3 +49,4 @@
 2011-09-19 14:52:34,004 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
 2011-09-21 07:52:06,029 INFO Mail RES_SUC_EN sent to [u'wagnejan@fel.cvut.cz']
 2011-09-21 14:45:46,535 ERROR Mail RES_SUC_EN could not be sent. Exception was: [Errno -2] Name or service not known
+2011-11-06 17:05:38,046 INFO Mail RES_SUC_CS sent to [u'wagnejan@fel.cvut.cz']
