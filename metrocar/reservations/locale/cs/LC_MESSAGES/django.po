@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-12 14:14+0100\n"
-"PO-Revision-Date: 2011-12-12 14:17+0100\n"
+"POT-Creation-Date: 2011-12-12 17:59+0100\n"
+"PO-Revision-Date: 2011-12-12 18:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -101,8 +101,8 @@ msgid "Car"
 msgstr "Automobil"
 
 #: models.py:53
-#: models.py:337
-#: models.py:358
+#: models.py:335
+#: models.py:356
 msgid "Reservation"
 msgstr "Rezervace"
 
@@ -133,42 +133,43 @@ msgid "No valid pricelist for selected car model."
 msgstr "Nebyl nalezen žádný platný ceník pro zvolený model automobilu."
 
 #: models.py:126
-msgid "You don't have enough money "
-msgstr "Nemáte dostatek peněz"
+#, python-format
+msgid "You don't have enough money to create reservation. Required account balance is %d."
+msgstr "Nemáte dostatek peněz pro vytvoření rezervace. Požadovaná částka je přibližně %d."
 
-#: models.py:135
-msgid "Reservation cannot be created due "
-msgstr "Rezervace nemůže být dokončena kvůli "
+#: models.py:134
+msgid "Reservation cannot be created due to conflicting time"
+msgstr "Rezervace nemůže být dokončena, protože zadané časy nesouhlasí."
 
-#: models.py:216
+#: models.py:214
 msgid "Cannot cancel reservation which already begun"
 msgstr "Nelze zrušit již započatou rezervaci"
 
-#: models.py:333
+#: models.py:331
 msgid "Date time"
 msgstr "Datum a čas"
 
-#: models.py:335
+#: models.py:333
 msgid "Sent"
 msgstr "Odesláno"
 
-#: models.py:342
+#: models.py:340
 msgid "Reservation reminder"
 msgstr "Připomínka rezervace"
 
-#: models.py:343
+#: models.py:341
 msgid "Reservation reminders"
 msgstr "Připomínky rezervací"
 
-#: models.py:363
+#: models.py:361
 msgid "Reservation bill"
 msgstr "Účet za rezervaci"
 
-#: models.py:364
+#: models.py:362
 msgid "Reservation bills"
 msgstr "Účty za rezervace"
 
-#: models.py:367
+#: models.py:365
 #, python-format
 msgid "Bill for reservation %s"
 msgstr "Účet za rezervaci %s"
@@ -200,6 +201,9 @@ msgstr "Cena za uplynulý čas"
 #: templates/admin/reservations/reservation/change_form.html:30
 msgid "Total price"
 msgstr "Celková cena"
+
+#~ msgid "You don't have enough money "
+#~ msgstr "Nemáte dostatek peněz"
 
 #~ msgid "Reservation sucessfull"
 #~ msgstr "Rezervace byla úspěšně vytvořena."

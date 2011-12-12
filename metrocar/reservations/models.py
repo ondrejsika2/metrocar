@@ -123,8 +123,7 @@ class Reservation(models.Model):
             site_settings.reservation_money_multiplier
 
         if user.account.balance < required_money_amount:
-            errors.append(force_unicode(_('You don\'t have enough money '
-                'to create reservation. Required account balance is %d.'))
+            errors.append(force_unicode(_('You don\'t have enough money to create reservation. Required account balance is %d.'))
                 % required_money_amount)
 
         # conflicts check
@@ -132,8 +131,7 @@ class Reservation(models.Model):
 
         # check for conflicts with other reservations
         if len(conflicts) != 0:
-            errors.append(force_unicode(_('Reservation cannot be created due '
-                'to conflicting time')))
+            errors.append(force_unicode(_('Reservation cannot be created due to conflicting time')))
 
         if len(errors) == 0:
             return True, []

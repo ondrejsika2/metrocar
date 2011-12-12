@@ -271,7 +271,7 @@ class Pricelist(models.Model, CloneableModelMixin):
 		"""
 		assert isinstance(date_to_find, date)
 		day = None
-		
+
 		try:
 			# first try to find a day record (it has precedence)
 			day = PricelistDay.objects.get(date=date_to_find, pricelist=self)
@@ -280,17 +280,16 @@ class Pricelist(models.Model, CloneableModelMixin):
 			# first try to find a preceeding
 			weekday = date_to_find.weekday()
 			try:
-				day = PricelistDay.objects.filter(weekday_from__lte=weekday, 
+				day = PricelistDay.objects.filter(weekday_from__lte=weekday,
 					pricelist=self).order_by('-weekday_from')[0]
 			except IndexError:
 				# if none is found, try to grab last succeeding, or raise error
 				try:
-					day = PricelistDay.objects.filter(weekday_from__gt=weekday,
-						pricelist=self).order_by('-weekday_from')[0]
+					day = PricelistDay.objects.filter(weekday_from__gt=weekday, pricelist=self).order_by('-weekday_from')[0]
 				except IndexError:
 					raise PricelistAssertionError(_('No timeline record exists but being requested'))
 		return day
-	
+
 	def get_pricing_for_date(self, date_to_find):
 		"""
 		Returns pricing summary for given date.

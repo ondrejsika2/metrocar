@@ -254,7 +254,7 @@ def finish_reservation(request, reservation_id):
         messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
-    return HttpResponseRedirect(reverse('mfe_reservations_non_finished_list'))
+    return HttpResponseRedirect(reverse('mfe_reservations_outstanding_loans'))
 
 
 
