@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="b0037276-b69f-45b6-a0f2-c5c80416667b" name="Default" comment="">
+    <list default="true" readonly="true" id="b0037276-b69f-45b6-a0f2-c5c80416667b" name="Default" comment="Zakaz vypisu debugovacich hlasek pri chybe&#10;Zmena kontaktnich udaju administratora">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/mfe/reservations/templates/reservations/non_finished_list.html" afterPath="$PROJECT_DIR$/mfe/reservations/templates/reservations/outstanding_loans.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/metrocar/tarification/locale/cs/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/metrocar/tarification/locale/cs/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/locale/cs/LC_MESSAGES/django.mo" afterPath="$PROJECT_DIR$/mfe/locale/cs/LC_MESSAGES/django.mo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/metrocar/config/settings_base.py" afterPath="$PROJECT_DIR$/metrocar/config/settings_base.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/metrocar/log/metrocar.log" afterPath="$PROJECT_DIR$/metrocar/log/metrocar.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/config/settings_admin.py" afterPath="$PROJECT_DIR$/mfe/config/settings_admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pythonpath/metrocar/log/metrocar.log" afterPath="$PROJECT_DIR$/pythonpath/metrocar/log/metrocar.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/metrocar/tarification/locale/cs/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/metrocar/tarification/locale/cs/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/metrocar/tarification/models.py" afterPath="$PROJECT_DIR$/metrocar/tarification/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/locale/cs/LC_MESSAGES/django.po" afterPath="$PROJECT_DIR$/mfe/locale/cs/LC_MESSAGES/django.po" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/reservations/templates/reservations/edit_reservation.html" afterPath="$PROJECT_DIR$/mfe/reservations/templates/reservations/edit_reservation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/reservations/urls.py" afterPath="$PROJECT_DIR$/mfe/reservations/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/reservations/views.py" afterPath="$PROJECT_DIR$/mfe/reservations/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/templates/base.html" afterPath="$PROJECT_DIR$/mfe/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mfe/users/templates/users/base.html" afterPath="$PROJECT_DIR$/mfe/users/templates/users/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pythonpath/mfe/reservations/urls.py" afterPath="$PROJECT_DIR$/pythonpath/mfe/reservations/urls.py" />
     </list>
     <list id="d8892835-686b-419b-a819-20b113142256" name="Failed commit: Default" comment="1) Úprava inicializačních dat pro emailové šablony a uživatele.&#10;2) K emailové šabloně byla přidána možnost výběru jazykové verze." />
     <ignored path="metrocar.iws" />
@@ -30,24 +39,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="0.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/reservation/0.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="1.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/reservation/1.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="20" selection-start="1927" selection-end="1927" vertical-scroll-proportion="-4.75">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="managers.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/metrocar/tarification/managers.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -57,19 +48,55 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/metrocar/tarification/models.py">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mfe/reservations/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="417" column="6" selection-start="14291" selection-end="14291" vertical-scroll-proportion="0.0">
+            <state line="98" column="9" selection-start="3741" selection-end="3741" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings_admin.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mfe/config/settings_admin.py">
+      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/metrocar/tarification/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="25" selection-start="567" selection-end="567" vertical-scroll-proportion="0.55851066">
+            <state line="290" column="53" selection-start="9556" selection-end="9556" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pythonpath/mfe/reservations/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="30" selection-start="1266" selection-end="1266" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="edit_reservation.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/edit_reservation.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="116" selection-start="1897" selection-end="1897" vertical-scroll-proportion="-14.916667">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mfe/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="89" selection-start="1374" selection-end="1374" vertical-scroll-proportion="0.6389452">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings_admin.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/metrocar/config/settings_admin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="0" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -91,25 +118,29 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/mfe/config/settings_dev_filip.py" />
-        <option value="$PROJECT_DIR$/pythonpath/olwidget/widgets.py" />
-        <option value="$PROJECT_DIR$/metrocar/config/settings_admin.py" />
-        <option value="$PROJECT_DIR$/metrocar/user_management/forms.py" />
-        <option value="$PROJECT_DIR$/mfe/reservations/templates/reservations/reservation/0.html" />
-        <option value="$PROJECT_DIR$/metrocar/user_management/fixtures/initial_data.xml" />
-        <option value="$PROJECT_DIR$/metrocar/utils/models.py" />
-        <option value="$PROJECT_DIR$/metrocar/utils/fixtures/initial_data.xml" />
-        <option value="$PROJECT_DIR$/metrocar/utils/admin.py" />
         <option value="$PROJECT_DIR$/pythonpath/metrocar/utils/emails.py" />
         <option value="$PROJECT_DIR$/metrocar/utils/emails.py" />
         <option value="$PROJECT_DIR$/pythonpath/metrocar/config/settings_admin.py" />
         <option value="$PROJECT_DIR$/metrocar/user_management/locale/cs/LC_MESSAGES/django.po" />
         <option value="$PROJECT_DIR$/metrocar/reservations/models.py" />
         <option value="$PROJECT_DIR$/metrocar/config/settings_base.py" />
+        <option value="$PROJECT_DIR$/metrocar/config/settings_admin.py" />
         <option value="$PROJECT_DIR$/mfe/config/settings_admin.py" />
+        <option value="$PROJECT_DIR$/mfe/users/templates/users/base.html" />
+        <option value="$PROJECT_DIR$/mfe/reservations/urls.py" />
+        <option value="$PROJECT_DIR$/pythonpath/mfe/reservations/urls.py" />
+        <option value="$PROJECT_DIR$/mfe/reservations/templates/reservations/outstanding_loans.html" />
+        <option value="$PROJECT_DIR$/mfe/reservations/templates/reservations/edit_reservation.html" />
+        <option value="$PROJECT_DIR$/metrocar/tarification/models.py" />
+        <option value="$PROJECT_DIR$/mfe/reservations/views.py" />
+        <option value="$PROJECT_DIR$/mfe/templates/base.html" />
       </list>
     </option>
   </component>
@@ -169,38 +200,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="mfe" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -219,39 +218,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="reservations" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mfe" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrocar" />
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -262,9 +229,9 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="preferences.lookFeel" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.lastSelected" value="com.jetbrains.appengine.AppEngineConfigurable" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonUnitTestConfigurationType" factoryName="Python's unittest">
@@ -364,22 +331,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="23" width="1288" height="746" extended-state="6" />
-    <editor active="false" />
+    <frame x="-4" y="34" width="1374" height="703" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.327787" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32888147" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32616487" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24283439" sideWeight="0.67221296" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21311475" sideWeight="0.6738351" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32888147" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.327787" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32616487" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -432,104 +399,104 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mfe/users/forms.py">
+    <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/reservation/1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="30" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/metrocar/start">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/jquery.weekcalendar.js">
+    <entry file="file://$PROJECT_DIR$/metrocar/config/settings_admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-7.633929" />
+        <state line="13" column="0" selection-start="554" selection-end="554" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/j.calendar-form.js">
+    <entry file="file://$PROJECT_DIR$/mfe/config/settings_dev.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.276786" />
+        <state line="6" column="14" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pythonpath/metrocar/cars/models.py">
+    <entry file="file://$PROJECT_DIR$/mfe/config/settings_admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="8" selection-start="2952" selection-end="2952" vertical-scroll-proportion="0.33214286" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/reservation/0.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/metrocar/reservations/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="6" selection-start="555" selection-end="555" vertical-scroll-proportion="0.09107143">
+        <state line="13" column="0" selection-start="553" selection-end="553" vertical-scroll-proportion="0.36792454">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/reservation/1.html">
+    <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="20" selection-start="1927" selection-end="1927" vertical-scroll-proportion="-4.75">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mfe/users/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.8742747">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/metrocar/tarification/managers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="35" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0">
+        <state line="46" column="35" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mfe/reservations/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="129" selection-start="1365" selection-end="1365" vertical-scroll-proportion="0.46268657">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mfe/settings.py">
+    <entry file="file://$PROJECT_DIR$/pythonpath/mfe/reservations/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="24" column="30" selection-start="1266" selection-end="1266" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/outstanding_loans.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="33" selection-start="858" selection-end="858" vertical-scroll-proportion="-17.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mfe/reservations/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="98" column="9" selection-start="3741" selection-end="3741" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/metrocar/tarification/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="417" column="6" selection-start="14291" selection-end="14291" vertical-scroll-proportion="0.0">
+        <state line="290" column="53" selection-start="9556" selection-end="9556" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/metrocar/config/settings_base.py">
+    <entry file="file://$PROJECT_DIR$/mfe/users/templates/users/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="30" selection-start="4350" selection-end="4350" vertical-scroll-proportion="2.9241877">
+        <state line="4" column="21" selection-start="73" selection-end="73" vertical-scroll-proportion="0.11857708">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/metrocar/config/settings_admin.py">
+    <entry file="file://$PROJECT_DIR$/mfe/reservations/templates/reservations/edit_reservation.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="11" selection-start="54" selection-end="54" vertical-scroll-proportion="0.054151624">
+        <state line="52" column="116" selection-start="1897" selection-end="1897" vertical-scroll-proportion="-14.916667">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/metrocar/settings.py">
+    <entry file="file://$PROJECT_DIR$/mfe/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="26" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mfe/config/settings_prod.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mfe/config/settings_dev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="14" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mfe/config/settings_admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="25" selection-start="567" selection-end="567" vertical-scroll-proportion="0.55851066">
+        <state line="21" column="89" selection-start="1374" selection-end="1374" vertical-scroll-proportion="0.6389452">
           <folding />
         </state>
       </provider>
