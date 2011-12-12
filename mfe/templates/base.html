@@ -19,6 +19,7 @@
     <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
     <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
     <link rel="stylesheet" media="print" type="text/css" href="{{ MEDIA_URL }}css/print.css" />
+    <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" type="image/x-icon" />
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/j.page.js"></script>
@@ -100,6 +101,9 @@
             {% endif %}
             <li {% in_active_pages "/automobily/" 'id="tray-active"' strict %}><a href="{% url mfe_cars %}">{% trans "Find cars" %}</a></li>
             <li {% in_active_pages "/automobily/ceny/" 'id="tray-active"' %}><a href="{% url mfe_cars_fares %}">{% trans "Rates" %}</a></li>
+            {% if user.is_authenticated %}
+                <li {% in_active_pages "/rezervace/" 'id="tray-active"' %}><a href="{% url mfe_reservations_reservation %}">{% trans "New reservation" %}</a></li>
+            {% endif %}
         </ul>
         
         <!-- Search -->

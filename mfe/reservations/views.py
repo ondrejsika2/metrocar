@@ -96,7 +96,7 @@ def cancel_reservation(request, reservation_id, confirmed=False):
             
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
-        messages.warning(request, _('Do you want to cancel reservation %s for car %s? <a href="%s">Yes</a> | <a href="%s">No</a>') % (reservation, reservation.car, reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), request.META['HTTP_REFERER']))
+        #messages.warning(request, _('Do you want to cancel reservation %s for car %s? <a href="%s">Yes</a> | <a href="%s">No</a>') % (reservation, reservation.car, reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), request.META['HTTP_REFERER']))
 
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
@@ -116,13 +116,13 @@ def edit_reservation(request, reservation_id):
 
 
 @login_required
-def non_finished_list(request, page=None):
+def outstanding_loans(request, page=None):
     reservations = Reservation.objects.non_finished().filter(user=request.user)
     non_finished_reservations_dict = {
         'queryset': reservations,
         'paginate_by': 20,
         'page': page,
-        'template_name': 'reservations/non_finished_list.html'
+        'template_name': 'reservations/outstanding_loans.html'
     }
     return object_list(request, **non_finished_reservations_dict)
 

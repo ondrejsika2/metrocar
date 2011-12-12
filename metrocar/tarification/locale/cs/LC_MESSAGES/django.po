@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-30 15:28+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-12-12 11:23+0100\n"
+"PO-Revision-Date: 2011-12-12 11:25+0100\n"
+"Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -34,21 +33,23 @@ msgstr "Zkopírovat vybrané"
 msgid "Only one of fields \"{date}\" and \"{weekday}\" is allowed."
 msgstr "Pouze jedno z polí \"{data}\" a \"{weekday}\" může být vyplněno."
 
-#: admin.py:50 models.py:308
+#: admin.py:50
+#: models.py:307
 msgid "Date"
 msgstr "Datum"
 
-#: admin.py:50 models.py:310
+#: admin.py:50
+#: models.py:309
 msgid "Weekday from"
 msgstr "Ode dne"
 
 #: managers.py:53
 msgid "Too late to cancel the reservation."
-msgstr ""
+msgstr "Pro zrušení této rezervace je již příliš pozdě."
 
 #: managers.py:63
 msgid "Trying to cancel already finished reservation"
-msgstr ""
+msgstr "Pokoušíte se zrušit již dokončenou rezervaci."
 
 #: models.py:20
 msgid "Available"
@@ -90,7 +91,8 @@ msgstr "Platný od"
 msgid "Car model"
 msgstr "Model automobilu"
 
-#: models.py:44 models.py:313
+#: models.py:44
+#: models.py:312
 msgid "Pricelist"
 msgstr "Ceník"
 
@@ -98,99 +100,105 @@ msgstr "Ceník"
 msgid "Pricelists"
 msgstr "Ceníky"
 
-#: models.py:304
+#: models.py:291
+msgid "No timeline record exists but being requested"
+msgstr "Požadavek vede na neexistující harmonogram"
+
+#: models.py:303
 msgid "Monday"
 msgstr "Pondělí"
 
-#: models.py:304
+#: models.py:303
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: models.py:304
+#: models.py:303
 msgid "Wednesday"
 msgstr "Středa"
 
-#: models.py:304
+#: models.py:303
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: models.py:305
+#: models.py:304
 msgid "Friday"
 msgstr "Pátek"
 
-#: models.py:305
+#: models.py:304
 msgid "Saturday"
 msgstr "Sobota"
 
-#: models.py:305
+#: models.py:304
 msgid "Sunday"
 msgstr "Neděle"
 
-#: models.py:318 models.py:408
+#: models.py:317
+#: models.py:407
 msgid "Pricelist day"
 msgstr "Den ceníku"
 
-#: models.py:319
+#: models.py:318
 msgid "Pricelist days"
 msgstr "Dny ceníků"
 
-#: models.py:399
+#: models.py:398
 msgid "Car unused ratio"
 msgstr "Koeficent čekání"
 
-#: models.py:401
+#: models.py:400
 msgid "Car used ratio"
 msgstr "Koeficient jízdy"
 
-#: models.py:403
+#: models.py:402
 msgid "Late return ratio"
 msgstr "Koeficient pozdního odevzdání"
 
-#: models.py:405
+#: models.py:404
 msgid "Time from"
 msgstr "Od"
 
-#: models.py:411
+#: models.py:410
 msgid "Pricelist daytime"
 msgstr "Čas ceníku"
 
-#: models.py:412
+#: models.py:411
 msgid "Pricelist daytimes"
 msgstr "Časy ceníků"
 
-#: models.py:420
+#: models.py:419
 msgid "From preceeding time"
 msgstr "Limit času zrušení"
 
-#: models.py:422
+#: models.py:421
 msgid "Price"
 msgstr "Poplatek"
 
-#: models.py:425
+#: models.py:424
 msgid "Storno fee timeline record"
 msgstr "Záznam pro storno poplatek"
 
-#: models.py:426
+#: models.py:425
 msgid "Storno fee timeline records"
 msgstr "Záznamy pro storno poplatky"
 
-#: models.py:429
+#: models.py:428
 msgid "Storno fee timeline"
 msgstr "Časové schéma storno poplatků"
 
-#: models.py:435
+#: models.py:434
 msgid "Reservation"
 msgstr "Rezervace"
 
-#: models.py:438
+#: models.py:437
 msgid "Fee timeline"
 msgstr "Časové schéma poplatků"
 
-#: models.py:443 models.py:447
+#: models.py:442
+#: models.py:446
 msgid "Storno fee"
 msgstr "Storno poplatek"
 
-#: models.py:444
+#: models.py:443
 msgid "Storno fees"
 msgstr "Storno poplatky"
 
@@ -237,3 +245,4 @@ msgstr "nepoužitý"
 #: templates/includes/timeline_row_date.html:8
 msgid "late return"
 msgstr "pozdě odevzdaný"
+

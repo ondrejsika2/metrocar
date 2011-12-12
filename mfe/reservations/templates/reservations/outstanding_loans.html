@@ -2,12 +2,12 @@
 
 {% load i18n %}
 
-{% block left_col_title %}{% trans "Non finished reservations" %}{% endblock %}
+{% block left_col_title %}{% trans "Outstanding loans" %}{% endblock %}
 
 {% block left_col_content %}
 
 {% if object_list %}
-	<p>{% trans "Following reservations are waiting for finish" %}:</p>
+	<p>{% trans "Following loans are waiting for finish" %}:</p>
 	<table>
 		<tr>
 			<th>{% trans "Car" %}</th>
@@ -26,7 +26,7 @@
 	</table>
 	{% include "pagination.html" %}
 {% else %}
-<p>{% trans "No non finished reservations yet." %}</p>
+<p>{% trans "No outstanding loans yet." %}</p>
 {% endif %}
 
 {% endblock %}

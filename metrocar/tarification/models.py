@@ -288,8 +288,7 @@ class Pricelist(models.Model, CloneableModelMixin):
 					day = PricelistDay.objects.filter(weekday_from__gt=weekday,
 						pricelist=self).order_by('-weekday_from')[0]
 				except IndexError:
-					raise PricelistAssertionError('No timeline record exists '
-						'but being requested')
+					raise PricelistAssertionError(_('No timeline record exists but being requested'))
 		return day
 	
 	def get_pricing_for_date(self, date_to_find):
