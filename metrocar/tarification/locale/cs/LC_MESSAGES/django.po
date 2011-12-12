@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-12 11:23+0100\n"
-"PO-Revision-Date: 2011-12-12 11:25+0100\n"
+"POT-Creation-Date: 2011-12-12 15:36+0100\n"
+"PO-Revision-Date: 2011-12-12 15:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -30,8 +30,9 @@ msgid "Clone selected"
 msgstr "Zkopírovat vybrané"
 
 #: admin.py:50
-msgid "Only one of fields \"{date}\" and \"{weekday}\" is allowed."
-msgstr "Pouze jedno z polí \"{data}\" a \"{weekday}\" může být vyplněno."
+#, python-format
+msgid "Only one of fields \"%(date)s\" and \"%(weekday)s\" is allowed."
+msgstr "Pouze jedno z polí \"%(date)s\" a \"%(weekday)s\" může být vyplněno."
 
 #: admin.py:50
 #: models.py:307

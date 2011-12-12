@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-21 18:48+0100\n"
+"POT-Creation-Date: 2011-12-12 14:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -97,7 +98,7 @@ msgstr "Fakturační adresy uživatelů"
 msgid "Name"
 msgstr "Jméno"
 
-#: models.py:71 templates/invoice_template.html:84
+#: models.py:71 templates/invoice_template.html:87
 msgid "Description"
 msgstr "Popis"
 
@@ -133,11 +134,11 @@ msgstr "Datum vystavení"
 msgid "Due date"
 msgstr "Datum splatnosti"
 
-#: models.py:90 templates/invoice_template.html:71
+#: models.py:90 templates/invoice_template.html:74
 msgid "Variable symbol"
 msgstr "Variabilní symbol"
 
-#: models.py:92 templates/invoice_template.html:76
+#: models.py:92 templates/invoice_template.html:79
 msgid "Specific symbol"
 msgstr "Specifický symbol"
 
@@ -169,47 +170,47 @@ msgstr "Položka faktury"
 msgid "Invoice items"
 msgstr "Položky faktur"
 
-#: templates/invoice_template.html:32
+#: templates/invoice_template.html:33
 msgid "Invoice - Metrocar"
 msgstr "Faktura - Metrocar"
 
-#: templates/invoice_template.html:35
+#: templates/invoice_template.html:36
 msgid "Invoice - tax document no. "
 msgstr "Faktura - daňový doklad č. "
 
-#: templates/invoice_template.html:39
+#: templates/invoice_template.html:40
 msgid "Provider"
 msgstr "Dodavatel"
 
-#: templates/invoice_template.html:48
+#: templates/invoice_template.html:49
 msgid "Customer"
 msgstr "Příjemce"
 
-#: templates/invoice_template.html:61
+#: templates/invoice_template.html:62
 msgid "Draw Date"
 msgstr "Datum vystavení"
 
-#: templates/invoice_template.html:66
+#: templates/invoice_template.html:67
 msgid "Due Date"
 msgstr "Datum splatnosti"
 
-#: templates/invoice_template.html:85
+#: templates/invoice_template.html:88
 msgid "Quantity"
 msgstr "Množství"
 
-#: templates/invoice_template.html:86
+#: templates/invoice_template.html:89
 msgid "Line Total excl. Tax"
 msgstr "Cena bez DPH"
 
-#: templates/invoice_template.html:87
+#: templates/invoice_template.html:90
 msgid "Line Total incl. Tax"
 msgstr "Cena vč. DPH"
 
-#: templates/invoice_template.html:103
+#: templates/invoice_template.html:106
 msgid "Total Excl. Tax"
 msgstr "Cena celkem bez DPH"
 
-#: templates/invoice_template.html:108
+#: templates/invoice_template.html:111
 msgid "Total with Tax"
 msgstr "Cena celkem vč. DPH"
 

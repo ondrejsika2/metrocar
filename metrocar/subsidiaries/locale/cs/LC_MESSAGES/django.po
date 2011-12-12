@@ -3,44 +3,53 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-04 15:44+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-12-12 14:18+0100\n"
+"PO-Revision-Date: 2011-12-12 14:19+0100\n"
+"Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
 
-#: models.py:17
+#: models.py:24
 msgid "Name"
 msgstr "Jméno"
 
-#: models.py:18
+#: models.py:26
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:19
+#: models.py:28
 msgid "Street"
 msgstr "Ulice"
 
-#: models.py:20
+#: models.py:30
 msgid "House number"
 msgstr "Číslo orientační"
 
-#: models.py:21
+#: models.py:32
 msgid "City"
 msgstr "Město"
 
-#: models.py:27
+#: models.py:34
+msgid "Tax rate"
+msgstr "Daň"
+
+#: models.py:39
+msgid "Use onboard unit in cars"
+msgstr "Použít palubní jednotky ve vozidlech"
+
+#: models.py:44
 msgid "Subsidiary"
 msgstr "Pobočka"
 
-#: models.py:28
+#: models.py:45
 msgid "Subsidiaries"
 msgstr "Pobočky"
+

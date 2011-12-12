@@ -28,8 +28,7 @@ class FixedPaymentTariff(models.Model):
     name = models.CharField(max_length=80, blank=False, null=False,
         verbose_name=_('Name'))
     price_correction_ratio = models.DecimalField(decimal_places=3, max_digits=8,
-        blank=False, null=False, default=0, verbose_name=_('Price correction '
-        'ratio'))
+        blank=False, null=False, default=0, verbose_name=_('Price correction ratio'))
     price_per_month = models.DecimalField(decimal_places=3, max_digits=8,
         blank=False, null=False, default=0, verbose_name=_('Price per month'))
     valid_from = models.DateTimeField(blank=False, null=False,
@@ -56,8 +55,7 @@ class FixedPaymentTariffBill(AccountActivity):
 class FixedPaymentTariffUserDetails(models.Model):
     accumulated_free_km = models.DecimalField(decimal_places=3, max_digits=8,
         blank=False, null=False, default=0, verbose_name=_('Accumulated free km'))
-    tariff = models.ForeignKey(FixedPaymentTariff, verbose_name=_('Fixed '
-        'payment tariff'))
+    tariff = models.ForeignKey(FixedPaymentTariff, verbose_name=_('Fixed payment tariff'))
     user = models.ForeignKey(MetrocarUser, verbose_name=_('User'))
     
     class Meta:

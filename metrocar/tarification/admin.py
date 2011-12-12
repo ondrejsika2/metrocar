@@ -47,7 +47,7 @@ class PricelistDayForm(ModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         if cleaned_data.get('date') is not None and cleaned_data.get('weekday_from') is not None:
-            raise ValidationError(_('Only one of fields "{date}" and "{weekday}" is allowed.').format(date=_('Date'), weekday=_('Weekday from')))
+            raise ValidationError(_('Only one of fields "%(date)s" and "%(weekday)s" is allowed.')%{'date': _('Date'), 'weekday': _('Weekday from')})
         return cleaned_data
 
 class PricelistDayModelAdmin(admin.ModelAdmin):

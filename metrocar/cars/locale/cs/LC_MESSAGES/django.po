@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-23 15:38+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-12-12 14:12+0100\n"
+"PO-Revision-Date: 2011-12-12 14:13+0100\n"
+"Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -18,28 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
 
-#: admin.py:38 admin.py:95
+#: admin.py:40
+#: admin.py:119
 msgid "Basic information"
 msgstr "Základní informace"
 
-#: admin.py:39
+#: admin.py:41
 msgid "Connection information"
 msgstr "Informace o spojení"
 
-#: admin.py:40
+#: admin.py:42
 msgid "Location"
 msgstr "Poloha"
 
-#: admin.py:55
+#: admin.py:57
 msgid "Authorization key changed successfully."
 msgstr "Autorizační klíč byl úspěšně změněn."
 
-#: admin.py:62
+#: admin.py:64
 #, python-format
 msgid "Change authorization key for %s"
 msgstr "Změnit autorizační klíč pro %s"
 
-#: admin.py:96
+#: admin.py:120
 msgid "Track"
 msgstr "Trasa"
 
@@ -47,7 +47,9 @@ msgstr "Trasa"
 msgid "Slug"
 msgstr "Slug"
 
-#: models.py:23 models.py:55 models.py:377
+#: models.py:23
+#: models.py:55
+#: models.py:399
 msgid "Name"
 msgstr "Jméno"
 
@@ -63,11 +65,15 @@ msgstr "Výrobci"
 msgid "Title"
 msgstr "Titulek"
 
-#: models.py:37 models.py:38 models.py:320
+#: models.py:37
+#: models.py:38
+#: models.py:342
 msgid "Fuel"
 msgstr "Palivo"
 
-#: models.py:45 models.py:48 models.py:57
+#: models.py:45
+#: models.py:48
+#: models.py:57
 msgid "Car type"
 msgstr "Typ automobilu"
 
@@ -103,11 +109,13 @@ msgstr "Náhradní palivo"
 msgid "Notes"
 msgstr "Poznámky"
 
-#: models.py:64 models.py:114
+#: models.py:64
+#: models.py:114
 msgid "Image"
 msgstr "Obrázek"
 
-#: models.py:67 models.py:116
+#: models.py:67
+#: models.py:116
 msgid "Car model"
 msgstr "Model"
 
@@ -119,7 +127,8 @@ msgstr "Modely"
 msgid "Color"
 msgstr "Barva"
 
-#: models.py:90 models.py:117
+#: models.py:90
+#: models.py:117
 msgid "Car color"
 msgstr "Barva"
 
@@ -135,13 +144,14 @@ msgstr "Aktivní"
 msgid "IMEI"
 msgstr "IMEI"
 
-#: models.py:103 templates/admin/cars/car/change_auth_key.html:33
+#: models.py:103
+#: templates/admin/cars/car/change_auth_key.html:33
 msgid "Authorization key"
-msgstr ""
+msgstr "Autorizační klíč"
 
 #: models.py:104
 msgid "SHA1 encoded. Use the "
-msgstr ""
+msgstr "Zakódováno pomocí SHA1. Použijte "
 
 #: models.py:107
 msgid "Dedicated parking only"
@@ -179,7 +189,11 @@ msgstr "Vlastník"
 msgid "Subsidiary"
 msgstr "Pobočka"
 
-#: models.py:124 models.py:319 models.py:352 models.py:405 models.py:479
+#: models.py:124
+#: models.py:341
+#: models.py:374
+#: models.py:427
+#: models.py:501
 msgid "Car"
 msgstr "Automobil"
 
@@ -187,151 +201,168 @@ msgstr "Automobil"
 msgid "Cars"
 msgstr "Automobily"
 
-#: models.py:316 models.py:349
+#: models.py:338
+#: models.py:371
 msgid "Code"
 msgstr "Kód"
 
-#: models.py:318 models.py:351
+#: models.py:340
+#: models.py:373
 msgid "Approved"
 msgstr "Schváleno"
 
-#: models.py:322
+#: models.py:344
 msgid "Liter count"
 msgstr "Počet litrů"
 
-#: models.py:324 models.py:353
+#: models.py:346
+#: models.py:375
 msgid "Place"
 msgstr "Místo"
 
-#: models.py:326 models.py:354
+#: models.py:348
+#: models.py:376
 msgid "Bill image"
 msgstr "Obrázek účtu"
 
-#: models.py:329
+#: models.py:351
 msgid "Fuel bill"
 msgstr "Účet za palivo"
 
-#: models.py:330
+#: models.py:352
 msgid "Fuel bills"
 msgstr "Účty za palivo"
 
-#: models.py:345
+#: models.py:367
 msgid "Refuel"
 msgstr "Doplnění paliva"
 
-#: models.py:350
+#: models.py:372
 msgid "Purpose"
 msgstr "Účel"
 
-#: models.py:357
+#: models.py:379
 msgid "Maintenance bill"
 msgstr "Účet za údržbu"
 
-#: models.py:358
+#: models.py:380
 msgid "Maintenance bills"
 msgstr "Účty za údržbu"
 
-#: models.py:373
+#: models.py:395
 msgid "Maintenance"
 msgstr "Údržba"
 
-#: models.py:379
+#: models.py:401
 msgid "Places count"
 msgstr "Počet míst"
 
-#: models.py:381
+#: models.py:403
 msgid "Land registry number"
 msgstr "Číslo popisné"
 
-#: models.py:383
+#: models.py:405
 msgid "Street"
 msgstr "Ulice"
 
-#: models.py:385
+#: models.py:407
 msgid "City"
 msgstr "Město"
 
-#: models.py:386
+#: models.py:408
 msgid "Area"
 msgstr "Oblast"
 
-#: models.py:392 models.py:404
+#: models.py:414
+#: models.py:426
 msgid "Parking"
 msgstr "Parkoviště"
 
-#: models.py:393
+#: models.py:415
 msgid "Parkings"
 msgstr "Parkoviště"
 
-#: models.py:401
+#: models.py:423
 msgid "Description"
 msgstr "Popis"
 
-#: models.py:408
+#: models.py:430
 msgid "Parking description"
 msgstr "Popis parkoviště"
 
-#: models.py:409
+#: models.py:431
 msgid "Parking descriptions"
 msgstr "Popisy parkovišť"
 
-#: models.py:415 models.py:422
+#: models.py:437
+#: models.py:444
 msgid "Car position"
 msgstr "Pozice"
 
-#: models.py:417 models.py:485
+#: models.py:439
+#: models.py:513
 msgid "Journey"
 msgstr "Jízda"
 
-#: models.py:423 templates/admin/cars/car/change_list.html:13
+#: models.py:445
+#: templates/admin/cars/car/change_list.html:13
 msgid "Car positions"
 msgstr "Pozice"
 
-#: models.py:457
+#: models.py:479
 msgid "Waiting"
 msgstr "Čekání"
 
-#: models.py:458
+#: models.py:480
 msgid "Trip"
 msgstr "Cesta"
 
-#: models.py:459
+#: models.py:481
 msgid "Late return"
 msgstr "Pozdní návrat"
 
-#: models.py:462
+#: models.py:484
 msgid "Comment"
 msgstr "Komentář"
 
-#: models.py:464
+#: models.py:486
 msgid "Start datetime"
 msgstr "Čas začátku"
 
-#: models.py:466
+#: models.py:488
 msgid "End datetime"
 msgstr "Čas konce"
 
-#: models.py:468
+#: models.py:490
 msgid "Length"
 msgstr "Délka"
 
-#: models.py:470
+#: models.py:492
 msgid "Path"
 msgstr "Trasa"
 
-#: models.py:472 templates/admin/cars/journey/change_form.html:45
+#: models.py:494
+#: templates/admin/cars/journey/change_form.html:45
 msgid "Price"
 msgstr "Cena"
 
-#: models.py:475
+#: models.py:497
 msgid "Journey type"
 msgstr "Druh jízdy"
 
-#: models.py:480
+#: models.py:502
 msgid "User"
 msgstr "Uživatel"
 
-#: models.py:486
+#: models.py:504
+msgid "Speedometer start state"
+msgstr "Stav tachometru na začátku"
+
+#: models.py:507
+msgid "Speedometer end state"
+msgstr "Stav tachometru na konci"
+
+#: models.py:514
 msgid "Journeys"
 msgstr "Jízdy"
 
@@ -348,14 +379,13 @@ msgstr "Změna autorizačního klíče"
 #: templates/admin/cars/car/change_auth_key.html:22
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
-msgstr[0] ""
+msgstr[0] "Prosím opravte níže uvedené chyby."
 msgstr[1] ""
 msgstr[2] ""
 
 #: templates/admin/cars/car/change_auth_key.html:26
 #, python-format
-msgid ""
-"Enter a new authorization key for the car <strong>%(car_name)s</strong>."
+msgid "Enter a new authorization key for the car <strong>%(car_name)s</strong>."
 msgstr "Zadejte nový autorizační klíč pro <strong>%(car_name)s</strong>."
 
 #: templates/admin/cars/car/change_auth_key.html:39
