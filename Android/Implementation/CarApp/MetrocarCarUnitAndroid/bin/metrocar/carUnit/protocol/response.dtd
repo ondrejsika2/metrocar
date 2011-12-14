@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+<!ELEMENT r (u?, g?)> <!--response-->
+<!ELEMENT u (v?)> <!--reservations-->
+<!ELEMENT v (i, (p|q)+, b+)> <!--user-->
+<!ELEMENT i (#PCDATA)> <!--user id int-->
+<!ELEMENT p (#PCDATA)> <!--user phone number string +420721214574-->
+<!ELEMENT q (#PCDATA)> <!--user RFID card code string-->
+<!ELEMENT b (s, t)> <!--reservation times-->
+<!ELEMENT s (#PCDATA)> <!--since-->
+<!ELEMENT t (#PCDATA)> <!--till-->
+<!ELEMENT g (k, h)> <!--settings-->
+<!ELEMENT k (#PCDATA)> <!--key-->
+<!ELEMENT h (#PCDATA)> <!--value-->

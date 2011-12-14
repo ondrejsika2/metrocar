@@ -25,6 +25,7 @@ please continue <a href="">here</a>.</p>
 		{% if model.image %}
 		{% thumbnail model.image 120x120 as thumb %}
 		<img src="{{ thumb }}" class="float-right" width="{{ thumb.width }}" height="{{ thumb.height }}" />
+		{% endthumbnail %}
 		{% endif %}
 		<div>
 		<ul class="ul-01">

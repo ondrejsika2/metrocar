@@ -35,7 +35,7 @@ class CarUnitRequestHandler:
 #        else:
 #            source = '?'
         response = self._handle_request(request, format)
-        self._logger.info("Accepted incoming call. Data: " + response)
+        self._logger.info("Accepted incoming call. Data: " + response.content)
         return response
     
     def _handle_request(self, request, format=None):

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello, Android! I am a string resource!</string>
+    <string name="hello2">Hello, Android! I am another string resource!</string>
+    <string name="app_name">Autonapul APP</string>
+    <string name="send">Send</string>
+    <string name="request_reservations">Request reservations</string>
+    <string name="request_settings">Request settings</string>
+    <string name="end_journey">End journey</string>
+    <string name="start_journey">Start journey</string>
+</resources>

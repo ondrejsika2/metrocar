@@ -125,8 +125,8 @@ COMM_OUTPUT_ENCODING = 'windows-1252'
 COMM_INPUT_ENCODING = 'utf-8'
 COMM_AUTHENTICATION_REQUIRED = False
 COMM_DTD_ROOT = MEDIA_ROOT + 'car_units/'
-COMM_DTD_REQUEST = COMM_DTD_ROOT + 'request.dtd'
-COMM_DTD_RESPONSE = COMM_DTD_ROOT + 'response.dtd'
+COMM_DTD_REQUEST = '/home/komarem/metrocar/static/car_units/request.dtd'
+COMM_DTD_RESPONSE ='/home/komarem/metrocar/static/car_units/response.dtd'
 COMM_GPX_SCHEMA = COMM_DTD_ROOT + 'gpx.xsd'
 
 # plugins to be used in reservation creation
