@@ -1,0 +1,105 @@
+\documentclass[a4paper,titlepage]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\fontfamily{electrum}
+\renewcommand{\rmdefault}{ptm}
+\begin{document}
+	\begin{center}
+		\Large{MetroCar\\Plán testování}
+	\end{center}
+	\vspace*{1cm}
+	Autor: \hspace*{1.85cm} Dominik Moštěk <mostedom@fel.cvut.cz>
+	\newline
+\noindent	Ostatní členové: \indent Jakub Ječmínek\\
+\hspace*{2.82cm} Alexandr Makarič\\
+\hspace*{2.83cm} Martin Kinčl\\
+\newline
+Datum: 19.12.2011\\
+Předmět: A7B36SI2 
+\section*{Revize}
+\begin{center}
+  \begin{tabular*}{\textwidth}{| p{24pt} | p{40pt} | p{100pt} | p{271pt} | }
+    \hline
+    \textbf{Verze} & \textbf{Datum} & \textbf{Autor} & \textbf{Změny} \\ \hline
+    0.1 & 19.12.2011 & Dominik Moštěk & Sestavení počátečního plánu \\ \hline
+  \end{tabular*}
+\end{center}
+\section{Účel dokumentu}
+Tento dokument popisuje strategie, procesy a metody určené k plánování a provádění testů a zpracování jejich výsledků.
+\subsection{Cíle testování}
+Primárním cílem testování je ověření, že aplikace splňují všechny požadavky na ně kladené a to funkční i obecné. A splňují metriky stanovené v požadavcích. Cílem je též ověřit scénáře scénáře stanovené pomocí Use Case.\\
+Sekundárním cílem testování je odhalit nedostatky v návrhu aplikace.
+\subsection{Priority}
+Vzhledem k povaze projektu je nutné, aby následucící seznam funcionalit byl plně otestován a schopen plného provozu.
+	\begin{itemize}
+		\item Vytvoření rezervace skrze webové rozhraní
+		\item Platba za služby skrze webové rozhraní.
+		\item Odemknutí automobilu pomocí klientské aplikace
+		\item Záznam ujetých kilomentrů
+		\item Sledování polohy automobilu
+	\end{itemize}
+\subsection{Role a odpovědnosti}
+	\subsection{Správce projektu}
+	Správce projektu je odpovědný za provedení testování popsaného v tomto dokumentu a zpracování výsledků. Jeho odpovědností je též dohled nad výsledky oprav chyb a nedostatků ohalencýh při testování.
+	\subsection{Vývojář webového rozhraní}
+	Je odpovědný za přípravu serverové části k testování. To zahrnuje poskytnutí rozhraní skrze, které se bude aplikace testovat a implementace všech nezbytných částí pro supštění testů. Jeho dalším ukolem je zanesení oprav chyb stanovených vedoucím do zdrojového kódu.
+	\subsection{Vývojář mobilních aplikací}
+	Je odpovědný za přípravu mobilních aplikací k testování a to jak k automatickému, tak testování v terénu. To zahrnuje poskytnutí rozhraní skrze, které se bude aplikace testovat a implementace všech nezbytných částí pro supštění testů. Jeho dalším ukolem je zanesení oprav chyb stanovených vedoucím do zdrojového kódu.
+\section{Testování}
+\subsection{Metody testování}
+	\subsubsection{Testování použitelnosti}
+	Účelem testování použitelnosti je ujištění, zda komponenty a funkce aplikace odpovídají požadavkům zadavatele. Toto testování bude provedeno uživateli, kteří budou budoucími uživateli těchto aplikací. Podmínkou relevantnosti tohoto testu je, aby tito uživatelé nebyli součástí týmu, který aplikaci vypracovává. Testeři též musí být alespoň začátečníci v používání chytrých mobilních aplikací s OS Android. Testy použitelnosti budou prováděny na následujících částech projektu:
+	\begin{itemize}
+		\item Klientská aplikace
+		\item Webové rozhraní
+	\end{itemize}
+	\subsubsection{Unit testy}
+	Jednotkové testování je prováděno za účelem zjištění základní funkčnosti základních částí aplikace (jednotek). Je na odpovědnosti vedoucího projektu, jaké zvolí pokrytí kódu testy. Jednotkové testy budou prováděny na následujících jednotkách:
+	\begin{itemize}
+		\item Komunikační jednotka\\
+		Test otestuje komunikaci serveru a mobilních aplikací. A to z pohledu serveru, tak i z pohledu obou mobilních aplikací. 
+		\item Dtabázové rozhraní
+		Testy komunikace serveru s databází. Test musí obsahovat testy konzistence dat.
+		\item Test komunikace klientské aplikace a palubní jednotky
+		Test pokryje především odemykání a zamykání automobilu, při rezervaci a bez rezervace.
+	\end{itemize}
+	\subsubsection{Iterační/Regresní testování}
+	Při každém pírůstku funkcionality je potřeba otestovat, zda předchozí celky stále fungují a nejsou novou funkcionalitou zasaženy. K tomu slouží regresní testování. Skládá se z provedení veškerých testů a sepsání zprávy o testování.
+	\subsubsection{Akceptační testy}
+	Provedou se na základě stanovených akceptačních kritérií (stanovených v POS).
+	\subsubsection{Testy stability}
+	Budou provedeny zátěžovými testy, tedy pokusem o zrpacování velkého počtu požadavků najednou.
+\subsection{Úrovně testování}
+\subsubsection{Build testy}
+\paragraph{Level 1 - Build acceptance test}
+Tento test prošel, pokud je možné aplikaci sestavit. V případě webové části deploynout na server. Pokud se testování zastaví na tomto levelu je aplikace vrácena vývojáři bez provedení dalších testů.
+\paragraph{Level 2 - Smoke testy}
+Jedná se o rychlé otestování, zda je aplikace schopna spuštění a základní práce s ní. Tento test slouží jako ujištění se, zda má cenu provádět další nákladné testy. Pokud se testování zastaví na tomto levelu je aplikace vrácena vývojáři bez provedení dalších testů.
+\paragraph{Bug-Regression testy}
+Otestuje se každý bug nahlášený po minulé iteraci, který byl označen jako "Fixed" nebo "Test".
+\subsubsection{Milestone testy}
+Tyto testy budou provedeny minimálně jedenkrát, ale nejlépe vícekrát během jedné iterace.
+\paragraph{Unit testy}
+Proběhnou dle popisu výše.
+\paragraph{Kritická cesta}
+Proběhnou testy funkcionalit, které uživatel aplikací uvidí a přijde s nimi do běžného styku.
+To se jedná hlavně o testy GUI, stability a použitelnosti.
+\subsubsection{Release test}
+Tento test zahrnuje všechny předešlé testy. Zároveň se na této úrovni testuje instalce a správa apliakce.
+\section{Testovací software}
+Pro účely testování bude použito následujícího software.
+\begin{itemize}
+	\item JUnit 4, Djnago's unittest
+		Jednotkové testování
+	\item Selenium
+		Testy GUI
+	\item JMetter
+		Testy stability
+\end{itemize}
+\section{Hlášení chyb}
+Po každé iteraci bude vytvořena zpráva o testování, která shrne veškeré výsledky testování.
+Během testování budou všechny chyby zaznamenávány do systému assembla. Každá člen vývojářského týmu je povinen nalezené chyby do tohoto systému zadávat a také nově zadané chyby sledovat a pokud mu jsou přiděleny, tak zajistit jejich opravu.
+Adresa ticketovacího systému assembla: \url{http://www.assembla.com/spaces/wagnejan_metrocar/tickets}
+\end{document}
