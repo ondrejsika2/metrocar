@@ -166,3 +166,5 @@ VERSION = "1"
 ROOT_URLCONF = 'metrocar.config.urls'
 
 SITE_ID = 1
+
+DEFAULT_CHARSET = 'utf-8'

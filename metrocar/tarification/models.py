@@ -411,7 +411,7 @@ class PricelistDayTime(models.Model, CloneableModelMixin):
 		unique_together = (('time_from', 'pricelist_day'),)
 
 	def __unicode__(self):
-		return "%s %s" % (self.pricelist_day, self.time_from)
+		return u"%s %s" % (self.pricelist_day, self.time_from)
 		
 class StornoFeeTimeline(models.Model):
 	preceeding_time_from = models.IntegerField(blank=False, null=False,
