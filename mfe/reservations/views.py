@@ -107,7 +107,7 @@ def cancel_reservation(request, reservation_id, confirmed=False):
             
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
-        #messages.warning(request, _('Do you want to cancel reservation %s for car %s? <a href="%s">Yes</a> | <a href="%s">No</a>') % (reservation, reservation.car, reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), request.META['HTTP_REFERER']))
+        messages.warning(request, _('Do you want to cancel reservation %s for car %s? <a href="%s">Yes</a> | <a href="%s">No</a>') % (reservation, reservation.car, reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), request.META['HTTP_REFERER']))
 
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
