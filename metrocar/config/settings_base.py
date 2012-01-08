@@ -1,3 +1,5 @@
+# coding=utf-8
+
 # Django settings for metrocar project.
 from os.path import dirname
 from os.path import join
@@ -24,7 +26,7 @@ TIME_ZONE = 'Europe/Prague'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'cs'
-LANG_CHOICES = (('CS', 'Cesky'), ('EN', 'English'),)
+LANG_CHOICES = (('CS', u'Česky'), ('EN', 'English'),)
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -168,3 +170,4 @@ ROOT_URLCONF = 'metrocar.config.urls'
 SITE_ID = 1
 
 DEFAULT_CHARSET = 'utf-8'
+APPROXIMATE_DISTANCE_PER_HOUR = 10 # 10 km per hour

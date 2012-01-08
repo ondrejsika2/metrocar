@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-12 14:12+0100\n"
-"PO-Revision-Date: 2011-12-12 14:13+0100\n"
+"POT-Creation-Date: 2012-01-08 17:43+0100\n"
+"PO-Revision-Date: 2012-01-08 17:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -365,6 +365,19 @@ msgstr "Stav tachometru na konci"
 #: models.py:514
 msgid "Journeys"
 msgstr "Jízdy"
+
+#: models.py:532
+#, python-format
+msgid "Cannot save journey for Car `%s` because it has one which is already active"
+msgstr "Nelze uložit jízdu pro vozidlo `%s`, protože tato jízda již má aktivní jiné vozidlo."
+
+#: models.py:537
+msgid "Journey end time must be after journey start time"
+msgstr "Konec jízdy musí být po startu jízdy."
+
+#: models.py:542
+msgid "State of speedometer in the end of the journey must be higher than in the beginning of the journey."
+msgstr "Stav tachometru na konci jízdy musí být vyšší než na začátku jízdy."
 
 #: templates/admin/cars/car/change_auth_key.html:10
 msgid "Home"

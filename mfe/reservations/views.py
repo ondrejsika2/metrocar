@@ -34,14 +34,24 @@ class ReservationWizard(ViewFormWizard):
             )
 
         if step == 0:
+            from metrocar.config.settings_base import APPROXIMATE_DISTANCE_PER_HOUR
             if hasattr(form, 'cleaned_data'):
-                self.extra_context['price_estimation'] = Reservation.get_price_estimation(
+                total_price_estimation = Reservation.get_price_estimation(
                     self.extra_context['car'],
                     form.cleaned_data['reserved_from'],
                     form.cleaned_data['reserved_until']
                 )
+                base_price = Reservation.get_base_price(
+                    self.extra_context['car'],
+                    form.cleaned_data['reserved_from'],
+                    form.cleaned_data['reserved_until']
+                )
+                self.extra_context['total_price_estimation'] = total_price_estimation
+                self.extra_context['base_price'] = base_price
+                self.extra_context['price_estimation_for_distance'] = (total_price_estimation - base_price)
                 self.extra_context['reserved_from'] = form.cleaned_data['reserved_from']
                 self.extra_context['reserved_until'] = form.cleaned_data['reserved_until']
+                self.extra_context['approximate_distance_per_hour'] = APPROXIMATE_DISTANCE_PER_HOUR
 
     def done(self, request, form_list):
         clean_data = form_list[0].cleaned_data
@@ -50,7 +60,7 @@ class ReservationWizard(ViewFormWizard):
             request.user, car, clean_data['reserved_from'],
             clean_data['reserved_until'])
         return HttpResponseRedirect(reverse('mfe_reservations_reservation_success'))
-    
+
 @login_required
 def reservation(request, car_id=None):
     context = { 'user_id': request.user.pk }
@@ -171,7 +181,13 @@ def add_journey(request, reservation_id):
             form.data['start_datetime_0'] = request.POST['start_datetime_0']
             form.data['end_datetime_0'] = request.POST['end_datetime_0']
     else:
-        form = AddJourneyForm()
+        reserved_from = reservation.reserved_from
+        reserved_until = reservation.reserved_until
+        f_data = {
+            'start_datetime' : [reserved_from.strftime('%d.%m.%Y'), reserved_from.strftime('%H:%M')],
+            'end_datetime' : [reserved_until.strftime('%d.%m.%Y'), reserved_until.strftime('%H:%M')]
+        }
+        form = AddJourneyForm(initial=f_data)
 
     return render_to_response(
         "reservations/add_journey.html", {'form': form, 'view': 'add'},

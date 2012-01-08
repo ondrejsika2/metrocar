@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-12 11:21+0100\n"
-"PO-Revision-Date: 2011-12-12 11:12+0100\n"
+"POT-Creation-Date: 2012-01-08 15:09+0100\n"
+"PO-Revision-Date: 2012-01-08 15:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
 
-#: cars/urls.py:13 cars/urls.py:14
+#: cars/urls.py:13
+#: cars/urls.py:14
 msgid "car"
 msgstr "automobil"
 
@@ -33,7 +34,8 @@ msgstr "seznam pakrovišť"
 msgid "fares"
 msgstr "ceny"
 
-#: cars/views.py:34 reservations/forms.py:42
+#: cars/views.py:34
+#: reservations/forms.py:42
 msgid "No car is available in chosen time."
 msgstr "Ve zvolený čas není k dispozici žádné auto."
 
@@ -101,8 +103,10 @@ msgstr "Více nalezených položek"
 msgid "Nothing found"
 msgstr "Nenalezena žádná shoda"
 
-#: cars/templates/cars/car_list.html:218 cars/templates/cars/car_list.html:229
-#: cars/templates/cars/right_col_menu.html:7 templates/base.html:101
+#: cars/templates/cars/car_list.html:218
+#: cars/templates/cars/car_list.html:229
+#: cars/templates/cars/right_col_menu.html:7
+#: templates/base.html:102
 msgid "Find cars"
 msgstr "Vyhledat auta"
 
@@ -115,8 +119,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"            <p>Pomocí nástroje níže můžete hledat automobily ve vašem "
-"okolí.\n"
+"            <p>Pomocí nástroje níže můžete hledat automobily ve vašem okolí.\n"
 "            Více informací o automobilu získáte kliknutím na jeho symbol.\n"
 "            Detaily se potom zobrazí vpravo na stránce.</p>\n"
 "            "
@@ -147,50 +150,46 @@ msgstr ""
 "\t\t\tpolohu.</p>\n"
 "\t\t\t"
 
-#: cars/templates/cars/fares.html:5 cars/templates/cars/right_col_menu.html:9
+#: cars/templates/cars/fares.html:5
+#: cars/templates/cars/right_col_menu.html:9
 msgid "Fares"
 msgstr "Ceny"
 
 #: cars/templates/cars/fares.html:9
 msgid ""
 "\n"
-"<p>Fares vary for different car models, but all cars of given car model "
-"have \n"
+"<p>Fares vary for different car models, but all cars of given car model have \n"
 "same fare. They have two basic compounds: price for <strong>distance \n"
 "driven</strong> and price for <strong>time elapsed</strong>.</p>\n"
-"<p>Also, fares can be different during day - but only their time-based "
-"compound.\n"
+"<p>Also, fares can be different during day - but only their time-based compound.\n"
 "Price for distance always remains the same.</p>\n"
-"<p>There are <strong>personal plans</strong> available, which can reduce "
-"the \n"
+"<p>There are <strong>personal plans</strong> available, which can reduce the \n"
 "cost dramatically for frequent users. If your intrested in personal plan, \n"
 "please continue <a href=\"\">here</a>.</p>\n"
 msgstr ""
 "\n"
-"<p>Ceny se liší pro různé modely automobilů, ale všechny automobily jednoho "
-"modelu mají stejnou sazbu. \n"
+"<p>Ceny se liší pro různé modely automobilů, ale všechny automobily jednoho modelu mají stejnou sazbu. \n"
 "Cena má dvě základní složky: cena za <strong>ujetou \n"
 "vzdálenost</strong> a cena za <strong>čas</strong>.</p>\n"
 "<p>Ceny také mohou být různé během dne - ale pouze jejich časová složka. \n"
 "Cena za ujetou vzdálenost vždy zůstává stejná.</p>\n"
-"<p>Existují i <strong>tarify</strong>, které mohou dramaticky snížit ceny "
-"pro časté uživatele. Pokud máte zájem o tarif, \n"
+"<p>Existují i <strong>tarify</strong>, které mohou dramaticky snížit ceny pro časté uživatele. Pokud máte zájem o tarif, \n"
 "prosím pokračujte <a href=\"\">zde</a>.</p>\n"
 
-#: cars/templates/cars/fares.html:31
+#: cars/templates/cars/fares.html:32
 msgid "Price for km"
 msgstr "Cena za kilometr"
 
-#: cars/templates/cars/fares.html:32
+#: cars/templates/cars/fares.html:33
 msgid "Price per hour"
 msgstr "Cena za hodinu"
 
-#: cars/templates/cars/fares.html:32
+#: cars/templates/cars/fares.html:33
 #: cars/templates/cars/geo_detail_car.html:13
 msgid "from"
 msgstr "od"
 
-#: cars/templates/cars/fares.html:39
+#: cars/templates/cars/fares.html:40
 msgid "No cars available."
 msgstr "Žádné automobily k dispozici."
 
@@ -290,7 +289,6 @@ msgid "success"
 msgstr "úspěch"
 
 #: reservations/urls.py:18
-#, fuzzy
 msgid "submit-cancel"
 msgstr "zrušit"
 
@@ -300,7 +298,8 @@ msgstr "zrušit"
 msgid "cancel"
 msgstr "zrušit"
 
-#: reservations/urls.py:22 users/urls.py:30
+#: reservations/urls.py:22
+#: users/urls.py:30
 msgid "edit"
 msgstr "upravit"
 
@@ -324,20 +323,22 @@ msgstr "upravit jízdu"
 msgid "finish reservation"
 msgstr "dokončit rezervaci"
 
-#: reservations/views.py:93
+#: reservations/views.py:103
 msgid "It is not possible to cancel reservation that has already begun."
 msgstr "Není možné zrušit již probíhající rezervaci."
 
-#: reservations/views.py:108
+#: reservations/views.py:118
 msgid "Access to reservation is denied."
 msgstr "Přístup k této rezervaci je zakázaný."
 
-#: reservations/views.py:166 reservations/views.py:211
-#: reservations/views.py:241
+#: reservations/views.py:176
+#: reservations/views.py:221
+#: reservations/views.py:251
 msgid "Error"
 msgstr "Chyba"
 
-#: reservations/views.py:251 reservations/views.py:254
+#: reservations/views.py:261
+#: reservations/views.py:264
 msgid "Reservation could not be finished. Some error has been occured."
 msgstr "Rezervace nemohla být dokončena. Objevily se některé problémy."
 
@@ -347,33 +348,25 @@ msgid "Add journey"
 msgstr "Přidat jízdu"
 
 #: reservations/templates/reservations/add_journey.html:11
-#, fuzzy
-msgid ""
-"\n"
-"    <p>Please fill-up journey information.</p>\n"
-"    "
-msgstr ""
-"\n"
-"<p>Pro změnu hesla prosím vyplňte níže uvedené informace.</p>\n"
+msgid "<p>Please fill-up journey information.</p>"
+msgstr "<p>Prosím vyplňte informace k dané jízdě.</p>"
 
-#: reservations/templates/reservations/add_journey.html:18
+#: reservations/templates/reservations/add_journey.html:16
 msgid "Add"
 msgstr "Přidat"
 
-#: reservations/templates/reservations/add_journey.html:18
+#: reservations/templates/reservations/add_journey.html:16
 msgid "Change"
 msgstr "Změnit"
 
-#: reservations/templates/reservations/add_journey.html:23
+#: reservations/templates/reservations/add_journey.html:21
 msgid ""
 "\n"
-"    <p>It is not possible to record journey information while subsidiary is "
-"using onboard unit in cars.</p>\n"
+"    <p>It is not possible to record journey information while subsidiary is using onboard unit in cars.</p>\n"
 "    "
 msgstr ""
 "\n"
-"    <p>Není možné uložit informace o dané jízdě pokud pobočka využívá "
-"palubní jednotky ve vozidlech.</p>\n"
+"    <p>Není možné uložit informace o dané jízdě pokud pobočka využívá palubní jednotky ve vozidlech.</p>\n"
 "    "
 
 #: reservations/templates/reservations/edit_reservation.html:5
@@ -494,12 +487,12 @@ msgstr "Evidujeme následující čekající rezervace"
 msgid "No pending reservations."
 msgstr "Žádné čekající rezervace."
 
-#: reservations/templates/reservations/reservation/0.html:23
+#: reservations/templates/reservations/reservation/0.html:26
 #: reservations/templates/reservations/reservation/tmp.html:32
 msgid "An error occured when validating your request"
 msgstr "Nastala chyba při validaci vašeho požadavku."
 
-#: reservations/templates/reservations/reservation/0.html:33
+#: reservations/templates/reservations/reservation/0.html:36
 msgid ""
 "\n"
 "<p>Please choose a car below to proceed.</p>\n"
@@ -507,7 +500,7 @@ msgstr ""
 "\n"
 "<p>Pro pokračování prosím zvolte automobil níže.</p>\n"
 
-#: reservations/templates/reservations/reservation/0.html:65
+#: reservations/templates/reservations/reservation/0.html:68
 #: reservations/templates/reservations/reservation/tmp.html:88
 msgid "Proceed"
 msgstr "Pokračovat"
@@ -519,32 +512,42 @@ msgstr "Nová rezervace - shrnutí"
 #: reservations/templates/reservations/reservation/1.html:9
 msgid ""
 "\n"
-"<p>Your reservation is <strong>almost finished</strong>! Please confirm "
-"below \n"
+"<p>Your reservation is <strong>almost finished</strong>! Please confirm below \n"
 "the details again.</p>\n"
 msgstr ""
 "\n"
-"<p>Vaše rezervace je <strong>téměř dokončena</strong>! Prosím zkontrolujte "
-"níže \n"
+"<p>Vaše rezervace je <strong>téměř dokončena</strong>! Prosím zkontrolujte níže \n"
 "detaily ještě jednou - pro jistotu.</p>\n"
 
-#: reservations/templates/reservations/reservation/1.html:15
+#: reservations/templates/reservations/reservation/1.html:17
 msgid "Selected car"
 msgstr "Zvolený automobil"
 
-#: reservations/templates/reservations/reservation/1.html:16
+#: reservations/templates/reservations/reservation/1.html:18
 msgid "Reservation time"
 msgstr "Čas rezervace"
 
-#: reservations/templates/reservations/reservation/1.html:17
-msgid "Price estimation"
-msgstr "Odhad ceny rezervace"
+#: reservations/templates/reservations/reservation/1.html:19
+msgid "Approximate distance per hour"
+msgstr "Přibližná vzdálenost za hodinu"
 
-#: reservations/templates/reservations/reservation/1.html:24
+#: reservations/templates/reservations/reservation/1.html:20
+msgid "Price estimation for distance"
+msgstr "Odhad ceny za ujetou vzdálenost"
+
+#: reservations/templates/reservations/reservation/1.html:21
+msgid "Reservation price"
+msgstr "Cena rezervace"
+
+#: reservations/templates/reservations/reservation/1.html:22
+msgid "Price loan estimation"
+msgstr "Odhad ceny výpůjčky"
+
+#: reservations/templates/reservations/reservation/1.html:31
 msgid "Finish reservation"
 msgstr "Dokončit rezervaci"
 
-#: reservations/templates/reservations/reservation/1.html:27
+#: reservations/templates/reservations/reservation/1.html:34
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -590,7 +593,8 @@ msgstr ""
 "kalendáři.</p>\n"
 
 #: reservations/templates/reservations/reservation/tmp.html:44
-#: templates/base.html:104 users/templates/users/base.html:17
+#: templates/base.html:105
+#: users/templates/users/base.html:17
 msgid "New reservation"
 msgstr "Nová rezervace"
 
@@ -602,86 +606,93 @@ msgstr "Datum"
 msgid "Your reservation"
 msgstr "Vaše rezervace"
 
-#: templates/base.html:45 templates/base.html.py:95
+#: templates/base.html:46
+#: templates/base.html.py:96
 msgid "Introduction"
 msgstr "Úvod"
 
-#: templates/base.html:47 templates/base.html.py:67
+#: templates/base.html:48
+#: templates/base.html.py:68
 #: templates/registration/login_box.html:26
 #: users/templates/users/invalid_credentials.html:28
 #: users/templates/users/login_required.html:28
 msgid "Log in"
 msgstr "Přihlásit se"
 
-#: templates/base.html:48
+#: templates/base.html:49
 msgid "How it works"
 msgstr "Jak to funguje"
 
-#: templates/base.html:50
+#: templates/base.html:51
 msgid "About us"
 msgstr "O nás"
 
-#: templates/base.html:51
+#: templates/base.html:52
 msgid "Terms of usage"
 msgstr "Podmínky použití"
 
-#: templates/base.html:52
+#: templates/base.html:53
 msgid "Contact"
 msgstr "Kontakt"
 
-#: templates/base.html:58 templates/registration/login_box.html:17
+#: templates/base.html:59
+#: templates/registration/login_box.html:17
 #: users/templates/users/account_detail.html:13
 #: users/templates/users/invalid_credentials.html:15
 #: users/templates/users/login_required.html:15
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: templates/base.html:62 templates/registration/login_box.html:21
+#: templates/base.html:63
+#: templates/registration/login_box.html:21
 #: users/templates/users/invalid_credentials.html:19
 #: users/templates/users/login_required.html:19
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/base.html:74
+#: templates/base.html:75
 msgid "Current subsidiary"
 msgstr "Zvolená pobočka"
 
-#: templates/base.html:75
+#: templates/base.html:76
 msgid "change"
 msgstr "změnit"
 
-#: templates/base.html:77
+#: templates/base.html:78
 msgid "By city"
 msgstr "Dle města"
 
-#: templates/base.html:85 templates/registration/login_box.html:7
+#: templates/base.html:86
+#: templates/registration/login_box.html:7
 msgid "Logged in"
 msgstr "Přihlášen"
 
-#: templates/base.html:86 templates/registration/login_box.html:8
+#: templates/base.html:87
+#: templates/registration/login_box.html:8
 #: users/templates/users/account_activities.html:28
 #: users/templates/users/account_detail.html:28
 msgid "Account balance"
 msgstr "Stav účtu"
 
-#: templates/base.html:97 users/templates/users/account_detail.html:5
+#: templates/base.html:98
+#: users/templates/users/account_detail.html:5
 #: users/templates/users/base.html:8
 msgid "My account"
 msgstr "Můj účet"
 
-#: templates/base.html:99
+#: templates/base.html:100
 msgid "Join us"
 msgstr "Připojte se k nám"
 
-#: templates/base.html:102
+#: templates/base.html:103
 msgid "Rates"
 msgstr "Ceny"
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Search"
 msgstr "Vyhledávání"
 
-#: templates/base.html:134
+#: templates/base.html:135
 msgid "All Rights Reserved &reg;"
 msgstr "Všechna práva vyhrazena &reg;"
 
@@ -706,13 +717,11 @@ msgid "Your search did not match any documents."
 msgstr "Pro váš dotaz nebyly nalezeny žádné dokumenty."
 
 #: templates/search.html:30
-#, fuzzy
 msgid "Search results"
-msgstr "Vyhledávání"
+msgstr "Výsledky vyhledávání"
 
 #: templates/search.html:33
-msgid ""
-"For the proper use of search functionality you have to enable javascript."
+msgid "For the proper use of search functionality you have to enable javascript."
 msgstr ""
 
 #: templates/search.html:35
@@ -776,11 +785,14 @@ msgstr "Datum žádosti musí být v minulosti."
 
 #: users/forms.py:77
 msgid "You were not supposed to use submitted car in the time you selected."
-msgstr ""
-"Ve vámi uvedenou dobu jste neměl(a) oprávnění používat zadaný automobil."
+msgstr "Ve vámi uvedenou dobu jste neměl(a) oprávnění používat zadaný automobil."
 
-#: users/urls.py:15 users/urls.py:16 users/urls.py:30 users/urls.py:33
-#: users/urls.py:36 users/urls.py:37
+#: users/urls.py:15
+#: users/urls.py:16
+#: users/urls.py:30
+#: users/urls.py:33
+#: users/urls.py:36
+#: users/urls.py:37
 msgid "my account"
 msgstr "můj účet"
 
@@ -800,8 +812,8 @@ msgstr "změnit heslo"
 msgid "password changed"
 msgstr "heslo změněno"
 
-#: users/urls.py:26 users/urls.py:27
-#, fuzzy
+#: users/urls.py:26
+#: users/urls.py:27
 msgid "password reset"
 msgstr "heslo změněno"
 
@@ -809,7 +821,8 @@ msgstr "heslo změněno"
 msgid "edit address"
 msgstr "upravit adresu"
 
-#: users/urls.py:36 users/urls.py:37
+#: users/urls.py:36
+#: users/urls.py:37
 msgid "invoices and bills"
 msgstr "Faktury a účty"
 
@@ -817,11 +830,14 @@ msgstr "Faktury a účty"
 msgid "claim new fuel bill"
 msgstr "Požádat o proplacení účtu za benzín"
 
-#: users/urls.py:41 users/urls.py:42 users/urls.py:46
+#: users/urls.py:41
+#: users/urls.py:42
+#: users/urls.py:46
 msgid "pending"
 msgstr "čekající"
 
-#: users/urls.py:42 users/urls.py:46
+#: users/urls.py:42
+#: users/urls.py:46
 msgid "page"
 msgstr "stránka"
 
@@ -834,21 +850,18 @@ msgid "You have been successfully logged in."
 msgstr "Byli jste úspěšně přihlášeni."
 
 #: users/views.py:76
-#, fuzzy
-msgid ""
-"You have been successfully registered. You will be sent an e-mail as soon as "
-"our administrators validate your registration request."
+msgid "You have been successfully registered. You will be sent an e-mail as soon as our administrators validate your registration request."
 msgstr ""
-"\n"
 "<p>\n"
 "\tRegistrace byla <strong>úspěšná</strong>. Děkujeme za váš \n"
 "\tzájem. Jakmile naši administrátoři ověří váš požadavek, bude vám zaslán \n"
 "\temail.\n"
-"</p>\n"
+"</p>"
 
-#: users/views.py:78 users/views.py:225
+#: users/views.py:78
+#: users/views.py:225
 msgid "Remove errors below."
-msgstr ""
+msgstr "Odstraňte níže uvedené chyby."
 
 #: users/views.py:194
 #, python-format
@@ -856,15 +869,11 @@ msgid "User \"%s\" does not exist."
 msgstr ""
 
 #: users/views.py:198
-msgid ""
-"Information email was sent on your email address. To set up your new "
-"password follow sent instructions."
+msgid "Information email was sent on your email address. To set up your new password follow sent instructions."
 msgstr ""
 
 #: users/views.py:212
-msgid ""
-"Your URL for password reset is not valid. Check it once more and try again. "
-"Remember that your URL is valid only for one day."
+msgid "Your URL for password reset is not valid. Check it once more and try again. Remember that your URL is valid only for one day."
 msgstr ""
 
 #: users/views.py:222
@@ -1028,8 +1037,7 @@ msgstr ""
 #: users/templates/users/fuel_bill_added.html:14
 msgid ""
 "\n"
-"<p>Please keep that bill code for your further reference. You will find "
-"list \n"
+"<p>Please keep that bill code for your further reference. You will find list \n"
 "of your bills in\n"
 msgstr ""
 
@@ -1048,31 +1056,21 @@ msgstr "Požádat o proplacení účtu za benzín"
 #: users/templates/users/fuel_bill_form.html:9
 msgid ""
 "\n"
-"<p>Fuel is part of car rental price. You <strong>are not supposed</strong> "
-"to pay it! There might \n"
-"be situations, when you run out of fuel during jour journeys thought. If "
-"that's \n"
-"the case, you don't need to worry. You can buy the fuel from your own, "
-"document \n"
-"it and then claim the request for refund - and your money will be refunded "
-"on \n"
+"<p>Fuel is part of car rental price. You <strong>are not supposed</strong> to pay it! There might \n"
+"be situations, when you run out of fuel during jour journeys thought. If that's \n"
+"the case, you don't need to worry. You can buy the fuel from your own, document \n"
+"it and then claim the request for refund - and your money will be refunded on \n"
 "your account.</p>\n"
 "\n"
-"<p>The part of this form is a bill photo. Although not required, it's very "
-"welcome\n"
+"<p>The part of this form is a bill photo. Although not required, it's very welcome\n"
 "as it simplifies the bill validation from our staff.</p>\n"
 msgstr ""
 "\n"
-"<p>Palivo je součást ceny za pronájem automobilu. Tento výdaj "
-"<strong>neplaťte</strong>! Mohou však nastat situace, kdy vám během vaší "
-"cesty \n"
-"palivo dojde. Pokud se toto stane, nemusíte mít obavy. Můžete palivo "
-"zakoupit ze svého, účet zdokumentovat a vaše peníze vám budou vráceny skrze "
-"přičtení \n"
+"<p>Palivo je součást ceny za pronájem automobilu. Tento výdaj <strong>neplaťte</strong>! Mohou však nastat situace, kdy vám během vaší cesty \n"
+"palivo dojde. Pokud se toto stane, nemusíte mít obavy. Můžete palivo zakoupit ze svého, účet zdokumentovat a vaše peníze vám budou vráceny skrze přičtení \n"
 "peněz na váš uživatelský účet.</p>\n"
 "\n"
-"<p>Součástí tohoto formuláře je i fotografie účtu. Ačkoliv není vyžadována, "
-"velmi oceníme, když nám fotografii poskytnete. Velmi to usnadňuje ověření \n"
+"<p>Součástí tohoto formuláře je i fotografie účtu. Ačkoliv není vyžadována, velmi oceníme, když nám fotografii poskytnete. Velmi to usnadňuje ověření \n"
 "požadavku o proplacení naším personálem.</p>\n"
 
 #: users/templates/users/fuel_bill_form.html:24
@@ -1086,14 +1084,12 @@ msgstr "Neaktivní účet"
 #: users/templates/users/inactive_account.html:8
 msgid ""
 "\n"
-"<p>We are sorry, but your account is marked as <strong>non-acive</strong> "
-"yet.</p>\n"
+"<p>We are sorry, but your account is marked as <strong>non-acive</strong> yet.</p>\n"
 "<p>It's likely that your registration request is being processed at the \n"
 "moment. Please wait.</p>\n"
 msgstr ""
 "\n"
-"<p>Je nám líto, ale váš účet je označen jako <strong>neaktivní</strong> .</"
-"p>\n"
+"<p>Je nám líto, ale váš účet je označen jako <strong>neaktivní</strong> .</p>\n"
 "<p>Je pravděpodobné že váš požadavek o registraci je právě zpracováván \n"
 "Prosíme čekejte.</p>\n"
 
@@ -1102,12 +1098,10 @@ msgid "Invalid credentials"
 msgstr "Neplatné přihlašovací údaje"
 
 #: users/templates/users/invalid_credentials.html:9
-#, fuzzy
 msgid "You have submitted invalid credentials. Please try again."
 msgstr ""
-"\n"
-"<p>Zadali jste neplatné přihlašovací údaje.  \n"
-"<a href=\"\">Zapoměl(a) jste vaše heslo</a>? Prosím zkuste to znovu.</p>\n"
+"<p>Zadali jste neplatné přihlašovací údaje. \n"
+"<a href=\"\">Zapoměl(a) jste vaše heslo</a>? Prosím zkuste to znovu.</p>"
 
 #: users/templates/users/invalid_credentials.html:10
 msgid "Did you forgot your password"
@@ -1124,17 +1118,13 @@ msgstr "Faktury a účty"
 #: users/templates/users/invoices.html:33
 msgid ""
 "\n"
-"<p>This page lists all money related informations for your account. You "
-"can \n"
-"review your invoices, watch your fuel bill claims and see if they were "
-"approved\n"
+"<p>This page lists all money related informations for your account. You can \n"
+"review your invoices, watch your fuel bill claims and see if they were approved\n"
 "or not.</p>\n"
 msgstr ""
 "\n"
-"<p>Tato stránka zobrazuje všechny záležitosti na vašem účtu, které se "
-"týkajípeněz. Můžete zde \n"
-"zkontrolovat vaše faktury a můžete sledovat vaše požadavky o proplacení "
-"paliva \n"
+"<p>Tato stránka zobrazuje všechny záležitosti na vašem účtu, které se týkajípeněz. Můžete zde \n"
+"zkontrolovat vaše faktury a můžete sledovat vaše požadavky o proplacení paliva \n"
 ".</p>\n"
 
 #: users/templates/users/invoices.html:40
@@ -1202,32 +1192,25 @@ msgstr "Přihlášení je vyžadováno"
 #: users/templates/users/login_required.html:8
 msgid ""
 "\n"
-"<p>The page you have chosen requires you to be logged in. Please, supply "
-"your \n"
+"<p>The page you have chosen requires you to be logged in. Please, supply your \n"
 "credentials to continue.</p>\n"
 msgstr ""
 "\n"
-"<p>Vámi požadovaná stránka vyžaduje abyste byl(a) přihlášen(a). Prosíme "
-"zadejte vaše přihlašovací údaje pro pokračování.</p>\n"
+"<p>Vámi požadovaná stránka vyžaduje abyste byl(a) přihlášen(a). Prosíme zadejte vaše přihlašovací údaje pro pokračování.</p>\n"
 
 #: users/templates/users/passwd_reset.html:5
-#, fuzzy
 msgid "Forgotten password"
 msgstr "Zapomenuté heslo"
 
 #: users/templates/users/passwd_reset.html:8
-msgid ""
-"Insert your username and confirm to send email with further instructions."
-msgstr ""
-"Vložte vaše uživatelské jméno a potvrďte odeslání emailu s bližšími "
-"instrukcemi."
+msgid "Insert your username and confirm to send email with further instructions."
+msgstr "Vložte vaše uživatelské jméno a potvrďte odeslání emailu s bližšími instrukcemi."
 
 #: users/templates/users/passwd_reset.html:15
 msgid "SEND EMAIL"
 msgstr ""
 
 #: users/templates/users/passwd_reset_confirm.html:5
-#, fuzzy
 msgid "Set your new password"
 msgstr "Změnit heslo"
 
@@ -1254,8 +1237,7 @@ msgstr "Heslo bylo změněno"
 #: users/templates/users/password_change_done.html:9
 msgid ""
 "\n"
-"<p>Your password has been <strong>sucessfully changed</strong>. Please "
-"keep \n"
+"<p>Your password has been <strong>sucessfully changed</strong>. Please keep \n"
 "the new password in safety for your own good.\n"
 msgstr ""
 "\n"
@@ -1275,19 +1257,15 @@ msgid ""
 "\n"
 "<p>You can create your account on-line. If you are interested to join our\n"
 "community, please fill up required information below. After you submit the \n"
-"necessary data, our administrator will be notified. As soon as they "
-"validate \n"
-"your request, you will be sent an e-mail confirming the account activation.</"
-"p>\n"
+"necessary data, our administrator will be notified. As soon as they validate \n"
+"your request, you will be sent an e-mail confirming the account activation.</p>\n"
 msgstr ""
 "\n"
 "<p>Váš účet můžete vytvořit on-line. Pokud máte zájem se zapojit do naší\n"
 "komunity, prosíme vyplňte níže uvedené informace. Po odeslání nezbytných \n"
-"budou informování naši administrátoři. Jakmile ověří váš požadavek, bude vám "
-"zaslán e-mail s potvrzením aktivace účtu.</p>\n"
+"budou informování naši administrátoři. Jakmile ověří váš požadavek, bude vám zaslán e-mail s potvrzením aktivace účtu.</p>\n"
 
 #: users/templates/users/registration.html:16
-#, fuzzy
 msgid ""
 "\n"
 "<p>\n"

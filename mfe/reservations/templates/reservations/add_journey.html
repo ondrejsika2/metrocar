@@ -8,9 +8,7 @@
 {% block left_col_content %}
 
 {% if not user.home_subsidiary.use_onboard_unit %}
-    {% blocktrans %}
-    <p>Please fill-up journey information.</p>
-    {% endblocktrans %}
+    {% blocktrans %}<p>Please fill-up journey information.</p>{% endblocktrans %}
     <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
     <p>

@@ -1,6 +1,9 @@
+# coding=utf-8
+
 #RESERVATION
 
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 from django.db.models.signals import post_save, pre_delete
 from django.db.transaction import commit_on_success
@@ -123,8 +126,8 @@ class Reservation(models.Model):
             site_settings.reservation_money_multiplier
 
         if user.account.balance < required_money_amount:
-            errors.append(force_unicode(_('You don\'t have enough money to create reservation. Required account balance is %d.'))
-                % required_money_amount)
+            errors.append(force_unicode(_('You don\'t have enough money to create reservation. Required account balance is %s.'))
+                % ('%d %s' % (Decimal(required_money_amount), u'Kč')))
 
         # conflicts check
         conflicts = cls.find_conflicts(car, datetime_from, datetime_till)
@@ -299,9 +302,25 @@ class Reservation(models.Model):
         from decimal import Decimal
         pricelist = car.model.get_pricelist()
         if pricelist:
+            from metrocar.config.settings_base import APPROXIMATE_DISTANCE_PER_HOUR
             duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
-            # try to estimate time and kms, expect ~ 10km per hour
-            return (pricelist.price_per_hour + pricelist.price_per_km * 10) * duration
+            # try to estimate time and kms
+            return (pricelist.price_per_hour + pricelist.price_per_km * APPROXIMATE_DISTANCE_PER_HOUR) * duration
+        else:
+            raise ReservationError('No suitable pricelist found.')
+
+    @classmethod
+    def get_base_price(cls, car, dt_from, dt_till):
+        """
+        Returns base price without estimation based mainly on time of reservation
+        """
+        from decimal import Decimal
+        pricelist = car.model.get_pricelist()
+        if pricelist:
+            from metrocar.config.settings_base import APPROXIMATE_DISTANCE_PER_HOUR
+            duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
+            # try to estimate time and kms
+            return (pricelist.price_per_hour * duration)
         else:
             raise ReservationError('No suitable pricelist found.')
     

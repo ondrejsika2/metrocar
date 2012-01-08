@@ -33,7 +33,7 @@ a:hover {color:#000;}
 ---------------------------------------------------------------------------------------------------------- */
 
 ul.messages { margin-top:15px; list-style-type:none; }
-ul.messages li { padding:10px 20px 10px 50px; border:1px dotted #D8D8D8; }
+ul.messages li { padding:10px 20px 10px 50px; border:1px dotted #D8D8D8; margin-bottom: 4px; }
 ul.messages li.info { background:url(../img/dialogs/info.png) 20px 50% no-repeat; }
 ul.messages li.success { background:url(../img/dialogs/success.png) 20px 50% no-repeat; border-color:#49BD00; }
 ul.messages li.warning { background:url(../img/dialogs/warning.png) 20px 50% no-repeat; border-color:#FF7300; }

@@ -70,6 +70,9 @@ table td { padding: 10px; text-align: left; vertical-align: middle; }
 table tr.even td { }
 table tr.odd td { background-color: #EEF8E4; }
 
+table.reservation-summary th { color: #404040; background: none; width: 40%; }
+table.reservation-summary th, table.reservation-summary td { padding: 4px 0; }
+
 table.timeline { width: 100%; font-size: 0.8em; }
 table.timeline td { color: #fff; -moz-border-radius:5px 5px 5px 5px; font-weight: bold; }
 table.timeline td.even { background-color: #EEF8E4; color:#404040; }

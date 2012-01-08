@@ -12,9 +12,16 @@ the details again.</p>
 {% endblocktrans %}
 
 <form action="." method="post">
-	<p><strong>{% trans "Selected car" %}:</strong> {{ car }}</p>
-	<p><strong>{% trans "Reservation time" %}:</strong> {{ reserved_from|date:"DATETIME_FORMAT" }} - {{ reserved_until|date:"DATETIME_FORMAT" }}</p>
-	<p><strong>{% trans "Price estimation" %}:</strong> {{ price_estimation|floatformat:"-2" }} Kč</p>
+    <table class="reservation-summary">
+        <tbody>
+            <tr><th>{% trans "Selected car" %}:</th><td>{{ car }}</td></tr>
+            <tr><th>{% trans "Reservation time" %}:</th><td>{{ reserved_from|date:"DATETIME_FORMAT" }} - {{ reserved_until|date:"DATETIME_FORMAT" }}</td></tr>
+            <tr><th>{% trans "Approximate distance per hour" %}:</th><td>{{ approximate_distance_per_hour }} km</td></tr>
+            <tr><th>{% trans "Price estimation for distance" %}:</th><td>{{ price_estimation_for_distance|floatformat:"-2" }} Kč</td></tr>
+            <tr><th>{% trans "Reservation price" %}:</th><td>{{ base_price|floatformat:"-2" }} Kč</td></tr>
+            <tr><th>{% trans "Price loan estimation" %}:</th><td><strong>{{ total_price_estimation|floatformat:"-2" }} Kč</strong></td></tr>
+        </tbody>
+    </table>
 	{% csrf_token %}
 	{{ form }}
 	<input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />

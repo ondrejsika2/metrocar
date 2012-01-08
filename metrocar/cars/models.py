@@ -529,20 +529,17 @@ class Journey(models.Model):
     def is_valid(self):
         j = self.car.get_current_journey()
         if j is not None and j.pk != self.pk:
-            raise AssertionError('Cannot save journey for Car `%s` because '
-                                 'it has one which is already active' % self.car)
+            raise AssertionError(_('Cannot save journey for Car `%s` because it has one which is already active') % self.car)
             return False
 		
         if self.end_datetime is not None:
             if self.end_datetime <= self.start_datetime:
-                raise AssertionError('Journey end time must be after journey '
-                                     'start time')
+                raise AssertionError(_('Journey end time must be after journey start time'))
                 return False
 
         if self.speedometer_end is not None and self.speedometer_start is not None:
             if self.speedometer_end <= self.speedometer_start:
-                raise AssertionError('State of speedometer in the end of the journey '
-                                     'must be higher than in the beginning of the journey.')
+                raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))
                 return False
         return True
 		
