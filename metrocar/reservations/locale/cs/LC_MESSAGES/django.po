@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-08 14:47+0100\n"
-"PO-Revision-Date: 2012-01-08 14:47+0100\n"
+"POT-Creation-Date: 2012-01-08 20:44+0100\n"
+"PO-Revision-Date: 2012-01-08 20:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -101,8 +101,8 @@ msgid "Car"
 msgstr "Automobil"
 
 #: models.py:56
-#: models.py:354
-#: models.py:375
+#: models.py:353
+#: models.py:374
 msgid "Reservation"
 msgstr "Rezervace"
 
@@ -145,31 +145,35 @@ msgstr "Rezervace nemůže být dokončena, protože zadané časy nesouhlasí."
 msgid "Cannot cancel reservation which already begun"
 msgstr "Nelze zrušit již započatou rezervaci"
 
-#: models.py:350
+#: models.py:253
+msgid "No valid pricelist found."
+msgstr "Nebyl nalezen žádný platný ceník."
+
+#: models.py:349
 msgid "Date time"
 msgstr "Datum a čas"
 
-#: models.py:352
+#: models.py:351
 msgid "Sent"
 msgstr "Odesláno"
 
-#: models.py:359
+#: models.py:358
 msgid "Reservation reminder"
 msgstr "Připomínka rezervace"
 
-#: models.py:360
+#: models.py:359
 msgid "Reservation reminders"
 msgstr "Připomínky rezervací"
 
-#: models.py:380
+#: models.py:379
 msgid "Reservation bill"
 msgstr "Účet za rezervaci"
 
-#: models.py:381
+#: models.py:380
 msgid "Reservation bills"
 msgstr "Účty za rezervace"
 
-#: models.py:384
+#: models.py:383
 #, python-format
 msgid "Bill for reservation %s"
 msgstr "Účet za rezervaci %s"

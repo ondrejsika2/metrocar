@@ -1,3 +1,4 @@
+#coding=utf-8
 '''
 Created on 11.3.2010
 
@@ -165,15 +166,22 @@ def add_journey(request, reservation_id):
                     return HttpResponseRedirect(request.META['HTTP_REFERER'])
                 else:
                     journey.update_total_price()
+                    # check user's account amount
+                    if journey.total_price > request.user.account.balance:
+                        raise ReservationError(_(u'You do not have enough money amount on your account. Journey bill is %.2f Kč.') % journey.total_price)
+
                     journey.save()
                     if reservation.started == None:
                         reservation.started = form.cleaned_data['start_datetime']
                         reservation.save();
                     return HttpResponseRedirect(reverse('mfe_reservations_edit_reservation', kwargs={'reservation_id':reservation_id}))
-            except AssertionError, e:
-                messages.error(request, e.message)
-            except Exception:
-                messages.error(request, _('Error'))
+            except (AssertionError, ReservationError, Exception), e:
+                if journey is not None:
+                   journey.delete()
+                if type(e) in [AssertionError, ReservationError]:
+                    messages.error(request, e.message)
+                else:
+                    messages.error(request, _('Unexpected error has been occured.'))
 
             form.data['start_datetime_0'] = request.POST['start_datetime_0']
             form.data['end_datetime_0'] = request.POST['end_datetime_0']
@@ -190,7 +198,7 @@ def add_journey(request, reservation_id):
         form = AddJourneyForm(initial=f_data)
 
     return render_to_response(
-        "reservations/add_journey.html", {'form': form, 'view': 'add'},
+        "reservations/add_journey.html", {'form': form, 'view': 'add', 'reservation': reservation},
         context_instance=RequestContext(request)
     )
 
@@ -267,7 +275,7 @@ def finish_reservation(request, reservation_id):
             messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
     except Exception, e:
         messages.error(request, e.message)
-        messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
+        #messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     return HttpResponseRedirect(reverse('mfe_reservations_outstanding_loans'))

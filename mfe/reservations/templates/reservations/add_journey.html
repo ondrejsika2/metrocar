@@ -8,6 +8,16 @@
 {% block left_col_content %}
 
 {% if not user.home_subsidiary.use_onboard_unit %}
+    <div class="inner-2cols">
+        <div class="col-left">
+            <ul class="ul-01">
+                <li><strong>{% trans "Car" %}:</strong> {{ reservation.car }}</li>
+                <li><strong>{% trans "Reserved from" %}:</strong> {{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</li>
+                <li><strong>{% trans "Reserved until" %}:</strong> {{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
     {% blocktrans %}<p>Please fill-up journey information.</p>{% endblocktrans %}
     <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}

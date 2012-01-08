@@ -537,6 +537,11 @@ class Journey(models.Model):
                 raise AssertionError(_('Journey end time must be after journey start time'))
                 return False
 
+        if self.start_datetime is not None:
+            if self.start_datetime < self.reservation.reserved_from:
+                raise AssertionError(_('Journey start time must be after reservation start time or equal.'))
+                return False
+
         if self.speedometer_end is not None and self.speedometer_start is not None:
             if self.speedometer_end <= self.speedometer_start:
                 raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))

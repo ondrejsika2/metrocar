@@ -250,8 +250,7 @@ class Reservation(models.Model):
                 return Pricelist.objects.valid().filter(model=self.car.model,
                     valid_from__lte=self.created).order_by('valid_from')[0]
         except IndexError:
-            raise ReservationError('No valid pricelist found for date %s' 
-                % self.created)
+            raise ReservationError(_('No valid pricelist found.'))
     
     def get_pricing_summary(self):
         """
@@ -337,7 +336,7 @@ class Reservation(models.Model):
             
             self.finished = True
             self.ended = finish_datetime
-            self.price = self.get_total_price()
+            self.price = -(self.get_total_price()) # deduct money from user account
             self.save()
             
             # create bill for that reservation
