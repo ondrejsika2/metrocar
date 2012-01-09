@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-12 14:23+0100\n"
-"PO-Revision-Date: 2011-12-12 14:23+0100\n"
+"PO-Revision-Date: 2012-01-09 09:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -266,11 +266,11 @@ msgstr "Stav účtu"
 
 #: models.py:286
 msgid "User account"
-msgstr "Uživatelský účet"
+msgstr "Uživatelské konto"
 
 #: models.py:287
 msgid "User accounts"
-msgstr "Uživatelské účty"
+msgstr "Uživatelská konta"
 
 #: models.py:305
 msgid "Account"

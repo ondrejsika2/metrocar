@@ -48,10 +48,10 @@ class StornoFeeManager(models.Manager):
                 preceeding_time_from__lte=difference.seconds
             ).order_by('-preceeding_time_from')[0]
             return timeline_rec
-        except IndexError:
+        except IndexError, e:
             if len(StornoFeeTimeline.objects.all()) != 0:
                 raise AssertionError(_('Too late to cancel the reservation.'))
-            raise ImproperlyConfigured('No storno fee record found.')
+            raise ImproperlyConfigured(_('No storno fee record found.'))
     
     def create_for_reservation(self, reservation):
         """
