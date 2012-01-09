@@ -116,8 +116,13 @@ class Pricelist(models.Model, CloneableModelMixin):
 				curr_dt, end_dt, price_per_hour = self._make_pricing_interval(
 					curr_dt, part_end_dt, pricing, key)
 				duration = (end_dt - curr_dt)
+				seconds = 0
+				if duration.days > 0:
+					seconds = (duration.days * 86400)
+				else:
+					seconds = duration.seconds
 				# append final journey part
-				part_price = Decimal(duration.total_seconds()) / Decimal(3600) \
+				part_price = Decimal(seconds) / Decimal(3600) \
 				    * price_per_hour
 				journey_parts.append({
 					'start': curr_dt, # datetime.combine(date, curr_dt), 
