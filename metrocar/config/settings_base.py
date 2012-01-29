@@ -6,7 +6,7 @@ from os.path import join
 
 import metrocar
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 SERVE_STATIC_FILES = False
 
