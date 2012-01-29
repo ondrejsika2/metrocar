@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
@@ -23,20 +25,24 @@ class Pricelist(models.Model, CloneableModelMixin):
 	description = models.TextField(blank=False, null=True, default='',
 		verbose_name=_('Description'))
 	name = models.CharField(max_length=50, blank=False, null=False,
-		verbose_name=_('Name'))
+		verbose_name=_('Name'), help_text=u'Název ceníku.')
 	pickup_fee = models.DecimalField(decimal_places=3, max_digits=8,
-		blank=False, null=False, verbose_name=_('Pickup fee'))
+		blank=False, null=False, verbose_name=_('Pickup fee'),
+		help_text=u'Částka, kterou zákazník zaplatí při vyzvednutí automobilu.')
 	price_per_hour = models.DecimalField(decimal_places=3, max_digits=8,
-		blank=False, null=False, verbose_name=_('Price per hour'))
+		blank=False, null=False, verbose_name=_('Price per hour'),
+		help_text=u'Částka, kterou zákazník zaplatí za jednu hodinu, co bude mít automobil vypůjčený.')
 	price_per_km = models.DecimalField(decimal_places=3, max_digits=8,
-		blank=False, null=False, verbose_name=_('Price per km'))
+		blank=False, null=False, verbose_name=_('Price per km'),
+		help_text=u'Částka, kterou zákazník zaplatí za jeden ujetý kilometr.')
 	reservation_fee = models.DecimalField(decimal_places=3, max_digits=8,
-		blank=False, null=False, verbose_name=_('Reservation fee'))
+		blank=False, null=False, verbose_name=_('Reservation fee'),
+		help_text=u'Částka, kterou zákazník zaplatí za uskutečněnou rezervaci.')
 	valid_from = models.DateField(blank=False, null=False,
 		verbose_name=_('Valid from'))
 	
 	model = models.ForeignKey(CarModel, blank=False, null=False,
-		verbose_name=_('Car model'))
+		verbose_name=_('Car model'), help_text=u'Model automobilu, nejedná se však o konkrétní vozidlo.')
 
 	objects = managers.PricelistManager()
 
@@ -249,7 +255,7 @@ class Pricelist(models.Model, CloneableModelMixin):
 			if len(weekdays_timeline) > 1:
 				tmp += weekdays_timeline
 			weekdays_timeline = tmp
-		
+
 		dates_timeline = [ ( { 'date': day.date }, day.get_pricing_timeline() ) 
 						  for day in self.pricelistday_set.dates() ]
 		return {
@@ -308,12 +314,15 @@ class PricelistDay(models.Model, CloneableModelMixin):
 	    (4, _('Friday')), (5, _('Saturday')), (6, _('Sunday'))
 	)
 	
-	date = models.DateField(blank=True, null=True, verbose_name=_('Date'))
+	date = models.DateField(blank=True, null=True, verbose_name=_('Date'),
+							help_text=u'Datum, ke kterému se bude tento ceník vztahovat. Pro jiné datum již nebude platit.')
 	weekday_from = models.SmallIntegerField(max_length=1, blank=True,
-		null=True, choices=WEEKDAYS, verbose_name=_('Weekday from'))
-	
+		null=True, choices=WEEKDAYS, verbose_name=_('Weekday from'),
+		help_text=u'Den v týdnu, od kterého se bude automaticky odvíjet ceník pro všechny následující dny. ' \
+		          u'Přidáním nového dne do téhož ceníku se časové schéma změní.')
+
 	pricelist = models.ForeignKey(Pricelist, blank=False, null=False,
-		verbose_name=_('Pricelist'))
+		verbose_name=_('Pricelist'), help_text=u'Ceník, který je svázaný s konkrétním modelem automobilu.')
 
 	objects = managers.PricelistDayManager()
 

@@ -221,7 +221,11 @@ class Reservation(models.Model):
         """
         Refreshes path information from journeys
         """
-        reservation = kwargs['instance'].reservation
+        reservation = None
+        try:
+            reservation = kwargs['instance'].reservation
+        except Exception:
+	        pass
         if reservation is None: return
         
         # refresh path
@@ -336,7 +340,7 @@ class Reservation(models.Model):
             
             self.finished = True
             self.ended = finish_datetime
-            self.price = -(self.get_total_price()) # deduct money from user account
+            self.price = self.get_total_price() # deduct money from user account
             self.save()
             
             # create bill for that reservation

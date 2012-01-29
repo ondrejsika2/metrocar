@@ -337,7 +337,7 @@ class AccountActivity(models.Model):
         if not self.credited and self.ready_to_be_invoiced():
             # perform change of account balance and freeze it's current state
             # to account_balance field
-            self.account.balance += self.money_amount
+            self.account.balance -= self.money_amount
             self.account_balance = self.account.balance
             self.credited = True
             self.account.save()

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-09 10:22+0100\n"
-"PO-Revision-Date: 2012-01-09 10:23+0100\n"
+"PO-Revision-Date: 2012-01-22 15:54+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -148,7 +148,7 @@ msgstr "Dny ceníků"
 
 #: models.py:397
 msgid "Car unused ratio"
-msgstr "Koeficent čekání"
+msgstr "Koeficient čekání"
 
 #: models.py:399
 msgid "Car used ratio"
