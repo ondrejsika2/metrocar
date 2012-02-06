@@ -1,7 +1,8 @@
 from django.contrib.gis import admin
 from django.contrib.gis.db import models
+from django.db.models.base import Model
 from django.utils.translation import ugettext_lazy as _
-from django.forms.models import BaseInlineFormSet
+from django.forms.models import BaseInlineFormSet, ModelForm
 
 from metrocar.reservations.models import *
 from metrocar.cars.models import Journey
@@ -14,6 +15,7 @@ class JourneyInline(admin.StackedInline):
     classes = ('collapse-closed',)
     model = Journey
     formset = JourneyOrderedFormset
+    exclude = ['user', 'car']
 
 class ReservationModelAdmin(admin.OSMGeoAdmin):
     list_display = ('user', 'car', 'reserved_from', 'reserved_until', 'started', 'ended', 'cancelled', 'price')
@@ -25,7 +27,21 @@ class ReservationModelAdmin(admin.OSMGeoAdmin):
     )
     inlines = [ JourneyInline, ]
     #readonly_fields = ('started', 'ended')
-    
+
+    def save_formset(self, request, form, formset, change):
+        r = form.save(commit=False)
+        journeys = formset.save(commit=False)
+
+        # update all available journeys
+        if len(journeys) == 0:
+            journeys = Journey.objects.filter(reservation=r)
+
+        if len(journeys) != 0 and r.finished != True:
+            for journey in journeys:
+                journey.reservation = r
+                journey.update()
+            r.finish()
+
     def change_view(self, request, object_id, extra_content=None):
         reservation = Reservation.objects.get(pk=object_id)
         extra_content = {
@@ -34,6 +50,7 @@ class ReservationModelAdmin(admin.OSMGeoAdmin):
         return super(ReservationModelAdmin, self).change_view(
                request, object_id, extra_content
         )
+
 
 admin.site.register(Reservation, ReservationModelAdmin)
 admin.site.register(ReservationReminder)

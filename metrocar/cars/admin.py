@@ -116,7 +116,7 @@ class JourneyModelAdmin(admin.OSMGeoAdmin):
     list_display = ('id', 'user', 'car', 'start_datetime', 'end_datetime', 'type', 'length', 'is_finished', 'reservation', 'is_service', 'total_price',)
     list_filter = ('car', 'user', 'type')
     fieldsets = (
-                 (_('Basic information'), {'fields': ('user', 'car', 'reservation', 'start_datetime', 'end_datetime', 'total_price'), 'classes': ('show', 'extrapretty',)}),
+                 (_('Basic information'), {'fields': ('user', 'car', 'reservation', 'start_datetime', 'end_datetime', 'total_price', 'speedometer_start', 'speedometer_end'), 'classes': ('show', 'extrapretty',)}),
                  (_('Track'), {'fields': ('path',), 'classes': ('wide',)}),
                  )
     inlines = [

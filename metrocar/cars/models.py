@@ -69,12 +69,12 @@ class CarModel(models.Model):
 
     def __unicode__(self):
         return u"%s %s %s" % (self.manufacturer, self.name, self.engine)
-	
+
     def get_pricelist(self):
         """
-		Returns available and valid pricelist for current car model if possible
-		If no pricelist is found, returns False
-		"""
+        Returns available and valid pricelist for current car model if possible
+        If no pricelist is found, returns False
+        """
         #TODO caching
         from metrocar.tarification.models import Pricelist
         try:
@@ -89,7 +89,7 @@ class CarColor(models.Model):
     class Meta:
         verbose_name = _('Car color')
         verbose_name_plural = _('Car colors')
-	
+
     def __unicode__(self):
         return self.color
 
@@ -136,8 +136,8 @@ class Car(models.Model):
 
     def save(self, * args, ** kwargs):
         """
-		If position text is none, query it and save it.
-		"""
+        If position text is none, query it and save it.
+        """
         if self.last_address is None:
             try:
                 from metrocar.utils.nominatim import NominatimQuerier
@@ -164,14 +164,14 @@ class Car(models.Model):
 
     def set_auth_key(self, key):
         """
-		Sets the encrypted authorization key
-		"""
+        Sets the encrypted authorization key
+        """
         self.authorization_key = managers.CarManager().make_auth_key(key)
 
     def state(self):
         """
-		Returns car state (locked or opened).
-		"""
+        Returns car state (locked or opened).
+        """
         if self.get_current_journey() is None:
             return Car.STATE_OPENED
         else:
@@ -179,14 +179,14 @@ class Car(models.Model):
 
     def is_locked(self):
         """
-		Returns true if car is locked
-		"""
+        Returns true if car is locked
+        """
         return self.state == Car.STATE_LOCKED
 
     def get_current_journey(self):
         """
-		Returns current journey for the car or None if it doesn't exist.
-		"""
+        Returns current journey for the car or None if it doesn't exist.
+        """
         try:
             return self.journey_set.get(end_datetime__isnull=True)
         except Journey.DoesNotExist:
@@ -194,8 +194,8 @@ class Car(models.Model):
 
     def update_last_position(self):
         """
-		Updates car's last position according to last saved CarPosition object.
-		"""
+        Updates car's last position according to last saved CarPosition object.
+        """
         try:
             last_pos = CarPosition.objects.filter(journey__car=self).order_by('-pk')[0]
             self.last_position = last_pos.position
@@ -207,18 +207,18 @@ class Car(models.Model):
 
     def update_comm_status(self):
         """
-		Updates last echo information for the car to be 'now'
-		"""
+        Updates last echo information for the car to be 'now'
+        """
         self.last_echo = datetime.now()
         self.save()
 
     def get_upcoming_reservations(self, format='json'):
         """
-		Returns JSON object with reservation events suitable for using in
-		calendar view.
-		Each record has an id, title (containing username of reservee),
-		start and end. Also, there is readOnly property for calendar use.
-		"""
+        Returns JSON object with reservation events suitable for using in
+        calendar view.
+        Each record has an id, title (containing username of reservee),
+        start and end. Also, there is readOnly property for calendar use.
+        """
         reservation_list = []
         for reservation in Reservation.objects.filter(car=self,
                                                       reserved_until__gte=datetime.now()).order_by('reserved_from'):
@@ -238,15 +238,15 @@ class Car(models.Model):
 
     def get_upcoming_reservations_json(self):
         """
-		Shortcut for get_upcoming_reservations to be used in templates, where
-		json is needed.
-		"""
+        Shortcut for get_upcoming_reservations to be used in templates, where
+        json is needed.
+        """
         return self.get_upcoming_reservations(format='json')
 
     def is_user_allowed(self, user, datetime):
         """
-		Returns True if user is allowed to access the car in given time
-		"""
+        Returns True if user is allowed to access the car in given time
+        """
         if user.user_card.is_service_card:
             return True
         try:
@@ -260,9 +260,9 @@ class Car(models.Model):
 
     def get_allowed_users(self, dt=datetime.now()):
         """
-		Returns list of users who are allowed to access the car along with times,
-		when they are allowed to.
-		"""
+        Returns list of users who are allowed to access the car along with times,
+        when they are allowed to.
+        """
         from metrocar.utils.models import SiteSettings
         check_interval = SiteSettings.objects.get_current().gps_check_interval
         dt_till = dt + timedelta(seconds=check_interval)
@@ -350,16 +350,16 @@ class FuelBill(AccountActivity):
     class Meta:
         verbose_name = _('Fuel bill')
         verbose_name_plural = _('Fuel bills')
-		
+
     def save(self, * args, ** kwargs):
         self.code = '#%s-%s' % (str(self.account.user.pk).zfill(4),
                                 datetime.strftime(self.datetime, '%Y%m%d%H%M'))
         super(FuelBill, self).save(*args, ** kwargs)
-		
+
     def ready_to_be_invoiced(self):
         """
-		Returns true if item is ready to be invoiced.
-		"""
+        Returns true if item is ready to be invoiced.
+        """
         if self.approved: return True
         else: return False
 
@@ -374,7 +374,7 @@ class MaintenanceBill(AccountActivity):
     car = models.ForeignKey(Car, blank=False, null=False, verbose_name=_('Car'))
     place = models.CharField(max_length=100, blank=False, null=False, verbose_name=_('Place'))
     image = models.ImageField(upload_to='maintenence_bills/%Y/%m', blank=True, null=True, verbose_name=_('Bill image'))
-    
+
     class Meta:
         verbose_name = _('Maintenance bill')
         verbose_name_plural = _('Maintenance bills')
@@ -386,8 +386,8 @@ class MaintenanceBill(AccountActivity):
 
     def ready_to_be_invoiced(self):
         """
-		Returns true if item is ready to be invoiced.
-		"""
+        Returns true if item is ready to be invoiced.
+        """
         if self.approved: return True
         else: return False
 
@@ -432,7 +432,7 @@ class ParkingDescription(models.Model):
 
     def __unicode__(self):
         return self.description
-	
+
 class CarPosition(models.Model):
     position = models.PointField(_('Car position'))
     journey = models.ForeignKey('Journey', blank=False, null=False,
@@ -449,11 +449,11 @@ class CarPosition(models.Model):
 
     def save(self, * args, ** kwargs):
         """
-		Overload save to update journey last position.
-		
-		We also add posibility to evade car position update by setting the
-		parameter no_pos_update to True
-		"""
+        Overload save to update journey last position.
+
+        We also add posibility to evade car position update by setting the
+        parameter no_pos_update to True
+        """
         if kwargs.has_key('no_pos_update'):
             pos_update = not kwargs['no_pos_update']
             del kwargs['no_pos_update']
@@ -464,11 +464,11 @@ class CarPosition(models.Model):
         if pos_update:
             # update car position, don't expect we are the last one
             self.journey.car.update_last_position()
-	
+
     def get_sequence_nr(self):
         """
-		Returns CarPosition order in journey.
-		"""
+        Returns CarPosition order in journey.
+        """
         return len(CarPosition.objects.filter(journey=self.journey, pk__lt=self.pk))
 
 class Journey(models.Model):
@@ -480,7 +480,7 @@ class Journey(models.Model):
                     (TYPE_TRIP, _('Trip')),
                     (TYPE_LATE_RETURN, _('Late return'))
                     )
-	
+
     comment = models.TextField(blank=True, null=True, verbose_name=_('Comment'))
     start_datetime = models.DateTimeField(blank=False, null=False,
                                           verbose_name=_('Start datetime'))
@@ -501,11 +501,11 @@ class Journey(models.Model):
     car = models.ForeignKey(Car, null=False, verbose_name=_('Car'))
     user = models.ForeignKey(MetrocarUser, null=False, verbose_name=_('User'))
 
-    speedometer_start = models.IntegerField(null=False, verbose_name=_('Speedometer start state'),
-                                            blank=False)
+    speedometer_start = models.IntegerField(null=True, verbose_name=_('Speedometer start state'),
+                                            blank=True)
 
-    speedometer_end = models.IntegerField(null=False, verbose_name=_('Speedometer end state'),
-                                            blank=False)
+    speedometer_end = models.IntegerField(null=True, verbose_name=_('Speedometer end state'),
+                                            blank=True)
 
     objects = managers.JourneyManager()
 
@@ -520,18 +520,19 @@ class Journey(models.Model):
                                 '%H:%M:%S %A, %d.%m.%Y'))
         else:
             return unicode(self.pk)
-		
+
     def save(self, * args, ** kwargs):
         """Overload to add custom validation"""
         if self.is_valid():
             super(Journey, self).save(*args, ** kwargs)
-		
+
     def is_valid(self):
         j = self.car.get_current_journey()
+
         if j is not None and j.pk != self.pk:
             raise AssertionError(_('Cannot save journey for Car `%s` because it has one which is already active') % self.car)
             return False
-		
+
         if self.end_datetime is not None:
             if self.end_datetime <= self.start_datetime:
                 raise AssertionError(_('Journey end time must be after journey start time'))
@@ -546,40 +547,43 @@ class Journey(models.Model):
             if self.speedometer_end <= self.speedometer_start:
                 raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))
                 return False
+        else:
+            raise AssertionError(_('Values of speedometer can not be empty.'))
+            return False
         return True
-		
+
     def update_total_price(self):
         """
-		Refreshes total price of journey forcing recount
-		"""
+        Refreshes total price of journey forcing recount
+        """
         self.total_price = self._get_total_price()
 
     def _get_total_price(self):
         """
-		Stands as proxy for counting prices
-		"""
+        Stands as proxy for counting prices
+        """
         pricing_info = self.get_pricing_info()
         if pricing_info is not None:
             return pricing_info['total_price']
         return 0
-	
+
     def get_pricing_info(self):
         """
-		Stands as proxy for counting prices
-		"""
+        Stands as proxy for counting prices
+        """
         if self.reservation:
             return self.reservation.get_pricelist().count_journey_price(self)
         return None
-	
+
     @classmethod
     def refresh_path(cls, sender, ** kwargs):
         """
-		Forces refresh of journey path from CarPosition objects.
-		"""
+        Forces refresh of journey path from CarPosition objects.
+        """
         journey = kwargs['instance'].journey
         position_points = [position.position for position in journey.carposition_set.order_by('pk')]
         line_strings = []
-		
+
         if len(position_points) == 1:
             # create generic linestring with two same points
             line_strings = [LineString(position_points[0], position_points[0])]
@@ -587,30 +591,41 @@ class Journey(models.Model):
             # create linestring connecting points
             for point_one, point_two in zip(position_points[:-1], position_points[1:]):
                 line_strings.append(LineString(point_one, point_two))
-		
+
         journey.path = MultiLineString(*line_strings)
         journey.save()
-	
+
     def is_finished(self):
         """
-		Returns true if journey is already finished.
-		"""
+        Returns true if journey is already finished.
+        """
         return self.end_datetime != None
-	
+
     def is_service(self):
         """
-		Returns true if journey is service type
-		"""
+        Returns true if journey is service type
+        """
         return self.reservation == None
-	
+
     def finish(self, time):
         """
-		Finishes journey and sets end_datetime to time param
-		"""
+        Finishes journey and sets end_datetime to time param
+        """
         self.end_datetime = time
         self.save()
         return True
-	
+
+    def update(self):
+        """
+        Prepares data and updates journey
+        """
+        self.length = self.speedometer_end - self.speedometer_start
+        self.car = self.reservation.car
+        self.user = self.reservation.user
+        self.update_total_price()
+        self.save()
+        return True
+
 post_save.connect(Journey.refresh_path, sender=CarPosition)
 pre_delete.connect(Journey.refresh_path, sender=CarPosition)
 post_save.connect(Reservation.refresh_journey_data, sender=Journey)
