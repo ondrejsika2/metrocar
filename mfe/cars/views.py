@@ -1,3 +1,5 @@
+#coding=utf-8
+
 '''
 Created on 11.3.2010
 
@@ -31,7 +33,7 @@ def load_car_list(request, start_date=None, start_time=None, end_date=None, end_
             for c in cars:
                 result.append('<option value="' + unicode(c.id) + '">'+ c.__unicode__() + '</option>')
         else:
-            result.append('<option value="0">' + unicode(_('No car is available in chosen time.')) + '</option>')
+            result.append('<option value="0">%s</option>' % _('No car is available in chosen time.'))
 
         data = simplejson.dumps({'count' : carsCount, 'data' : ''.join(result)})
 

@@ -116,4 +116,3 @@ class AddJourneyForm(forms.ModelForm):
             'end_datetime': CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
                                                         CalendarSelectTimeWidget()]),
         }
-        

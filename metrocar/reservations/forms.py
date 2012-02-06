@@ -43,4 +43,3 @@ class ReservationForm(forms.Form):
             return self.cleaned_data
         else:
             raise forms.ValidationError(_('Missing some data'))
-    
