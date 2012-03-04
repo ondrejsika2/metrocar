@@ -93,7 +93,6 @@ class UserRegistrationRequestAdmin(admin.ModelAdmin):
 
     def set_approved(self, request, queryset):
         for req in queryset:
-            print 'expelliarmus'
             if(self.check_approve_permission(request, req) == False):
                 raise PermissionDenied
             req.approve()
@@ -132,13 +131,14 @@ class UserRegistrationRequestAdmin(admin.ModelAdmin):
 class AccountAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AccountAdminForm, self).__init__(*args, **kwargs)
-        self.fields['balance'].widget.attrs['disabled'] = 'disabled'
+        self.fields['balance'].widget.attrs['readonly'] = 'readonly'
 
     class Meta:
         model = Account
 
 class AccountAdmin(admin.ModelAdmin):
     form = AccountAdminForm
+    list_display = ('user', 'balance')
 
 
 admin.site.register(MetrocarUser, MetrocarUserAdmin)
