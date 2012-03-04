@@ -1,6 +1,7 @@
 __author__ = "Xaralis"
 __date__ = "$28.10.2009 17:35:10$"
 
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
@@ -128,11 +129,22 @@ class UserRegistrationRequestAdmin(admin.ModelAdmin):
 
     actions = [set_approved, set_denied]
 
+class AccountAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AccountAdminForm, self).__init__(*args, **kwargs)
+        self.fields['balance'].widget.attrs['disabled'] = 'disabled'
+
+    class Meta:
+        model = Account
+
+class AccountAdmin(admin.ModelAdmin):
+    form = AccountAdminForm
+
 
 admin.site.register(MetrocarUser, MetrocarUserAdmin)
 admin.site.unregister(User)
 admin.site.register(Company)
-admin.site.register(Account)
+admin.site.register(Account, AccountAdmin)
 admin.site.register(UserCard)
 admin.site.register(Deposit)
 admin.site.register(UserRegistrationRequest,UserRegistrationRequestAdmin)
