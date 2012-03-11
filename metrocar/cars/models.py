@@ -548,8 +548,9 @@ class Journey(models.Model):
                 raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))
                 return False
         else:
-            raise AssertionError(_('Values of speedometer can not be empty.'))
-            return False
+            if self.type == self.TYPE_TRIP:
+                raise AssertionError(_('Values of speedometer can not be empty.'))
+                return False
         return True
 
     def update_total_price(self):

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-09 10:14+0100\n"
-"PO-Revision-Date: 2012-01-09 10:18+0100\n"
+"POT-Creation-Date: 2012-03-11 10:44+0100\n"
+"PO-Revision-Date: 2012-03-11 10:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -34,7 +34,7 @@ msgstr "seznam pakrovišť"
 msgid "fares"
 msgstr "ceny"
 
-#: cars/views.py:34
+#: cars/views.py:38
 #: reservations/forms.py:42
 msgid "No car is available in chosen time."
 msgstr "Ve zvolený čas není k dispozici žádné auto."
@@ -316,41 +316,48 @@ msgid "delete journey"
 msgstr "smazat jízdu"
 
 #: reservations/urls.py:28
-msgid "edit journey"
-msgstr "upravit jízdu"
-
-#: reservations/urls.py:29
 msgid "finish reservation"
 msgstr "dokončit rezervaci"
 
-#: reservations/views.py:106
+#: reservations/views.py:79
+msgid "This car seems to be already registered. Please try to choose another one."
+msgstr "Zdá se, že toto vozidlo je již zarezervováno. Zkuste prosím vybrat jiné."
+
+#: reservations/views.py:82
+msgid "Unexpected error has been occured. Please try it again."
+msgstr "Vyskytl se neočekávaný problém. Prosím zkuste to znovu."
+
+#: reservations/views.py:113
 msgid "It is not possible to cancel reservation that has already begun."
 msgstr "Není možné zrušit již probíhající rezervaci."
 
-#: reservations/views.py:112
+#: reservations/views.py:119
 #, python-format
 msgid "Do you want to cancel reservation %(reservation)s for car %(car)s? <a href=\"%(yes_url)s\">Yes</a> | <a href=\"%(no_url)s\">No</a>"
 msgstr "Opravdu chcete zrušit rezervaci  %(reservation)s pro vozidlo %(car)s? <a href=\"%(yes_url)s\">Ano</a> | <a href=\"%(no_url)s\">Ne</a>"
 
-#: reservations/views.py:121
+#: reservations/views.py:128
 msgid "Access to reservation is denied."
 msgstr "Přístup k této rezervaci je zakázaný."
 
-#: reservations/views.py:174
+#: reservations/views.py:157
+msgid "It is not allowed to add another journey."
+msgstr "Není dovoleno přidávat další jízdu."
+
+#: reservations/views.py:186
 #, python-format
 msgid "You do not have enough money amount on your account. Journey bill is %.2f Kč."
 msgstr "Nemáte dostatek peněz na svém účtu. Cena za jízdu činí %.2f Kč."
 
-#: reservations/views.py:187
+#: reservations/views.py:200
 msgid "Unexpected error has been occured."
 msgstr "Vyskytl se neočekávaný problém."
 
-#: reservations/views.py:238
-#: reservations/views.py:268
+#: reservations/views.py:228
 msgid "Error"
 msgstr "Chyba"
 
-#: reservations/views.py:278
+#: reservations/views.py:238
 msgid "Reservation could not be finished. Some error has been occured."
 msgstr "Rezervace nemohla být dokončena. Objevily se některé problémy."
 
@@ -1311,6 +1318,9 @@ msgstr "odhlášení"
 #: utils/urls.py:19
 msgid "registration"
 msgstr "registrace"
+
+#~ msgid "edit journey"
+#~ msgstr "upravit jízdu"
 
 #~ msgid "non finished"
 #~ msgstr "nedokončené"

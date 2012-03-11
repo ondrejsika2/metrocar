@@ -342,11 +342,16 @@ class Reservation(models.Model):
             self.ended = finish_datetime
             self.price = self.get_total_price() # deduct money from user account
             self.save()
-            
+
             # create bill for that reservation
             ReservationBill.objects.create_for_reservation(self)
             return True
-        return False  
+        return False
+
+    def has_journey(self):
+        from metrocar.cars.models import Journey
+        journeys = Journey.objects.filter(reservation=self)
+        return len(journeys) > 0
 
 class ReservationReminder(models.Model):
     datetime = models.DateTimeField(blank=False, null=False,

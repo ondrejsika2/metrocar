@@ -109,6 +109,7 @@ $(function() {
     var $reservedStartTime = $('#id_0-reserved_from_1');
     var $reservedEndDate = $('#id_0-reserved_until_0');
     var $reservedEndTime = $('#id_0-reserved_until_1');
+    var $car = $('#id_0-car_id');
 
     var defaultStartDate = $reservedStartDate.val();
     var defaultStartTime = $reservedStartTime.find('option:selected').text();
@@ -123,6 +124,7 @@ $(function() {
         var startTime = $reservedStartTime.val();
         var endDate = $reservedEndDate.val();
         var endTime = $reservedEndTime.val();
+        var selectedCarId = parseInt($car.find('option:selected').val());
 
         $.ajax({
             type: "GET",
@@ -130,7 +132,11 @@ $(function() {
             url: "/automobily/load_car_list/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime + "/",
             success: function(data) {
                 disableReservationButton($('button'), data.count == 0);
-                $('#id_0-car_id').html(data.data);
+                $car.html(data.data);
+
+                if (jQuery.inArray(selectedCarId, data.keys) > -1) {
+                    $car.val(selectedCarId).attr('selected', 'selected');
+                }
             }
         });
     }

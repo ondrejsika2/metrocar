@@ -29,13 +29,15 @@ def load_car_list(request, start_date=None, start_time=None, end_date=None, end_
         cars = Car.list_of_available_cars(datetime_start, datetime_end, home_subsidiary=request.user.home_subsidiary)
         carsCount = len(cars)
         result = []
+        keys = []
         if len(cars) > 0:
             for c in cars:
+                keys.append(c.id)
                 result.append('<option value="' + unicode(c.id) + '">'+ c.__unicode__() + '</option>')
         else:
             result.append('<option value="0">%s</option>' % _('No car is available in chosen time.'))
 
-        data = simplejson.dumps({'count' : carsCount, 'data' : ''.join(result)})
+        data = simplejson.dumps({'count' : carsCount, 'data' : ''.join(result), 'keys' : keys})
 
         return HttpResponse(data, 'application/javascript')
     else:

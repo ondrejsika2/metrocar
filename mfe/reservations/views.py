@@ -4,6 +4,7 @@ Created on 11.3.2010
 
 @author: xaralis
 '''
+from django.core.exceptions import ValidationError
 
 from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
@@ -15,6 +16,8 @@ from django.contrib import messages
 from django.template.context import RequestContext
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
+import sys
+import traceback
 from metrocar.cars.models import Car, Journey
 from metrocar.reservations.models import Reservation, ReservationError
 from mfe.utils.forms import render_to_wizard, ViewFormWizard
@@ -70,8 +73,14 @@ def reservation(request, car_id=None):
         0: context,
         1: context,
     }
-    return render_to_wizard(ReservationWizard, context=context,
-        request=request, initial=initial)
+    try:
+        return render_to_wizard(ReservationWizard, context=context, request=request, initial=initial)
+    except ValidationError:
+        messages.error(request, _('This car seems to be already registered. Please try to choose another one.'))
+        return HttpResponseRedirect(reverse('mfe_reservations_reservation'))
+    except (Exception, ReservationError):
+        messages.error(request, _('Unexpected error has been occured. Please try it again.'))
+        return HttpResponseRedirect(reverse('mfe_reservations_reservation'))
 
 @login_required
 def pending_list(request, page=None):
@@ -143,6 +152,11 @@ def add_journey(request, reservation_id):
 
     reservation = get_object_or_404(Reservation, pk=reservation_id)
 
+    # only 1 journey can be inserted
+    if reservation.has_journey():
+        messages.error(request, _('It is not allowed to add another journey.'))
+        return HttpResponseRedirect(reverse('mfe_reservations_edit_reservation', kwargs={'reservation_id':reservation_id}))
+
     if request.method == 'POST':
         f_data = request.POST.copy()
         f_data['start_datetime_0'] = datetime.strptime(f_data['start_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
@@ -182,6 +196,7 @@ def add_journey(request, reservation_id):
                 if type(e) in [AssertionError, ReservationError]:
                     messages.error(request, e.message)
                 else:
+                    traceback.print_tb(sys.exc_traceback)
                     messages.error(request, _('Unexpected error has been occured.'))
 
             form.data['start_datetime_0'] = request.POST['start_datetime_0']
