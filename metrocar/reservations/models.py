@@ -9,7 +9,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.db.transaction import commit_on_success
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import MultiLineString
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ngettext
 
 from metrocar.user_management.models import MetrocarUser, AccountActivity
 from metrocar.utils.models import SiteSettings
@@ -114,8 +114,29 @@ class Reservation(models.Model):
             errors.append(force_unicode(_('Minimum duration of %s minutes not reached.'))
                 % str(round(site_settings.reservation_min_duration / 60)))
         if duration > site_settings.reservation_max_duration:
-            errors.append(force_unicode(_('Maximum duration of %s has been exceeded.'))
-                % str(round(site_settings.reservation_max_duration / 86400)))
+            if (site_settings.reservation_max_duration / 86400) >= 1:
+                max_duration = round(site_settings.reservation_max_duration / 86400)
+                err_msg = ngettext(
+                    'Maximum duration of %(max_duration)s day has been exceeded.',
+                    'Maximum duration of %(max_duration)s days has been exceeded.',
+                    max_duration
+                ) % {'max_duration' : max_duration}
+            else:
+                if (site_settings.reservation_max_duration / 3600) >= 1:
+                    max_duration = round(site_settings.reservation_max_duration / 3600)
+                    err_msg = ngettext(
+                        'Maximum duration of %(max_duration)s hour has been exceeded.',
+                        'Maximum duration of %(max_duration)s hours has been exceeded.',
+                        max_duration
+                    ) % {'max_duration' : max_duration}
+                else:
+                    max_duration = round(site_settings.reservation_max_duration / 60)
+                    err_msg = ngettext(
+                        'Maximum duration of %(max_duration)s minute has been exceeded.',
+                        'Maximum duration of %(max_duration)s minutes has been exceeded.',
+                        max_duration
+                    ) % {'max_duration' : max_duration}
+            errors.append(force_unicode(err_msg))
         if car.model.get_pricelist() == False:
             errors.append(force_unicode(_('No valid pricelist for selected car model.')))
 

@@ -28,12 +28,12 @@ class ReservationFormOne(forms.Form):
 
         # pridame na prvni misto widget se zacatkem rezervace
         self.fields.insert(0, 'reserved_from', forms.SplitDateTimeField(label=_('Start time'),
-            widget=CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(initDate=from_time),
+            widget=CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
                                                         CalendarSelectTimeWidget(initTime=from_time)]),
             input_date_formats=[settings.CALENDAR_DATE_FORMAT]))
         # pridame na druhe misto widget s koncem rezervace
         self.fields.insert(1, 'reserved_until', forms.SplitDateTimeField(label=_('End time'),
-            widget=CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(initDate=until_time),
+            widget=CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
                                                         CalendarSelectTimeWidget(initTime=until_time)]),
             input_date_formats=[settings.CALENDAR_DATE_FORMAT]))
         # pridame na treti misto selectbox s automobily

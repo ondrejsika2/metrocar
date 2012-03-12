@@ -37,19 +37,17 @@ class CalendarSelectTimeWidget(forms.Select):
     '''
     def __init__(self, attrs={}, format=None, initTime=datetime.today()):
         TIMES = []
-        start = True
-        startHour = initTime.hour
-        startMinute = initTime.minute
+        self.initTime = initTime
 
         for hour in range(0, 24):
-            if start == False and startMinute != 0:
-                startMinute = 0
             for minute in range(0, 60, RESERVATION_TIME_SHIFT):
                 t = time(hour, minute).strftime('%H:%M')
                 TIMES.append([t, t])
-            start = False
         super(CalendarSelectTimeWidget, self).__init__(
             attrs=attrs, choices=TIMES)
+
+    def render(self, name, value, attrs=None, choices=()):
+        return super(CalendarSelectTimeWidget, self).render(name, self.initTime.strftime('%H:%M'), attrs, choices)
 
 class CalendarSplitDateTimeWidget(forms.SplitDateTimeWidget):
     date_format = getattr(settings, 'CALENDAR_DATE_FORMAT', '%d.%m.%Y')
@@ -65,4 +63,3 @@ class CalendarSplitDateTimeWidget(forms.SplitDateTimeWidget):
     def format_output(self, rendered_widgets):
         return mark_safe(u"%s %s %s %s" % (u'Datum',
             rendered_widgets[0], u'Čas', rendered_widgets[1]))
-                

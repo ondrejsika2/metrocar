@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-08 20:44+0100\n"
-"PO-Revision-Date: 2012-01-08 20:44+0100\n"
+"POT-Creation-Date: 2012-03-12 10:31+0100\n"
+"PO-Revision-Date: 2012-03-12 11:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,25 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
 
-#: admin.py:22
+#: admin.py:24
 msgid "Basic information"
 msgstr "Základní informace"
 
-#: admin.py:23
+#: admin.py:25
 msgid "Additional information"
 msgstr "Další informace"
 
-#: admin.py:24
+#: admin.py:26
 msgid "Track"
 msgstr "Trasa"
 
 #: forms.py:21
-#: models.py:40
+#: models.py:41
 msgid "Reserved from"
 msgstr "Rezervováno od"
 
 #: forms.py:23
-#: models.py:42
+#: models.py:43
 msgid "Reserved until"
 msgstr "Rezervováno do"
 
@@ -52,128 +52,147 @@ msgstr "Chybějí některá data"
 msgid "Datetime is to late to create a reminder for reservation. Maximum datetime is %s."
 msgstr "Datum pro vytvoření připomínky rezervace je příliš vzdálené. Maximální datum je %s."
 
-#: models.py:25
+#: models.py:26
 msgid "Cancelled"
 msgstr "Zrušená"
 
-#: models.py:27
+#: models.py:28
 msgid "Comment"
 msgstr "Komentář"
 
-#: models.py:29
+#: models.py:30
 msgid "Created"
 msgstr "Vytvořená"
 
-#: models.py:30
+#: models.py:31
 msgid "Ended"
 msgstr "Ukončená"
 
-#: models.py:32
+#: models.py:33
 msgid "Finished"
 msgstr "Dokončená"
 
-#: models.py:34
+#: models.py:35
 msgid "Is service"
 msgstr "Servisní"
 
-#: models.py:36
+#: models.py:37
 msgid "Modified"
 msgstr "Upravená"
 
-#: models.py:38
+#: models.py:39
 msgid "Price"
 msgstr "Cena"
 
-#: models.py:44
+#: models.py:45
 msgid "Started"
 msgstr "Začátek"
 
-#: models.py:46
+#: models.py:47
 msgid "Path"
 msgstr "Trasa"
 
-#: models.py:48
+#: models.py:49
 msgid "User"
 msgstr "Uživatel"
 
-#: models.py:50
+#: models.py:51
 msgid "Car"
 msgstr "Automobil"
 
-#: models.py:56
-#: models.py:353
-#: models.py:374
+#: models.py:57
+#: models.py:384
+#: models.py:405
 msgid "Reservation"
 msgstr "Rezervace"
 
-#: models.py:57
+#: models.py:58
 msgid "Reservations"
 msgstr "Rezervace"
 
-#: models.py:107
+#: models.py:108
 msgid "From datetime must be before till."
 msgstr "Datum od musí být menší než datum do."
 
-#: models.py:111
+#: models.py:112
 msgid "Cannot create reservation in the past."
-msgstr "Nelze vytvořit rezervaci v minulosti"
+msgstr "Nelze vytvořit rezervaci v minulosti."
 
-#: models.py:114
+#: models.py:115
 #, python-format
 msgid "Minimum duration of %s minutes not reached."
 msgstr "Minimální doba trvání (%s minut) nebyla dosažena."
 
-#: models.py:117
+#: models.py:121
 #, python-format
-msgid "Maximum duration of %s has been exceeded."
-msgstr "Maximální doba trvání (%s) byla překročena."
+msgid "Maximum duration of %(max_duration)s day has been exceeded."
+msgid_plural "Maximum duration of %(max_duration)s days has been exceeded."
+msgstr[0] "Maximální doba trvání %(max_duration)s den byla překročena."
+msgstr[1] "Maximální doba trvání %(max_duration)s dny byla překročena."
+msgstr[2] "Maximální doba trvání %(max_duration)s dnů byla překročena."
 
-#: models.py:120
+#: models.py:129
+#, python-format
+msgid "Maximum duration of %(max_duration)s hour has been exceeded."
+msgid_plural "Maximum duration of %(max_duration)s hours has been exceeded."
+msgstr[0] "Maximální doba trvání %(max_duration)s hodina byla překročena."
+msgstr[1] "Maximální doba trvání %(max_duration)s hodiny byla překročena."
+msgstr[2] "Maximální doba trvání %(max_duration)s hodin byla překročena."
+
+#: models.py:136
+#, python-format
+msgid "Maximum duration of %(max_duration)s minute has been exceeded."
+msgid_plural "Maximum duration of %(max_duration)s minutes has been exceeded."
+msgstr[0] "Maximální doba trvání %(max_duration)s minuta byla překročena."
+msgstr[1] "Maximální doba trvání %(max_duration)s minuty byla překročena."
+msgstr[2] "Maximální doba trvání %(max_duration)s minut byla překročena."
+
+#: models.py:142
 msgid "No valid pricelist for selected car model."
 msgstr "Nebyl nalezen žádný platný ceník pro zvolený model automobilu."
 
-#: models.py:129
+#: models.py:151
 #, python-format
 msgid "You don't have enough money to create reservation. Required account balance is %s."
 msgstr "Nemáte dostatek peněz pro vytvoření rezervace. Požadovaná částka je přibližně %s."
 
-#: models.py:137
+#: models.py:159
 msgid "Reservation cannot be created due to conflicting time"
 msgstr "Rezervace nemůže být dokončena, protože zadané časy nesouhlasí."
 
-#: models.py:217
+#: models.py:239
 msgid "Cannot cancel reservation which already begun"
 msgstr "Nelze zrušit již započatou rezervaci"
 
-#: models.py:253
+#: models.py:279
 msgid "No valid pricelist found."
 msgstr "Nebyl nalezen žádný platný ceník."
 
-#: models.py:349
+#: models.py:380
 msgid "Date time"
 msgstr "Datum a čas"
 
-#: models.py:351
+#: models.py:382
 msgid "Sent"
 msgstr "Odesláno"
 
-#: models.py:358
+#: models.py:389
 msgid "Reservation reminder"
 msgstr "Připomínka rezervace"
 
-#: models.py:359
+#: models.py:390
 msgid "Reservation reminders"
 msgstr "Připomínky rezervací"
 
-#: models.py:379
+#: models.py:410
 msgid "Reservation bill"
 msgstr "Účet za rezervaci"
 
-#: models.py:380
+#: models.py:411
 msgid "Reservation bills"
 msgstr "Účty za rezervace"
 
-#: models.py:383
+#: models.py:414
 #, python-format
 msgid "Bill for reservation %s"
 msgstr "Účet za rezervaci %s"
