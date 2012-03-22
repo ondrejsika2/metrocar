@@ -6,7 +6,8 @@ Created on 11.3.2010
 '''
 from django.core.exceptions import ValidationError
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
+from django.utils import simplejson
 from django.views.generic.simple import direct_to_template
 from django.views.generic.list_detail import object_list
 from django.shortcuts import render_to_response, get_object_or_404
@@ -38,24 +39,27 @@ class ReservationWizard(ViewFormWizard):
             )
 
         if step == 0:
-            from metrocar.config.settings_base import APPROXIMATE_DISTANCE_PER_HOUR
+            from metrocar.config.settings_base import DEFAULT_RESERVATION_DISTANCE
             if hasattr(form, 'cleaned_data'):
+                car = self.extra_context['car']
                 total_price_estimation = Reservation.get_price_estimation(
-                    self.extra_context['car'],
+                    car,
                     form.cleaned_data['reserved_from'],
-                    form.cleaned_data['reserved_until']
+                    form.cleaned_data['reserved_until'],
+                    DEFAULT_RESERVATION_DISTANCE
                 )
                 base_price = Reservation.get_base_price(
-                    self.extra_context['car'],
+                    car,
                     form.cleaned_data['reserved_from'],
                     form.cleaned_data['reserved_until']
                 )
-                self.extra_context['total_price_estimation'] = total_price_estimation
-                self.extra_context['base_price'] = base_price
-                self.extra_context['price_estimation_for_distance'] = (total_price_estimation - base_price)
+                self.extra_context['total_price_estimation'] = ('%0.2f' % total_price_estimation)
+                self.extra_context['base_price'] = ('%0.2f' % base_price)
                 self.extra_context['reserved_from'] = form.cleaned_data['reserved_from']
                 self.extra_context['reserved_until'] = form.cleaned_data['reserved_until']
-                self.extra_context['approximate_distance_per_hour'] = APPROXIMATE_DISTANCE_PER_HOUR
+                self.extra_context['default_reservation_distance'] = DEFAULT_RESERVATION_DISTANCE
+                self.extra_context['pickup_fee'] = ('%0.2f' % car.model.get_pricelist().pickup_fee)
+                self.extra_context['price_by_distance'] = ('%0.2f' % Reservation.get_price_by_distance(car, DEFAULT_RESERVATION_DISTANCE))
 
     def done(self, request, form_list):
         clean_data = form_list[0].cleaned_data
@@ -81,6 +85,32 @@ def reservation(request, car_id=None):
     except (Exception, ReservationError):
         messages.error(request, _('Unexpected error has been occured. Please try it again.'))
         return HttpResponseRedirect(reverse('mfe_reservations_reservation'))
+
+@login_required
+def recount_price_estimation(request):
+    if not request.is_ajax():
+        return HttpResponseNotFound()
+
+    distance = request.GET.get('distance')
+    car = Car.objects.get(pk=request.GET.get('car_id'))
+    price_by_distance = Reservation.get_price_by_distance(car, distance)
+
+    reserved_from_date = request.GET.get('reserved_from_date')
+    reserved_from_time = request.GET.get('reserved_from_time')
+    reserved_until_date = request.GET.get('reserved_until_date')
+    reserved_until_time = request.GET.get('reserved_until_time')
+    reserved_from = datetime.strptime(('%s %s' % (reserved_from_date, reserved_from_time)), '%d.%m.%Y %H:%M')
+    reserved_until = datetime.strptime(('%s %s' % (reserved_until_date, reserved_until_time)), '%d.%m.%Y %H:%M')
+    total_price_estimation = Reservation.get_price_estimation(car, reserved_from, reserved_until, distance)
+
+    want_of_money = (request.user.account.balance < total_price_estimation)
+    data = simplejson.dumps({
+        'price_by_distance' : ('%0.2f' % price_by_distance),
+        'total_price_estimation' : ('%0.2f' % total_price_estimation),
+        'want_of_money': want_of_money,
+        'warning_msg': str(_('You have want of money on your account!') if want_of_money else '')
+    })
+    return HttpResponse(data, 'application/javascript')
 
 @login_required
 def pending_list(request, page=None):

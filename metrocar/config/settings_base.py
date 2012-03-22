@@ -6,7 +6,7 @@ from os.path import join
 
 import metrocar
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SERVE_STATIC_FILES = False
 
@@ -170,4 +170,4 @@ ROOT_URLCONF = 'metrocar.config.urls'
 SITE_ID = 1
 
 DEFAULT_CHARSET = 'utf-8'
-APPROXIMATE_DISTANCE_PER_HOUR = 10 # 10 km per hour
+DEFAULT_RESERVATION_DISTANCE = 10 # 10 km

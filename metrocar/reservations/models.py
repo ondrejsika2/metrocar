@@ -311,25 +311,32 @@ class Reservation(models.Model):
         for j in self.journeys.all(): total_price += j.total_price
         return total_price
     
-    def estimate_price(self):
+    def estimate_price(self, distance = 0):
         """
         Proxy to get_price_estimation class method
         """
         return Reservation.get_price_estimation(self.car, self.reserved_from,
-            self.reserved_until)
+            self.reserved_until, distance)
     
     @classmethod
-    def get_price_estimation(cls, car, dt_from, dt_till):
+    def get_price_estimation(cls, car, dt_from, dt_till, distance = 0):
         """
         Returns estimation based mainly on time of reservation
         """
         from decimal import Decimal
         pricelist = car.model.get_pricelist()
         if pricelist:
-            from metrocar.config.settings_base import APPROXIMATE_DISTANCE_PER_HOUR
             duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
             # try to estimate time and kms
-            return (pricelist.price_per_hour + pricelist.price_per_km * APPROXIMATE_DISTANCE_PER_HOUR) * duration
+            return (pricelist.price_per_hour * duration) + (pricelist.price_per_km * Decimal(distance)) + pricelist.pickup_fee
+        else:
+            raise ReservationError('No suitable pricelist found.')
+
+    @classmethod
+    def get_price_by_distance(cls, car, distance):
+        pricelist = car.model.get_pricelist()
+        if pricelist:
+            return pricelist.price_per_km * Decimal(distance)
         else:
             raise ReservationError('No suitable pricelist found.')
 
@@ -341,7 +348,6 @@ class Reservation(models.Model):
         from decimal import Decimal
         pricelist = car.model.get_pricelist()
         if pricelist:
-            from metrocar.config.settings_base import APPROXIMATE_DISTANCE_PER_HOUR
             duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
             # try to estimate time and kms
             return (pricelist.price_per_hour * duration)

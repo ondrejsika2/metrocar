@@ -37,6 +37,7 @@ class ReservationFormOne(forms.Form):
                                                         CalendarSelectTimeWidget(initTime=until_time)]),
             input_date_formats=[settings.CALENDAR_DATE_FORMAT]))
         # pridame na treti misto selectbox s automobily
+        #print from_time, until_time
         CARS = [(c.id, c.__unicode__()) for c in Car.list_of_available_cars(from_time, until_time, request.user.home_subsidiary)]
         if len(CARS) == 0:
            CARS = [('0', _('No car is available in chosen time.'))]
@@ -46,8 +47,10 @@ class ReservationFormOne(forms.Form):
 
     def create_reservation_time(self, from_time=None, until_time=None):
         if from_time == None and until_time == None:
-            from_time = until_time = self.correct_time(datetime.now())
+            now = datetime.now()
+            from_time = until_time = self.correct_time(datetime(now.year, now.month, now.day, now.hour, 0, 0))
             until_time = until_time + timedelta(minutes=RESERVATION_TIME_INTERVAL)
+            print from_time, until_time
 
         return from_time, until_time
 

@@ -158,7 +158,6 @@ $(function() {
             if (currentStartDateText == defaultStartDate) {
                 startTime = defaultStartTime;
             }
-            //loadReservationTime($reservedStartDate, $reservedStartTime, startTime, currentStartTimeText);
 
             if (currentStartDate >= currentEndDate) {
                 currentEndDateText = $reservedEndDate.val(currentStartDateText).val();
@@ -166,7 +165,6 @@ $(function() {
                 if (currentEndDateText == defaultEndDate) {
                     endTime = defaultEndTime;
                 }
-                //loadReservationTime($reservedEndDate, $reservedEndTime, endTime, currentEndTimeText);
             }
         }
         loadAvailableCars();
@@ -189,7 +187,6 @@ $(function() {
             if (currentEndDateText == defaultEndDate) {
                 endTime = defaultEndTime;
             }
-            //loadReservationTime($reservedEndDate, $reservedEndTime, endTime, currentEndTimeText);
 
             if (currentEndDate <= currentStartDate) {
                 currentStartDateText = $reservedStartDate.val(currentEndDateText).val();
@@ -197,19 +194,10 @@ $(function() {
                 if (currentStartDateText == defaultStartDate) {
                     startTime = defaultStartTime;
                 }
-                //loadReservationTime($reservedStartDate, $reservedStartTime, startTime, currentStartTimeText);
             }
         }
         loadAvailableCars();
     }
-
-    // zmena zacatku rezervace
-    //$reservedStartDate.change(changeReservationStartDate);
-    //$reservedStartDate.keyup(changeReservationStartDate);
-
-    // zmena konce rezervace
-    //$reservedEndDate.change(changeReservationEndDate);
-    //$reservedEndDate.keyup(changeReservationEndDate);
 
     $reservedStartDate.change(loadAvailableCars);
     $reservedStartDate.keyup(loadAvailableCars);
@@ -219,4 +207,59 @@ $(function() {
 
     $reservedStartTime.change(loadAvailableCars);
     $reservedEndTime.change(loadAvailableCars);
+
+    /**
+     *  V kroku pro shrnuti udaju rezervace umoznuje prepocitavat cenu
+     *  podle zadaneho poctu kilometru. Vysledna cena je jen odhad te konecne.
+     */
+
+    var $reservationDistance = $('#reservation-distance');
+    function recountReservationPriceEstimation() {
+        var distance = $(this).val();
+
+        // jednoducha kontrola proti nesmyslnym datum
+        if (!$.isNumeric(distance) || distance > 1000000) {
+            return;
+        }
+
+        var $priceByDistance = $('table.reservation-summary tbody tr.price-by-distance td');
+        var $totalPriceEstimation = $('table.reservation-summary tbody tr.total-price td strong');
+        var car_id = $('#id_0-car_id').val();
+        var reserved_from_date = $('#id_0-reserved_from_0').val();
+        var reserved_from_time = $('#id_0-reserved_from_1').val();
+        var reserved_until_date = $('#id_0-reserved_until_0').val();
+        var reserved_until_time = $('#id_0-reserved_until_1').val();
+
+        $.ajax({
+            type: "GET",
+            data: {
+                'distance': distance,
+                'car_id': car_id,
+                'reserved_from_date': reserved_from_date,
+                'reserved_from_time': reserved_from_time,
+                'reserved_until_date': reserved_until_date,
+                'reserved_until_time': reserved_until_time
+            },
+            dataType: 'json',
+            url: "/rezervace/recount_price_estimation/",
+            success: function(data) {
+                if (data) {
+                    var $warningMsgRow = $('table.reservation-summary tbody tr.warning-msg td');
+                    $priceByDistance.html(data['price_by_distance'] + ' Kč');
+                    $totalPriceEstimation.html(data['total_price_estimation'] + ' Kč');
+                    if (data['want_of_money']) {
+                        var $warningMsg = $('<span class="info">' + data['warning_msg'] + '</div>');
+                        $warningMsgRow.html($warningMsg);
+                    } else {
+                        $warningMsgRow.html('');
+                    }
+                }
+            }
+        });
+    }
+
+    $reservationDistance.on({
+        'change': recountReservationPriceEstimation,
+        'keyup': recountReservationPriceEstimation
+    });
 });
