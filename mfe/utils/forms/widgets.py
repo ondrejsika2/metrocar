@@ -43,8 +43,7 @@ class CalendarSelectTimeWidget(forms.Select):
             for minute in range(0, 60, RESERVATION_TIME_SHIFT):
                 t = time(hour, minute).strftime('%H:%M')
                 TIMES.append([t, t])
-        super(CalendarSelectTimeWidget, self).__init__(
-            attrs=attrs, choices=TIMES)
+        super(CalendarSelectTimeWidget, self).__init__(attrs=attrs, choices=TIMES)
 
     def render(self, name, value, attrs=None, choices=()):
         return super(CalendarSelectTimeWidget, self).render(name, self.initTime.strftime('%H:%M'), attrs, choices)

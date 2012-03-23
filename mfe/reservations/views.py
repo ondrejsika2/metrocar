@@ -191,7 +191,7 @@ def add_journey(request, reservation_id):
         f_data = request.POST.copy()
         f_data['start_datetime_0'] = datetime.strptime(f_data['start_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
         f_data['end_datetime_0'] = datetime.strptime(f_data['end_datetime_0'], '%d.%m.%Y').strftime('%Y-%m-%d')
-        form = AddJourneyForm(f_data)
+        form = AddJourneyForm(data=f_data)
         if form.is_valid():
             journey = None
             try:

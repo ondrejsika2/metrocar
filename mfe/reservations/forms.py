@@ -5,6 +5,7 @@ Created on 13.3.2010
 '''
 
 from django import forms
+from django.forms.util import ErrorList
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from datetime import datetime, timedelta
@@ -37,7 +38,6 @@ class ReservationFormOne(forms.Form):
                                                         CalendarSelectTimeWidget(initTime=until_time)]),
             input_date_formats=[settings.CALENDAR_DATE_FORMAT]))
         # pridame na treti misto selectbox s automobily
-        #print from_time, until_time
         CARS = [(c.id, c.__unicode__()) for c in Car.list_of_available_cars(from_time, until_time, request.user.home_subsidiary)]
         if len(CARS) == 0:
            CARS = [('0', _('No car is available in chosen time.'))]
@@ -48,9 +48,8 @@ class ReservationFormOne(forms.Form):
     def create_reservation_time(self, from_time=None, until_time=None):
         if from_time == None and until_time == None:
             now = datetime.now()
-            from_time = until_time = self.correct_time(datetime(now.year, now.month, now.day, now.hour, 0, 0))
+            from_time = until_time = self.correct_time(datetime(now.year, now.month, now.day, now.hour, now.minute, 0, 0))
             until_time = until_time + timedelta(minutes=RESERVATION_TIME_INTERVAL)
-            print from_time, until_time
 
         return from_time, until_time
 
@@ -104,18 +103,36 @@ class ReservationFormThree(forms.Form):
 
 class AddJourneyForm(forms.ModelForm):
 
+    def __init__(self, data=None, initial=None):
+        super(AddJourneyForm, self).__init__(data=data, initial=initial)
+        if initial is None:
+            initial = data
+
+        start_datetime, end_datetime = self.correct_datetime(initial)
+        self.fields['start_datetime'].widget = CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
+                                                                                    CalendarSelectTimeWidget(initTime=start_datetime)])
+        self.fields['end_datetime'].widget = CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
+                                                                                  CalendarSelectTimeWidget(initTime=end_datetime)])
+
     def clean(self):
         comment = self.cleaned_data.get('comment')
         if len(comment) == 0:
             raise forms.ValidationError(_('Comment can not be empty.'))
         return self.cleaned_data
+
+    def correct_datetime(self, data):
+        if data is None:
+            return datetime.today(), datetime.today()
+
+        if 'start_datetime' in data and 'end_datetime' in data:
+            start_datetime = datetime.strptime(('%s %s' % tuple(data['start_datetime'])), '%d.%m.%Y %H:%M')
+            end_datetime = datetime.strptime(('%s %s' % tuple(data['end_datetime'])), '%d.%m.%Y %H:%M')
+            return start_datetime, end_datetime
+        else:
+            start_datetime = datetime.strptime('%s %s' % (data['start_datetime_0'], data['start_datetime_1']), '%Y-%m-%d %H:%M')
+            end_datetime = datetime.strptime('%s %s' % (data['end_datetime_0'], data['end_datetime_1']), '%Y-%m-%d %H:%M')
+            return start_datetime, end_datetime
     
     class Meta:
         model = Journey
         exclude = ('user', 'car', 'reservation', 'total_price', 'path')
-        widgets = {
-            'start_datetime': CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
-                                                        CalendarSelectTimeWidget()]),
-            'end_datetime': CalendarSplitDateTimeWidget(widgets=[CalendarDateWidget(),
-                                                        CalendarSelectTimeWidget()]),
-        }
