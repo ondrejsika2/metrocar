@@ -59,7 +59,7 @@
 			<td>{{ reservation.car }}</td>
 			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
 			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
-			<td><a href="">{% trans "cancel" %}</a></td>
+			<td><a href="{% url mfe_reservations_submit_cancel_reservation reservation.pk %}">{% trans "cancel" %}</a></td>
 		</tr>
 		{% endfor %}
 	</table>
@@ -79,7 +79,7 @@
 			<td>{{ reservation.car }}</td>
 			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
 			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
-			<td><strong>{{ reservation.price }}</strong></td>
+			<td><strong>{{ reservation.price|floatformat:2 }} Kč</strong></td>
 		</tr>
 		{% endfor %}
 	</table>

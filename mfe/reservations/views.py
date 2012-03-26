@@ -125,7 +125,7 @@ def pending_list(request, page=None):
 @login_required
 def finished_list(request, page=None):
     finished_reservations_dict = {
-        'queryset': Reservation.objects.finished().filter(user=request.user),
+        'queryset': Reservation.objects.finished().filter(user=request.user).order_by('-pk'),
         'paginate_by': 20,
         'page': page,
         'template_name': 'reservations/finished_reservation_list.html'
@@ -147,7 +147,7 @@ def cancel_reservation(request, reservation_id, confirmed=False):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
         messages.warning(request, _('Do you want to cancel reservation %(reservation)s for car %(car)s? <a href="%(yes_url)s">Yes</a> | <a href="%(no_url)s">No</a>') % {'reservation' : reservation, 'car' : reservation.car, 'yes_url' : reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), 'no_url' : request.META['HTTP_REFERER']})
-
+        print request.META['HTTP_REFERER']
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 @login_required

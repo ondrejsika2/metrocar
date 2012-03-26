@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-22 17:56+0100\n"
-"PO-Revision-Date: 2012-03-22 17:58+0100\n"
+"PO-Revision-Date: 2012-03-26 20:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -460,7 +460,7 @@ msgstr "Dokončené rezervace"
 
 #: reservations/templates/reservations/finished_reservation_list.html:10
 msgid "You have finished following reservations"
-msgstr "Evidujeme následující čekající rezervace"
+msgstr "Evidujeme následující dokončené rezervace"
 
 #: reservations/templates/reservations/finished_reservation_list.html:14
 #: reservations/templates/reservations/outstanding_loans.html:14
