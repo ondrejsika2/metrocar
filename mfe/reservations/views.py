@@ -115,7 +115,7 @@ def recount_price_estimation(request):
 @login_required
 def pending_list(request, page=None):
     pending_reservations_dict = {
-        'queryset': Reservation.objects.pending().filter(user=request.user),
+        'queryset': Reservation.objects.pending().filter(user=request.user).order_by('reserved_from'),
         'paginate_by': 20,
         'page': page,
         'template_name': 'reservations/pending_reservation_list.html'
@@ -125,7 +125,7 @@ def pending_list(request, page=None):
 @login_required
 def finished_list(request, page=None):
     finished_reservations_dict = {
-        'queryset': Reservation.objects.finished().filter(user=request.user).order_by('-pk'),
+        'queryset': Reservation.objects.finished().filter(user=request.user).order_by('-ended'),
         'paginate_by': 20,
         'page': page,
         'template_name': 'reservations/finished_reservation_list.html'
