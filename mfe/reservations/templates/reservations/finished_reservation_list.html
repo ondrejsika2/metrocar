@@ -20,7 +20,7 @@
 			<td>{{ reservation.car }}</td>
 			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
 			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
-			<td>{{ reservation.price }} Kč</td>
+			<td>{{ reservation.price|floatformat:2 }} Kč</td>
 		</tr>
 		{% endfor %}
 	</table>
