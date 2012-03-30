@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 17:56+0100\n"
-"PO-Revision-Date: 2012-03-26 20:00+0100\n"
+"POT-Creation-Date: 2012-03-30 16:21+0200\n"
+"PO-Revision-Date: 2012-03-30 16:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -35,7 +35,7 @@ msgid "fares"
 msgstr "ceny"
 
 #: cars/views.py:38
-#: reservations/forms.py:42
+#: reservations/forms.py:43
 msgid "No car is available in chosen time."
 msgstr "Ve zvolený čas není k dispozici žádné auto."
 
@@ -254,29 +254,27 @@ msgstr "rezervace"
 msgid "users"
 msgstr "uživatelé"
 
-#: reservations/forms.py:30
-#: reservations/templates/reservations/reservation/tmp.html:52
+#: reservations/forms.py:31
 msgid "Start time"
 msgstr "Čas začátku"
 
-#: reservations/forms.py:35
-#: reservations/templates/reservations/reservation/tmp.html:56
+#: reservations/forms.py:36
 msgid "End time"
 msgstr "Čas konce"
 
-#: reservations/forms.py:43
+#: reservations/forms.py:44
 msgid "Available cars - select one"
 msgstr "Dostupné automobily - zvolte jeden"
 
-#: reservations/forms.py:82
+#: reservations/forms.py:84
 msgid "You have to choose any available car"
 msgstr "Musíte si vybrat nějaké vozidlo"
 
-#: reservations/forms.py:93
+#: reservations/forms.py:95
 msgid "Missing some data"
 msgstr "Chybí nějaká data."
 
-#: reservations/forms.py:107
+#: reservations/forms.py:120
 msgid "Comment can not be empty."
 msgstr "Komentář musí být vyplněný."
 
@@ -303,21 +301,29 @@ msgstr "zrušit"
 msgid "edit"
 msgstr "upravit"
 
-#: reservations/urls.py:26
+#: reservations/urls.py:24
+msgid "confirmation"
+msgstr "potvrzení"
+
+#: reservations/urls.py:27
 msgid "oustanding loans"
 msgstr "neuzavřené výpůjčky"
 
-#: reservations/urls.py:27
+#: reservations/urls.py:28
 msgid "add journey"
 msgstr "přidat jízdu"
 
-#: reservations/urls.py:28
+#: reservations/urls.py:29
 msgid "delete journey"
 msgstr "smazat jízdu"
 
-#: reservations/urls.py:29
+#: reservations/urls.py:30
 msgid "finish reservation"
 msgstr "dokončit rezervaci"
+
+#: reservations/urls.py:33
+msgid "finish"
+msgstr "dokončit"
 
 #: reservations/views.py:83
 msgid "This car seems to be already registered. Please try to choose another one."
@@ -365,12 +371,17 @@ msgstr "Chyba"
 msgid "Reservation could not be finished. Some error has been occured."
 msgstr "Rezervace nemohla být dokončena. Objevily se některé problémy."
 
+#: reservations/views.py:281
+msgid "Reservation has been already finished."
+msgstr "Rezervace byla již ukončena."
+
 #: reservations/templates/reservations/add_journey.html:6
-#: reservations/templates/reservations/edit_reservation.html:54
+#: reservations/templates/reservations/edit_reservation.html:52
 msgid "Add journey"
 msgstr "Přidat jízdu"
 
 #: reservations/templates/reservations/add_journey.html:14
+#: reservations/templates/reservations/confirmation.html:12
 #: reservations/templates/reservations/edit_reservation.html:12
 #: reservations/templates/reservations/finished_reservation_list.html:13
 #: reservations/templates/reservations/outstanding_loans.html:13
@@ -381,11 +392,13 @@ msgid "Car"
 msgstr "Automobil"
 
 #: reservations/templates/reservations/add_journey.html:15
+#: reservations/templates/reservations/confirmation.html:13
 #: reservations/templates/reservations/edit_reservation.html:13
 msgid "Reserved from"
 msgstr "Zarezervováno od"
 
 #: reservations/templates/reservations/add_journey.html:16
+#: reservations/templates/reservations/confirmation.html:14
 #: reservations/templates/reservations/edit_reservation.html:14
 msgid "Reserved until"
 msgstr "Zarezervováno do"
@@ -412,47 +425,81 @@ msgstr ""
 "    <p>Není možné uložit informace o dané jízdě pokud pobočka využívá palubní jednotky ve vozidlech.</p>\n"
 "    "
 
-#: reservations/templates/reservations/edit_reservation.html:5
-msgid "Reservation details"
-msgstr "Detaily rezervace"
+#: reservations/templates/reservations/confirmation.html:5
+msgid "Loan confirmation"
+msgstr "Potvrzení výpůjčky"
 
+#: reservations/templates/reservations/confirmation.html:22
 #: reservations/templates/reservations/edit_reservation.html:22
 msgid "Reservation journeys"
 msgstr "Jízdy rezervace"
 
+#: reservations/templates/reservations/confirmation.html:26
 #: reservations/templates/reservations/edit_reservation.html:26
 msgid "Start"
 msgstr "Začátek"
 
+#: reservations/templates/reservations/confirmation.html:27
 #: reservations/templates/reservations/edit_reservation.html:27
 msgid "End"
 msgstr "Konec"
 
+#: reservations/templates/reservations/confirmation.html:28
 #: reservations/templates/reservations/edit_reservation.html:28
 msgid "Length"
 msgstr "Délka"
 
+#: reservations/templates/reservations/confirmation.html:29
 #: reservations/templates/reservations/edit_reservation.html:29
 #: reservations/templates/reservations/finished_reservation_list.html:16
 #: users/templates/users/account_detail.html:75
 msgid "Price"
 msgstr "Cena"
 
-#: reservations/templates/reservations/edit_reservation.html:40
-msgid "Do you realy want to delete this journey?"
+#: reservations/templates/reservations/confirmation.html:43
+msgid "Back"
+msgstr "Zpět"
+
+#: reservations/templates/reservations/confirmation.html:46
+msgid "Do you really want to finish this loan?"
+msgstr "Chcete opravdu dokončit tuto výpůjčku?"
+
+#: reservations/templates/reservations/confirmation.html:46
+msgid "Place a firm finish"
+msgstr "Závazně dokončit"
+
+#: reservations/templates/reservations/edit_reservation.html:5
+msgid "Reservation details"
+msgstr "Detaily rezervace"
+
+#: reservations/templates/reservations/edit_reservation.html:38
+#, fuzzy
+msgid "Do you really want to delete this journey?"
 msgstr "Chcete opravdu smazat tuto jízdu?"
 
-#: reservations/templates/reservations/edit_reservation.html:40
+#: reservations/templates/reservations/edit_reservation.html:38
 msgid "Delete"
 msgstr "Smazat"
 
-#: reservations/templates/reservations/edit_reservation.html:45
+#: reservations/templates/reservations/edit_reservation.html:43
 msgid "No journey for this reservation yet."
 msgstr "Pro tuto rezervaci zatím nejsou žádné jízdy."
 
-#: reservations/templates/reservations/edit_reservation.html:50
+#: reservations/templates/reservations/edit_reservation.html:48
+msgid "In the next step you will have an opportunity to check information about your loan and finish that."
+msgstr "V následujícím kroku budete mít možnost zkontrolovat informace ohledně vaší výpůjčky a tu pak závazně dokončit."
+
+#: reservations/templates/reservations/edit_reservation.html:48
 msgid "Finish loan"
 msgstr "Dokončit výpůjčku"
+
+#: reservations/templates/reservations/finish.html:5
+msgid "Finish of loan"
+msgstr "Dokončení výpůjčky"
+
+#: reservations/templates/reservations/finish.html:10
+msgid "Thank you. Your loan has just been successfully finished."
+msgstr "Děkujeme. Vaše výpůjčka byla úspěšně dokončena."
 
 #: reservations/templates/reservations/finished_reservation_list.html:5
 msgid "Finished reservations"
@@ -514,7 +561,6 @@ msgid "No pending reservations."
 msgstr "Žádné čekající rezervace."
 
 #: reservations/templates/reservations/reservation/0.html:26
-#: reservations/templates/reservations/reservation/tmp.html:32
 msgid "An error occured when validating your request"
 msgstr "Nastala chyba při validaci vašeho požadavku."
 
@@ -527,7 +573,6 @@ msgstr ""
 "<p>Pro pokračování prosím zvolte automobil níže.</p>\n"
 
 #: reservations/templates/reservations/reservation/0.html:68
-#: reservations/templates/reservations/reservation/tmp.html:88
 msgid "Proceed"
 msgstr "Pokračovat"
 
@@ -608,33 +653,6 @@ msgid ""
 msgstr ""
 "\n"
 "<p>Děkujeme za váš zájem!</p>\n"
-
-#: reservations/templates/reservations/reservation/tmp.html:17
-#, python-format
-msgid ""
-"\n"
-"<p>You are requesting a reservation of <strong>%(car)s</strong>.</p>\n"
-"<p>Please, select when you want to reserve the car by marking up in\n"
-"calendar.</p>\n"
-msgstr ""
-"\n"
-"<p>Chcete rezervovat <strong>%(car)s</strong>.</p>\n"
-"<p>Prosím zvolte na kdy si přejete rezervací provést vyznačením v \n"
-"kalendáři.</p>\n"
-
-#: reservations/templates/reservations/reservation/tmp.html:44
-#: templates/base.html:105
-#: users/templates/users/base.html:17
-msgid "New reservation"
-msgstr "Nová rezervace"
-
-#: reservations/templates/reservations/reservation/tmp.html:48
-msgid "Date"
-msgstr "Datum"
-
-#: reservations/templates/reservations/reservation/tmp.html:59
-msgid "Your reservation"
-msgstr "Vaše rezervace"
 
 #: templates/base.html:46
 #: templates/base.html.py:96
@@ -718,6 +736,11 @@ msgstr "Připojte se k nám"
 msgid "Rates"
 msgstr "Ceny"
 
+#: templates/base.html:105
+#: users/templates/users/base.html:17
+msgid "New reservation"
+msgstr "Nová rezervace"
+
 #: templates/base.html:111
 msgid "Search"
 msgstr "Vyhledávání"
@@ -726,19 +749,19 @@ msgstr "Vyhledávání"
 msgid "All Rights Reserved &reg;"
 msgstr "Všechna práva vyhrazena &reg;"
 
-#: templates/pagination.html:6
+#: templates/pagination.html:7
 msgid "previous"
 msgstr "předchozí"
 
-#: templates/pagination.html:10
+#: templates/pagination.html:11
 msgid "Page"
 msgstr "Stránka"
 
-#: templates/pagination.html:10
+#: templates/pagination.html:11
 msgid "of"
 msgstr "z"
 
-#: templates/pagination.html:14
+#: templates/pagination.html:15
 msgid "next"
 msgstr "další"
 
@@ -1326,6 +1349,23 @@ msgstr "odhlášení"
 #: utils/urls.py:19
 msgid "registration"
 msgstr "registrace"
+
+#~ msgid ""
+#~ "\n"
+#~ "<p>You are requesting a reservation of <strong>%(car)s</strong>.</p>\n"
+#~ "<p>Please, select when you want to reserve the car by marking up in\n"
+#~ "calendar.</p>\n"
+#~ msgstr ""
+#~ "\n"
+#~ "<p>Chcete rezervovat <strong>%(car)s</strong>.</p>\n"
+#~ "<p>Prosím zvolte na kdy si přejete rezervací provést vyznačením v \n"
+#~ "kalendáři.</p>\n"
+
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgid "Your reservation"
+#~ msgstr "Vaše rezervace"
 
 #~ msgid "Approximate distance per hour"
 #~ msgstr "Přibližná vzdálenost za hodinu"
