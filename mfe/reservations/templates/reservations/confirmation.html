@@ -1,0 +1,48 @@
+{% extends "reservations/base.html" %}
+
+{% load i18n %}
+
+{% block left_col_title %}{% trans "Loan confirmation" %}{% endblock %}
+
+{% block left_col_content %}
+
+<div class="inner-2cols">
+    <div class="col-left">
+        <ul class="ul-01">
+            <li><strong>{% trans "Car" %}:</strong> {{ reservation.car }}</li>
+            <li><strong>{% trans "Reserved from" %}:</strong> {{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</li>
+            <li><strong>{% trans "Reserved until" %}:</strong> {{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="clear"></div>
+
+<h3>{% trans "Reservation journeys" %}</h3>
+{% if journeys %}
+<table>
+    <tr>
+        <th>{% trans "Start" %}</th>
+        <th>{% trans "End" %}</th>
+        <th>{% trans "Length" %}</th>
+        <th>{% trans "Price" %}</th>
+    </tr>
+    {% for journey in journeys %}
+    <tr class="{% cycle "even" "odd" %}">
+        <td>{{ journey.start_datetime|date:"DATETIME_FORMAT" }}</td>
+        <td>{{ journey.end_datetime|date:"DATETIME_FORMAT" }}</td>
+        <td>{{ journey.length }} km</td>
+        <td><strong>{{ journey.total_price }} Kč</strong></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<span class="button button-green">
+	<span><a href="{% url mfe_reservations_edit_reservation reservation.pk %}" class="green">{% trans "Back" %}</a></span>
+</span>
+<span class="button button-green">
+	<span><a onclick="javascript: return confirm('{% trans "Do you really want to finish this loan?" %}');" href="{% url mfe_reservations_finish_reservation reservation.pk %}" class="green">{% trans "Place a firm finish" %}</a></span>
+</span>
+{% endblock %}

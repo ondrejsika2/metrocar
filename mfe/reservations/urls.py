@@ -21,10 +21,14 @@ urlpatterns = patterns('',
 
     # reservation edit
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('edit')), 'mfe.reservations.views.edit_reservation', name='mfe_reservations_edit_reservation'),
+    url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('confirmation')), 'mfe.reservations.views.confirmation', name='mfe_reservations_confirmation'),
 
     # record journey
     url('^%s/$' % slugify(_('oustanding loans')), 'mfe.reservations.views.outstanding_loans', name='mfe_reservations_outstanding_loans'),
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('add journey')), 'mfe.reservations.views.add_journey', name='mfe_reservations_add_journey'),
     url('^%s/(?P<journey_id>\d+)/$' % slugify(_('delete journey')), 'mfe.reservations.views.delete_journey', name='mfe_reservations_delete_journey'),
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('finish reservation')), 'mfe.reservations.views.finish_reservation', name='mfe_reservations_finish_reservation'),
+
+    # reservation finish
+    url('^%s/$' % slugify(_('finish')), 'django.views.generic.simple.direct_to_template', { 'template': 'reservations/finish.html' }, name='mfe_reservations_finish'),
 )

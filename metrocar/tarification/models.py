@@ -31,7 +31,8 @@ class Pricelist(models.Model, CloneableModelMixin):
         help_text=u'Částka, kterou zákazník zaplatí při vyzvednutí automobilu.')
     price_per_hour = models.DecimalField(decimal_places=3, max_digits=8,
         blank=False, null=False, verbose_name=_('Price per hour'),
-        help_text=u'Částka, kterou zákazník zaplatí za jednu hodinu, co bude mít automobil vypůjčený.')
+        help_text=u'Částka, kterou zákazník zaplatí za jednu hodinu, co bude mít automobil vypůjčený. Jedná se ' \
+                  u'o fixní základ, který však lze měnit pomocí koeficientu zadaného ke konkrétnímu dni ceníku.')
     price_per_km = models.DecimalField(decimal_places=3, max_digits=8,
         blank=False, null=False, verbose_name=_('Price per km'),
         help_text=u'Částka, kterou zákazník zaplatí za jeden ujetý kilometr.')

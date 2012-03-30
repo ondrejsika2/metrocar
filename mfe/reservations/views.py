@@ -268,10 +268,33 @@ def finish_reservation(request, reservation_id):
             messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
     except Exception, e:
         messages.error(request, e.message)
-        #messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
-    return HttpResponseRedirect(reverse('mfe_reservations_outstanding_loans'))
+    return HttpResponseRedirect(reverse('mfe_reservations_finish'))
+
+@login_required
+def confirmation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+
+    try:
+        if reservation.finished:
+            raise Exception, _('Reservation has been already finished.')
+
+        journeys = Journey.objects.filter(user=request.user,reservation=reservation)
+        if journeys:
+            return render_to_response('reservations/confirmation.html', {
+                'reservation': reservation,
+                'journeys': journeys
+            }, context_instance=RequestContext(request))
+
+        return HttpResponseRedirect(reverse('mfe_reservations_outstanding_loans'))
+
+    except Exception, e:
+        messages.error(request, e.message)
+        if 'HTTP_REFERER' not in request.META:
+            return HttpResponseRedirect(reverse('mfe_reservations_outstanding_loans'))
+        else:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 
