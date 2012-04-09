@@ -1,0 +1,1 @@
+This directory contains Sphinx documentation for the project.
