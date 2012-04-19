@@ -226,7 +226,6 @@ def add_journey(request, reservation_id):
                 if type(e) in [AssertionError, ReservationError]:
                     messages.error(request, e.message)
                 else:
-                    traceback.print_tb(sys.exc_traceback)
                     messages.error(request, _('Unexpected error has been occured.'))
 
             form.data['start_datetime_0'] = request.POST['start_datetime_0']
