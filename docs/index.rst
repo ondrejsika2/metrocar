@@ -8,10 +8,11 @@ Welcome to Metrocar documentation!
 ==================================
 
 This documentation covers primarily the server-side component, which is written
-in `Python`_ and on top of the `Django`_ framework.
+in `Python`_ and on top of the `Django`_ framework. :doc:`Read more about
+this documentation <about>`.
 
 .. note::
-    This documentation is under construction.
+    This documentation is still under construction
 
 
 .. _Python: http://www.python.org/
@@ -31,25 +32,36 @@ Getting started
 ===============
 
 * :doc:`gettingstarted/prerequisites` -- what you should know (take a look at) before you start,
-  Python/Django tutorials etc.
+  Python/Django tutorials, etc.
 
 * :doc:`gettingstarted/installation` -- how to get the project up and running.
 
-* :doc:`gettingstarted/deployment` -- how to deploy to the live server.
+* :doc:`gettingstarted/contributing` -- some hints to follow to not make a (*bigger than it already is*) mess of this project.
 
-* :doc:`gettingstarted/contributing` -- some hints to follow to not make a (bigger than it already is) mess of this project.
+
+How to...
+=========
+
+* :doc:`Run the test suite <howto/tests>`
+* :doc:`howto/documentation`
+* :doc:`Create and apply database schema migrations <howto/south>`
+* :doc:`howto/paver`
+* :doc:`Deploy to the production server <howto/deployment>`
 
 
 System components' documentation
 ================================
 
-.. todo:: .
+.. toctree::
+    :maxdepth: 3
 
+    components/index
 
 
 Indices and tables
 ==================
 
+* :doc:`Detailed table of contents <contents>`
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`

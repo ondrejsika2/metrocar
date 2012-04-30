@@ -18,5 +18,6 @@ Resources
 * `Django documentation <https://docs.djangoproject.com/en/1.4/>`_
 * `Python documentation <http://docs.python.org/>`_
 
+
 .. _Django tutorial: https://docs.djangoproject.com/en/1.4/intro/tutorial01/
 .. _the Django documentation's Getting started page: https://docs.djangoproject.com/en/1.4/intro/

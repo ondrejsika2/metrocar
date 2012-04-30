@@ -3,8 +3,9 @@ About Metrocar
 
 Metrocar is a long running project on CTU's `Faculty of Electrical Engineering
 (a.k.a. FEL)`_ that attempts to create a more or less universal
-:doc:`carsharing <carsharing>`-management solution, which could be deployed by a carsharing
-organization to handle common tasks such as reservations or billing.
+:doc:`carsharing <carsharing>`-management solution, which could be deployed by
+a carsharing organization to handle common tasks such as reservations
+or billing.
 
 
 The server / web application
@@ -25,12 +26,12 @@ The system should, however, be able to function even without the units.
 
 .. todo::
 
-    Links to the projects.
+    **TODO** Links to the projects.
 
 
 .. seealso::
 
-    TODO: link to car unit API docs
+    :doc:`/components/metrocar.car_unit_management`
 
 
 Mobile application(s)
