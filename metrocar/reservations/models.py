@@ -300,17 +300,26 @@ class Reservation(models.Model):
             'total_price': total_price,
             'parts': pricing
         }
-    
+
+    def count_total_price(self):
+        total_price = 0
+        for j in self.journeys.all(): total_price += j.total_price
+
+        pricelist = self.car.model.get_pricelist()
+        total_price += (pricelist.pickup_fee + pricelist.reservation_fee)
+
+        return total_price
+
+
     def get_total_price(self):
         """
         Returns total price for reservation
         """
         if not self.finished:
             return 0
-        total_price = 0
-        for j in self.journeys.all(): total_price += j.total_price
-        return total_price
-    
+
+        return self.count_total_price()
+
     def estimate_price(self, distance = 0):
         """
         Proxy to get_price_estimation class method
@@ -326,9 +335,9 @@ class Reservation(models.Model):
         from decimal import Decimal
         pricelist = car.model.get_pricelist()
         if pricelist:
-            duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
             # try to estimate time and kms
-            return (pricelist.price_per_hour * duration) + (pricelist.price_per_km * Decimal(distance)) + pricelist.pickup_fee
+            price_data = pricelist.count_base_journey_price(dt_from, dt_till, distance)
+            return (price_data['total_price'] + pricelist.pickup_fee + pricelist.reservation_fee)
         else:
             raise ReservationError('No suitable pricelist found.')
 
@@ -348,13 +357,12 @@ class Reservation(models.Model):
         from decimal import Decimal
         pricelist = car.model.get_pricelist()
         if pricelist:
-            duration = Decimal(int(dt_till.strftime('%s')) - int(dt_from.strftime('%s'))) / Decimal(3600)
-            # try to estimate time and kms
-            return (pricelist.price_per_hour * duration)
+            price_data = pricelist.count_base_journey_price(dt_from, dt_till, 0)
+            return price_data['total_price']
         else:
             raise ReservationError('No suitable pricelist found.')
     
-    def finish(self, finish_datetime=datetime.now(), by_daemon=False):
+    def finish(self, finish_datetime=datetime.now(), by_daemon=False, normalize_journeys=True):
         """
         Marks reservation as finished, starts normalization of Journeys
         and finally creates ReservationBill for current reservation.
@@ -362,14 +370,15 @@ class Reservation(models.Model):
         from metrocar.cars.models import Journey
         if self.finished: return True
         if self.ready_to_finish() or by_daemon:
+
             # normalize journey objects (splitting, filling up etc.)
-            Journey.objects.normalize_for_reservation(self)
+            if normalize_journeys:
+                Journey.objects.normalize_for_reservation(self)
             
             self.finished = True
             self.ended = finish_datetime
             self.price = self.get_total_price() # deduct money from user account
             self.save()
-
             # create bill for that reservation
             ReservationBill.objects.create_for_reservation(self)
             return True

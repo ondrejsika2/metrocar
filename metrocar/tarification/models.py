@@ -107,12 +107,15 @@ class Pricelist(models.Model, CloneableModelMixin):
         elif journey.type == Journey.TYPE_LATE_RETURN:
             key = 'late_return'
 
+        return self.count_base_journey_price(journey.start_datetime, journey.end_datetime, journey.length, key)
+
+    def count_base_journey_price(self, start_datetime, end_datetime, distance, key='used'):
         total_price, km_price, time_price = (0, 0, 0)
 
         # first count price for time elapsed
         journey_parts = []
         # split journey into separate days
-        for j in self._split_journey_into_days(journey):
+        for j in self._split_journey_into_days(start_datetime, end_datetime):
             # find pricing for that day
             date = j[0].date()
             pricing = self.get_pricing_for_date(date)
@@ -128,9 +131,9 @@ class Pricelist(models.Model, CloneableModelMixin):
                     seconds = (duration.days * 86400)
                 else:
                     seconds = duration.seconds
-                # append final journey part
-                part_price = Decimal(seconds) / Decimal(3600) \
-                    * price_per_hour
+                    # append final journey part
+                part_price = Decimal(seconds) / Decimal(3600)\
+                * price_per_hour
                 journey_parts.append({
                     'start': curr_dt, # datetime.combine(date, curr_dt),
                     'end': end_dt, #datetime.combine(date, end_dt),
@@ -145,8 +148,8 @@ class Pricelist(models.Model, CloneableModelMixin):
                 if end_dt == part_end_dt: break
                 # otherwise make new curr_dt from end_dt and continue
                 curr_dt = end_dt
-        # now count the price for kms driven
-        km_price = self.price_per_km * journey.length
+            # now count the price for kms driven
+        km_price = self.price_per_km * int(distance)
         total_price += km_price
         return {
             'total_price': total_price,
@@ -167,11 +170,13 @@ class Pricelist(models.Model, CloneableModelMixin):
             # find record which is last preceeding before curr_dt --------------
             if rec['from'] <= curr_dt.time(): continue
             used_rec = pricing[pricing.index(rec) - 1]
+            time = (rec['from'] if curr_dt.date() < end_dt.date() else min(end_dt.time(), rec['from']))
+
             return (
                 curr_dt, # datetime from
                 datetime.combine( # datetime till
                     curr_dt.date(),
-                    min(end_dt.time(), rec['from'])
+                    time
                 ),
                 used_rec['coefs'][key] # used coef
             )
@@ -201,16 +206,11 @@ class Pricelist(models.Model, CloneableModelMixin):
         raise PricelistAssertionError('No suitable coef found.')
 
     @staticmethod
-    def _split_journey_into_days(journey):
+    def _split_journey_into_days(start_datetime, end_datetime):
         """
         Splits the journey into separate parts by day
         Each part is time interval
         """
-        assert isinstance(journey, Journey)
-
-        start_datetime = journey.start_datetime
-        end_datetime = journey.end_datetime
-
         assert start_datetime < end_datetime
 
         if start_datetime.date() != end_datetime.date():
@@ -234,7 +234,7 @@ class Pricelist(models.Model, CloneableModelMixin):
 
             # last part
             journey_parts.append(
-                    ( datetime.combine(start_datetime.date(), time(hour=0)),
+                    ( datetime.combine(end_datetime.date(), time(hour=0)),
                       end_datetime ))
 
             return journey_parts

@@ -53,12 +53,16 @@ class ReservationWizard(ViewFormWizard):
                     form.cleaned_data['reserved_from'],
                     form.cleaned_data['reserved_until']
                 )
+
+                pricelist = car.model.get_pricelist()
+
                 self.extra_context['total_price_estimation'] = ('%0.2f' % total_price_estimation)
                 self.extra_context['base_price'] = ('%0.2f' % base_price)
                 self.extra_context['reserved_from'] = form.cleaned_data['reserved_from']
                 self.extra_context['reserved_until'] = form.cleaned_data['reserved_until']
                 self.extra_context['default_reservation_distance'] = DEFAULT_RESERVATION_DISTANCE
-                self.extra_context['pickup_fee'] = ('%0.2f' % car.model.get_pricelist().pickup_fee)
+                self.extra_context['pickup_fee'] = ('%0.2f' % pricelist.pickup_fee)
+                self.extra_context['reservation_fee'] = ('%0.2f' % pricelist.reservation_fee)
                 self.extra_context['price_by_distance'] = ('%0.2f' % Reservation.get_price_by_distance(car, DEFAULT_RESERVATION_DISTANCE))
 
     def done(self, request, form_list):
@@ -263,7 +267,7 @@ def finish_reservation(request, reservation_id):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
 
     try:
-        if not reservation.finish(by_daemon=True):
+        if not reservation.finish(by_daemon=True, normalize_journeys=False):
             messages.error(request, _('Reservation could not be finished. Some error has been occured.'))
     except Exception, e:
         messages.error(request, e.message)
@@ -281,9 +285,13 @@ def confirmation(request, reservation_id):
 
         journeys = Journey.objects.filter(user=request.user,reservation=reservation)
         if journeys:
+            pricelist = reservation.car.model.get_pricelist()
             return render_to_response('reservations/confirmation.html', {
                 'reservation': reservation,
-                'journeys': journeys
+                'journeys': journeys,
+                'pickup_fee': pricelist.pickup_fee,
+                'reservation_fee': pricelist.reservation_fee,
+                'total_price': reservation.count_total_price()
             }, context_instance=RequestContext(request))
 
         return HttpResponseRedirect(reverse('mfe_reservations_outstanding_loans'))

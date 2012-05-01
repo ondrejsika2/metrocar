@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-30 16:21+0200\n"
-"PO-Revision-Date: 2012-03-30 16:22+0100\n"
+"POT-Creation-Date: 2012-05-01 12:37+0200\n"
+"PO-Revision-Date: 2012-05-01 12:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -325,53 +325,53 @@ msgstr "dokončit rezervaci"
 msgid "finish"
 msgstr "dokončit"
 
-#: reservations/views.py:83
+#: reservations/views.py:87
 msgid "This car seems to be already registered. Please try to choose another one."
 msgstr "Zdá se, že toto vozidlo je již zarezervováno. Zkuste prosím vybrat jiné."
 
-#: reservations/views.py:86
+#: reservations/views.py:90
 msgid "Unexpected error has been occured. Please try it again."
 msgstr "Vyskytl se neočekávaný problém. Prosím zkuste to znovu."
 
-#: reservations/views.py:111
+#: reservations/views.py:115
 msgid "You have want of money on your account!"
 msgstr "Nemáte dostatek peněz na účtu!"
 
-#: reservations/views.py:143
+#: reservations/views.py:147
 msgid "It is not possible to cancel reservation that has already begun."
 msgstr "Není možné zrušit již probíhající rezervaci."
 
-#: reservations/views.py:149
+#: reservations/views.py:153
 #, python-format
 msgid "Do you want to cancel reservation %(reservation)s for car %(car)s? <a href=\"%(yes_url)s\">Yes</a> | <a href=\"%(no_url)s\">No</a>"
 msgstr "Opravdu chcete zrušit rezervaci  %(reservation)s pro vozidlo %(car)s? <a href=\"%(yes_url)s\">Ano</a> | <a href=\"%(no_url)s\">Ne</a>"
 
-#: reservations/views.py:158
+#: reservations/views.py:162
 msgid "Access to reservation is denied."
 msgstr "Přístup k této rezervaci je zakázaný."
 
-#: reservations/views.py:187
+#: reservations/views.py:191
 msgid "It is not allowed to add another journey."
 msgstr "Není dovoleno přidávat další jízdu."
 
-#: reservations/views.py:216
+#: reservations/views.py:220
 #, python-format
 msgid "You do not have enough money amount on your account. Journey bill is %.2f Kč."
 msgstr "Nemáte dostatek peněz na svém účtu. Cena za jízdu činí %.2f Kč."
 
-#: reservations/views.py:230
+#: reservations/views.py:233
 msgid "Unexpected error has been occured."
 msgstr "Vyskytl se neočekávaný problém."
 
-#: reservations/views.py:258
+#: reservations/views.py:261
 msgid "Error"
 msgstr "Chyba"
 
-#: reservations/views.py:268
+#: reservations/views.py:271
 msgid "Reservation could not be finished. Some error has been occured."
 msgstr "Rezervace nemohla být dokončena. Objevily se některé problémy."
 
-#: reservations/views.py:281
+#: reservations/views.py:284
 msgid "Reservation has been already finished."
 msgstr "Rezervace byla již ukončena."
 
@@ -456,15 +456,34 @@ msgstr "Délka"
 msgid "Price"
 msgstr "Cena"
 
-#: reservations/templates/reservations/confirmation.html:43
+#: reservations/templates/reservations/confirmation.html:44
+msgid "Journey price"
+msgstr "Cena jízdy"
+
+#: reservations/templates/reservations/confirmation.html:45
+#: reservations/templates/reservations/reservation/1.html:31
+msgid "Pickup fee"
+msgstr "Poplatek za vyzvednutí automobilu"
+
+#: reservations/templates/reservations/confirmation.html:46
+#: reservations/templates/reservations/reservation/1.html:32
+#, fuzzy
+msgid "Reservation fee"
+msgstr "Konec rezervace"
+
+#: reservations/templates/reservations/confirmation.html:47
+msgid "Total loan price"
+msgstr "Celková cena výpůjčky"
+
+#: reservations/templates/reservations/confirmation.html:53
 msgid "Back"
 msgstr "Zpět"
 
-#: reservations/templates/reservations/confirmation.html:46
+#: reservations/templates/reservations/confirmation.html:56
 msgid "Do you really want to finish this loan?"
 msgstr "Chcete opravdu dokončit tuto výpůjčku?"
 
-#: reservations/templates/reservations/confirmation.html:46
+#: reservations/templates/reservations/confirmation.html:56
 msgid "Place a firm finish"
 msgstr "Závazně dokončit"
 
@@ -606,23 +625,19 @@ msgstr "Plánovaná vzdálenost"
 msgid "Price for traveled distance"
 msgstr "Cena za ujetou vzdálenost"
 
-#: reservations/templates/reservations/reservation/1.html:31
-msgid "Pickup fee"
-msgstr "Poplatek za vyzvednutí automobilu"
-
-#: reservations/templates/reservations/reservation/1.html:32
+#: reservations/templates/reservations/reservation/1.html:33
 msgid "Reservation price"
 msgstr "Cena rezervace"
 
-#: reservations/templates/reservations/reservation/1.html:33
+#: reservations/templates/reservations/reservation/1.html:34
 msgid "Price loan estimation"
 msgstr "Odhad ceny výpůjčky"
 
-#: reservations/templates/reservations/reservation/1.html:43
+#: reservations/templates/reservations/reservation/1.html:44
 msgid "Finish reservation"
 msgstr "Dokončit rezervaci"
 
-#: reservations/templates/reservations/reservation/1.html:46
+#: reservations/templates/reservations/reservation/1.html:47
 msgid "Cancel"
 msgstr "Zrušit"
 

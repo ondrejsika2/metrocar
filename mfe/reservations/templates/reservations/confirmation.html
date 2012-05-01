@@ -37,6 +37,16 @@
     </tr>
     {% endfor %}
 </table>
+
+<h3 class="reservation-summary">Cena</h3>
+<table class="reservation-summary">
+    <tbody>
+        <tr><th>{% trans "Journey price" %}:</th><td>{{ journeys.0.total_price|floatformat:2 }} Kč</td></tr>
+        <tr><th>{% trans "Pickup fee" %}:</th><td>{{ pickup_fee|floatformat:2 }} Kč</td></tr>
+        <tr><th>{% trans "Reservation fee" %}:</th><td>{{ reservation_fee|floatformat:2 }} Kč</td></tr>
+        <tr class="total-price"><th>{% trans "Total loan price" %}:</th><td><strong>{{ total_price|floatformat:2 }} Kč</strong></td></tr>
+    </tbody>
+</table>
 {% endif %}
 
 <span class="button button-green">
