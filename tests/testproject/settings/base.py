@@ -1,3 +1,4 @@
+# coding: utf-8
 # Django settings for metrocar project.
 from os.path import dirname, join
 from tempfile import gettempdir
@@ -31,6 +32,7 @@ TIME_ZONE = 'Europe/Prague'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'cs'
+LANG_CHOICES = (('CS', u'Česky'), ('EN', 'English'),)
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -86,13 +88,13 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.gis',
     'django.contrib.markup',
-    
-    'django_evolution',
+
+    #'django_evolution',
     'piston',
     'olwidget',
     'sorl.thumbnail',
     'django_tables',
-    
+
     'metrocar.car_unit_management', # needs to be first because it exports comm handler
     'metrocar.api',
     'metrocar.cars',
@@ -104,13 +106,13 @@ INSTALLED_APPS = (
     'metrocar.utils',
     'metrocar.utils.flatpagesmeta',
     'metrocar.subsidiaries',
-    
+
     'mfe.active_pages',
     'mfe.cars',
     'mfe.reservations',
     'mfe.users',
     'mfe.utils',
-    
+
     'testproject.test_metrocar_utils',
 )
 
@@ -154,7 +156,7 @@ RESERVATION_PLUGINS = (
 RESERVATION_REMINDER_CRON_INTERVAL = 60
 
 # days to add from current date to generate DUE DATE
-INVOICE_DUE_DATE_INTERVAL = 15 
+INVOICE_DUE_DATE_INTERVAL = 15
 
 SERIALIZATION_MODULES = {
     'python_deep' : 'metrocar.utils.serializers.python'
@@ -164,7 +166,7 @@ AUTH_PROFILE_MODULE = 'user_management.MetrocarUser'
 
 # api authentication realm
 API_AUTH_REALM = 'metrocar-backend'
-    
+
 # log path
 LOG_PATH = 'log/metrocar.log'
 
@@ -176,4 +178,4 @@ VERSION = "1"
 
 SITE_ID = 1
 
-TEST_RUNNER = 'djangosanetesting.testrunner.run_tests'
+TEST_RUNNER = 'djangosanetesting.testrunner.DstNoseTestSuiteRunner'

@@ -14,11 +14,14 @@ import nose
 
 # django settings module
 DJANGO_SETTINGS_MODULE = '%s.%s' % (split(abspath(dirname(__file__)))[1], 'settings')
+
+TESTS_ROOT = join(abspath(dirname(__file__)), '..')
+
 # pythonpath dirs
 PYTHONPATH = [
-    '/var/www/python/pythonpath/metrocar.cz/'
+    TESTS_ROOT,
+    # join(TESTS_ROOT, '..'),
 ]
-
 
 # inject few paths to pythonpath
 for p in PYTHONPATH:
@@ -30,10 +33,9 @@ os.environ['DJANGO_SETTINGS_MODULE'] = DJANGO_SETTINGS_MODULE
 
 
 # TODO: ugly hack to inject django plugin to nose.run
-#sys.argv.insert(1, '--with-django')
+sys.argv.insert(1, '--with-django')
 
 
 nose.run_exit(
     defaultTest=dirname(__file__),
 )
-
