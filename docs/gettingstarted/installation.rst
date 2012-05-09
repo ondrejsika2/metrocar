@@ -2,6 +2,39 @@
 Installation
 ============
 
+Get the code
+============
+
+.. sidebar:: Why Git?
+
+    A **distributed** version control system was chosen because it makes it
+    easier to work on independent features concurrently in different
+    **branches**. While it's possible to use branches in SVN, merging them
+    can be quite a pain.
+
+    Another benefit is great **speed**, because the whole repository is available
+    locally. Which also makes it possible to work off-line.
+
+    Git was chosen from the available DVCSs because it appears to have the
+    largest **user-base** at the moment, so it has the highest probability of
+    already being familiar to new coming contributors.
+
+
+The code is in Git. The main repository is at::
+
+    git@git.assembla.com:wagnejan_metrocar.git
+
+
+If you don't have permission to access that one yet, you can get it via the
+Public clone URL::
+
+    git://git.assembla.com/wagnejan_metrocar.git
+
+
+.. seealso::
+    :doc:`/howto/git`
+
+
 At the moment the installation process *severely flawed* and needs to be
 revised. Documentation pending.
 

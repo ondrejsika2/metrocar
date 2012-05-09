@@ -42,6 +42,7 @@ Getting started
 How to...
 =========
 
+* :doc:`howto/git`
 * :doc:`Run the test suite <howto/tests>`
 * :doc:`howto/documentation`
 * :doc:`Create and apply database schema migrations <howto/south>`
