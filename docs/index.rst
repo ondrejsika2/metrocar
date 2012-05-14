@@ -8,7 +8,7 @@ Welcome to Metrocar documentation!
 ==================================
 
 This documentation covers primarily the server-side component, which is written
-in `Python`_ and on top of the `Django`_ framework. :doc:`Read more about
+in Python_ and on top of the Django_ framework. :doc:`Read more about
 this documentation <about>`.
 
 .. note::
@@ -26,6 +26,8 @@ The big picture
 * :doc:`overview/carsharing`
 
 * :doc:`overview/metrocar`
+
+* :doc:`overview/people`
 
 
 Getting started

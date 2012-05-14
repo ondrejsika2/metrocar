@@ -69,7 +69,7 @@ manually every time.
 * If you make a clean check-out and the tests don't pass on that, you can:
     * fix it
     * complain to the guy who broke it, or if you can't find out who that is,
-      to the project maintainer
+      to the :ref:`project-maintainer`
 
 * If you add new functionality it'd be nice if you also added at least some
   basic tests for it, so that no one will unintentionally break it in the
