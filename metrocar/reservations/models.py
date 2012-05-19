@@ -44,12 +44,12 @@ class Reservation(models.Model):
         verbose_name=_('Started'))
     path = models.MultiLineStringField(null=True, blank=True,
         default=None, spatial_index=False, verbose_name=_('Path'))
-    
+
     user = models.ForeignKey(MetrocarUser, verbose_name=_('User'),
         related_name='reservations')
     car = models.ForeignKey('cars.Car', verbose_name=_('Car'),
         related_name='reservations')
-    
+
     objects = managers.ReservationManager()
 
     class Meta:
@@ -57,10 +57,10 @@ class Reservation(models.Model):
         verbose_name_plural = _('Reservations')
 
     def __unicode__(self):
-        return "%s - %s" % (datetime.strftime(self.reserved_from, 
-            '%H:%M:%S %A, %d.%m.%Y'), datetime.strftime(self.reserved_until, 
+        return "%s - %s" % (datetime.strftime(self.reserved_from,
+            '%H:%M:%S %A, %d.%m.%Y'), datetime.strftime(self.reserved_until,
             '%H:%M:%S %A, %d.%m.%Y'))
-    
+
     def save(self, *args, **kwargs):
         """
         Overload save method for settings created and modified params.
@@ -70,26 +70,26 @@ class Reservation(models.Model):
             self.created = now
         self.modified = now
         super(Reservation, self).save(*args, **kwargs)
-    
+
     def is_valid(self):
         """
         Proxy to validate method
         """
         return Reservation.validate(self.user, self.car, self.reserved_from,
             self.reserved_until)
-    
+
     @classmethod
     def validate(cls, user, car, datetime_from, datetime_till):
         """
         Test if reservation can be created by using submitted data
-        
+
         Test following things:
             - datetime_from preceeds datetime_till
             - datetime_from is not in the past
             - min/max reservation duration limit does not take place
             - valid pricelist exists
             - account balance is sufficent
-            - no conflicting reservation exists 
+            - no conflicting reservation exists
         """
         from metrocar.cars.models import Car
         from mfe.config.settings_prod import RESERVATION_TIME_SHIFT
@@ -140,15 +140,17 @@ class Reservation(models.Model):
         if car.model.get_pricelist() == False:
             errors.append(force_unicode(_('No valid pricelist for selected car model.')))
 
-        # user account checks
-        price_estimation = cls.get_price_estimation(car, datetime_from,
-            datetime_till)
-        required_money_amount = price_estimation * \
-            site_settings.reservation_money_multiplier
+        if not errors:
+            # user account checks
+            # if there already were some errors this might break
+            price_estimation = cls.get_price_estimation(car, datetime_from,
+                datetime_till)
+            required_money_amount = price_estimation * \
+                site_settings.reservation_money_multiplier
 
-        if user.account.balance < required_money_amount:
-            errors.append(force_unicode(_('You don\'t have enough money to create reservation. Required account balance is %s.'))
-                % ('%d %s' % (Decimal(required_money_amount), u'Kč')))
+            if user.account.balance < required_money_amount:
+                errors.append(force_unicode(_('You don\'t have enough money to create reservation. Required account balance is %s.'))
+                    % ('%d %s' % (Decimal(required_money_amount), u'Kč')))
 
         # conflicts check
         conflicts = cls.find_conflicts(car, datetime_from, datetime_till)
@@ -161,7 +163,7 @@ class Reservation(models.Model):
             return True, []
         else:
             return False, errors
-    
+
     def ready_to_finish(self):
         """
         Returns true if reservation is ready to be finished
@@ -169,10 +171,10 @@ class Reservation(models.Model):
         from metrocar.cars.models import Parking
         if self.finished or self.ended is not None: return True
         if self.started is None: return False
-        
+
         if not self.car.dedicated_parking_only:
             # cars which doesn't have dedicated parking are little trouble
-            # as we can't rightfully decide if their reservation can be 
+            # as we can't rightfully decide if their reservation can be
             # finished
             # => they are collected by reservation deamon
             return False
@@ -182,28 +184,28 @@ class Reservation(models.Model):
             if len(parking) != 0:
                 return True
             return False
-        
+
     def is_in_conflict(self):
         """
         Returns true if reservation has some conflicts with other reservations.
         """
         return len(self.get_conflicts()) != 0
-    
+
     def get_conflicts(self):
         """
         Returns all Reservation object which are conflicting with current
         reservation
         """
-        conflicts = self.find_conflicts(self.car, self.reserved_from, 
+        conflicts = self.find_conflicts(self.car, self.reserved_from,
             self.reserved_until)
         if self.pk:
             conflicts.exclude(pk=self.pk)
         return conflicts
-    
+
     @classmethod
     def find_conflicts(cls, car, dt_from, dt_till):
         """
-        Returns queryset of all Reservation objects which are conflicting  
+        Returns queryset of all Reservation objects which are conflicting
         for given datetime intervals and car
         """
         from django.db.models import Q
@@ -214,13 +216,13 @@ class Reservation(models.Model):
             Q(reserved_from__lte=dt_till, reserved_until__gte=dt_till)
         )
         return conflicts
-    
+
     def is_running(self):
         """
         Returns true if reservation is currently running
         """
         return self.reserved_from <= datetime.now() and not self.finished
-        
+
     def cancel(self):
         """
         Cancels reservation and creates proper StornoFee object.
@@ -236,7 +238,7 @@ class Reservation(models.Model):
             self.save()
         else:
             raise ReservationError(_('Cannot cancel reservation which already begun'))
-    
+
     @classmethod
     def refresh_journey_data(cls, sender, **kwargs):
         """
@@ -248,7 +250,7 @@ class Reservation(models.Model):
         except Exception:
 	        pass
         if reservation is None: return
-        
+
         # refresh path
         if len(reservation.journeys.all()) == 0: return
         line_strings = []
@@ -261,7 +263,7 @@ class Reservation(models.Model):
         else:
             reservation.path = None
         reservation.save()
-    
+
     def get_pricelist(self):
         """
         Returns the pricelist, which is used for the reservation
@@ -276,7 +278,7 @@ class Reservation(models.Model):
                     valid_from__lte=self.created).order_by('valid_from')[0]
         except IndexError:
             raise ReservationError(_('No valid pricelist found.'))
-    
+
     def get_pricing_summary(self):
         """
         Returns reservation pricing summary for template viewing purposes.
@@ -326,7 +328,7 @@ class Reservation(models.Model):
         """
         return Reservation.get_price_estimation(self.car, self.reserved_from,
             self.reserved_until, distance)
-    
+
     @classmethod
     def get_price_estimation(cls, car, dt_from, dt_till, distance = 0):
         """
@@ -361,7 +363,7 @@ class Reservation(models.Model):
             return price_data['total_price']
         else:
             raise ReservationError('No suitable pricelist found.')
-    
+
     def finish(self, finish_datetime=datetime.now(), by_daemon=False, normalize_journeys=True):
         """
         Marks reservation as finished, starts normalization of Journeys
@@ -374,7 +376,7 @@ class Reservation(models.Model):
             # normalize journey objects (splitting, filling up etc.)
             if normalize_journeys:
                 Journey.objects.normalize_for_reservation(self)
-            
+
             self.finished = True
             self.ended = finish_datetime
             self.price = self.get_total_price() # deduct money from user account
@@ -394,7 +396,7 @@ class ReservationReminder(models.Model):
         verbose_name=_('Date time'))
     sent = models.BooleanField(blank=False, null=False, editable=False,
         default=False, verbose_name=_('Sent'))
-    
+
     reservation = models.OneToOneField(Reservation, verbose_name=_('Reservation'))
 
     objects = managers.ReservationReminderManager()
@@ -405,7 +407,7 @@ class ReservationReminder(models.Model):
 
     def __unicode__(self):
         return self.reservation.__unicode__()
-    
+
     def send(self):
         """
         Sends reminder by e-mail service.
@@ -414,15 +416,15 @@ class ReservationReminder(models.Model):
 
         self.sent = True
         self.save()
-    
+
 class ReservationBill(AccountActivity):
     reservation = models.ForeignKey(Reservation, verbose_name=_('Reservation'))
-    
+
     objects = managers.ReservationBillManager()
-    
+
     class Meta:
         verbose_name = _('Reservation bill')
         verbose_name_plural = _('Reservation bills')
-        
+
     def __unicode__(self):
         return _('Bill for reservation %s') % self.reservation

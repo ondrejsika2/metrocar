@@ -15,14 +15,14 @@ class ReservationManager(models.GeoManager):
         Creates new reservation with all validation included.
         """
         from django.conf import settings
-        
-        reservation = self.model(user=user, car=car, 
+
+        reservation = self.model(user=user, car=car,
             reserved_from=datetime_from, reserved_until=datetime_till)
-        
+
         val_res, val_errs = reservation.is_valid()
         if not val_res:
             return False
-        
+
         # import plugins given in settings
         plugins = []
         for plugin in settings.RESERVATION_PLUGINS:
@@ -30,19 +30,19 @@ class ReservationManager(models.GeoManager):
             plugin_module = '.'.join(plugin.split('.')[0:-1])
             module = __import__(plugin_module, globals(), locals(), [ plugin_name ])
             plugins.append(getattr(module, plugin_name))
-        
+
         # pre-save plugins (handled in settings)
         for plugin in plugins:
             plugin.pre_save(reservation, **kwargs)
-            
+
         reservation.save()
-            
+
         # post-save plugins (handled in settings)
         for plugin in plugins:
             plugin.post_save(reservation, **kwargs)
-            
+
         return reservation
-    
+
     def to_be_finished(self):
         """
         Returns queryset with reservations which are to be finished by
@@ -56,25 +56,25 @@ class ReservationManager(models.GeoManager):
         qs = self.running().filter(reserved_until__lte=datetime.now())
         qs.exclude(journeys__end_datetime__isnull=False)
         return qs
-    
+
     def running(self):
         """
         Returns queryset with reservations which are running right now
         """
         return self.pending().filter(started__isnull=False, ended__isnull=True)
-    
+
     def pending(self):
         """
         Returns only reservations which are waiting to start
         """
         return self.get_query_set().filter(finished=False)
-    
+
     def waiting_to_start(self):
         """
         Returns only reservations which have not started yet
         """
         return self.get_query_set().filter(started__isnull=True)
-    
+
     def finished(self):
         """
         Returns only reservations which have been finished
@@ -86,7 +86,7 @@ class ReservationManager(models.GeoManager):
         Returns only reservations which have not been finished
         """
         return self.get_query_set().filter(finished=False)
-    
+
     def to_cancel(self):
         """
         Returns all reservation which are subject to cancel
@@ -101,7 +101,7 @@ class ReservationManager(models.GeoManager):
         Returns all reservations without set journey information
         """
         return self.get_query_set().filter(path__isnull=True, reserved_until__lte=datetime.now())
-    
+
 class ReservationReminderManager(models.Manager):
     def create_for_reservation(self, reservation, datetime):
         """
@@ -110,15 +110,15 @@ class ReservationReminderManager(models.Manager):
         from django.conf import settings
         target_datetime = reservation.reserved_from \
             - timedelta(seconds=settings.RESERVATION_REMINDER_CRON_INTERVAL)
-        
+
         if datetime > target_datetime:
             raise ValueError(_('Datetime is to late to create a reminder for '
                 'reservation. Maximum datetime is %s.') % target_datetime)
-        
+
         reminder = self.model(datetime=datetime,
             reservation=reservation)
         return reminder
-    
+
     def pending(self):
         """
         Returns all pending reminders.
@@ -134,8 +134,8 @@ class ReservationReminderManager(models.Manager):
         from django.conf import settings
         now = datetime.now()
         target_datetime = now + timedelta(seconds=settings.RESERVATION_REMINDER_CRON_INTERVAL)
-        return self.pending().filter(datetime__gte=now, datetime__lt=target_datetime)  
-    
+        return self.pending().filter(datetime__gte=now, datetime__lt=target_datetime)
+
 class ReservationBillManager(models.Manager):
     def create_for_reservation(self, reservation):
         """
@@ -143,9 +143,9 @@ class ReservationBillManager(models.Manager):
         """
         bill = self.model(
             reservation=reservation,
-            money_amount=reservation.price,
+            money_amount=-reservation.price,
             account=reservation.user.account
         )
         bill.save()
         return bill
-    
+

@@ -68,11 +68,11 @@ class MetrocarUser(User):
 
     def __unicode__(self):
         return self.full_name()
-    
+
     @models.permalink
     def get_absolute_url(self):
         return ('mfe_users_detail', (), {'id': self.pk})
-        
+
     def get_language(self):
         return dict(list(settings.LANG_CHOICES))[self.language]
 
@@ -91,7 +91,7 @@ class MetrocarUser(User):
                 setattr(self, name, value)
 
         self.save()
-        
+
     def get_invoice_address(self):
         """
         Return concrete invoice address for the user.
@@ -102,18 +102,18 @@ class MetrocarUser(User):
             return CompanyInvoiceAddress.objects.get(company=self.company)
         else:
             return UserInvoiceAddress.objects.get(user=self)
-        
+
     def get_uninvoiced_account_activities(self):
         """
-        Returns queryset of all account activities for user, which has not been 
+        Returns queryset of all account activities for user, which has not been
         invoiced yet.
         """
         return AccountActivity.objects.filter(invoice_item__isnull=True,
                                               account__user=self)
-    
+
     def get_invoiceable_activities(self):
         """
-        Returns list of account acivities which are currently ready to be 
+        Returns list of account acivities which are currently ready to be
         invoiced.
         """
         ac_list = []
@@ -133,7 +133,7 @@ class MetrocarUser(User):
         hash = hashlib.sha1(str(now.year) + str(now.month) + str(now.day) + self.username + self.password).hexdigest()
 
         return hash
-    
+
     def parse_vs_from_id_card_number(self):
         """
         Parses variable_symbol from identity_card_number. Extracts only digits and casts the number to int
@@ -153,7 +153,7 @@ class MetrocarUser(User):
 
         from metrocar.utils.emails import EmailSender
         EmailSender.send_mail([self.email], 'REQ_RES', self.language, self.user, params)
-                
+
     def save(self):
         """
         Overload to set home subsidiary if missing
@@ -167,27 +167,27 @@ class MetrocarUser(User):
                 self.home_subsidiary = Subsidiary.objects.get_current()
         super(MetrocarUser, self).save()
 
-        
+
     def delete(self):
         """
         Overload of delete for soft delete.
         """
         self.is_active = False
         self.save()
-        
+
 class UserRegistrationRequest(models.Model):
     user = models.OneToOneField(MetrocarUser, unique=True, blank=False, null=False, verbose_name=_('User'), related_name='user_registration_request')
     approved = models.BooleanField(blank=False, null=False, default=False, verbose_name=_('Approved'))
     resolved = models.BooleanField(blank=False, null=False, default=False, verbose_name=_('Resolved'))
     objects = managers.UserRegistrationRequestManager()
-    
+
     class Meta:
         verbose_name = _('User registration request')
         verbose_name_plural = _('User registration requests')
-        
+
     def __unicode__(self):
         return '%s' % self.user.__unicode__()
-        
+
     @commit_on_success
     def approve(self):
         """
@@ -196,12 +196,12 @@ class UserRegistrationRequest(models.Model):
         from metrocar.utils.emails import EmailSender
         EmailSender.send_mail([self.user.email], 'REG_APP', self.user.language, self.user)
 
-        self.user.is_active = True 
+        self.user.is_active = True
         self.resolved = True
         self.approved = True
         self.user.save()
         self.save()
-        
+
     @commit_on_success
     def reject(self):
         """
@@ -216,7 +216,7 @@ class UserRegistrationRequest(models.Model):
         self.user.save()
         self.save()
 
- 
+
 
 
 class UserCard(models.Model):
@@ -239,7 +239,7 @@ class UserCard(models.Model):
 
     def __unicode__(self):
         return self.user.__unicode__()
-    
+
     def save(self, * args, ** kwargs):
         """
         Overload of save for generation of code and registration number.
@@ -248,14 +248,14 @@ class UserCard(models.Model):
             self.code = self.create_code()
             self.registration_number = self.create_registration_number()
         super(UserCard, self).save(*args, ** kwargs)
-    
+
     @classmethod
     def create_registration_number(cls):
         try:
             return UserCard.objects.all().order_by('-pk')[0].pk
         except IndexError:
             return 0
-        
+
     @classmethod
     def create_code(cls):
         try:
@@ -263,7 +263,7 @@ class UserCard(models.Model):
         except IndexError:
             return 0
 
-    
+
     @classmethod
     def create_for_user(cls, sender, ** kwargs):
         """
@@ -273,7 +273,7 @@ class UserCard(models.Model):
             card = UserCard()
             card.user = kwargs['instance']
             card.save()
-    
+
 post_save.connect(UserCard.create_for_user, sender=MetrocarUser)
 
 class Account(models.Model):
@@ -288,7 +288,7 @@ class Account(models.Model):
 
     def __unicode__(self):
         return self.user.__unicode__()
-    
+
     @classmethod
     def create_for_user(cls, sender, ** kwargs):
         """
@@ -337,13 +337,13 @@ class AccountActivity(models.Model):
         if not self.credited and self.ready_to_be_invoiced():
             # perform change of account balance and freeze it's current state
             # to account_balance field
-            self.account.balance -= self.money_amount
+            self.account.balance += self.money_amount
             self.account_balance = self.account.balance
             self.credited = True
             self.account.save()
 
         self.save_base()
-        
+
     def as_concrete_class(self):
         """
         Makes the abstract base class concrete
@@ -353,13 +353,13 @@ class AccountActivity(models.Model):
         if model == AccountActivity:
             return self
         return model.objects.get(id=self.id)
-    
+
     def is_positive(self):
         """
         Returns true if money_amount is positive.
         """
         return self.money_amount > 0
-    
+
     def ready_to_be_invoiced(self):
         """
         Base method for recognizing if activity is ready to be invoiced.
@@ -370,6 +370,6 @@ class Deposit(AccountActivity):
     class Meta:
         verbose_name = _('Deposit')
         verbose_name_plural = _('Deposits')
-        
+
     def __unicode__(self):
         return "%s %s" % (unicode(_('Deposit')), self.money_amount)
