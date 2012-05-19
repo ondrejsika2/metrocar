@@ -9,7 +9,7 @@ from django.contrib.gis.geos.point import Point
 from django.db.models.signals import post_delete
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 import managers
 from metrocar.reservations.models import Reservation
 from metrocar.subsidiaries.models import Subsidiary
@@ -149,6 +149,7 @@ class Car(models.Model):
                 from metrocar.utils.log import get_logger, logging
                 get_logger().log(logging.WARN, "Cannot fetch nominatim data "
                                  "for position %s" % self.last_position)
+                self.last_address = ugettext('Unknown')
         super(Car, self).save(*args, ** kwargs)
 
     def get_full_name(self):
@@ -529,28 +530,29 @@ class Journey(models.Model):
     def is_valid(self):
         j = self.car.get_current_journey()
 
+        # TODO: why is AssertionError used here?
+
         if j is not None and j.pk != self.pk:
             raise AssertionError(_('Cannot save journey for Car `%s` because it has one which is already active') % self.car)
-            return False
 
         if self.end_datetime is not None:
             if self.end_datetime <= self.start_datetime:
                 raise AssertionError(_('Journey end time must be after journey start time'))
-                return False
 
-        if self.start_datetime is not None:
-            if self.start_datetime < self.reservation.reserved_from:
+        reservation = self.reservation
+        if self.start_datetime is not None and reservation:
+            if self.start_datetime < reservation.reserved_from:
                 raise AssertionError(_('Journey start time must be after reservation start time or equal.'))
-                return False
 
         if self.speedometer_end is not None and self.speedometer_start is not None:
             if self.speedometer_end <= self.speedometer_start:
                 raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))
-                return False
-        else:
-            if self.type == self.TYPE_TRIP:
-                raise AssertionError(_('Values of speedometer can not be empty.'))
-                return False
+
+        # TODO: why not? (find out why this was put here)
+        # else:
+        #     if self.type == self.TYPE_TRIP:
+        #         raise AssertionError(_('Values of speedometer can not be empty.'))
+
         return True
 
     def update_total_price(self):
