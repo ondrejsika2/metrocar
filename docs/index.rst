@@ -68,3 +68,21 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+Full contents
+=============
+
+.. toctree::
+    :maxdepth: 1
+
+    index
+    about
+
+.. toctree::
+    :maxdepth: 3
+
+    overview/index
+    gettingstarted/index
+    howto/index
+    components/index

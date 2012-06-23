@@ -72,6 +72,7 @@ manually every time.
   commit (push) your code to repository.
 
 * If you make a clean check-out and the tests don't pass on that, you can:
+
     * fix it
     * complain to the guy who broke it, or if you can't find out who that is,
       to the :ref:`project-maintainer`
