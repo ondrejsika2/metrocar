@@ -59,6 +59,11 @@ short intervals, **documentation is kinda important**.
 Tests
 -----
 
+.. sidebar:: Testable code
+
+    .. include:: testable-code.rst
+
+
 Tests are pretty important too. Without them, you can never be sure if your
 new code didn't break some of the old one. Unless you want to test everything
 manually every time.
