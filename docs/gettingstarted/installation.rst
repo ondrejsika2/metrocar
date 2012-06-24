@@ -79,14 +79,18 @@ To deactivate it later, you simply run::
 3. Install the python packages
 ==============================
 
-Assuming you are in the root of the git repository you cloned, to install
-the main project::
+Go to the repository you cloned in first step (with the virtualenv activated, if
+you have it)::
 
-    $ python metrocar/setup.py develop
+    $ cd metrocar
 
-And to install the front-end application::
+Install the project's packages::
 
-    $ python mfe/setup.py develop
+    $ python setup.py develop
+
+Install the dependencies::
+
+    $ paver install_dependencies
 
 
 4. Setup a database
@@ -102,3 +106,17 @@ documentation:
 * `<http://www.assembla.com/spaces/wagnejan_metrocar/documents>`_
 * `<http://www.assembla.com/spaces/metrocar/wiki/Zprovozneni_Webservice_Ubuntu10_04_PostgreSQL8_4>`_
 
+
+5. Update you development settings
+==================================
+
+Put your development database login information in config/settings_local.py
+
+TODO: settings refactoring pending.
+
+
+6. Run the tests
+================
+
+You should now :ref:`run the test suite <running-tests>` to make sure everything
+works.

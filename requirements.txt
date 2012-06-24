@@ -6,6 +6,10 @@ Django==1.3.1
 psycopg2==2.4.1
 
 
+# required for django models ImageFields
+PIL==1.1.7
+
+
 # editable maps for forms
 django-olwidget==0.47
 
@@ -26,6 +30,7 @@ django-piston==0.2.2
 # used for generating PDF invoices
 pisa==3.0.33
 reportlab==2.5
+html5lib==0.90
 
 
 # Testing tools
@@ -41,5 +46,9 @@ python-dateutil==2.1
 lxml==2.2.8
 
 
-# TODO: get rid of this
+# TODO: get rid of this, use the one from django
 simplejson==2.3.3
+
+
+# fancy admin skin, TODO: get rid of it
+django-grappelli==2.3.8
