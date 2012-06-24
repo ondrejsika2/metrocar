@@ -47,7 +47,3 @@ lxml==2.2.8
 
 # TODO: get rid of this, use the one from django
 simplejson==2.3.3
-
-
-# fancy admin skin, TODO: get rid of it
-django-grappelli==2.3.8

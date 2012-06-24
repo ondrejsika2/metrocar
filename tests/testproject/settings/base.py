@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'grappelli',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.gis',
