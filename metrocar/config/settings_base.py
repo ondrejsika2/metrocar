@@ -1,10 +1,11 @@
 # coding=utf-8
 
 # Django settings for metrocar project.
-from os.path import dirname
-from os.path import join
+from os.path import abspath, dirname, join
 
-import metrocar
+
+PROJECT_PATH = abspath(join(dirname(__file__), '..'))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -32,38 +33,77 @@ LANG_CHOICES = (('CS', u'Česky'), ('EN', 'English'),)
 # to load the internationalization machinery.
 USE_I18N = True
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = dirname(metrocar.__file__) + '../static/'
+
+# Static files ################################################################
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/home/media/media.lawrence.com/static/"
+STATIC_ROOT = join(PROJECT_PATH, '..', 'static')
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = '/static/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    join(PROJECT_PATH, 'static'),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+
+# User-uploaded files #########################################################
+
+MEDIA_ROOT = join(PROJECT_PATH, '..', 'files')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/static/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX =  '/metrocar/../static/admin/'
-
-
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ry^a*eigc1p!d*j*gocmqsx3padg#(8g$nytui=+%#hjz@ck12'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-                    'django.template.loaders.filesystem.load_template_source',
-                    'django.template.loaders.app_directories.load_template_source',
-                    #     'django.template.loaders.eggs.load_template_source',
-                    )
+
+# Templates ##################################################################
 
 TEMPLATE_DIRS = (
-                 # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-                 # Always use forward slashes, even on Windows.
-                 # Don't forget to use absolute paths, not relative paths.
-                 join(dirname(metrocar.__file__), 'templates'),
-                 )
+    # Put strings here, like "/home/html/django_templates" or
+    # "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    join(PROJECT_PATH, 'templates'),
+)
+
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+)
+
 
 MIDDLEWARE_CLASSES = (
                       'django.middleware.common.CommonMiddleware',
@@ -78,12 +118,15 @@ INSTALLED_APPS = (
                   'django.contrib.sessions',
                   'django.contrib.sites',
                   'django.contrib.flatpages',
-                  'grappelli',
+                  # 'grappelli',
                   'django.contrib.admin',
                   'django.contrib.admindocs',
                   'django.contrib.gis',
                   'django.contrib.markup',
-                  'django_evolution',
+
+                  # TODO: use South instead
+                  #'django_evolution',
+
                   'piston',
                   'olwidget',
                   'sorl.thumbnail',
@@ -100,13 +143,6 @@ INSTALLED_APPS = (
                   'metrocar.subsidiaries',
                   )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-                               "django.core.context_processors.auth",
-                               "django.core.context_processors.debug",
-                               "django.core.context_processors.i18n",
-                               "django.core.context_processors.media",
-                               "django.core.context_processors.request",
-                               )
 
 DATE_FORMAT = 'd.m.Y'
 DATETIME_FORMAT = 'D, d.m.Y H:i'
@@ -126,10 +162,10 @@ COMM_TIME_FORMAT = '%y-%m-%d %H:%M'
 COMM_OUTPUT_ENCODING = 'windows-1252'
 COMM_INPUT_ENCODING = 'utf-8'
 COMM_AUTHENTICATION_REQUIRED = False
-COMM_DTD_ROOT = MEDIA_ROOT + 'car_units/'
-COMM_DTD_REQUEST = '/home/komarem/metrocar/static/car_units/request.dtd'
-COMM_DTD_RESPONSE ='/home/komarem/metrocar/static/car_units/response.dtd'
-COMM_GPX_SCHEMA = COMM_DTD_ROOT + 'gpx.xsd'
+COMM_DTD_ROOT = join(PROJECT_PATH, 'static', 'car_units')
+COMM_DTD_REQUEST = join(COMM_DTD_ROOT, 'request.dtd')
+COMM_DTD_RESPONSE = join(COMM_DTD_ROOT, 'response.dtd')
+COMM_GPX_SCHEMA = join(COMM_DTD_ROOT, 'gpx.xsd')
 
 # plugins to be used in reservation creation
 RESERVATION_PLUGINS = (
@@ -145,7 +181,7 @@ INVOICE_DUE_DATE_INTERVAL = 15
 
 # if an invoice is overdue, multiply its amount by this constant and add
 #to next month invoice as penalty
-OVERDUE_INVOICE_PENALTY_RATE = 0.1 
+OVERDUE_INVOICE_PENALTY_RATE = 0.1
 
 SERIALIZATION_MODULES = {
     'python_deep': 'metrocar.utils.serializers.python'
@@ -155,7 +191,7 @@ AUTH_PROFILE_MODULE = 'user_management.MetrocarUser'
 
 # api authentication realm
 API_AUTH_REALM = 'metrocar-backend'
-    
+
 # log path
 LOG_PATH = 'log/metrocar.log'
 

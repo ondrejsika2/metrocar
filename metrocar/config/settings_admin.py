@@ -7,8 +7,4 @@ DATABASE_NAME = 'metrocar'             # Or path to database file if using sqlit
 DATABASE_USER = 'komarem'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'kleslo1234'         # Not used with sqlite3.
 
-SERVE_STATIC_FILES = True
-MEDIA_ROOT = '/home/komarem/metrocar/static/'
-STATIC_DOC_ROOT = '/home/komarem/metrocar/static/'
-STATIC_URL = '/static/'
-
+from settings_local import *

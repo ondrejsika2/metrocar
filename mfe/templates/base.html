@@ -13,16 +13,16 @@
     <meta name="keywords" content="..." />
 
     {% block extra_css_overload %}{% endblock %}
-    <link rel="stylesheet" href="{{ MEDIA_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/reset.css" />
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/main.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ STATIC_URL }}css/reset.css" />
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ STATIC_URL }}css/main.css" />
     <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="css/main-msie.css" /><![endif]-->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ MEDIA_URL }}css/style.css" />
-    <link rel="stylesheet" media="print" type="text/css" href="{{ MEDIA_URL }}css/print.css" />
-    <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" type="image/x-icon" />
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/j.page.js"></script>
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{{ STATIC_URL }}css/style.css" />
+    <link rel="stylesheet" media="print" type="text/css" href="{{ STATIC_URL }}css/print.css" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" type="image/x-icon" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/j.page.js"></script>
     {% block extra_css %}{% endblock %}
     {% block extra_js %}{% endblock %}
 
@@ -52,7 +52,7 @@
             <a href="/podminky-pouziti/" {% in_active_pages "/podminky-pouziti/" 'id="nav-active"' %}>{% trans "Terms of usage" %}</a> <span>|</span>
             <a href="/kontakt/" {% in_active_pages "/kontakt/" 'id="nav-active"' %}>{% trans "Contact" %}</a>
         </div> <!-- /nav -->
-        
+
         <div id="login-box" style="display: none;">
             <form action="{% url mfe_users_login %}" method="post">
                 <p>
@@ -70,7 +70,7 @@
                 </p>
             </form>
         </div>
-        
+
         <div id="logged-user">
             {% trans "Current subsidiary" %}: <strong>{{ subsidiary }}</strong>
             <a id="j-open-subsidiary-selector" href="#subsidiary-list">{% trans "change" %}&raquo;</a>
@@ -89,7 +89,7 @@
         </div>
 
     </div> <!-- /header -->
-    
+
     <!-- Tray -->
     <div id="tray">
         <ul>
@@ -105,16 +105,16 @@
                 <li {% in_active_pages "/rezervace/" 'id="tray-active"' %}><a href="{% url mfe_reservations_reservation %}">{% trans "New reservation" %}</a></li>
             {% endif %}
         </ul>
-        
+
         <!-- Search -->
         <form id="page-search" action="{% url mfe_utils_search %}" method="post">
             <span class="search"><span><input type="text" style="width: 150px;" value="{% trans "Search" %}" name="search_query"></span></span>
-            <input type="image" value="OK" src="{{ MEDIA_URL }}img/search-box-submit.png" class="search-submit" />
+            <input type="image" value="OK" src="{{ STATIC_URL }}img/search-box-submit.png" class="search-submit" />
         </form><!-- /search -->
 
     <hr class="noscreen" />
     </div> <!-- /tray -->
-    
+
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}

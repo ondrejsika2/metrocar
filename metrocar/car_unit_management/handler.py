@@ -14,7 +14,6 @@ from django.conf import settings
 from metrocar.utils.log import get_logger, logging
 from metrocar.cars.models import Car, Journey, CarPosition
 from metrocar.user_management.models import MetrocarUser
-from _mysql_exceptions import ProgrammingError
 from decimal import Decimal
 
 from adapters import get_adapter, InvalidFormatException
@@ -28,7 +27,7 @@ class CarUnitRequestHandler:
         self._response_data = None
         self._car = None
         self._logger = get_logger()
-    
+
     def handle_request(self, request, format=None):
 #        if request.META.has_key('REMOTE_ADDR'):
 #            source = request.META.get('REMOTE_ADDR')
@@ -37,7 +36,7 @@ class CarUnitRequestHandler:
         response = self._handle_request(request, format)
         self._logger.info("Accepted incoming call. Data: " + response.content)
         return response
-    
+
     def _handle_request(self, request, format=None):
         if format is None:
             return HttpResponseBadRequest('Incorrect request: no format '
@@ -45,22 +44,22 @@ class CarUnitRequestHandler:
         if request.method != 'POST':
             return HttpResponseBadRequest('Incorrect request: only POST method '
                 'allowed')
-        
+
         # resolve request adapter
         try:
             self._adapter = get_adapter(format)
         except InvalidFormatException, ex:
             raise HttpResponseBadRequest(unicode(ex))
-        
+
         try:
             request_str = request.raw_post_data
         except IndexError:
             raise AssertionError('Incorrect request: missing request POST '
                 'variable')
-        
+
         if not request_str:
             raise ValueError('Incorrect request: missing request data')
-        
+
         # begin processing request
         try:
             # preprocess request (parse etc.)
@@ -69,17 +68,17 @@ class CarUnitRequestHandler:
             self._response_data = self.process_request(self._request_data)
         except Exception, err:
             return HttpResponseServerError(repr(err))
-        
+
         # postprocess response (convert to correct format etc.)
         try:
             response = self._adapter.postprocess_response(self._response_data)
         except Exception, err:
             return HttpResponseServerError(repr(err))
         return response
-    
+
     def process_request(self, request_data):
         response_data = {'usages': {}, 'requirements': {}}
-        
+
         if self._authorize(request_data['auth']['imei'],
             request_data['auth']['authorization_key']):
             if request_data['usages']:
@@ -88,9 +87,9 @@ class CarUnitRequestHandler:
                 response_data['requirements'] = self._requirements(
                     request_data['requirements'])
         else: raise AssertionError('Unauthorized access')
-        
+
         return response_data
-    
+
     def _authorize(self, imei, authorization_key):
         self._car = Car.objects.authenticate(imei, authorization_key)
         if self._car:
@@ -98,24 +97,24 @@ class CarUnitRequestHandler:
             return True
         else:
             return False
-    
+
     def _usages(self, usages):
         assert isinstance(self._car, Car)
         for usage in usages:
             user = None
             journey = None
-            
+
             try:
                 user = MetrocarUser.objects.get(pk__exact=int(usage['user_id']))
             except Exception, err:
                 self._logger.log(logging.ERROR, 'Cannot fetch user: %s' % str(err))
-                raise ProgrammingError('Cannot fetch user: %s' % str(err))
-            
+                raise RuntimeError('Cannot fetch user: %s' % str(err))
+
             # we have since record, start the journey
             if usage.has_key('since'):
-                journey = Journey.objects.start_journey(self._car, user, 
+                journey = Journey.objects.start_journey(self._car, user,
                     usage['since'])
-                
+
             # we have till record, finish the journey
             if usage.has_key('till'):
                 journey = self._car.get_current_journey()
@@ -124,11 +123,11 @@ class CarUnitRequestHandler:
                 journey.finish(usage['till'])
                 if journey.reservation is not None and journey.reservation.ready_to_finish():
                     journey.reservation.finish(usage['till'])
-                    
+
             if journey is not None:
                 # record sent positions
                 from django.contrib.gis.geos import Point
-                base_pos = Point(usage['base_position']['latitude'], 
+                base_pos = Point(usage['base_position']['latitude'],
                     usage['base_position']['longitude'])
                 pos_count = len(usage['incremental_positions'])
                 for index, pos in enumerate(usage['incremental_positions']):
@@ -149,7 +148,7 @@ class CarUnitRequestHandler:
                 journey.save()
             else:
                 raise AssertionError('No journey has been found')
-    
+
     def _requirements(self, requirements):
         output = {}
         for req in requirements:
@@ -172,8 +171,8 @@ class CarUnitRequestHandler:
                         'user_id': user.pk,
                         'rfid_codes': [ user.user_card.code ],
                         'phone_numbers': phone_numbers,
-                        'allowed_times': allowed_times 
+                        'allowed_times': allowed_times
                     })
         return output
-    
+
 request_handler = CarUnitRequestHandler()

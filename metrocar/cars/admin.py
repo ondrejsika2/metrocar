@@ -41,15 +41,15 @@ class CarAdmin(admin.OSMGeoAdmin):
                  (_('Connection information'), {'fields': ('imei', 'authorization_key', 'last_echo', 'mobile_number', )}),
                  (_('Location'), {'fields': ('last_position', )})
                  )
-    
+
     def changelist_view(self, request, extra_context=None):
         map = utils.get_car_infomap()
         return super(CarAdmin, self).changelist_view(request, {'car_position_map': map})
-    
+
     def change_auth_key(self, request, object_id, extra_context=None):
         from metrocar.cars.forms import SetCarAuthKeyForm
         car = Car.objects.get(pk=object_id)
-        
+
         if request.method == 'POST':
             form = SetCarAuthKeyForm(car, request.POST)
             if form.is_valid():
@@ -75,7 +75,7 @@ class CarAdmin(admin.OSMGeoAdmin):
                                   'show_save': True,
                                   },
                                   context_instance=RequestContext(request))
-    
+
     def get_urls(self):
         urls = super(CarAdmin, self).get_urls()
         my_urls = patterns('',
@@ -123,7 +123,7 @@ class JourneyModelAdmin(admin.OSMGeoAdmin):
         CarPositionInline,
     ]
     ordering = ('start_datetime',)
-    
+
     def change_view(self, request, object_id, extra_content=None):
         journey = Journey.objects.get(pk=object_id)
         pricing = journey.get_pricing_info()
@@ -134,7 +134,7 @@ class JourneyModelAdmin(admin.OSMGeoAdmin):
         return super(JourneyModelAdmin, self).change_view(
                                                           request, object_id, extra_content
                                                           )
-    
+
 class CarPositionModelAdmin(admin.OSMGeoAdmin):
     list_display = ('id', 'journey', 'get_sequence_nr',)
     list_filter = ('journey',)

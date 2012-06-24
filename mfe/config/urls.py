@@ -16,8 +16,6 @@ urlpatterns = patterns('',
     url(r'^%s/' % slugify('invoices'), include('metrocar.invoices.urls.common')),
 )
 
-if settings.SERVE_STATIC_FILES:
-    urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.STATIC_DOC_ROOT}),
-    )
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()
