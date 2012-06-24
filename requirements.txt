@@ -41,6 +41,10 @@ nose==1.1.2
 -e git://github.com/Almad/django-sane-testing.git@99dc7200593a7a59ffa33edb906d52acc7d8f577#egg=djangosanetesting
 
 
+# Documentation system
+Sphinx==1.1.3
+
+
 # used in car unit management, candidate for deletion
 python-dateutil==2.1
 
