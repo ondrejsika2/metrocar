@@ -12,6 +12,7 @@ from django.views.generic.simple import direct_to_template
 from django.views.generic.list_detail import object_list
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template.context import RequestContext
@@ -23,14 +24,18 @@ from metrocar.cars.models import Car, Journey
 from metrocar.reservations.models import Reservation, ReservationError
 from mfe.utils.forms import render_to_wizard, ViewFormWizard
 
+
+DEFAULT_RESERVATION_DISTANCE = settings.DEFAULT_RESERVATION_DISTANCE
+
+
 class ReservationWizard(ViewFormWizard):
     from mfe.reservations.forms import ReservationFormOne, ReservationFormThree
     _forms = [ ReservationFormOne, ReservationFormThree ]
 
     def get_template(self, step):
         return 'reservations/reservation/%s.html' % step
-            
-    
+
+
     def process_step(self, request, form, step):
         " Overload to add extra content "
         if request.POST.has_key('0-car_id'):
@@ -139,7 +144,7 @@ def finished_list(request, page=None):
 @login_required
 def cancel_reservation(request, reservation_id, confirmed=False):
     reservation = get_object_or_404(Reservation, pk=reservation_id)
-    
+
     if confirmed:
         try:
             reservation.cancel()
@@ -147,7 +152,7 @@ def cancel_reservation(request, reservation_id, confirmed=False):
             messages.error(request, _('It is not possible to cancel reservation that has already begun.'))
         except Exception, e:
            messages.error(request, e.message)
-            
+
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
         messages.warning(request, _('Do you want to cancel reservation %(reservation)s for car %(car)s? <a href="%(yes_url)s">Yes</a> | <a href="%(no_url)s">No</a>') % {'reservation' : reservation, 'car' : reservation.car, 'yes_url' : reverse('mfe_reservations_cancel_reservation', args=[reservation.pk]), 'no_url' : request.META['HTTP_REFERER']})

@@ -34,7 +34,11 @@ html5lib==0.90
 
 # Testing tools
 nose==1.1.2
-djangosanetesting==0.5.11
+
+# the latest release of djangosanetesting (0.5.11) doesn't work with the new-
+# style DATABASES settings, so we'll just use this until there is a compatible
+# version released
+-e git://github.com/Almad/django-sane-testing.git@99dc7200593a7a59ffa33edb906d52acc7d8f577#egg=djangosanetesting
 
 
 # used in car unit management, candidate for deletion

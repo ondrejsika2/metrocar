@@ -194,15 +194,18 @@ API_AUTH_REALM = 'metrocar-backend'
 # log path
 LOG_PATH = 'log/metrocar.log'
 
-# disable caching
-CACHE_BACKEND = 'dummy:///'
-
 # version string
 VERSION = "1"
 
-ROOT_URLCONF = 'metrocar.config.urls'
+ROOT_URLCONF = 'metrocar.urls'
 
 SITE_ID = 1
 
 DEFAULT_CHARSET = 'utf-8'
 DEFAULT_RESERVATION_DISTANCE = 10 # 10 km
+
+
+# minimalni minutovy interval mezi zacatkem a koncem rezervace automobilu
+RESERVATION_TIME_INTERVAL   = 30
+# rezervaci je mozne si nacasovat po ctvrt hodine
+RESERVATION_TIME_SHIFT      = 15

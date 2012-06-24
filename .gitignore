@@ -1,2 +1,3 @@
 /metrocar/log/*
 /metrocar.egg-info/*
+/metrocar/settings/local.py

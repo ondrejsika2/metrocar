@@ -85,7 +85,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 AUTHENTICATION_BACKENDS = ('metrocar.user_management.auth_backend.MetrocarBackend',)
 
-ROOT_URLCONF = 'mfe.config.urls'
+ROOT_URLCONF = 'mfe.urls'
 
 DATE_FORMAT = 'd.m.Y'
 DATETIME_FORMAT = 'D, d.m.Y H:i'

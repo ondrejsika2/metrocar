@@ -7,6 +7,7 @@ from decimal import Decimal
 
 from django.db.models.signals import post_save, pre_delete
 from django.db.transaction import commit_on_success
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import MultiLineString
 from django.utils.translation import ugettext_lazy as _, ngettext
@@ -16,6 +17,10 @@ from metrocar.utils.models import SiteSettings
 from django.utils.encoding import force_unicode
 
 import managers
+
+
+RESERVATION_TIME_SHIFT = settings.RESERVATION_TIME_SHIFT
+
 
 class ReservationError(Exception):
     pass
@@ -92,7 +97,6 @@ class Reservation(models.Model):
             - no conflicting reservation exists
         """
         from metrocar.cars.models import Car
-        from mfe.config.settings_prod import RESERVATION_TIME_SHIFT
 
         assert isinstance(user, MetrocarUser)
         assert isinstance(car, Car)

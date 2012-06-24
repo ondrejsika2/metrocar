@@ -10,7 +10,11 @@ from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from datetime import time, datetime
-from mfe.config.settings_prod import RESERVATION_TIME_SHIFT, RESERVATION_TIME_INTERVAL
+
+
+RESERVATION_TIME_SHIFT = settings.RESERVATION_TIME_SHIFT
+RESERVATION_TIME_INTERVAL = settings.RESERVATION_TIME_INTERVAL
+
 
 class CalendarDateWidget(forms.DateTimeInput):
     format = getattr(settings, 'CALENDAR_DATE_FORMAT', '%d.%m.%Y')

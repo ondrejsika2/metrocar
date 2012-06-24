@@ -31,7 +31,7 @@ INSTALLED_APPS += (
 # basic Django user
 AUTHENTICATION_BACKENDS = ('metrocar.user_management.auth_backend.MetrocarBackend',)
 
-ROOT_URLCONF = 'mfe.config.urls'
+ROOT_URLCONF = 'mfe.urls'
 
 TEMPLATE_DIRS += (
     join(MFE_PATH, 'templates'),
@@ -50,8 +50,3 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 LOGIN_URL = '/uzivatele/prihlaseni/'
 
 SITE_ID = 1
-
-# minimalni minutovy interval mezi zacatkem a koncem rezervace automobilu
-RESERVATION_TIME_INTERVAL   = 30
-# rezervaci je mozne si nacasovat po ctvrt hodine
-RESERVATION_TIME_SHIFT      = 15

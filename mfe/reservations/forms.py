@@ -13,12 +13,15 @@ from datetime import datetime, timedelta
 #from IPython.Shell import IPShellEmbed; IPShellEmbed()()
 from metrocar.reservations.forms import CHOICES
 
-from mfe.config.settings_prod import RESERVATION_TIME_INTERVAL
 from metrocar.user_management.models import MetrocarUser
 from metrocar.cars.models import Car, Journey
 from metrocar.reservations.models import Reservation
 from datetime import datetime, timedelta
 from mfe.utils.forms.widgets import *
+
+
+RESERVATION_TIME_INTERVAL = settings.RESERVATION_TIME_INTERVAL
+
 
 class ReservationFormOne(forms.Form):
 
@@ -132,7 +135,7 @@ class AddJourneyForm(forms.ModelForm):
             start_datetime = datetime.strptime('%s %s' % (data['start_datetime_0'], data['start_datetime_1']), '%Y-%m-%d %H:%M')
             end_datetime = datetime.strptime('%s %s' % (data['end_datetime_0'], data['end_datetime_1']), '%Y-%m-%d %H:%M')
             return start_datetime, end_datetime
-    
+
     class Meta:
         model = Journey
         exclude = ('user', 'car', 'reservation', 'total_price', 'path')
