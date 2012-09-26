@@ -122,6 +122,7 @@ INSTALLED_APPS = (
                   'django.contrib.admindocs',
                   'django.contrib.gis',
                   'django.contrib.markup',
+                  'django.contrib.staticfiles',
 
                   # TODO: use South instead
                   #'django_evolution',
