@@ -31,13 +31,18 @@ def delete_pyc():
         file.remove()
 
 
+def uwsgi_reload(site):
+    sh('kill -s 1 `cat ~/uwsgi/%s.pid`' % site)
+
+
 @task
 def deploy():
     sh('git pull')
     delete_pyc()
     install_dependencies()
     collectstatic()
-    sh('uwsgi-manager -w')
+    uwsgi_reload('autonapul.cz')
+    uwsgi_reload('admin.autonapul.cz')
     build_docs()
 
 
