@@ -96,16 +96,31 @@ Install the dependencies::
 4. Setup a database
 ===================
 
-At the moment the project is dependent on a PostgreSQL with a geo tepmlate which
-is kind of a hassle to set up. I hope to remove this dependency so I  won't need
-to write about how to get it running. If you need to install the project before
-then, see geo-django documentation or try your luck with the legacy
-documentation:
+First you have to install postgresql. In Ubuntu(12.04)::
+    $ sudo apt-get install postgresql-9.1-postgis postgresql-server-dev-9.1
 
-* `<http://www.assembla.com/spaces/wagnejan_metrocar/wiki/SI2_-_Home>`_
-* `<http://www.assembla.com/spaces/wagnejan_metrocar/documents>`_
-* `<http://www.assembla.com/spaces/metrocar/wiki/Zprovozneni_Webservice_Ubuntu10_04_PostgreSQL8_4>`_
+After that, you need to log in as user postgres:: 
+    $ sudo su postgres
+    
+Create database user metrocar::
+    $ createuser -P metrocar 
+    
+You will be asked for password(I recomend to use password: metrocar). After that, answer no on every question.
 
+After that you have to create template for postgres. From ``https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#post-installation`` download script create_template_postgis-debian.sh which is for debian/ubuntu.
+
+Then run the script as user postgres::
+
+    $ sh create_template_postgis-debian.sh 
+
+After that you need to create database. Run psql and enter::
+
+    $ CREATE DATABASE metrocar OWNER metrocar TEMPLATE template_postgis ENCODING 'UTF8';
+    
+Then as user root, edit file /etc/postgresql/9.1/main/pg_hba.conf and comment out the line "local all all peer" and insert new line "local all all md5"
+
+As user root, restart postgres server:: 
+    $ sudo /etc/init.d/postgresql restart    
 
 5. Update you development settings
 ==================================
