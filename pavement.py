@@ -10,6 +10,10 @@ options(
 )
 
 
+def managepy(project, cmd):
+    sh('python %s/manage.py %s' % (project, cmd))
+
+
 @task
 def install_dependencies():
     """
@@ -25,3 +29,36 @@ def delete_pyc():
     """
     for file in path('.').walkfiles('*.pyc'):
         file.remove()
+
+
+@task
+def deploy():
+    sh('git pull')
+    delete_pyc()
+    install_dependencies()
+    collectstatic()
+    sh('uwsgi-manager -w')
+    build_docs()
+
+
+@task
+def build_docs():
+    doctools.doc_clean()
+    doctools.html()
+
+
+@task
+def collectstatic():
+    """
+    Symlinks static files from installed apps to STATIC_ROOT
+    (Generally not needed in development)
+    """
+    # TODO: get static root from settings
+    STATIC_ROOT = 'static'
+
+    # delete old static files, because sometimes the collecstatic
+    # command complains about them already existing, for some reason...
+    sh('rm -rf %s/*' % STATIC_ROOT)
+
+    for project in 'metrocar', 'mfe':
+        managepy(project, 'collectstatic -v0 --noinput --link')
