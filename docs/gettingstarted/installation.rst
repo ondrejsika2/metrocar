@@ -110,9 +110,8 @@ documentation:
 5. Update you development settings
 ==================================
 
-Put your development database login information in config/settings_local.py
-
-TODO: settings refactoring pending.
+Create a file named ``metrocar/settings/local.py`` and fill-in your development
+settings. See ``metrocar/settings/local_example.py`` for inspiration.
 
 
 6. Run the tests
