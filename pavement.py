@@ -1,3 +1,4 @@
+import re
 from paver.easy import *
 from paver import doctools
 from paver.path25 import path
@@ -31,8 +32,9 @@ def delete_pyc():
         file.remove()
 
 
-def uwsgi_reload(site):
-    sh('kill -s 1 `cat ~/uwsgi/%s.pid`' % site)
+def uwsgi_reload():
+    for pid in re.findall('run (\d+):', sh('uwsgi-manager -l', capture=True)):
+        sh('uwsgi-manager -r ' + pid)
 
 
 @task
@@ -41,8 +43,7 @@ def deploy():
     delete_pyc()
     install_dependencies()
     collectstatic()
-    uwsgi_reload('autonapul.cz')
-    uwsgi_reload('admin.autonapul.cz')
+    uwsgi_reload()
     build_docs()
 
 
