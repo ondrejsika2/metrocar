@@ -41,7 +41,8 @@ def uwsgi_reload():
 def deploy():
     sh('git pull')
     delete_pyc()
-    install_dependencies()
+    # TODO: only run when a new dependency appears
+    # install_dependencies()
     collectstatic()
     uwsgi_reload()
     build_docs()
