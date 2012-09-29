@@ -120,6 +120,7 @@ INSTALLED_APPS = (
                   'django.contrib.flatpages',
                   'django.contrib.admin',
                   'django.contrib.admindocs',
+                  'django.contrib.messages',
                   'django.contrib.gis',
                   'django.contrib.markup',
                   'django.contrib.staticfiles',
