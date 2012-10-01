@@ -32,9 +32,10 @@ def delete_pyc():
         file.remove()
 
 
-def uwsgi_reload():
+@task
+def uwsgi_restart():
     for pid in re.findall('run (\d+):', sh('uwsgi-manager -l', capture=True)):
-        sh('uwsgi-manager -r ' + pid)
+        sh('uwsgi-manager -R ' + pid)
 
 
 @task
@@ -44,7 +45,7 @@ def deploy():
     # TODO: only run when a new dependency appears
     # install_dependencies()
     collectstatic()
-    uwsgi_reload()
+    uwsgi_restart()
     build_docs()
 
 
