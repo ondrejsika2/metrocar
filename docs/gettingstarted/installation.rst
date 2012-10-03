@@ -105,7 +105,7 @@ After that, you need to log in as user postgres::
 Create database user metrocar::
     $ createuser -P metrocar 
     
-You will be asked for password(I recomend to use password: metrocar). After that, answer no on every question.
+You will be asked for password(I recomend to use password: metrocar). After that, answer no on every question except question, if user can create database.
 
 After that you have to create template for postgres. From ``https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#post-installation`` download script create_template_postgis-debian.sh which is for debian/ubuntu.
 
