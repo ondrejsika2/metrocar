@@ -5,8 +5,8 @@
 Running tests
 =============
 
-Update pending, in the meantime, this should work::
+In the root directory (where ``pavement.py`` is) run::
 
-    $ metrocar/tests/testproject/run_tests.py
+    $ paver test
 
 
