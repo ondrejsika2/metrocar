@@ -88,6 +88,6 @@ Some resources on writing tests in Django
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * http://readthedocs.org/docs/pycon-2012-notes/en/latest/testing_and_django.html
+* http://toastdriven.com/blog/2011/apr/10/guide-to-testing-in-django/
 * http://blip.tv/djangocon-europe-2010/honza-kr%C3%A1l-testing-django-applications-3696434
 * http://www.tdd-django-tutorial.com
-
