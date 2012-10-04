@@ -97,30 +97,37 @@ Install the dependencies::
 ===================
 
 First you have to install postgresql. In Ubuntu(12.04)::
+
     $ sudo apt-get install postgresql-9.1-postgis postgresql-server-dev-9.1
 
-After that, you need to log in as user postgres:: 
+After that, you need to log in as user postgres::
+
     $ sudo su postgres
-    
+
 Create database user metrocar::
-    $ createuser -P metrocar 
-    
-You will be asked for password(I recomend to use password: metrocar). After that, answer no on every question except question, if user can create database.
+
+    $ createuser -P metrocar
+
+You will be asked for password (I recomend to use password: metrocar). After
+that, answer no to every question except if the user can create database (it's
+needed for creating a testing database when running tests).
 
 After that you have to create template for postgres. From ``https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#post-installation`` download script create_template_postgis-debian.sh which is for debian/ubuntu.
 
 Then run the script as user postgres::
 
-    $ sh create_template_postgis-debian.sh 
+    $ sh create_template_postgis-debian.sh
 
 After that you need to create database. Run psql and enter::
 
-    $ CREATE DATABASE metrocar OWNER metrocar TEMPLATE template_postgis ENCODING 'UTF8';
-    
-Then as user root, edit file /etc/postgresql/9.1/main/pg_hba.conf and comment out the line "local all all peer" and insert new line "local all all md5"
+    CREATE DATABASE metrocar OWNER metrocar TEMPLATE template_postgis ENCODING 'UTF8';
 
-As user root, restart postgres server:: 
-    $ sudo /etc/init.d/postgresql restart    
+Then as user root, edit file /etc/postgresql/9.1/main/pg_hba.conf and comment
+out the line "local all all peer" and insert new line "local all all md5"
+
+As user root, restart postgres server::
+
+    $ sudo /etc/init.d/postgresql restart
 
 5. Update you development settings
 ==================================
