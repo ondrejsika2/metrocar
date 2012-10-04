@@ -97,6 +97,7 @@ Subpackages
     metrocar.utils.auth
     metrocar.utils.flatpagesmeta
     metrocar.utils.generic_crud
+    metrocar.utils.management
     metrocar.utils.serializers
     metrocar.utils.templatetags
 

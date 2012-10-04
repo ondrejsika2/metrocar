@@ -55,3 +55,7 @@ lxml==2.2.8
 
 # TODO: get rid of this, use the one from django
 simplejson==2.3.3
+
+
+# Command line utils
+clint==0.3.1

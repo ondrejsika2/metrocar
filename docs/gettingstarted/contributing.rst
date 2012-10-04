@@ -84,6 +84,16 @@ manually every time.
 .. seealso::
     :doc:`/howto/tests`
 
+Testing data
+~~~~~~~~~~~~
+
+.. include:: testing-data.rst
+
+For instructions on how to expose testing data for an app and bootstrap the
+database with testing data from all apps, see the
+:mod:`~metrocar.utils.management.commands.load_dummy_data` command.
+
+
 Some resources on writing tests in Django
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

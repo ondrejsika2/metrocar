@@ -70,3 +70,11 @@ def collectstatic():
 
     for project in 'metrocar', 'mfe':
         managepy(project, 'collectstatic -v0 --noinput --link')
+
+
+@task
+def test():
+    """
+    Run the test-suite.
+    """
+    sh('python tests/testproject/run_tests.py')
