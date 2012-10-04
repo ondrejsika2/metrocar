@@ -8,13 +8,13 @@
 	label { display: block; float: left; min-width: 250px; }
 </style>
 
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/json2.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/OpenLayers-2.8/OpenLayers.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/OpenLayers-2.8/OpenLayers.js"></script>
 <script type='text/javascript' src='http://openstreetmap.org/openlayers/OpenStreetMap.js'></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}olwidget/js/olwidget.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.base64.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}olwidget/css/olwidget.css"/>
+<script type="text/javascript" src="{{ STATIC_URL }}olwidget/js/olwidget.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.base64.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}olwidget/css/olwidget.css"/>
 
 <script type="text/javascript">
 
@@ -31,7 +31,7 @@
 	 **/
 	$.makeRequest = function () {
 		usages = {}
-		
+
 		var since = $('#since').val();
 		var till = $('#till').val();
 		if (since) usages.since = since;
@@ -54,7 +54,7 @@
 			});
 		}
 		usages.incremental_positions = incPos;
-		
+
 		data = {
 			'auth' : {
 				'imei': $('#car-select').val(),
@@ -72,7 +72,7 @@
 			var olwidgetParams = new Array();
 			var $descElem = $('#car-positions-desc');
 			$('#car-positions-desc').html('');
-			
+
 			for (i = 0; i < data.length; i++) {
 				var parArr = new Array();
 				parArr[0] = "POINT(" + data[i].last_position.coordinates[0]
@@ -92,20 +92,20 @@
 			});
 		});
 	};
-	
+
 	$(document).ready(function () {
 		var request;
 		var dataLoaded = false;
 
 		$('#request-content').val('');
 		$('#response-content').val('');
-		
+
 		$('#load-data').unbind('click').click(function () {
 			/* load all users */
 			$.getJSON($.makeUrl('api/users/?callback=?'), function (data) {
 				for (i = 0; i < data.length; i++) {
 					$('#user-select').append(
-						$('<option value="' + data[i].id + '">' 
+						$('<option value="' + data[i].id + '">'
 								+ data[i].username + '</option>'));
 				}
 			});
@@ -114,7 +114,7 @@
 			$.getJSON($.makeUrl('api/cars/?callback=?'), function (data) {
 				for (i = 0; i < data.length; i++) {
 					$('#car-select').append(
-						$('<option value="' + data[i].imei + '">' 
+						$('<option value="' + data[i].imei + '">'
 								+ data[i].full_name + '</option>'));
 				}
 			});
@@ -151,7 +151,7 @@
 
 			$('#response-content').val('');
 			$('#sending-text').show();
-			
+
 			$.ajax({
 				'url': '/url/' + $.base64Encode($.makeUrl('comm/json/')),
 				'cache': false,
@@ -167,7 +167,7 @@
 					$('#sending-text').hide();
 				},
 				'type': 'POST'
-			}); 
+			});
 
 			return false;
 		});
@@ -180,31 +180,31 @@
 
 <h1>Comm request generator</h1>
 
-<p>This generator allows you to test Metrocar comm interface. It simulates 
-work of a car comm unit by sending requests which you specify. It can be also 
-used for testing of Metrocar API, because all data shown here are downloaded 
+<p>This generator allows you to test Metrocar comm interface. It simulates
+work of a car comm unit by sending requests which you specify. It can be also
+used for testing of Metrocar API, because all data shown here are downloaded
 by Metrocar API REST interface.</p>
 
-<p>This example does not use a database. As noted above, all data is downloaded 
-directly from Metrocar API. Whole interface is implemented in JavaScript. 
-The only aid for JavaScript implementation is simple HTTP proxy gate for 
+<p>This example does not use a database. As noted above, all data is downloaded
+directly from Metrocar API. Whole interface is implemented in JavaScript.
+The only aid for JavaScript implementation is simple HTTP proxy gate for
 serving cross-domain POST requests. It reasides on /url/ prefix.</p>
 
-<p>We are using JSON COMM adapter here, as it's easier to work with it in 
+<p>We are using JSON COMM adapter here, as it's easier to work with it in
 JavaScript. Note that there is also custom HTML adapter available.</p>
 
-<p><strong>Important</strong>: Please note that if you submit invalid Metrocar API URL, we have no 
+<p><strong>Important</strong>: Please note that if you submit invalid Metrocar API URL, we have no
 way to detect if URL is invalid because we are using JSONP cross-domain requests
-here and due to the nature of this technique, it's impossible to recieve 
-HTTP status codes (for more info look 
-<a href="http://bob.pythonmac.org/archives/2005/12/05/remote-json-jsonp/">here</a>). 
-If nothing happens, try debugging with Firefox's Firebug if Network activity 
+here and due to the nature of this technique, it's impossible to recieve
+HTTP status codes (for more info look
+<a href="http://bob.pythonmac.org/archives/2005/12/05/remote-json-jsonp/">here</a>).
+If nothing happens, try debugging with Firefox's Firebug if Network activity
 is allright.</p>
 
 <h2>Basic usage workflow</h2>
 <ol>
 	<li>
-		First submit host URL. Then click button "Load remote data". The script 
+		First submit host URL. Then click button "Load remote data". The script
 		tries to load user and car information from remote REST API.
 	</li>
 	<li>
@@ -215,13 +215,13 @@ is allright.</p>
 		used to query the comm interface.
 	</li>
 	<li>
-		Click Send request button. Script will use the generated JSON string 
+		Click Send request button. Script will use the generated JSON string
 		and performs a query to the comm interface. Result of the query will
 		be shown below in textarea named Response.
 	</li>
 </ol>
-<p>This is expected to work only if reservation is pre-made or when using 
-service card (which doesn't need a reservation by default). Reservation 
+<p>This is expected to work only if reservation is pre-made or when using
+service card (which doesn't need a reservation by default). Reservation
 creation is not part of this generator.</p>
 
 <form>

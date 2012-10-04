@@ -3,16 +3,16 @@
 {% load i18n thumbnail car_maps %}
 
 {% block extra_css_overload %}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery.tooltip.css" type="text/css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.tooltip.css" type="text/css" />
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{{ MEDIA_URL}}js/jquery.tooltip.pack.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
-<script src="{{ MEDIA_URL }}js/OpenLayers-2.8/OpenLayers.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/prototypes.js" type="text/javascript"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/map-client/OSMPOI.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL}}js/jquery.tooltip.pack.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
+<script src="{{ STATIC_URL }}js/OpenLayers-2.8/OpenLayers.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/prototypes.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/map-client/OSMPOI.js"></script>
 <script type="text/javascript">
 /* based on the GeoExt tree example, Copyright (c) 2008-2009 The Open Source Geospatial Foundation */
 
@@ -28,7 +28,7 @@ var selectCtrl, popup;
 var overlays = [];
 
 function initializeMap() {
-	OpenLayers.ImgPath = "{{ MEDIA_URL }}js/OpenLayers-2.8/theme/dark/";
+	OpenLayers.ImgPath = "{{ STATIC_URL }}js/OpenLayers-2.8/theme/dark/";
     map = new OpenLayers.Map.cdauth("car-map",{
         allOverlays: false,
         controls: [
@@ -127,21 +127,21 @@ $(document).ready(function() {
 		$('#search-results').hide();
     	return false;
 	});
-	
+
     /* search field */
     $('#car-search-header form').submit(function () {
         $.post(
-        	'{% url mfe_utils_search %}', 
+        	'{% url mfe_utils_search %}',
             { 'q': $(this).find('input[type=text]').val() },
             function (data) {
 				var searchResultDiv = $('#search-results');
-                
+
                 if (data.length != 0) {
                     if (data.length == 1) {
 		                rec = data[0];
 		                lonlat = new OpenLayers.LonLat(rec.lon, rec.lat).transform(wgs84, smerc);
 		                bbox = new OpenLayers.Bounds(
-		    	                rec.boundingbox[2], rec.boundingbox[0], 
+		    	                rec.boundingbox[2], rec.boundingbox[0],
 		    	                rec.boundingbox[3], rec.boundingbox[1])
 		                	.transform(wgs84,smerc),
 		            	map.zoomToExtent(bbox, true);
@@ -166,7 +166,7 @@ $(document).ready(function() {
         );
         return false;
     });
-	
+
     initializeMap();
     selectCtrl = new OpenLayers.Control.SelectFeature(overlays);
     map.addControl(selectCtrl);
@@ -191,7 +191,7 @@ function createPOILayer(name, type, icon) {
         protocol: new OpenLayers.Protocol.HTTP({
         url: '{% url mfe_cars_geo_feed %}' + type + '/',
             format: new OpenLayers.Format.OSMPOI({defaultStyle: {
-    				'externalGraphic': '{{ MEDIA_URL }}js/OpenLayers-2.8/img/'+icon,
+    				'externalGraphic': '{{ STATIC_URL }}js/OpenLayers-2.8/img/'+icon,
     				'graphicWidth': 20,
     				'graphicHeight': 20,
     				'graphicXOffset': -10,
@@ -228,7 +228,7 @@ overlays.push(createPOILayer("parking" , "parking" , "marker-blue.png"));
    			<div class="title">
                 <h2>{% trans "Find cars" %}</h2>
             </div>
-            
+
             {% blocktrans %}
             <p>Below you can search for cars in your neighborhood. You can
             get more details by clicking on car sign, which will open car
@@ -253,7 +253,7 @@ overlays.push(createPOILayer("parking" , "parking" , "marker-blue.png"));
 		<div>
 			<form>
 				<span class="search"><span><input type="text" style="width: 450px;" value="{% trans "Enter a location or a car type, model etc." %}"></span></span>
-				<input type="image" value="OK" src="{{ MEDIA_URL }}img/search-box-submit.png" class="search-submit" />
+				<input type="image" value="OK" src="{{ STATIC_URL }}img/search-box-submit.png" class="search-submit" />
 			</form>
 			<div id="search-results" style="display:none;"></div>
 		</div>
@@ -266,9 +266,9 @@ overlays.push(createPOILayer("parking" , "parking" , "marker-blue.png"));
 			<div id="car-details-wrapper">
 			{% blocktrans %}
 			<h4><span>Currently no cars selected</span></h4>
-			<p>To start browsing our cars, please refer to map 
-			<strong>to the left</strong> of this box. Look for a car 
-			in suitable location and show it's details by clicking it's 
+			<p>To start browsing our cars, please refer to map
+			<strong>to the left</strong> of this box. Look for a car
+			in suitable location and show it's details by clicking it's
 			marker.</p>
 			{% endblocktrans %}
 			</div>

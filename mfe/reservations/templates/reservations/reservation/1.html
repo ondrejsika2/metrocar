@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/reservation-form.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/reservation-form.js"></script>
 {% endblock %}
 
 {% block step_title %}{% trans "New reservation - summary" %}{% endblock %}
@@ -11,7 +11,7 @@
 {% block reservation_content %}
 
 {% blocktrans %}
-<p>Your reservation is <strong>almost finished</strong>! Please confirm below 
+<p>Your reservation is <strong>almost finished</strong>! Please confirm below
 the details again.</p>
 {% endblocktrans %}
 

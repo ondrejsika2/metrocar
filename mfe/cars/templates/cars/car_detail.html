@@ -3,11 +3,11 @@
 {% load i18n thumbnail maps %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery.tooltip.css" type="text/css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.tooltip.css" type="text/css" />
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{{ MEDIA_URL}}js/jquery.tooltip.pack.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL}}js/jquery.tooltip.pack.js"></script>
 {% endblock %}
 
 {% block left_col_title %}{{ object }}{% endblock %}

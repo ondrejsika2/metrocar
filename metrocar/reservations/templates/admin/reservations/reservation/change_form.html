@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block extrastyle %}
-<link href="{{ MEDIA_URL }}css/admin.css" media="screen,projection" rel="stylesheet" type="text/css" />
+<link href="{{ STATIC_URL }}css/admin.css" media="screen,projection" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block after_field_sets %}
@@ -12,7 +12,7 @@
 <fieldset class="module aligned">
   <h2>{% trans "Pricing summary" %}</h2>
   <div class="description">{% trans "Detailed information about journey price" %}.</div>
-  
+
   <div class="form-row">
 	  <div>
 	  	<label>{% trans "Price for kms driven" %}:</label>
@@ -31,7 +31,7 @@
 	  	<strong>{{ pricing.total_price|floatformat:"-2" }} Kč</strong>
 	  </div>
   </div>
-  
+
 </fieldset>
 {% endif %}
 

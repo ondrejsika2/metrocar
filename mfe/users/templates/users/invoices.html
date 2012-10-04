@@ -3,11 +3,11 @@
 {% load i18n thumbnail %}
 
 {% block extra_css_overload %}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8rc3.custom.min.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -15,7 +15,7 @@ $(document).ready(function () {
         'title': '{% trans "Fuel bill" %}',
         'autoOpen': false
     });
-    
+
     $('#invoices a.j-bill-detail-link').click(function () {
         $($(this).attr('href')).dialog('open');
         return false;
@@ -31,7 +31,7 @@ $(document).ready(function () {
 <div id="invoices">
 
 {% blocktrans %}
-<p>This page lists all money related informations for your account. You can 
+<p>This page lists all money related informations for your account. You can
 review your invoices, watch your fuel bill claims and see if they were approved
 or not.</p>
 {% endblocktrans %}
