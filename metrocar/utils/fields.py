@@ -1,16 +1,15 @@
-__author__="Xaralis"
-__date__ ="$28.10.2009 14:51:40$"
-
 import re
 
-from django.db.models import CharField, IntegerField
-from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.db.models import CharField
+from django.utils.translation import ugettext_lazy as _
+
 
 class IdentityCardNumberField(CharField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = 9
         super(IdentityCardNumberField, self).__init__(*args, **kwargs)
+
 
 class PhoneField(CharField):
     def __init__(self, *args, **kwargs):
@@ -30,6 +29,7 @@ class PhoneField(CharField):
 
         return value
 
+
 class IcField(CharField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = 8
@@ -47,6 +47,7 @@ class IcField(CharField):
             raise ValidationError(_('Enter valid IC number.'))
 
         return value
+
 
 class DicField(CharField):
     def __init__(self, *args, **kwargs):
