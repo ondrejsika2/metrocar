@@ -1,4 +1,4 @@
-# coding=utf-8
+# encoding: utf-8
 
 # Django settings for metrocar project.
 from os.path import abspath, dirname, join
@@ -11,9 +11,10 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SERVE_STATIC_FILES = False
 
+
 ADMINS = (
-          ('Jan Wagner', 'wagnejan@fel.cvut.cz.cz')
-          )
+    ('Petr Pokorny', 'petr@innit.cz'),
+)
 
 MANAGERS = ADMINS
 
@@ -106,43 +107,45 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 MIDDLEWARE_CLASSES = (
-                      'django.middleware.common.CommonMiddleware',
-                      'django.contrib.sessions.middleware.SessionMiddleware',
-                      'django.contrib.auth.middleware.AuthenticationMiddleware',
-                      'django.contrib.messages.middleware.MessageMiddleware',
-                      'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-                      )
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+)
+
 
 INSTALLED_APPS = (
-                  'django.contrib.auth',
-                  'django.contrib.contenttypes',
-                  'django.contrib.sessions',
-                  'django.contrib.sites',
-                  'django.contrib.flatpages',
-                  'django.contrib.admin',
-                  'django.contrib.admindocs',
-                  'django.contrib.messages',
-                  'django.contrib.gis',
-                  'django.contrib.markup',
-                  'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.flatpages',
+    'django.contrib.gis',
+    'django.contrib.markup',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
 
-                  'piston',
-                  'olwidget',
-                  'sorl.thumbnail',
-                  'south',
+    'piston',
+    'olwidget',
+    'sorl.thumbnail',
+    'south',
 
-                  'metrocar.car_unit_management', # needs to be first because it exports comm handler
-                  'metrocar.api',
-                  'metrocar.cars',
-                  'metrocar.invoices',
-                  'metrocar.reservations',
-                  'metrocar.tariffs',
-                  'metrocar.tarification',
-                  'metrocar.user_management',
-                  'metrocar.utils',
-                  'metrocar.utils.flatpagesmeta',
-                  'metrocar.subsidiaries',
-                  )
+    # needs to be first because it exports comm handler
+    'metrocar.car_unit_management',
+    'metrocar.api',
+    'metrocar.cars',
+    'metrocar.invoices',
+    'metrocar.reservations',
+    'metrocar.subsidiaries',
+    'metrocar.tariffs',
+    'metrocar.tarification',
+    'metrocar.user_management',
+    'metrocar.utils',
+    'metrocar.utils.flatpagesmeta',
+)
 
 
 DATE_FORMAT = 'd.m.Y'
@@ -155,7 +158,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'metrocar.mail@gmail.com'
 EMAIL_HOST_PASSWORD = '4ut1ck40'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = 1 #True
+EMAIL_USE_TLS = True
 
 EMAIL_NOMINATIM = 'xaralis@centrum.cz'
 
@@ -170,9 +173,9 @@ COMM_GPX_SCHEMA = join(COMM_DTD_ROOT, 'gpx.xsd')
 
 # plugins to be used in reservation creation
 RESERVATION_PLUGINS = (
-                       'metrocar.reservations.plugins.AddReminderPlugin',
-                       'metrocar.reservations.plugins.SendEmailPlugin',
-                       )
+    'metrocar.reservations.plugins.AddReminderPlugin',
+    'metrocar.reservations.plugins.SendEmailPlugin',
+)
 
 # interval of cron service handling reminders
 RESERVATION_REMINDER_CRON_INTERVAL = 60
@@ -204,10 +207,10 @@ ROOT_URLCONF = 'metrocar.urls'
 SITE_ID = 1
 
 DEFAULT_CHARSET = 'utf-8'
-DEFAULT_RESERVATION_DISTANCE = 10 # 10 km
+DEFAULT_RESERVATION_DISTANCE = 10  # 10 km
 
 
 # minimalni minutovy interval mezi zacatkem a koncem rezervace automobilu
-RESERVATION_TIME_INTERVAL   = 30
+RESERVATION_TIME_INTERVAL = 30
 # rezervaci je mozne si nacasovat po ctvrt hodine
-RESERVATION_TIME_SHIFT      = 15
+RESERVATION_TIME_SHIFT = 15
