@@ -78,3 +78,19 @@ def test():
     Run the test-suite.
     """
     sh('python tests/testproject/run_tests.py')
+
+
+@task
+def convert_to_south():
+    for app in (
+        'cars',
+        'invoices',
+        'reservations',
+        'subsidiaries',
+        'tariffs',
+        'tarification',
+        'user_management',
+        'utils',
+        'utils.flatpagesmeta',
+    ):
+        sh('python metrocar/manage.py migrate %s 0001 --fake' % app)
