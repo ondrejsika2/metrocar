@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'django.contrib.markup',
 
-    #'django_evolution',
     'piston',
     'olwidget',
     'sorl.thumbnail',
