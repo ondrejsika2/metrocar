@@ -39,11 +39,22 @@ def uwsgi_restart():
 
 
 @task
+def update_db():
+    """
+    Updates database schema by running South migrations and syncdb --all
+    to create permissions.
+    """
+    managepy('metrocar', 'migrate')
+    managepy('metrocar', 'syncdb --all --noinput')
+
+
+@task
 def deploy():
     sh('git pull')
     delete_pyc()
     # TODO: only run when a new dependency appears
     # install_dependencies()
+    update_db()
     collectstatic()
     uwsgi_restart()
     build_docs()
