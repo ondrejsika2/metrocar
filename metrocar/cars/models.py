@@ -19,8 +19,8 @@ from metrocar.utils.fields import *
 
 
 class CarModelManufacturer(models.Model):
-    slug = models.SlugField(blank=False, null=False, verbose_name=_('Slug'))
-    name = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Name'))
+    slug = models.SlugField(verbose_name=_('Slug'))
+    name = models.CharField(max_length=50, verbose_name=_('Name'))
 
     class Meta:
         verbose_name = _('Car manufacturer')
@@ -31,7 +31,7 @@ class CarModelManufacturer(models.Model):
 
 
 class Fuel(models.Model):
-    title = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Title'))
+    title = models.CharField(max_length=50, verbose_name=_('Title'))
 
     class Meta:
         verbose_name = _('Fuel')
@@ -42,7 +42,7 @@ class Fuel(models.Model):
 
 
 class CarType(models.Model):
-    type = models.CharField(max_length=50, blank=False, null=False, unique=True, verbose_name=_('Car type'))
+    type = models.CharField(max_length=50, unique=True, verbose_name=_('Car type'))
 
     class Meta:
         verbose_name = _('Car type')
@@ -52,13 +52,13 @@ class CarType(models.Model):
         return self.type
 
 class CarModel(models.Model):
-    name = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Name'))
-    manufacturer = models.ForeignKey(CarModelManufacturer, blank=False, null=False, verbose_name=_('Manufacturer'))
+    name = models.CharField(max_length=50, verbose_name=_('Name'))
+    manufacturer = models.ForeignKey(CarModelManufacturer, verbose_name=_('Manufacturer'))
     type = models.ForeignKey(CarType, verbose_name=_('Car type'), related_name='models')
-    engine = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Engine'))
-    seats_count = models.IntegerField(blank=False, null=False, verbose_name=_('Seats count'))
-    storage_capacity = models.IntegerField(blank=False, null=False, verbose_name=_('Storage capacity'))
-    main_fuel = models.ForeignKey(Fuel, blank=False, null=False, related_name='main_fuel', verbose_name=_('Main fuel'))
+    engine = models.CharField(max_length=50, verbose_name=_('Engine'))
+    seats_count = models.IntegerField(verbose_name=_('Seats count'))
+    storage_capacity = models.IntegerField(verbose_name=_('Storage capacity'))
+    main_fuel = models.ForeignKey(Fuel, related_name='main_fuel', verbose_name=_('Main fuel'))
     alternative_fuel = models.ForeignKey(Fuel, blank=True, null=True, related_name='alternative_fuel', verbose_name=_('Alternative fuel'))
     notes = models.TextField(blank=True, verbose_name=_('Notes'))
     image = models.ImageField(upload_to='car_models/%Y/%m', blank=True, null=True, verbose_name=_('Image'))
@@ -84,7 +84,7 @@ class CarModel(models.Model):
             return False
 
 class CarColor(models.Model):
-    color = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Color'))
+    color = models.CharField(max_length=50, verbose_name=_('Color'))
 
     class Meta:
         verbose_name = _('Car color')
@@ -97,26 +97,26 @@ class Car(models.Model):
     STATE_LOCKED = 'LOCKED'
     STATE_OPENED = 'OPENED'
 
-    active = models.BooleanField(blank=False, null=False, verbose_name=_('Active'))
-    imei = models.CharField(unique=True, max_length=18, null=False, blank=False, verbose_name=_('IMEI'))
-    authorization_key = models.CharField(max_length=40, null=False,
-                                         blank=False, verbose_name=_('Authorization key'),
+    active = models.BooleanField(verbose_name=_('Active'))
+    imei = models.CharField(unique=True, max_length=18, verbose_name=_('IMEI'))
+    authorization_key = models.CharField(max_length=40,
+                                          verbose_name=_('Authorization key'),
                                          help_text=_('SHA1 encoded. Use the '
                                          '<a href=\"change-authorization-key/\">change authorization key '
                                          'form</a> to change.'))
-    dedicated_parking_only = models.BooleanField(null=False, blank=False, default=False, verbose_name=_('Dedicated parking only'))
+    dedicated_parking_only = models.BooleanField(default=False, verbose_name=_('Dedicated parking only'))
     last_echo = models.DateTimeField(blank=True, null=True, verbose_name=_('Last echo'))
-    manufacture_date = models.DateTimeField(blank=False, null=False, verbose_name=_('Manufacture date'))
-    mobile_number = PhoneField(blank=False, null=False, verbose_name=_('Mobile number'))
-    registration_number = models.CharField(max_length=20, blank=False, null=False, verbose_name=_('Registration number'))
+    manufacture_date = models.DateTimeField(verbose_name=_('Manufacture date'))
+    mobile_number = PhoneField(verbose_name=_('Mobile number'))
+    registration_number = models.CharField(max_length=20, verbose_name=_('Registration number'))
     last_position = models.PointField(_('Last position'))
     last_address = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('Last address'))
     image = models.ImageField(upload_to='cars/%Y/%m', blank=True, null=True, verbose_name=_('Image'))
 
-    model = models.ForeignKey(CarModel, null=False, blank=False, verbose_name=_('Car model'), related_name='cars')
-    color = models.ForeignKey(CarColor, null=False, blank=False, verbose_name=_('Car color'))
+    model = models.ForeignKey(CarModel, verbose_name=_('Car model'), related_name='cars')
+    color = models.ForeignKey(CarColor, verbose_name=_('Car color'))
     owner = models.ForeignKey(MetrocarUser, null=True, blank=True, verbose_name=_('Owner'))
-    home_subsidiary = models.ForeignKey(Subsidiary, null=False, blank=False, verbose_name=_('Subsidiary'))
+    home_subsidiary = models.ForeignKey(Subsidiary, verbose_name=_('Subsidiary'))
 
     objects = managers.CarManager()
 
@@ -335,15 +335,15 @@ class Car(models.Model):
         return result
 
 class FuelBill(AccountActivity):
-    code = models.CharField(max_length=20, blank=False, null=False,
+    code = models.CharField(max_length=20,
                             verbose_name=_('Code'))
-    approved = models.BooleanField(blank=False, null=False, default=False,
+    approved = models.BooleanField(default=False,
                                    verbose_name=_('Approved'))
-    car = models.ForeignKey(Car, blank=False, null=False, verbose_name=_('Car'))
-    fuel = models.ForeignKey(Fuel, blank=False, null=False, verbose_name=_('Fuel'))
+    car = models.ForeignKey(Car, verbose_name=_('Car'))
+    fuel = models.ForeignKey(Fuel, verbose_name=_('Fuel'))
     liter_count = models.DecimalField(decimal_places=2, max_digits=6,
-                                      blank=False, null=False, verbose_name=_('Liter count'))
-    place = models.CharField(max_length=100, blank=False, null=False,
+                                      verbose_name=_('Liter count'))
+    place = models.CharField(max_length=100,
                              verbose_name=_('Place'))
     image = models.ImageField(upload_to='fuel_bills/%Y/%m', blank=True,
                               null=True, verbose_name=_('Bill image'))
@@ -369,11 +369,11 @@ class FuelBill(AccountActivity):
                                  self.fuel, round(self.liter_count, 1))
 
 class MaintenanceBill(AccountActivity):
-    code = models.CharField(max_length=20, blank=False, null=False, verbose_name=_('Code'))
-    purpose = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Purpose'))
-    approved = models.BooleanField(blank=False, null=False, default=False, verbose_name=_('Approved'))
-    car = models.ForeignKey(Car, blank=False, null=False, verbose_name=_('Car'))
-    place = models.CharField(max_length=100, blank=False, null=False, verbose_name=_('Place'))
+    code = models.CharField(max_length=20, verbose_name=_('Code'))
+    purpose = models.CharField(max_length=50, verbose_name=_('Purpose'))
+    approved = models.BooleanField(default=False, verbose_name=_('Approved'))
+    car = models.ForeignKey(Car, verbose_name=_('Car'))
+    place = models.CharField(max_length=100, verbose_name=_('Place'))
     image = models.ImageField(upload_to='maintenence_bills/%Y/%m', blank=True, null=True, verbose_name=_('Bill image'))
 
     class Meta:
@@ -396,15 +396,15 @@ class MaintenanceBill(AccountActivity):
         return '%s %s %s' % (self.code, unicode(_('Maintenance')), self.comment)
 
 class Parking(models.Model):
-    name = models.CharField(max_length=50, blank=False, null=False,
+    name = models.CharField(max_length=50,
                             verbose_name=_('Name'))
-    places_count = models.IntegerField(blank=False, null=False,
+    places_count = models.IntegerField(
                                        verbose_name=_('Places count'))
-    land_registry_number = models.CharField(max_length=50, blank=False,
-                                            null=False, verbose_name=_('Land registry number'))
-    street = models.CharField(max_length=255, blank=False, null=False,
+    land_registry_number = models.CharField(max_length=50,
+                                             verbose_name=_('Land registry number'))
+    street = models.CharField(max_length=255,
                               verbose_name=_('Street'))
-    city = models.CharField(max_length=50, blank=False, null=False,
+    city = models.CharField(max_length=50,
                             verbose_name=_('City'))
     polygon = models.PolygonField(verbose_name=_('Area'))
 
@@ -420,12 +420,12 @@ class Parking(models.Model):
 
 
 class ParkingDescription(models.Model):
-    description = models.TextField(blank=False, null=False,
+    description = models.TextField(
                                    verbose_name=_('Description'))
 
-    parking = models.ForeignKey(Parking, blank=False, null=False,
+    parking = models.ForeignKey(Parking,
                                 verbose_name=_('Parking'))
-    car = models.ForeignKey(Car, blank=False, null=False, verbose_name=_('Car'))
+    car = models.ForeignKey(Car, verbose_name=_('Car'))
 
     class Meta:
         verbose_name = _('Parking description')
@@ -436,7 +436,7 @@ class ParkingDescription(models.Model):
 
 class CarPosition(models.Model):
     position = models.PointField(_('Car position'))
-    journey = models.ForeignKey('Journey', blank=False, null=False,
+    journey = models.ForeignKey('Journey',
                                 verbose_name=_('Journey'))
 
     objects = models.GeoManager()
@@ -483,24 +483,24 @@ class Journey(models.Model):
                     )
 
     comment = models.TextField(blank=True, null=True, verbose_name=_('Comment'))
-    start_datetime = models.DateTimeField(blank=False, null=False,
+    start_datetime = models.DateTimeField(
                                           verbose_name=_('Start datetime'))
     end_datetime = models.DateTimeField(blank=True, null=True, default=None,
                                         verbose_name=_('End datetime'))
-    length = models.DecimalField(decimal_places=3, max_digits=8, blank=False,
-                                 null=False, default=0, verbose_name=_('Length'), editable=False)
+    length = models.DecimalField(decimal_places=3, max_digits=8,
+                                  default=0, verbose_name=_('Length'), editable=False)
     path = models.MultiLineStringField(null=True, blank=True,
                                        spatial_index=False, verbose_name=_('Path'))
     total_price = models.DecimalField(decimal_places=2, max_digits=8,
                                       blank=True, null=True, default=0, verbose_name=_('Price'))
-    type = models.CharField(max_length=2, null=False, blank=False,
+    type = models.CharField(max_length=2,
                             choices=TYPE_CHOICES, default='T', editable=False,
                             verbose_name=_('Journey type'))
 
     reservation = models.ForeignKey(Reservation, blank=True, null=True,
                                     related_name='journeys')
-    car = models.ForeignKey(Car, null=False, verbose_name=_('Car'))
-    user = models.ForeignKey(MetrocarUser, null=False, verbose_name=_('User'))
+    car = models.ForeignKey(Car,  verbose_name=_('Car'))
+    user = models.ForeignKey(MetrocarUser,  verbose_name=_('User'))
 
     speedometer_start = models.IntegerField(null=True, verbose_name=_('Speedometer start state'),
                                             blank=True)
