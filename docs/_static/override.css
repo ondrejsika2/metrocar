@@ -1,10 +1,12 @@
 @import url('pyramid.css');
 
-body {font-family: "Segoe UI", "Nobile", sans-serif;}
+body {font-family: "Segoe UI", sans-serif;}
 
 div.body h1, div.body h2, div.body h3, div.body h4, div.body h5, div.body h6,
 div.sphinxsidebar h3, div.sphinxsidebar h4 {
-    font-family: "Segoe UI", "Neuton", sans-serif;}
+    font-family: "Segoe UI", sans-serif;}
+
+div.body .section {max-width: 840px;}
 
 em.property {font-style: normal; color: #8D6445;}
 dt em, dd cite, cite {color:#329D29; font-style: normal;}
@@ -40,7 +42,5 @@ div.highlight {background-color: transparent;}
     background-color: #222222;
     color: #e5e5e5;
     border: none;
-    /*box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.3);*/
-    max-width: 800px;
     border-radius: 5px;
 }
