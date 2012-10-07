@@ -5,7 +5,7 @@ import re
 
 from django.db.models import CharField, IntegerField
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ValidationError 
+from django.core.exceptions import ValidationError
 
 class IdentityCardNumberField(CharField):
     def __init__(self, *args, **kwargs):
@@ -45,7 +45,7 @@ class IcField(CharField):
 
         except:
             raise ValidationError(_('Enter valid IC number.'))
-        
+
         return value
 
 class DicField(CharField):
@@ -64,3 +64,15 @@ class DicField(CharField):
             raise ValidationError(_('Enter valid DIC number.'))
 
         return value
+
+
+# Make custom fields work with south
+from south.modelsinspector import add_introspection_rules
+fields = (
+    'IdentityCardNumberField',
+    'PhoneField',
+    'IcField',
+    'DicField',
+)
+for field in fields:
+    add_introspection_rules([], ["^metrocar\.utils\.fields\.%s" % field])
