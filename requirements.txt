@@ -59,3 +59,7 @@ simplejson==2.3.3
 
 # Command line utils
 clint==0.3.1
+
+
+# DB schema migrations
+South==0.7.6

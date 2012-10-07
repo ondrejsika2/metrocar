@@ -126,12 +126,11 @@ INSTALLED_APPS = (
                   'django.contrib.markup',
                   'django.contrib.staticfiles',
 
-                  # TODO: use South instead
-                  #'django_evolution',
-
                   'piston',
                   'olwidget',
                   'sorl.thumbnail',
+                  'south',
+
                   'metrocar.car_unit_management', # needs to be first because it exports comm handler
                   'metrocar.api',
                   'metrocar.cars',
