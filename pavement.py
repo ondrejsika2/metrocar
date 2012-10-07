@@ -82,6 +82,8 @@ def test():
 
 @task
 def convert_to_south():
+    managepy('metrocar', 'syncdb')
+
     for app in (
         'cars',
         'invoices',
@@ -93,4 +95,4 @@ def convert_to_south():
         'utils',
         'utils.flatpagesmeta',
     ):
-        sh('python metrocar/manage.py migrate %s 0001 --fake' % app)
+        managepy('metrocar', 'migrate %s 0001 --fake' % app)
