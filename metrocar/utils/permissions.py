@@ -26,9 +26,13 @@ class PermissionsNameConst:
 def create_or_get_custom_permission(modelname, name, codename):
     modelname = modelname.lower()
     ct = ContentType.objects.get(model=modelname)
-    perm, created = Permission.objects.get_or_create(codename=codename,
-                                                     content_type__pk=ct.id,
-                                                     defaults={'name': name, 'content_type': ct})
+    perm, created = Permission.objects.get_or_create(
+        codename=codename,
+        content_type__pk=ct.id,
+        defaults={
+            'name': name[:50],  # permission name can be at most 50 chars long!
+            'content_type': ct,
+        })
     if(created == True):
         get_logger().info("Created new permission: " + unicode(perm))
     return perm
