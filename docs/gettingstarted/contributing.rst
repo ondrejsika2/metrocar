@@ -93,6 +93,8 @@ For instructions on how to expose testing data for an app and bootstrap the
 database with testing data from all apps, see the
 :mod:`~metrocar.utils.management.commands.load_dummy_data` command.
 
+For an example, see ``metrocar.cars.testing_data.py``.
+
 
 Some resources on writing tests in Django
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
