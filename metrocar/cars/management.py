@@ -5,19 +5,19 @@ from django.dispatch import receiver
 from django.db.models import signals
 
 from metrocar.cars import models
-from metrocar.cars.utils import manufacturer, car_type, fuel_type, color
+from metrocar.cars.utils import manufacturer, car_type, fuel, color
 
 
 @receiver(signals.post_syncdb, sender=models)
 def initial_data(sender, **kwargs):
 
     map(as_args(manufacturer), [
-        ('Hyundai', 'hyundai'),
-        ('Ford', 'ford'),
-        (u'Škoda', 'skoda'),
+        ('hyundai', ),
+        ('ford', ),
+        ('skoda', u'Škoda'),
     ])
 
-    map(fuel_type, ['Natural', 'Diesel'])
+    map(fuel, ['Natural', 'Diesel'])
 
     map(car_type, ['Hatchback', 'Sedan', 'Coupe'])
 

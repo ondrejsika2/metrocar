@@ -1,9 +1,12 @@
+# encoding: utf-8
+from datetime import datetime
+
 from django.conf import settings
-from django.template.defaultfilters import slugify
 
 from olwidget.widgets import InfoMap, MapDisplay
 
-from models import Car, CarModelManufacturer, Fuel, CarType, CarColor
+from metrocar.cars.models import Car, CarModelManufacturer, Fuel, CarType, CarColor, CarModel
+from metrocar.subsidiaries.models import Subsidiary
 
 
 def get_car_infomap(width='100%', height='400px'):
@@ -45,18 +48,49 @@ def get_map_for_geometry(geometry, width, height):
 
 # model factories:
 
-def manufacturer(name, slug=None):
+def manufacturer(slug, name=None):
     return CarModelManufacturer.objects.get_or_create(
-        slug=(slug or slugify(name)), defaults={'name': name})
+        slug=slug, defaults={'name': slug.capitalize()})[0]
 
 
-def fuel_type(title):
-    return Fuel.objects.get_or_create(title=title)
+def fuel(title):
+    return Fuel.objects.get_or_create(title=title)[0]
 
 
 def car_type(type):
-    return CarType.objects.get_or_create(type=type)
+    return CarType.objects.get_or_create(type=type)[0]
 
 
 def color(color):
-    return CarColor.objects.get_or_create(color=color)
+    return CarColor.objects.get_or_create(color=color)[0]
+
+
+def car_model(make, name, **kwargs):
+    defaults = dict(
+        type=car_type('Hatchback'),
+        engine='(unknown)',
+        seats_count=5,
+        storage_capacity=200,
+        main_fuel=fuel('Natural'),
+    )
+    defaults.update(kwargs)
+    return CarModel.objects.get_or_create(
+        name=name,
+        manufacturer=make,
+        defaults=defaults,
+    )[0]
+
+
+def car(model, registration_number, **kwargs):
+    defaults = dict(
+        active=True,
+        manufacture_date=datetime(2000, 1, 1),
+        color=color(u'Šedá'),
+        home_subsidiary=Subsidiary.objects.get_current(),
+    )
+    defaults.update(**kwargs)
+    return Car.objects.get_or_create(
+        model=model,
+        registration_number=registration_number,
+        defaults=defaults,
+    )[0]
