@@ -45,11 +45,11 @@ class Subsidiary(models.Model):
     def url(self):
         return self.get_absolute_url()
 
-    def save(self):
+    def save(self, **kwargs):
         """
         Creates new subsidiary and  new set of permissions for action bounded to it
         """
-        super(Subsidiary, self).save()
+        super(Subsidiary, self).save(**kwargs)
 
         #create new set of permissions
         create_or_get_custom_permission("UserRegistrationRequest",
