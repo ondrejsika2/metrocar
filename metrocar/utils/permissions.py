@@ -1,11 +1,10 @@
-'''
-Created on 6.12.2010
+from pipetools import unless
 
-@author: svehlja3
-'''
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+
 from metrocar.utils.log import get_logger
+
 
 class PermissionsNameConst:
     """
@@ -23,9 +22,19 @@ class PermissionsNameConst:
     can_change_user_sub = "CHNG_USER_"
     can_delete_user_sub = "DELETE_USER_"
 
+
 def create_or_get_custom_permission(modelname, name, codename):
     modelname = modelname.lower()
-    ct = ContentType.objects.get(model=modelname)
+    ct = unless(ContentType.DoesNotExist,
+        ContentType.objects.get)(model=modelname)
+
+    if not ct:
+        # happens in the initial syncdb when creating the default Subsidiary,
+        # but since it's going to have to be edited and .save()d anyway,
+        # it doesn't matter
+        # TODO: refactoring
+        return None
+
     perm, created = Permission.objects.get_or_create(
         codename=codename,
         content_type__pk=ct.id,
@@ -36,4 +45,3 @@ def create_or_get_custom_permission(modelname, name, codename):
     if(created == True):
         get_logger().info("Created new permission: " + unicode(perm))
     return perm
-
