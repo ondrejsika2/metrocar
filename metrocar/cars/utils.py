@@ -1,14 +1,10 @@
-'''
-Created on 21.2.2010
-
-@author: xaralis
-'''
-
 from django.conf import settings
+from django.template.defaultfilters import slugify
 
 from olwidget.widgets import InfoMap, MapDisplay
 
-from models import Car
+from models import Car, CarModelManufacturer, Fuel, CarType, CarColor
+
 
 def get_car_infomap(width='100%', height='400px'):
     """
@@ -33,6 +29,7 @@ def get_car_infomap(width='100%', height='400px'):
         }
     )
 
+
 def get_map_for_geometry(geometry, width, height):
     """
     Returns basic MapDisplay instance for any GEOS geometry.
@@ -44,3 +41,22 @@ def get_map_for_geometry(geometry, width, height):
             'map_div_style': {'width': width, 'height': height}
          }
     )
+
+
+# model factories:
+
+def manufacturer(name, slug=None):
+    return CarModelManufacturer.objects.get_or_create(
+        slug=(slug or slugify(name)), defaults={'name': name})
+
+
+def fuel_type(title):
+    return Fuel.objects.get_or_create(title=title)
+
+
+def car_type(type):
+    return CarType.objects.get_or_create(type=type)
+
+
+def color(color):
+    return CarColor.objects.get_or_create(color=color)
