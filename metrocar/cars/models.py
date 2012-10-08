@@ -51,6 +51,7 @@ class CarType(models.Model):
     def __unicode__(self):
         return self.type
 
+
 class CarModel(models.Model):
     name = models.CharField(max_length=50, verbose_name=_('Name'))
     manufacturer = models.ForeignKey(CarModelManufacturer, verbose_name=_('Manufacturer'))
@@ -83,6 +84,7 @@ class CarModel(models.Model):
         except IndexError:
             return False
 
+
 class CarColor(models.Model):
     color = models.CharField(max_length=50, verbose_name=_('Color'))
 
@@ -93,30 +95,44 @@ class CarColor(models.Model):
     def __unicode__(self):
         return self.color
 
+
 class Car(models.Model):
     STATE_LOCKED = 'LOCKED'
     STATE_OPENED = 'OPENED'
 
-    active = models.BooleanField(verbose_name=_('Active'))
-    imei = models.CharField(unique=True, max_length=18, verbose_name=_('IMEI'))
-    authorization_key = models.CharField(max_length=40,
-                                          verbose_name=_('Authorization key'),
-                                         help_text=_('SHA1 encoded. Use the '
+    active = models.BooleanField(_('Active'), default=True)
+    dedicated_parking_only = models.BooleanField(_('Dedicated parking only'),
+        default=False)
+
+    # TODO: why is this Date*TIME*Field ?
+    manufacture_date = models.DateTimeField(_('Manufacture date'))
+
+    registration_number = models.CharField(_('Registration number'),
+        max_length=20)
+    image = models.ImageField(_('Image'), upload_to='cars/%Y/%m',
+        blank=True, null=True)
+    model = models.ForeignKey(CarModel, verbose_name=_('Car model'),
+        related_name='cars')
+    color = models.ForeignKey(CarColor, verbose_name=_('Car color'))
+    owner = models.ForeignKey(MetrocarUser, null=True, blank=True,
+        verbose_name=_('Owner'))
+    home_subsidiary = models.ForeignKey(Subsidiary,
+        verbose_name=_('Subsidiary'))
+
+    # TODO: find out what are these for, possibly not needed anymore:
+    imei = models.CharField(_('IMEI'), blank=True, null=True, unique=True,
+        max_length=18)
+    authorization_key = models.CharField(_('Authorization key'),
+        blank=True, null=True, max_length=40, help_text=_('SHA1 encoded. Use the '
                                          '<a href=\"change-authorization-key/\">change authorization key '
                                          'form</a> to change.'))
-    dedicated_parking_only = models.BooleanField(default=False, verbose_name=_('Dedicated parking only'))
-    last_echo = models.DateTimeField(blank=True, null=True, verbose_name=_('Last echo'))
-    manufacture_date = models.DateTimeField(verbose_name=_('Manufacture date'))
-    mobile_number = PhoneField(verbose_name=_('Mobile number'))
-    registration_number = models.CharField(max_length=20, verbose_name=_('Registration number'))
-    last_position = models.PointField(_('Last position'))
-    last_address = models.CharField(max_length=255, null=True, blank=True, verbose_name=_('Last address'))
-    image = models.ImageField(upload_to='cars/%Y/%m', blank=True, null=True, verbose_name=_('Image'))
+    mobile_number = PhoneField(_('Mobile number'), blank=True, null=True)
 
-    model = models.ForeignKey(CarModel, verbose_name=_('Car model'), related_name='cars')
-    color = models.ForeignKey(CarColor, verbose_name=_('Car color'))
-    owner = models.ForeignKey(MetrocarUser, null=True, blank=True, verbose_name=_('Owner'))
-    home_subsidiary = models.ForeignKey(Subsidiary, verbose_name=_('Subsidiary'))
+    # TODO: this should be managed independently
+    last_echo = models.DateTimeField(_('Last echo'), blank=True, null=True)
+    last_position = models.PointField(_('Last position'), blank=True, null=True)
+    last_address = models.CharField(_('Last address'), max_length=255,
+        null=True, blank=True)
 
     objects = managers.CarManager()
 
@@ -334,6 +350,7 @@ class Car(models.Model):
 
         return result
 
+
 class FuelBill(AccountActivity):
     code = models.CharField(max_length=20,
                             verbose_name=_('Code'))
@@ -395,6 +412,7 @@ class MaintenanceBill(AccountActivity):
     def __unicode__(self):
         return '%s %s %s' % (self.code, unicode(_('Maintenance')), self.comment)
 
+
 class Parking(models.Model):
     name = models.CharField(max_length=50,
                             verbose_name=_('Name'))
@@ -434,6 +452,7 @@ class ParkingDescription(models.Model):
     def __unicode__(self):
         return self.description
 
+
 class CarPosition(models.Model):
     position = models.PointField(_('Car position'))
     journey = models.ForeignKey('Journey',
@@ -471,6 +490,7 @@ class CarPosition(models.Model):
         Returns CarPosition order in journey.
         """
         return len(CarPosition.objects.filter(journey=self.journey, pk__lt=self.pk))
+
 
 class Journey(models.Model):
     TYPE_WAITING = 'W'
@@ -628,6 +648,7 @@ class Journey(models.Model):
         self.update_total_price()
         self.save()
         return True
+
 
 post_save.connect(Journey.refresh_path, sender=CarPosition)
 pre_delete.connect(Journey.refresh_path, sender=CarPosition)
