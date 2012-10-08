@@ -1,5 +1,5 @@
 import re
-from paver.easy import *
+from paver.easy import options, Bunch, task, sh
 from paver import doctools
 from paver.path25 import path
 
@@ -42,7 +42,6 @@ def uwsgi_restart():
 def update_db():
     """
     Updates database schema by running South migrations and syncdb --all
-    to create permissions.
     """
     managepy('metrocar', 'migrate')
     managepy('metrocar', 'syncdb --all --noinput')
@@ -69,7 +68,8 @@ def build_docs():
 @task
 def collectstatic():
     """
-    Symlinks static files from installed apps to STATIC_ROOT
+    Symlinks static files from installed apps to STATIC_ROOT.
+
     (Generally not needed in development)
     """
     # TODO: get static root from settings
@@ -107,3 +107,34 @@ def convert_to_south():
         'utils.flatpagesmeta',
     ):
         managepy('metrocar', 'migrate %s 0001 --fake' % app)
+
+
+@task
+def blankdb():
+    """
+    Drop database and start with a fresh one (with testing data loaded).
+
+    Intended for development. You're probably going to need to put something
+    like this into your pg_hba.conf::
+
+        local    all    all    trust
+    """
+    import metrocar.settings
+    db_settings = metrocar.settings.DATABASES['default']
+
+    # drop the old one
+    sh('dropdb -U %(USER)s %(NAME)s' % db_settings, ignore_error=True)
+
+    # create a new one
+    sh("""psql -U %(USER)s << EOF
+
+    CREATE DATABASE %(NAME)s
+      WITH ENCODING='UTF8'
+           OWNER=%(USER)s
+           TEMPLATE=template_postgis
+           CONNECTION LIMIT=-1;
+    """ % db_settings)
+
+    # populate it with some data
+    managepy('metrocar', 'syncdb --all --noinput')
+    managepy('metrocar', 'load_dummy_data')
