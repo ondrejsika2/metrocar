@@ -1,55 +1,46 @@
-'''
-Created on 20.2.2010
-
-@author: xaralis
-'''
-
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from metrocar.utils.permissions import PermissionsNameConst as PermName
+
 from metrocar.utils.permissions import create_or_get_custom_permission
+from metrocar.utils.permissions import PermissionsNameConst as PermName
+
 
 class SubsidiaryManager(models.Manager):
     def get_current(self):
         site = Site.objects.get_current()
         return self.get(site=site)
 
+
 class Subsidiary(models.Model):
     """
     Represents company subsidiary. Implementation is based on django Site object
     with some extended data.
     """
-    name = models.CharField(max_length=255, blank=False, null=False, 
-                            verbose_name=_('Name'))
-    email = models.EmailField(blank=False, null=False,
-                              verbose_name=_('E-mail'))
-    street = models.CharField(max_length=100, blank=False,
-                              null=False, verbose_name=_('Street'))
-    house_number = models.IntegerField(max_length=8, blank=False, 
-                                       null=False, verbose_name=_('House number'))
-    city = models.CharField(max_length=80, blank=False, 
-                            null=False, verbose_name=_('City'))
-    tax_rate = models.FloatField(blank=False, null=False, default=19,
-                                 verbose_name=_('Tax rate'))
-    
+    name = models.CharField(_('Name'), max_length=255)
+    email = models.EmailField(_('E-mail'))
+    street = models.CharField(_('Street'), max_length=100)
+    house_number = models.IntegerField(_('House number'), max_length=8)
+    city = models.CharField(_('City'), max_length=80)
+    tax_rate = models.FloatField(_('Tax rate'), default=19)
+
     site = models.OneToOneField(Site)
 
-    use_onboard_unit = models.BooleanField(blank=False, null=False,
-        default=True, verbose_name=_('Use onboard unit in cars'))
-    
+    use_onboard_unit = models.BooleanField(_('Use onboard unit in cars'),
+        default=True)
+
     objects = SubsidiaryManager()
-    
+
     class Meta:
         verbose_name = _('Subsidiary')
         verbose_name_plural = _('Subsidiaries')
-        
+
     def __unicode__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return "http://%s" % self.site.domain
-    
+
     @property
     def url(self):
         return self.get_absolute_url()
@@ -85,6 +76,7 @@ class Subsidiary(models.Model):
         create_or_get_custom_permission("MetrocarUser",
                                         "Can delete user in subsidiary " + self.name,
                                         PermName.can_delete_user_sub + self.name)
+
     def delete(self):
         """
         Deletes subsidiary and its associated permissions
@@ -116,5 +108,3 @@ class Subsidiary(models.Model):
         create_or_get_custom_permission("MetrocarUser",
                                         "Can delete user in subsidiary " + self.name,
                                         PermName.can_delete_user_sub + self.name).delete()
-        
-
