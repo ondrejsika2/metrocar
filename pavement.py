@@ -170,5 +170,8 @@ def blankdb():
     """ % db_settings)
 
     # populate it with some data
-    managepy('metrocar', 'syncdb --all --noinput')
-    managepy('metrocar', 'load_dummy_data')
+    map(partial(managepy, 'metrocar'), [
+        'syncdb --all --noinput',
+        'migrate --fake',
+        'load_dummy_data',
+    ])
