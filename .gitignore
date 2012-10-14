@@ -2,3 +2,4 @@
 /metrocar.egg-info/*
 /metrocar/settings/local.py
 /docs/_build/*
+requirements.installed
