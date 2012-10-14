@@ -22,9 +22,9 @@ class MetrocarUserCreationForm(forms.Form):
         "may contain only letters, numbers and @/./+/-/_ characters."))
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
     first_name = forms.RegexField(label=_("First name"), max_length=30,
-        regex=u'^[a-zA-ZěščřžýáíéĚŠČŘŽÝÁÍÉ]+$')
+        regex=u'^[a-zA-ZěščřžýáíéůĚŠČŘŽÝÁÍÉ]+$')
     last_name = forms.RegexField(label=_("Last name"), max_length=50,
-        regex=u'^[a-zA-ZěščřžýáíéĚŠČŘŽÝÁÍÉ]+$')
+        regex=u'^[a-zA-ZěščřžýáíéůĚŠČŘŽÝÁÍÉ]+$')
     email = forms.EmailField(label=_('E-mail'), max_length=100, help_text=_(""
         "E-mail, where the activation announcment will be send."))
     primary_phone = forms.RegexField(label=_('Telephone number'), max_length=30,
