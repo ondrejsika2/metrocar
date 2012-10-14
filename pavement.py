@@ -160,7 +160,7 @@ def blankdb():
     sh('dropdb -U %(USER)s %(NAME)s' % db_settings, ignore_error=True)
 
     # create a new one
-    sh("""psql -U %(USER)s << EOF
+    sh("""psql -U %(USER)s postgres << EOF
 
     CREATE DATABASE %(NAME)s
       WITH ENCODING='UTF8'
