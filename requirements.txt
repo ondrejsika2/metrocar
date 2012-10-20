@@ -68,4 +68,4 @@ South==0.7.6
 
 
 # some useful utils :-)
-pipetools==0.1.4
+pipetools==0.1.6
