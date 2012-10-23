@@ -34,6 +34,8 @@ html5lib==0.90
 
 # Testing tools
 nose==1.1.2
+selenium==2.25.0
+mock==1.0.0
 
 # the latest release of djangosanetesting (0.5.11) doesn't work with the new-
 # style DATABASES settings, so we'll just use this until there is a compatible
