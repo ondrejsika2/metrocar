@@ -58,6 +58,7 @@ System components' documentation
 .. toctree::
     :maxdepth: 3
 
+    components/car-unit-api.rst
     components/index
 
 
