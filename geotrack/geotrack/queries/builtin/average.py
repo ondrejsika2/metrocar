@@ -5,5 +5,5 @@ def average(seq):
     return sum(seq) / float(len(seq))
 
 
-def execute(pre_results, field, **kwargs):
-    return pre_results > foreach(X[field]) | tuple | average
+def execute(backend, query, field, **kwargs):
+    return query(**kwargs) > foreach(X[field]) | tuple | average

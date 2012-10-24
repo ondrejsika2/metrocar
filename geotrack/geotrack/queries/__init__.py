@@ -1,5 +1,5 @@
 from functools import wraps
-from pipetools import flatten, foreach, first_of, unless, maybe, X
+from pipetools import flatten, foreach, first_of, unless, maybe, pipe
 from django.conf import settings
 from django.utils.importlib import import_module
 
@@ -72,10 +72,8 @@ def wrap_universal_query(backend, query):
 
     @wraps(query)
     def wrapper(**kwargs):
-        q_args = universal_query_args > foreach((X, kwargs.get)) | dict
-        native_results = backend.query(**q_args)
-        pre_results = backend.transform(native_results)
-        return query(pre_results, **kwargs)
+        universal_query = pipe | backend.query | backend.transform
+        return query(backend, universal_query, **kwargs)
     return wrapper
 
 
