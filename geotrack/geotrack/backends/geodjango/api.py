@@ -1,4 +1,4 @@
-from pipetools import where, X, foreach, pipe, group_by, maybe
+from pipetools import where, X, foreach, pipe, maybe
 
 from django.forms import model_to_dict
 
@@ -25,7 +25,10 @@ def query(start=None, end=None, in_polygon=None, units=None, model=None):
 
 
 def query_last_position(**kwargs):
-    return query(model=LastKnownPosition, **kwargs) > group_by(X['unit_id'])
+    return query(model=LastKnownPosition, **kwargs) > foreach([X.unit_id, {
+        'timestamp': X.timestamp,
+        'location': X.location | decode_location,
+    }]) | dict
 
 
 encode_location = pipe | 'POINT({0} {1})'

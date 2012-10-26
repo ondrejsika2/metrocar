@@ -1,4 +1,5 @@
 from datetime import datetime
+from functools import partial
 
 from testing_project.utils import entry
 
@@ -96,3 +97,45 @@ class BackendTest:
         results = self.backend.transform(native_results)
         units = sorted([r['unit_id'] for r in results])
         self.assertEqual(units, [2, 2, 3])
+
+    def test_last_known_position(self):
+        t = partial(datetime, 2012, 1, 1)
+        store = lambda **kw: self.backend.store(**entry(**kw))
+        store(unit_id=1, location=(10, 20), timestamp=t(12, 30))
+        store(unit_id=1, location=(11, 20), timestamp=t(12, 45))
+        store(unit_id=1, location=(12, 20), timestamp=t(13, 00))
+        store(unit_id=1, location=(10, 21), timestamp=t(12, 10))
+        store(unit_id=1, location=(10, 22), timestamp=t(11, 30))
+        store(unit_id=2, location=(10, 22), timestamp=t(11, 30))
+        results = self.backend.query_last_position()
+        self.assertEqual(results, {
+            1: {
+                'location': (12.0, 20.0),
+                'timestamp': t(13, 00),
+            },
+            2: {
+                'location': (10, 22),
+                'timestamp': t(11, 30),
+            },
+        })
+
+    def test_last_known_position_in_polygon(self):
+        t = partial(datetime, 2012, 1, 1)
+        store = lambda **kw: self.backend.store(**entry(**kw))
+        store(unit_id=1, location=(50.07653, 14.43398), timestamp=t(12, 30))
+        store(unit_id=1, location=(49.39668, 13.24951), timestamp=t(13, 00))
+        store(unit_id=1, location=(49.00905, 17.18262), timestamp=t(12, 45))
+        store(unit_id=2, location=(10, 21), timestamp=t(12, 10))
+        store(unit_id=2, location=(10, 22), timestamp=t(11, 30))
+        results = self.backend.query_last_position(in_polygon=(
+            (51.65893, 14.76563),
+            (47.79840, 10.70068),
+            (48.45835, 21.48926),
+            (51.65893, 14.76563),
+        ))
+        self.assertEqual(results, {
+            1: {
+                'location': (49.39668, 13.24951),
+                'timestamp': datetime(2012, 1, 1, 13, 0),
+            },
+        })
