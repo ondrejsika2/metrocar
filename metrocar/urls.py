@@ -7,6 +7,8 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    (r'^api/', include('metrocar.car_unit_api.urls')),
+
     # car unit management communication interface
     (r'^comm/', include('metrocar.car_unit_management.urls')),
 

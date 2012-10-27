@@ -78,7 +78,7 @@ MEDIA_URL = '/files/'
 SECRET_KEY = 'ry^a*eigc1p!d*j*gocmqsx3padg#(8g$nytui=+%#hjz@ck12'
 
 
-# Templates ##################################################################
+# Templates ###################################################################
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or
@@ -132,9 +132,11 @@ INSTALLED_APPS = (
     'olwidget',
     'sorl.thumbnail',
     'south',
+    'geotrack.backends.geodjango',
 
     # needs to be first because it exports comm handler
     'metrocar.car_unit_management',
+    'metrocar.car_unit_api',
     'metrocar.api',
     'metrocar.cars',
     'metrocar.invoices',
@@ -146,6 +148,17 @@ INSTALLED_APPS = (
     'metrocar.utils',
     'metrocar.utils.flatpagesmeta',
 )
+
+
+# Geotrack ####################################################################
+
+GEOTRACK = {
+    'BACKEND': 'geotrack.backends.geodjango',
+    'MODEL': 'car_unit_api.LogEntry',
+}
+
+
+###############################################################################
 
 
 DATE_FORMAT = 'd.m.Y'
@@ -160,7 +173,9 @@ EMAIL_HOST_PASSWORD = '4ut1ck40'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+# TODO: what is this?
 EMAIL_NOMINATIM = 'xaralis@centrum.cz'
+
 
 COMM_TIME_FORMAT = '%y-%m-%d %H:%M'
 COMM_OUTPUT_ENCODING = 'windows-1252'
