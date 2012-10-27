@@ -44,7 +44,6 @@ class ReservationWizard(ViewFormWizard):
             )
 
         if step == 0:
-            from metrocar.config.settings_base import DEFAULT_RESERVATION_DISTANCE
             if hasattr(form, 'cleaned_data'):
                 car = self.extra_context['car']
                 total_price_estimation = Reservation.get_price_estimation(
