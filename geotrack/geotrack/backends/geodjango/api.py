@@ -5,7 +5,7 @@ from django.forms import model_to_dict
 from geotrack.backends.geodjango.models import get_storage_model, LastKnownPosition
 
 
-__all__ = 'store', 'query', 'query_last_position', 'transform'
+__all__ = 'store', 'query', 'query_last_position', 'transform', 'flush'
 
 
 def store(**kwargs):
@@ -42,3 +42,10 @@ def transform_entry(instance):
 
 
 transform = foreach(transform_entry) | tuple
+
+
+def flush():
+    """
+    Flush everything, the cops are at the door! (Or when testing.)
+    """
+    get_storage_model().objects.all().delete()
