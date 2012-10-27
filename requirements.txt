@@ -47,7 +47,7 @@ mock==1.0.0
 Sphinx==1.1.3
 
 
-# used in car unit management, candidate for deletion
+# useful for parsing timestamps from API calls
 python-dateutil==2.1
 
 
