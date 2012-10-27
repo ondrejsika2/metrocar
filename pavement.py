@@ -146,32 +146,11 @@ def convert_to_south():
 @task
 def blankdb():
     """
-    Drop database and start with a fresh one (with testing data loaded).
-
-    Intended for development. You're probably going to need to put something
-    like this into your pg_hba.conf::
-
-        local    all    all    trust
+    (Re-)initialize database for development (with testing data loaded).
     """
-    import metrocar.settings
-    db_settings = metrocar.settings.DATABASES['default']
-
-    # drop the old one
-    sh('dropdb -U %(USER)s %(NAME)s' % db_settings, ignore_error=True)
-
-    # create a new one
-    sh("""psql -U %(USER)s postgres << EOF
-
-    CREATE DATABASE %(NAME)s
-      WITH ENCODING='UTF8'
-           OWNER=%(USER)s
-           TEMPLATE=template_postgis
-           CONNECTION LIMIT=-1;
-    """ % db_settings)
-
-    # populate it with some data
     map(partial(managepy, 'metrocar'), [
-        'syncdb --all --noinput',
-        'migrate --fake',
+        'syncdb --all --noinput',  # in case the db doesn't exist yet
+        'flush --noinput',
+        'migrate --fake -v0',
         'load_dummy_data',
     ])
