@@ -69,3 +69,7 @@ South==0.7.6
 
 # some useful utils :-)
 pipetools==0.1.6
+
+
+# Automatic sane defaults for ModelAdmin
+django-smartadmin>=0.0.1
