@@ -26,6 +26,9 @@ class APICall(View):
 
 
 class StoreLog(APICall):
+    """
+    An API method to store one or more log-entries from a car unit.
+    """
 
     rules = (
         required('unit_id', valid_int),

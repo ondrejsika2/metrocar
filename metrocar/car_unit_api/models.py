@@ -14,6 +14,10 @@ generate_key = partial(get_random_string, 50,
 
 
 class CarUnit(models.Model):
+    """
+    A model representing a car unit that will report car location and status
+    through the car-unit API.
+    """
 
     unit_id = models.PositiveIntegerField(unique=True, help_text=_(
         'A unique identifier for this unit for the API and Geotrack'))
@@ -37,5 +41,8 @@ class CarUnit(models.Model):
 
 
 class LogEntry(LogEntryBase):
+    """
+    A model for storing logs from car units in Geotrack.
+    """
     event = models.CharField(max_length=30, db_index=True,
         null=True, blank=True)

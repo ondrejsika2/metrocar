@@ -1,5 +1,6 @@
 """
-Tools for data validation.
+Tools for data validation. Intended to also provide useful debugging information
+for invalid data.
 """
 from collections import Iterable
 from functools import partial
@@ -12,19 +13,21 @@ OK = True, None
 
 def validate(*rules):
     """
-    Creates a validation function that will check if it's satisfies `rules`.
+    Creates a validation function that will check if it's input satisfies
+    `rules`.
 
     `rules` should be an (arbitrarily nested) sequence of functions
     that take one argument and return a tuple of:
-    (`valid`: bool, `error`: string or None) where `valid` says if the
-    argument satisfies the rule and `error` says why not if it doesn't.
+    ``(valid: bool, error: string or None)``
+    where `valid` says if the argument satisfies the rule and `error` says
+    why not if it doesn't.
 
     The rules are checked sequentially and when an error is encountered, it is
     returned immediately from the function, without checking the rest of the
     rules. The returned value is the one returned from the rule, i.e.
-    (False, "error message")
+    ``(False, "error message")``
 
-    If no error is encountered the function returns (True, None).
+    If no error is encountered the function returns ``(True, None)``.
 
     (Note that the validation function itself is a rule.)
     """
@@ -60,8 +63,8 @@ def has_key(key, message='missing "{field}" field'):
 
 def required(key, validate_value=lambda any, field: OK):
     """
-    Validation shortcut for validating key/value in a dictionary (or something)
-    similar.
+    Validation shortcut for validating key/value in a dictionary (or something
+    similar).
 
     `validate_value` has to take a `field` keyword argument (intended for
         displaying in an error message).
