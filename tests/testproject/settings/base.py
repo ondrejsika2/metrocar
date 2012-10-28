@@ -59,7 +59,6 @@ INSTALLED_APPS = (
 
     'geotrack.backends.geodjango',
 
-    'metrocar.car_unit_management', # needs to be first because it exports comm handler
     'metrocar.car_unit_api',
     'metrocar.api',
     'metrocar.cars',

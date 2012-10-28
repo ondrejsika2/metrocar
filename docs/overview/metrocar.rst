@@ -31,7 +31,7 @@ The system should, however, be able to function even without the units.
 
 .. seealso::
 
-    :doc:`/components/metrocar.car_unit_management`
+    :doc:`/components/metrocar.car_unit_api`
 
 
 Mobile application(s)

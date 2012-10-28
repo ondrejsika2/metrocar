@@ -23,7 +23,6 @@ Subpackages:
 
     metrocar.api
     metrocar.car_unit_api
-    metrocar.car_unit_management
     metrocar.cars
     metrocar.config
     metrocar.invoices
