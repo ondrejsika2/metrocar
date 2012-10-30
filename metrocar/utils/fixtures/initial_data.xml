@@ -252,7 +252,7 @@ Podmínky použití
 <object pk="2" model="utils.emailtemplate">
   <field type="CharField" name="code">REG_REQ</field>
   <field type="CharField" name="name">REG_REQ</field>
-  <field type="CharField" name="subject">Metrocar - Zájem o registraci</field>
+  <field type="CharField" name="subject">Autonapůl - Zájem o registraci</field>
   <field type="TextField" name="content">Vážený/á pane/paní váš zájem o registraci byl zařazen do fronty. O přijetí či zamítnutí registrace budete informováni e-mailem.
 Použili jste následující data:
 Jméno a příjmení: {{ fields.first_name }} {{ fields.last_name }}
@@ -261,7 +261,7 @@ Uživatelské jméno: {{ fields.username }}
 Čislo ŘP: {{ fields.drivers_licence_number }}
 Datum narození: {{ fields.date_of_birth }}
 
-V případě nejasností či nesrovnalostí prosíme kontaktuje administrátora serveru Metrocar.
+V případě nejasností či nesrovnalostí prosíme kontaktuje administrátora serveru Autonapůl.
 Přejeme pěkný den.</field>
     <field type="CharField" name="language">CS</field>
 </object>
@@ -269,9 +269,9 @@ Přejeme pěkný den.</field>
 <object pk="4" model="utils.emailtemplate">
   <field type="CharField" name="code">REG_DNY</field>
   <field type="CharField" name="name">REG_DNY</field>
-  <field type="CharField" name="subject">Metrocar - Registrace zamítnuta</field>
+  <field type="CharField" name="subject">Autonapůl - Registrace zamítnuta</field>
   <field type="TextField" name="content">Dobrý den, 
-děkujeme za váš zájem o naše služby, bohužel vám, ale musíme oznámit, že vaše registrace na server Metrocar byla zamítnuta.  
+děkujeme za váš zájem o naše služby, bohužel vám, ale musíme oznámit, že vaše registrace na server Autonapůl byla zamítnuta.  
 Zřejmě jste nesplnil/a některou z podmínek pro použití našich služeb, pro více informací navštivte naše webové stránky.
 Děkujeme a nashledanou.</field>
     <field type="CharField" name="language">CS</field>
@@ -280,7 +280,7 @@ Děkujeme a nashledanou.</field>
 <object pk="5" model="utils.emailtemplate">
   <field type="CharField" name="code">RES_SUC</field>
   <field type="CharField" name="name">RES_SUC</field>
-  <field type="CharField" name="subject">Metrocar - Potvrzení přijetí rezervace</field>
+  <field type="CharField" name="subject">Autonapůl - Potvrzení přijetí rezervace</field>
   <field type="TextField" name="content">Dobrý den,
 vaše rezervace byla přijata. Vámi vybrané auto bylo rezervováno od {{ fields.reserved_from }} do {{ fields.reserved_until }}.
 Děkujeme za použit našich služeb a přejeme pěkný zbytek dne.</field>
@@ -290,7 +290,7 @@ Děkujeme za použit našich služeb a přejeme pěkný zbytek dne.</field>
 <object pk="6" model="utils.emailtemplate">
   <field type="CharField" name="code">RES_SUC</field>
   <field type="CharField" name="name">RES_SUC</field>
-  <field type="CharField" name="subject">Metrocar - Reservation succeded</field>
+  <field type="CharField" name="subject">Autonapul - Reservation succeded</field>
   <field type="TextField" name="content">Hello,
 we would like to inform you, that your reservation request was accepted. The car of choice was reserved from {{ fields.reserved_from }} till {{ fields.reserved_until }}. 
 Thanks for using our services. Have a nice day.</field>
@@ -300,7 +300,7 @@ Thanks for using our services. Have a nice day.</field>
 <object pk="7" model="utils.emailtemplate">
   <field type="CharField" name="code">REG_DNY</field>
   <field type="CharField" name="name">REG_DNY</field>
-  <field type="CharField" name="subject">Metrocar - Registration denied</field>
+  <field type="CharField" name="subject">Autonapůl - Registration denied</field>
   <field type="TextField" name="content">Hello,
 thank for applying for our services, but we regretfully inform you that you probably did not meet all our conditions, thus your registration request was denied, for more information visit our website.
 Thanks for your time and have a nice day.</field>
@@ -310,20 +310,20 @@ Thanks for your time and have a nice day.</field>
 <object pk="3" model="utils.emailtemplate">
   <field type="CharField" name="code">REG_APP</field>
   <field type="CharField" name="name">REG_APP</field>
-  <field type="CharField" name="subject">Metrocar - Registrace přijata</field>
+  <field type="CharField" name="subject">Autonapůl - Registrace přijata</field>
   <field type="TextField" name="content">Dobrý den,
-dovolujeme si vám oznámit, že vaše registrace na server Metrocar byla přijata. Děkujeme za váš zájem o naše služby.
+dovolujeme si vám oznámit, že vaše registrace na server Autonapůl byla přijata. Děkujeme za váš zájem o naše služby.
 
 Pro přihlášní použijte vaše uživateské jméno: {{ fields.username }} a heslo zadané při registraci. Toto heslo si pečlivě uchovejte a nikomu ho neukazujte. V případě ztráty/zapomenutí hesla hesla kontaktujte prosím administrátora.
 
-Pro více informací navštivte naše stránky serveru Metrocar.</field>
+Pro více informací navštivte naše stránky serveru Autonapůl.</field>
     <field type="CharField" name="language">CS</field>
 </object>
 
 <object pk="8" model="utils.emailtemplate">
   <field type="CharField" name="code">REG_APP</field>
   <field type="CharField" name="name">REG_APP</field>
-  <field type="CharField" name="subject">Metrocar - Registration approved</field>
+  <field type="CharField" name="subject">Autonapůl - Registration approved</field>
   <field type="TextField" name="content">Hello,
 your registration request was approved, you can now login as {{ fields.username }} with password you provided during registration. Please keep your password secret and do not show it to anyone. In case of password loss, please contact administrator.
 Thanks for choosing us, have a nice day.</field>
@@ -333,7 +333,7 @@ Thanks for choosing us, have a nice day.</field>
 <object pk="9" model="utils.emailtemplate">
   <field type="CharField" name="code">REG_REQ</field>
   <field type="CharField" name="name">REG_REQ</field>
-  <field type="CharField" name="subject">Metrocar - Registration request</field>
+  <field type="CharField" name="subject">Autonapůl - Registration request</field>
   <field type="TextField" name="content">Hello,
 we would like to inform you, that your registration request was forwarded to our administration. You will be informed if your registration was denied or approved by email.
 
@@ -352,7 +352,7 @@ Thanks for using our services, have a nice day.</field>
 <object pk="10" model="utils.emailtemplate">
   <field type="CharField" name="code">REQ_RES</field>
   <field type="CharField" name="name">REQ_RES</field>
-  <field type="CharField" name="subject">Metrocar - Žádost o reset hesla</field>
+  <field type="CharField" name="subject">Autonapůl - Žádost o reset hesla</field>
   <field type="TextField" name="content">Dobrý den,
 Požádal jste o reset vašeho hesla, navštivte prosím následující adresu a vyplňte požadované údaje pro získání nového hesla.
 {{ password_reset_url }}</field>
@@ -362,7 +362,7 @@ Požádal jste o reset vašeho hesla, navštivte prosím následující adresu a
 <object pk="11" model="utils.emailtemplate">
   <field type="CharField" name="code">REQ_RES</field>
   <field type="CharField" name="name">REQ_RES</field>
-  <field type="CharField" name="subject">Metrocar - Password reset request</field>
+  <field type="CharField" name="subject">Autonapůl - Password reset request</field>
   <field type="TextField" name="content">Hello,
 You have requested password reset function, please go to the address below and fill needed values for new password.
 {{ password_reset_url }}</field>
