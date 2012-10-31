@@ -4,7 +4,7 @@ from functools import partial
 
 from paver import doctools
 from paver.easy import options, Bunch, task, sh
-from paver.path25 import path
+from paver.path25 import path, pushd
 
 
 options(
@@ -49,13 +49,18 @@ def install_dependencies():
     if installed == requirements:
         print ('Nothing new to install. Delete %s if you want to try anyway' %
             installed_file)
-        return
+    else:
+        sh('pip install -r ' + requirements_file)
 
-    sh('pip install -r ' + requirements_file)
-
-    # remember what was installed
-    with open(installed_file, 'w+') as f:
-        f.write(requirements)
+        # remember what was installed
+        with open(installed_file, 'w+') as f:
+            f.write(requirements)
+    try:
+        import geotrack
+    except ImportError:
+        # geotrack should probably have it's own repository.....
+        with pushd('geotrack'):
+            sh('python setup.py develop')
 
 
 @task
