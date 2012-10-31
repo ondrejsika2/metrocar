@@ -131,24 +131,6 @@ def test():
 
 
 @task
-def convert_to_south():
-    managepy('metrocar', 'syncdb')
-
-    for app in (
-        'cars',
-        'invoices',
-        'reservations',
-        'subsidiaries',
-        'tariffs',
-        'tarification',
-        'user_management',
-        'utils',
-        'utils.flatpagesmeta',
-    ):
-        managepy('metrocar', 'migrate %s 0001 --fake' % app)
-
-
-@task
 def blankdb():
     """
     Drop database and start with a fresh one (with testing data loaded).
