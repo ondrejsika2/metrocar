@@ -1,3 +1,4 @@
+# coding=utf-8
 '''
 Created on 23.4.2010
 
@@ -12,9 +13,9 @@ class TestForms(UserEnabledTestCase):
         self.data = {
             'username': 'username',
             'password': 'somepass',
-            'first_name': 'John',
-            'last_name': 'Doe',
-            'email': 'john@doe.com',
+            'first_name': 'Roman',
+            'last_name': u"Kubů",
+            'email': 'roma.kubu@fel.cvut.cz',
             'primary_phone': '+420 123123123',
             'secondary_phone': '+420 123123123',
             'date_of_birth': '1900-01-01',
