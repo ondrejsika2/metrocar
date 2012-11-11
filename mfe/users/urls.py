@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     # invoices, bills
     url('%s/%s/$' % (slugify(_('my account')), slugify(_('invoices and bills'))), 'mfe.users.views.account_invoices', name='mfe_users_account_invoices_and_bills'),
     url('%s/%s/%s/$' % (slugify(_('my account')), slugify(_('invoices and bills')), slugify(_('claim new fuel bill'))), 'mfe.users.views.account_invoices_claim_bill', name='mfe_users_account_invoices_and_bills_claim_bill'),
+    url('%s/%s/%s/$' % (slugify(_('my account')), slugify(_('invoices and bills')), slugify(_('transfer money'))), 'mfe.users.views.account_invoices_transfer_money', name='mfe_users_account_invoices_and_bills_transfer_money'),
     
     # RESERVATIONS URLS
     # pending reservations list

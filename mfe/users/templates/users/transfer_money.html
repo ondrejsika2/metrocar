@@ -1,0 +1,25 @@
+{% extends "users/base.html" %}
+
+{% load i18n thumbnail %}
+
+{% block extra_css_overload %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/themes/smoothness/jquery-ui-1.8rc3.custom.css" type="text/css" />
+{% endblock %}
+
+
+{% block left_col_title %}{% trans "Tansfer money to your account" %}{% endblock %}
+
+{% block left_col_content %}
+
+
+{% blocktrans %}
+<p>Easiest way for transfering money to your account is using bank transfer. Number of our account is xxx. As a variable symbol enter number of your id card</p>
+{% endblocktrans %}
+
+<p>{% trans "Your variable symbol is" %}: {{ user.variable_symbol }}</p>
+
+<div class="clear"></div>
+
+
+
+{% endblock %}

@@ -184,6 +184,11 @@ def account_invoices_claim_bill(request):
         'form': form,
     }, context_instance=RequestContext(request))
 
+@login_required
+def account_invoices_transfer_money(request):
+    return render_to_response('users/transfer_money.html', context_instance=RequestContext(request))
+        
+
 # Send email with instructions to reset user passwd
 def passwd_reset(request):
     if request.method == 'POST':
