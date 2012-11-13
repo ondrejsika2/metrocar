@@ -73,3 +73,6 @@ pipetools==0.1.9
 
 # Automatic sane defaults for ModelAdmin
 django-smartadmin==0.0.2
+
+# Requestest - library for easy work with HTTP
+requests==0.14.2
