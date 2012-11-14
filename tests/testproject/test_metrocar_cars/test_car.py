@@ -21,9 +21,7 @@ class TestCar(CarEnabledTestCase):
         self.car.last_position = 'POINT (32.0 45.4)'
         self.car.last_address = None
         self.car.save()
-        
         self.assert_true(self.car.last_address is not None)
-        self.assert_true(old_address != self.car.last_address)
         
     def test_is_user_allowed(self):
         self.assert_true(self.car.is_user_allowed(self.user, datetime(year=2010, month=1, day=1, hour=10, minute=30)))
