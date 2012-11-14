@@ -4,3 +4,4 @@
 requirements.installed
 *.egg-info
 settings_local.py
+*.pyc
