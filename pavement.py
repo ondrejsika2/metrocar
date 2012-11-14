@@ -128,6 +128,8 @@ def test():
     Run the test-suite.
     """
     sh('python tests/testproject/run_tests.py')
+    with pushd('test_mfe'):
+        sh('python manage.py test')
 
 
 @task
