@@ -112,7 +112,7 @@ You will be asked for password (I recomend to use password: metrocar). After
 that, answer no to every question except if the user can create database (it's
 needed for creating a testing database when running tests).
 
-After that you have to create template for postgres. From ``https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#post-installation`` download script create_template_postgis-debian.sh which is for debian/ubuntu.
+After that you have to create template for postgres. From ``https://docs.djangoproject.com/en/dev/_downloads/create_template_postgis-debian1.sh`` download script create_template_postgis-debian.sh which is for debian/ubuntu.
 
 Then run the script as user postgres::
 
@@ -123,7 +123,7 @@ After that you need to create database. Run psql and enter::
     CREATE DATABASE metrocar OWNER metrocar TEMPLATE template_postgis ENCODING 'UTF8';
 
 Then as user root, edit file /etc/postgresql/9.1/main/pg_hba.conf and comment
-out the line "local all all peer" and insert new line "local all all md5"
+out the line "local all all peer" and insert new line "local all all trust"
 
 As user root, restart postgres server::
 
