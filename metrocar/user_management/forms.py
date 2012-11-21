@@ -9,8 +9,8 @@ Created on 27.3.2010
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
-from metrocar.user_management.models import MetrocarUser
 
 class MetrocarUserCreationForm(forms.Form):
     """
@@ -43,8 +43,8 @@ class MetrocarUserCreationForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         try:
-            MetrocarUser.objects.get(username=username)
-        except MetrocarUser.DoesNotExist:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
             return username
         raise forms.ValidationError(_("A user with that username already exists."))
     
