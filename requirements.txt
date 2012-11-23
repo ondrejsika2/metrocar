@@ -36,6 +36,9 @@ html5lib==0.90
 nose==1.1.2
 selenium==2.25.0
 mock==1.0.0
+WebTest==1.3.3
+django-webtest==1.5.2
+
 
 # the latest release of djangosanetesting (0.5.11) doesn't work with the new-
 # style DATABASES settings, so we'll just use this until there is a compatible
@@ -73,6 +76,7 @@ pipetools==0.1.9
 
 # Automatic sane defaults for ModelAdmin
 django-smartadmin==0.0.2
+
 
 # Requestest - library for easy work with HTTP
 requests==0.14.2
