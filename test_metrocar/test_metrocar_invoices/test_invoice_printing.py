@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 from metrocar.invoices.printing import PrintableInvoice, PrintableInvoicePdf
 
-from testproject.test_metrocar_invoices import InvoiceEnabledTestCase
+from test_metrocar.test_metrocar_invoices import InvoiceEnabledTestCase
 
 
 # FIXME: I don't see how this could ever have worked...

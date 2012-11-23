@@ -4,7 +4,7 @@ Created on 23.4.2010
 @author: xaralis
 '''
 
-from testproject.test_metrocar_invoices import InvoiceEnabledTestCase
+from test_metrocar.test_metrocar_invoices import InvoiceEnabledTestCase
 
 class Test(InvoiceEnabledTestCase):
 

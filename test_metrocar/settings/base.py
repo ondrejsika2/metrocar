@@ -77,7 +77,7 @@ INSTALLED_APPS = (
     'mfe.users',
     'mfe.utils',
 
-    'testproject.test_metrocar_utils',
+    'test_metrocar.test_metrocar_utils',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (

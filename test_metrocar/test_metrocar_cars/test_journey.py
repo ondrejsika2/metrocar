@@ -8,7 +8,7 @@ from nose.tools import raises
 
 from datetime import datetime, timedelta
 
-from testproject.helpers import CarEnabledTestCase
+from test_metrocar.helpers import CarEnabledTestCase
 from metrocar.reservations.models import Reservation
 from metrocar.cars.models import Journey, CarPosition
 

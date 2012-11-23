@@ -1,7 +1,7 @@
 from nose.tools import raises
 from djangosanetesting.cases import DatabaseTestCase
 
-from testproject.test_metrocar_utils.models import DummyModel
+from test_metrocar.test_metrocar_utils.models import DummyModel
 
 
 class TestSystemModel(DatabaseTestCase):

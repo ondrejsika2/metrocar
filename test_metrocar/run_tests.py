@@ -15,7 +15,7 @@ import nose
 # django settings module
 DJANGO_SETTINGS_MODULE = '%s.%s' % (split(abspath(dirname(__file__)))[1], 'settings')
 
-TESTS_ROOT = join(abspath(dirname(__file__)), '..')
+TESTS_ROOT = abspath(dirname(__file__))
 
 # pythonpath dirs
 PYTHONPATH = [

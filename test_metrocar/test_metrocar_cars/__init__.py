@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from testproject.helpers import CarEnabledTestCase    
+from test_metrocar.helpers import CarEnabledTestCase
 
 class CarTestCase(CarEnabledTestCase):
     def setUp(self):
