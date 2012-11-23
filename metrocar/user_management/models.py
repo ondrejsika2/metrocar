@@ -154,7 +154,7 @@ class MetrocarUser(User):
         from metrocar.utils.emails import EmailSender
         EmailSender.send_mail([self.email], 'REQ_RES', self.language, self.user, params)
 
-    def save(self):
+    def save(self, **kwargs):
         """
         Overload to set home subsidiary if missing
         """
@@ -165,7 +165,7 @@ class MetrocarUser(User):
                 self.home_subsidiary
             except Subsidiary.DoesNotExist:
                 self.home_subsidiary = Subsidiary.objects.get_current()
-        super(MetrocarUser, self).save()
+        super(MetrocarUser, self).save(**kwargs)
 
 
     def delete(self):
