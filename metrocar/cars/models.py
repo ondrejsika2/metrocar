@@ -175,6 +175,7 @@ class Car(models.Model):
     def full_name(self):
         return self.get_full_name()
 
+    # FIXME: shouldn't depend on "mfe"
     @models.permalink
     def get_absolute_url(self):
         return ('mfe_cars_detail', (), {'id': self.pk})
