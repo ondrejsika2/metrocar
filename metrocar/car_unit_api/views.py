@@ -1,28 +1,10 @@
 from pipetools import pipe, X
 
-from django.http import HttpResponse
-from django.views.generic.base import View
-
 import geotrack
 
-from metrocar.car_unit_api.utils import parse_json, authenticate
-from metrocar.car_unit_api.utils import process_request, validate_request
-from metrocar.car_unit_api.validation import required, optional, validate_each
-from metrocar.car_unit_api.validation import valid_int, valid_string
-from metrocar.car_unit_api.validation import valid_location, valid_timestamp
-from metrocar.utils.views import JsonResponse
-
-
-class APICall(View):
-    """
-    Base for an API view. Automatically converts responses that are not already
-    an instance of an HttpResponse to JSON-responses.
-    """
-    def dispatch(self, request, *args, **kwargs):
-        response = super(APICall, self).dispatch(request, *args, **kwargs)
-        if isinstance(response, HttpResponse):
-            return response
-        return JsonResponse(response)
+from metrocar.car_unit_api.utils import authenticate
+from metrocar.utils.apis import APICall, parse_json, process_request, validate_request
+from metrocar.utils.validation import required, optional, validate_each, valid_int, valid_string, valid_location, valid_timestamp
 
 
 class StoreLog(APICall):
