@@ -10,13 +10,14 @@
 <div class="col-left">
 <h3>{% trans "User details" %}</h3>
 <ul class="ul-01">
-	<li><strong>{% trans "Username" %}:</strong> {{ user.username }}</li>
-	<li><strong>{% trans "Full name" %}:</strong> {{ user.full_name }}</li>
-	<li><strong>{% trans "Date of birth" %}:</strong> {{ user.date_of_birth }}</li>
-    <li><strong>{% trans "Preferred language" %}:</strong> {{ user.get_language }}</li>
-	<li><strong>{% trans "E-mail" %}:</strong> <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
-	<li><strong>{% trans "Drivers licence number" %}:</strong> {{ user.drivers_licence_number }}</li>
-	<li><strong>{% trans "Invoice address" %}:</strong> {{ user.invoice_address }}</li>
+	<li id="li_username" ><strong>{% trans "Username" %}:</strong> {{ user.username }}</li>
+	<li id="li_name" ><strong>{% trans "Full name" %}:</strong> {{ user.full_name }}</li>
+	<li id="li_date_of_birth"><strong>{% trans "Date of birth" %}:</strong> {{ user.date_of_birth }}</li>
+    <li id="li_language"><strong>{% trans "Preferred language" %}:</strong> {{ user.get_language }}</li>
+	<li id="li_email"><strong>{% trans "E-mail" %}:</strong> <a href="mailto:{{ user.email }}">{{ user.email }}</a></li>
+	<li id="li_drivers_licence_number"><strong>{% trans "Drivers licence number" %}:</strong> {{ user.drivers_licence_number }}</li>
+	<li id="li_invoice_address"><strong>{% trans "Invoice address" %}:</strong> {{ user.invoice_address }}</li>
+	<li id="li_primary_phone"><strong>{% trans "Primary phone number" %}:</strong> {{ user.primary_phone }}</li>
 </ul>
 </div>
 
