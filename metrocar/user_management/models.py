@@ -327,7 +327,7 @@ class AccountActivity(models.Model):
         return "%+8.2f" % self.money_amount
 
     @commit_on_success
-    def save(self):
+    def save(self, **kwargs):
         """
         Overload save to correctly set the ContentType
         """
@@ -342,7 +342,7 @@ class AccountActivity(models.Model):
             self.credited = True
             self.account.save()
 
-        self.save_base()
+        super(AccountActivity, self).save(**kwargs)
 
     def as_concrete_class(self):
         """
