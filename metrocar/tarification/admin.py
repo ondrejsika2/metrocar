@@ -19,13 +19,13 @@ class PricelistModelAdmin(admin.ModelAdmin):
     )
     actions = ['clone_pricelist']
 
-    def change_view(self, request, object_id, extra_content=None):
+    def change_view(self, request, object_id, **kwargs):
         summary = Pricelist.objects.get(pk=object_id).get_pricing_summary()
-        
+
         extra_content = {
-            'timeline': summary['timeline']  
+            'timeline': summary['timeline']
         }
-        return super(PricelistModelAdmin, self).change_view(request, object_id, extra_content)
+        return super(PricelistModelAdmin, self).change_view(request, object_id, **kwargs)
 
     def clone_pricelist(self, request, queryset):
         for pricelist in queryset:
@@ -43,7 +43,7 @@ class PricelistDayTimeInline(admin.StackedInline):
 class PricelistDayForm(ModelForm):
     class Meta:
         model = PricelistDay
-    
+
     def clean(self):
         cleaned_data = self.cleaned_data
         if cleaned_data.get('date') is not None and cleaned_data.get('weekday_from') is not None:
@@ -55,14 +55,14 @@ class PricelistDayModelAdmin(admin.ModelAdmin):
     list_filter = ('pricelist', 'weekday_from', )
     form = PricelistDayForm
     inlines = [PricelistDayTimeInline, ]
-    
+
     def change_view(self, request, object_id, extra_content=None):
         pricelist_day = PricelistDay.objects.get(pk=object_id)
         summary = pricelist_day.pricelist.get_pricing_summary()
-        
+
         extra_content = {
             'timeline': summary['timeline'],
-            'pricelist_id': pricelist_day.pricelist.pk 
+            'pricelist_id': pricelist_day.pricelist.pk
         }
         return super(PricelistDayModelAdmin, self).change_view(
                                                                request, object_id, extra_content
