@@ -55,10 +55,6 @@ Sphinx==1.1.3
 python-dateutil==2.1
 
 
-# used in car unit management, candidate for deletion
-lxml==2.2.8
-
-
 # TODO: get rid of this, use the one from django
 simplejson==2.3.3
 

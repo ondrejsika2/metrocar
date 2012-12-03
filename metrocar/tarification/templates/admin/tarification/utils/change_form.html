@@ -1,13 +1,16 @@
 {% extends "admin/change_form.html" %}
 
+
 {% load i18n %}
 
 {% block extrastyle %}
+{{ block.super }}
 <link href="{{ STATIC_URL }}admin/css/admin.css" media="screen,projection" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.tooltip.css" type="text/css" />
 {% endblock %}
 
 {% block extrahead %}
+{{ block.super }}
 <script type="text/javascript" src="{{ STATIC_URL}}js/jquery.tooltip.pack.js"></script>
 {% endblock %}
 
