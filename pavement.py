@@ -3,7 +3,7 @@ import os
 from functools import partial
 
 from paver import doctools
-from paver.easy import options, Bunch, task, sh
+from paver.easy import options, Bunch, task, sh, BuildFailure
 from paver.path25 import path, pushd
 
 
@@ -132,6 +132,37 @@ def test():
         sh('python manage.py test')
 
 
+def dropdb(db_settings):
+
+    def drop_postgis(db_settings):
+        sh('dropdb -U %(USER)s %(NAME)s' % db_settings, ignore_error=True)
+        sh("""psql -U %(USER)s postgres << EOF
+
+        CREATE DATABASE %(NAME)s
+          WITH ENCODING='UTF8'
+               OWNER=%(USER)s
+               TEMPLATE=template_postgis
+               CONNECTION LIMIT=-1;
+        """ % db_settings)
+
+    def drop_sqlite(db_settings):
+        try:
+            os.remove(db_settings['NAME'])
+        except OSError:
+            pass
+
+    recipes = {
+        'django.db.backends.sqlite3': drop_sqlite,
+        'django.contrib.gis.db.backends.postgis': drop_postgis
+    }
+
+    engine = db_settings['ENGINE']
+    if engine not in recipes:
+        raise BuildFailure("Sorry, don't know how to drop %s" % engine)
+
+    recipes[engine](db_settings)
+
+
 @task
 def blankdb():
     """
@@ -142,23 +173,8 @@ def blankdb():
 
         local    all    all    trust
     """
-    import metrocar.settings
-    db_settings = metrocar.settings.DATABASES['default']
-
-    # drop the old one
-    sh('dropdb -U %(USER)s %(NAME)s' % db_settings, ignore_error=True)
-
-    # create a new one
-    sh("""psql -U %(USER)s postgres << EOF
-
-    CREATE DATABASE %(NAME)s
-      WITH ENCODING='UTF8'
-           OWNER=%(USER)s
-           TEMPLATE=template_postgis
-           CONNECTION LIMIT=-1;
-    """ % db_settings)
-
-    # populate it with some data
+    from metrocar.settings import DATABASES
+    dropdb(DATABASES['default'])
     map(partial(managepy, 'metrocar'), [
         'syncdb --all --noinput',
         'migrate --fake',
