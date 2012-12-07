@@ -1,8 +1,17 @@
 import re
+from functools import partial
 
 from django.core.exceptions import ValidationError
-from django.db.models import CharField
+from django.conf import settings
+from django.db.models import CharField, TextField
 from django.utils.translation import ugettext_lazy as _
+
+
+if settings.GEO_ENABLED:
+    from django.contrib.gis.db.models import PolygonField, PointField
+else:
+    PolygonField = TextField
+    PointField = partial(CharField, max_length=30)
 
 
 class IdentityCardNumberField(CharField):

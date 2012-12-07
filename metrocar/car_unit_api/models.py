@@ -1,16 +1,30 @@
 from functools import partial
-from pipetools import maybe
+from pipetools import maybe, unless
 
+from django.conf import settings
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 
+from geotrack.api import query
+
 from metrocar.cars.models import Car
-from geotrack.backends.geodjango.models import LogEntryBase
 
 
 generate_key = partial(get_random_string, 50,
     'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
+
+
+class CarUnitManager(models.Manager):
+
+    def get_for(self, car):
+        """
+        Returns a CarUnit installed in `car` or None if no such unit exists.
+
+        Raises an exception if there are more CarUnits in the `car`, but that
+        probably shouldn't happen.
+        """
+        return unless(CarUnit.DoesNotExist, self.get_query_set().get)(car=car)
 
 
 class CarUnit(models.Model):
@@ -31,6 +45,8 @@ class CarUnit(models.Model):
     enabled = models.BooleanField(default=True, help_text=_(
         'If disabled, the unit will be denied access to the API.'))
 
+    objects = CarUnitManager()
+
     class Meta:
         verbose_name = _('Car unit')
         verbose_name_plural = _('Car units')
@@ -39,10 +55,17 @@ class CarUnit(models.Model):
         return u'{0} ({1})'.format(
             self.unit_id, self.car > maybe | 'in {0}' or 'unassigned')
 
+    def get_last_position(self):
+        return query('last_position', units=[self.unit_id]).get(self.unit_id)
 
-class LogEntry(LogEntryBase):
-    """
-    A model for storing logs from car units in Geotrack.
-    """
-    event = models.CharField(max_length=30, db_index=True,
-        null=True, blank=True)
+
+if settings.GEO_ENABLED:
+
+    from geotrack.backends.geodjango.models import LogEntryBase
+
+    class LogEntry(LogEntryBase):
+        """
+        A model for storing logs from car units in Geotrack.
+        """
+        event = models.CharField(max_length=30, db_index=True,
+            null=True, blank=True)

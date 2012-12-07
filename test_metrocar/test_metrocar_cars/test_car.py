@@ -13,16 +13,6 @@ class TestCar(CarEnabledTestCase):
     def test_get_absolute_url(self):
         self.assert_true(isinstance(self.car.get_absolute_url(), str))
 
-    def test_make_auth_key(self):
-        self.assert_true(Car.objects.make_auth_key('novy') != self.car.authorization_key)
-
-    def test_last_address_update(self):
-        old_address = self.car.last_address
-        self.car.last_position = 'POINT (32.0 45.4)'
-        self.car.last_address = None
-        self.car.save()
-        self.assert_true(self.car.last_address is not None)
-
     def test_is_user_allowed(self):
         self.assert_true(self.car.is_user_allowed(self.user, datetime(year=2010, month=1, day=1, hour=10, minute=30)))
         self.assert_false(self.car.is_user_allowed(self.user, datetime(year=2010, month=1, day=1, hour=9, minute=30)))

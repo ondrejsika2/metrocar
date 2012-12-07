@@ -1,22 +1,18 @@
-# coding=utf-8
-
-#RESERVATION
-
+# encoding: utf-8
 from datetime import datetime, timedelta
 from decimal import Decimal
+from pipetools import maybe, X, xcurry
 
-from django.db.models.signals import post_save, pre_delete
-from django.db.transaction import commit_on_success
 from django.conf import settings
-from django.contrib.gis.db import models
 from django.contrib.gis.geos import MultiLineString
+from django.db import models
+from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _, ngettext
 
+from metrocar.reservations import managers
 from metrocar.user_management.models import MetrocarUser, AccountActivity
 from metrocar.utils.models import SiteSettings
-from django.utils.encoding import force_unicode
-
-import managers
+from metrocar.utils.geo import get_car_last_position
 
 
 RESERVATION_TIME_SHIFT = settings.RESERVATION_TIME_SHIFT
@@ -24,6 +20,7 @@ RESERVATION_TIME_SHIFT = settings.RESERVATION_TIME_SHIFT
 
 class ReservationError(Exception):
     pass
+
 
 class Reservation(models.Model):
     cancelled = models.BooleanField(blank=False, null=False, default=False,
@@ -47,8 +44,6 @@ class Reservation(models.Model):
         verbose_name=_('Reserved until'))
     started = models.DateTimeField(blank=True, null=True,
         verbose_name=_('Started'))
-    path = models.MultiLineStringField(null=True, blank=True,
-        default=None, spatial_index=False, verbose_name=_('Path'))
 
     user = models.ForeignKey(MetrocarUser, verbose_name=_('User'),
         related_name='reservations')
@@ -182,12 +177,13 @@ class Reservation(models.Model):
             # finished
             # => they are collected by reservation deamon
             return False
-        else:
-            parking = Parking.objects.filter(
-                polygon__contains=self.car.last_position)
-            if len(parking) != 0:
-                return True
-            return False
+        elif settings.GEO_ENABLED:
+            # is there a Parking that contains car's last_position?
+            return (self.car > maybe
+                | get_car_last_position
+                | 'POINT ({location[1]} {location[0]})'
+                | xcurry(Parking.objects.filter, polygon__contains=X)
+                | X.exists())
 
     def is_in_conflict(self):
         """
@@ -252,7 +248,7 @@ class Reservation(models.Model):
         try:
             reservation = kwargs['instance'].reservation
         except Exception:
-	        pass
+            pass
         if reservation is None: return
 
         # refresh path

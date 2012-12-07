@@ -1,16 +1,11 @@
-'''
-Created on 21.4.2010
-
-@author: xaralis
-'''
-
 from nose.tools import raises
 
 from datetime import datetime, timedelta
 
 from test_metrocar.helpers import CarEnabledTestCase
 from metrocar.reservations.models import Reservation
-from metrocar.cars.models import Journey, CarPosition
+from metrocar.cars.models import Journey
+
 
 class TestJourney(CarEnabledTestCase):
     def setUp(self):
@@ -52,18 +47,13 @@ class TestJourney(CarEnabledTestCase):
         self.journey.save()
         self.assert_equals(self.journey.is_finished(), True)
 
-    def test_refresh_path(self):
-        CarPosition.objects.create(position='POINT (10.0 10.0)',
-            journey=self.journey)
-        self.assert_not_equals(None, self.journey.path)
-        self.assert_equals(1, len(self.journey.path))
-
     def test_get_current_for_car_user_card(self):
         self.assert_equals(
             self.journey,
             Journey.objects.get_current_for_car_user_card(
                 self.car, self.user.user_card, datetime.now())
         )
+
 
 class TestJourneyManager(CarEnabledTestCase):
     def setUp(self):

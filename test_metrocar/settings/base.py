@@ -24,6 +24,15 @@ MANAGERS = ADMINS
 SECRET_KEY = 'ry^a*eigc1p!d*j*gocmqsx3padg#(8g$nytui=+%#hjz@ck12'
 
 
+if not GEO_ENABLED:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
+
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
@@ -40,45 +49,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
-
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.flatpages',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
-    'django.contrib.gis',
-    'django.contrib.markup',
-
-    'piston',
-    'olwidget',
-    'sorl.thumbnail',
-    'django_tables',
-
-    'geotrack.backends.geodjango',
-
-    'metrocar.car_unit_api',
-    'metrocar.api',
-    'metrocar.cars',
-    'metrocar.invoices',
-    'metrocar.reservations',
-    'metrocar.tariffs',
-    'metrocar.tarification',
-    'metrocar.user_management',
-    'metrocar.utils',
-    'metrocar.utils.flatpagesmeta',
-    'metrocar.subsidiaries',
-
-    'mfe.active_pages',
-    'mfe.cars',
-    'mfe.reservations',
-    'mfe.users',
-    'mfe.utils',
-
+INSTALLED_APPS = [x for x in INSTALLED_APPS if x != 'south'] + [
     'test_metrocar.test_metrocar_utils',
-)
+]
+
 
 TEMPLATE_CONTEXT_PROCESSORS += (
   "metrocar.subsidiaries.context_processors.subsidiary",

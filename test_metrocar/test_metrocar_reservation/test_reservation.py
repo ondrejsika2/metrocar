@@ -3,20 +3,24 @@ Created on 24.4.2010
 
 @author: xaralis
 '''
-from nose.tools import raises
 
 from datetime import datetime, timedelta
 
-from metrocar.utils.models import SiteSettings
+from django.contrib.gis.geos import Point
+
+from nose.tools import raises
+
+from metrocar.car_unit_api.testing_data import unit
+from metrocar.cars.models import Journey
 from metrocar.reservations.models import Reservation, ReservationError
+from metrocar.tarification.models import Pricelist
+from metrocar.utils.models import SiteSettings
+
+import geotrack
 
 from test_metrocar.test_metrocar_reservation import ReservationEnabledTestCase
-from test_metrocar.helpers import CarEnabledWithoutReservationTestCase
+from test_metrocar.helpers import CarEnabledWithoutReservationTestCase, skipIfNotGeoEnabled, CarEnabledTestCase
 
-from django.contrib.gis.geos import Point
-from metrocar.tarification.models import Pricelist
-from helpers import CarEnabledTestCase
-from metrocar.cars.models import Journey
 
 class TestReservation(ReservationEnabledTestCase):
     def test_0_validate_invalid_in_past(self):
@@ -96,10 +100,18 @@ class TestReservation(ReservationEnabledTestCase):
         self.car.dedicated_parking_only = False
         self.assert_false(self.reservation.ready_to_finish())
 
+    @skipIfNotGeoEnabled
     def test_8_ready_to_finish_on_dedicated_parking(self):
         self.car.dedicated_parking_only = True
-        self.car.last_position = Point(20.0, 20.0) # parking is 0.0 - 50.0 rect
         self.car.save()
+
+        unit_id = 681639879
+        unit(unit_id, car=self.car)
+
+        geotrack.api.store(unit_id,
+            timestamp=datetime.now(),
+            # parking is 0.0 - 50.0 rect
+            location=(20.0, 20.0))
 
         self.reservation.started = datetime.now() + timedelta(hours=1)
         self.reservation.save()

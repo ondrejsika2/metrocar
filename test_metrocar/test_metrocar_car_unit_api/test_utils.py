@@ -5,9 +5,12 @@ from metrocar.utils.apis import InvalidRequest
 from metrocar.car_unit_api.utils import authenticate
 from metrocar.car_unit_api.testing_data import unit
 
+from test_metrocar.helpers import skipIfNotGeoEnabled
+
 
 class TestAuthenticate(DatabaseTestCase):
 
+    @skipIfNotGeoEnabled
     def setUp(self):
         self.secret_key = 'asdf8s6f7asdf7ad7f6a'
         self.disabled_unit_key = 'sdfafafa'

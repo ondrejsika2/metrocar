@@ -1,14 +1,11 @@
-'''
-Created on 7.5.2010
-
-@author: xaralis
-'''
 from datetime import datetime, timedelta
 
-from django.contrib.gis.db import models
+from django.db import models
 from django.db.transaction import commit_on_success
+from django.utils.translation import ugettext_lazy as _
 
-class ReservationManager(models.GeoManager):
+
+class ReservationManager(models.Manager):
     @commit_on_success
     def create_reservation(self, user, car, datetime_from, datetime_till, **kwargs):
         """
@@ -28,7 +25,7 @@ class ReservationManager(models.GeoManager):
         for plugin in settings.RESERVATION_PLUGINS:
             plugin_name = plugin.split('.')[-1]
             plugin_module = '.'.join(plugin.split('.')[0:-1])
-            module = __import__(plugin_module, globals(), locals(), [ plugin_name ])
+            module = __import__(plugin_module, globals(), locals(), [plugin_name])
             plugins.append(getattr(module, plugin_name))
 
         # pre-save plugins (handled in settings)
@@ -96,11 +93,6 @@ class ReservationManager(models.GeoManager):
         datetime_limit = datetime.now() - timedelta(seconds=cancel_interval)
         return self.get_query_set().filter(reserved_from__lte=datetime_limit)
 
-    def without_journey(self):
-        """
-        Returns all reservations without set journey information
-        """
-        return self.get_query_set().filter(path__isnull=True, reserved_until__lte=datetime.now())
 
 class ReservationReminderManager(models.Manager):
     def create_for_reservation(self, reservation, datetime):
@@ -136,6 +128,7 @@ class ReservationReminderManager(models.Manager):
         target_datetime = now + timedelta(seconds=settings.RESERVATION_REMINDER_CRON_INTERVAL)
         return self.pending().filter(datetime__gte=now, datetime__lt=target_datetime)
 
+
 class ReservationBillManager(models.Manager):
     def create_for_reservation(self, reservation):
         """
@@ -148,4 +141,3 @@ class ReservationBillManager(models.Manager):
         )
         bill.save()
         return bill
-

@@ -1,21 +1,17 @@
 from datetime import datetime
 from datetime import timedelta
-from decimal import *
+from decimal import Decimal, DivisionByZero
 
-from django.contrib.gis.db import models
-from django.contrib.gis.geos import LineString
-from django.contrib.gis.geos import MultiLineString
-from django.contrib.gis.geos.point import Point
-from django.db.models.signals import post_delete
-from django.db.models.signals import post_save
-from django.db.models.signals import pre_delete
-from django.utils.translation import ugettext, ugettext_lazy as _
-import managers
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
+from metrocar.cars import managers
 from metrocar.reservations.models import Reservation
 from metrocar.subsidiaries.models import Subsidiary
 from metrocar.user_management.models import AccountActivity
 from metrocar.user_management.models import MetrocarUser
-from metrocar.utils.fields import *
+from metrocar.utils.fields import PolygonField, PointField
+from metrocar.utils.geo import GeoManager
 
 
 class CarModelManufacturer(models.Model):
@@ -119,18 +115,7 @@ class Car(models.Model):
     home_subsidiary = models.ForeignKey(Subsidiary,
         verbose_name=_('Subsidiary'))
 
-    # TODO: find out what are these for, possibly not needed anymore:
-    imei = models.CharField(_('IMEI'), blank=True, null=True, unique=True,
-        max_length=18)
-    authorization_key = models.CharField(_('Authorization key'),
-        blank=True, null=True, max_length=40, help_text=_('SHA1 encoded. Use the '
-                                         '<a href=\"change-authorization-key/\">change authorization key '
-                                         'form</a> to change.'))
-    mobile_number = PhoneField(_('Mobile number'), blank=True, null=True)
-
-    # TODO: this should be managed independently
-    last_echo = models.DateTimeField(_('Last echo'), blank=True, null=True)
-    last_position = models.PointField(_('Last position'), blank=True, null=True)
+    last_position = PointField(_('Last position'), null=True, blank=True)
     last_address = models.CharField(_('Last address'), max_length=255,
         null=True, blank=True)
 
@@ -143,30 +128,24 @@ class Car(models.Model):
     def __unicode__(self):
         return self.get_full_name()
 
-    def __setattr__(self, name, value):
-        " Overload to listen on change of last position to reset the text "
-        if name == 'last_position' and self.__dict__.has_key('last_position'):
-            if isinstance(self.__dict__['last_position'], Point):
-                self.__dict__['last_address'] = None
-        super(Car, self).__setattr__(name, value)
-
-    def save(self, * args, ** kwargs):
-        """
-        If position text is none, query it and save it.
-        """
-        if self.last_address is None:
-            try:
-                from metrocar.utils.nominatim import NominatimQuerier
-                n = NominatimQuerier()
-                self.last_address = n.resolve_address(self.last_position.y,
-                                                      self.last_position.x)['display_name']
-            except:
-                # cannot fetch nominatim data - fail silently
-                from metrocar.utils.log import get_logger, logging
-                get_logger().log(logging.WARN, "Cannot fetch nominatim data "
-                                 "for position %s" % self.last_position)
-                self.last_address = ugettext('Unknown')
-        super(Car, self).save(*args, ** kwargs)
+    # TODO:
+    # def save(self, * args, ** kwargs):
+    #     """
+    #     If position text is none, query it and save it.
+    #     """
+    #     if self.last_address is None:
+    #         try:
+    #             from metrocar.utils.nominatim import NominatimQuerier
+    #             n = NominatimQuerier()
+    #             self.last_address = n.resolve_address(self.last_position.y,
+    #                                                   self.last_position.x)['display_name']
+    #         except:
+    #             # cannot fetch nominatim data - fail silently
+    #             from metrocar.utils.log import get_logger, logging
+    #             get_logger().log(logging.WARN, "Cannot fetch nominatim data "
+    #                              "for position %s" % self.last_position)
+    #             self.last_address = ugettext('Unknown')
+    #     super(Car, self).save(*args, ** kwargs)
 
     def get_full_name(self):
         return "%s (%s)" % (unicode(self.model), self.registration_number)
@@ -209,26 +188,6 @@ class Car(models.Model):
             return self.journey_set.get(end_datetime__isnull=True)
         except Journey.DoesNotExist:
             return None
-
-    def update_last_position(self):
-        """
-        Updates car's last position according to last saved CarPosition object.
-        """
-        try:
-            last_pos = CarPosition.objects.filter(journey__car=self).order_by('-pk')[0]
-            self.last_position = last_pos.position
-            self.last_address = None
-            self.save()
-            return True
-        except IndexError:
-            return False
-
-    def update_comm_status(self):
-        """
-        Updates last echo information for the car to be 'now'
-        """
-        self.last_echo = datetime.now()
-        self.save()
 
     def get_upcoming_reservations(self, format='json'):
         """
@@ -276,6 +235,7 @@ class Car(models.Model):
             pass
         return False
 
+    # FIXME: this totally doesn't belong here:
     def get_allowed_users(self, dt=datetime.now()):
         """
         Returns list of users who are allowed to access the car along with times,
@@ -425,10 +385,11 @@ class Parking(models.Model):
                               verbose_name=_('Street'))
     city = models.CharField(max_length=50,
                             verbose_name=_('City'))
-    polygon = models.PolygonField(verbose_name=_('Area'))
+    polygon = PolygonField(verbose_name=_('Area'))
 
     cars = models.ManyToManyField(Car, through='ParkingDescription')
-    objects = models.GeoManager()
+
+    objects = GeoManager()
 
     class Meta:
         verbose_name = _('Parking')
@@ -454,45 +415,6 @@ class ParkingDescription(models.Model):
         return self.description
 
 
-class CarPosition(models.Model):
-    position = models.PointField(_('Car position'))
-    journey = models.ForeignKey('Journey',
-                                verbose_name=_('Journey'))
-
-    objects = models.GeoManager()
-
-    class Meta:
-        verbose_name = _('Car position')
-        verbose_name_plural = _('Car positions')
-
-    def __unicode__(self):
-        return "#%s %s" % (self.get_sequence_nr(), self.position)
-
-    def save(self, * args, ** kwargs):
-        """
-        Overload save to update journey last position.
-
-        We also add posibility to evade car position update by setting the
-        parameter no_pos_update to True
-        """
-        if kwargs.has_key('no_pos_update'):
-            pos_update = not kwargs['no_pos_update']
-            del kwargs['no_pos_update']
-        else:
-            pos_update = True
-        super(CarPosition, self).save(*args, ** kwargs)
-        # if we are told not to update car position (used for bulk canges)
-        if pos_update:
-            # update car position, don't expect we are the last one
-            self.journey.car.update_last_position()
-
-    def get_sequence_nr(self):
-        """
-        Returns CarPosition order in journey.
-        """
-        return len(CarPosition.objects.filter(journey=self.journey, pk__lt=self.pk))
-
-
 class Journey(models.Model):
     TYPE_WAITING = 'W'
     TYPE_TRIP = 'T'
@@ -510,8 +432,6 @@ class Journey(models.Model):
                                         verbose_name=_('End datetime'))
     length = models.DecimalField(decimal_places=3, max_digits=8,
                                   default=0, verbose_name=_('Length'), editable=False)
-    path = models.MultiLineStringField(null=True, blank=True,
-                                       spatial_index=False, verbose_name=_('Path'))
     total_price = models.DecimalField(decimal_places=2, max_digits=8,
                                       blank=True, null=True, default=0, verbose_name=_('Price'))
     type = models.CharField(max_length=2,
@@ -599,26 +519,6 @@ class Journey(models.Model):
             return self.reservation.get_pricelist().count_journey_price(self)
         return None
 
-    @classmethod
-    def refresh_path(cls, sender, ** kwargs):
-        """
-        Forces refresh of journey path from CarPosition objects.
-        """
-        journey = kwargs['instance'].journey
-        position_points = [position.position for position in journey.carposition_set.order_by('pk')]
-        line_strings = []
-
-        if len(position_points) == 1:
-            # create generic linestring with two same points
-            line_strings = [LineString(position_points[0], position_points[0])]
-        else:
-            # create linestring connecting points
-            for point_one, point_two in zip(position_points[:-1], position_points[1:]):
-                line_strings.append(LineString(point_one, point_two))
-
-        journey.path = MultiLineString(*line_strings)
-        journey.save()
-
     def is_finished(self):
         """
         Returns true if journey is already finished.
@@ -649,9 +549,3 @@ class Journey(models.Model):
         self.update_total_price()
         self.save()
         return True
-
-
-post_save.connect(Journey.refresh_path, sender=CarPosition)
-pre_delete.connect(Journey.refresh_path, sender=CarPosition)
-post_save.connect(Reservation.refresh_journey_data, sender=Journey)
-post_delete.connect(Reservation.refresh_journey_data, sender=Journey)

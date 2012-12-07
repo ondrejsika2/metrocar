@@ -1,18 +1,15 @@
-'''
-Created on 7.5.2010
-
-@author: xaralis
-'''
-import hashlib
 from datetime import datetime
+import hashlib
 
-from django.contrib.gis.db import models
-from django.db.transaction import commit_on_success
-from metrocar.reservations.models import Reservation
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.transaction import commit_on_success
+
+from metrocar.reservations.models import Reservation
 from metrocar.user_management.models import UserCard
 
-class CarManager(models.GeoManager):
+
+class CarManager(models.Manager):
 #    def get_query_set(self):
 #        """
 #        Return only cars from home subsidiary by default
@@ -26,7 +23,7 @@ class CarManager(models.GeoManager):
 #        Returns all cars (not just local ones)
 #        """
 #        return super(CarManager, self).get_query_set()
-    
+
     def authenticate(self, imei, authorization_key):
         """
         Tries to authenticate car unit by using given imei and authorization key
@@ -34,37 +31,37 @@ class CarManager(models.GeoManager):
         try:
             car = self.get_query_set().get(imei=imei)
             if car.authorization_key == self.make_auth_key(authorization_key):
-                return car 
+                return car
         except:
             pass
         return False
-    
+
     @classmethod
     def make_auth_key(cls, password):
         return hashlib.sha1(password).hexdigest()
-    
-class JourneyManager(models.GeoManager):
+
+class JourneyManager(models.Manager):
     @commit_on_success
     def start_journey(self, car, user, time, type='T'):
         """
-        Starts new Journey and eventually marks reservation as started if 
+        Starts new Journey and eventually marks reservation as started if
         there is a reservation for car, time and user active.
         """
         from metrocar.cars.models import Car
         assert isinstance(car, Car)
         assert isinstance(user, User)
         assert isinstance(time, datetime)
-        
+
         j_params = {
             'start_datetime': time,
             'car': car,
             'user': user
         }
         user_card = user.user_card
-        
+
         if not user_card.active:
             raise AssertionError("Inactive user card, possible account abuse.")
-        
+
         if not user_card.is_service_card:
             # try to find suitable reservation
             try :
@@ -72,7 +69,7 @@ class JourneyManager(models.GeoManager):
                     reserved_from__lte=time, reserved_until__gte=time)
                 if reservation.started is None:
                     reservation.started = time
-                    reservation.save() 
+                    reservation.save()
                     j_params['reservation'] = reservation
             except Reservation.DoesNotExist:
                 raise AssertionError("Reservation expected, but not found. "
@@ -97,7 +94,7 @@ class JourneyManager(models.GeoManager):
             journey = self.get(user=user_card.user, car=car,
                 end_datetime__isnull=True, reservation__isnull=True)
         return journey
-    
+
     @commit_on_success
     def create_complete_journey(self, car, user_card, datetime_since,
                                 datetime_till, type='T'):
@@ -108,7 +105,7 @@ class JourneyManager(models.GeoManager):
             datetime_since, type=type)
         journey.finish(datetime_till)
         return journey
-    
+
     @commit_on_success
     def normalize_for_reservation(self, reservation):
         """
@@ -168,4 +165,4 @@ class JourneyManager(models.GeoManager):
         for j in journeys:
             j.update_total_price()
             j.save()
-    
+

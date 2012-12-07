@@ -9,9 +9,12 @@ from metrocar.car_unit_api.testing_data import unit
 from metrocar.car_unit_api.views import StoreLog
 from metrocar.utils import Bunch
 
+from test_metrocar.helpers import skipIfNotGeoEnabled
+
 
 class TestStoreLogDataValidation(DatabaseTestCase):
 
+    @skipIfNotGeoEnabled
     def setUp(self):
         self.unit = unit(123)
 

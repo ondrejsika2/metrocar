@@ -115,13 +115,14 @@ MIDDLEWARE_CLASSES = (
 )
 
 
+
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.flatpages',
-    'django.contrib.gis',
     'django.contrib.markup',
     'django.contrib.messages',
     'django.contrib.sessions',
@@ -132,12 +133,13 @@ INSTALLED_APPS = (
     'olwidget',
     'sorl.thumbnail',
     'south',
-    'geotrack.backends.geodjango',
 
-    'metrocar.car_unit_api',
     'metrocar.api',
+    'metrocar.audit',
+    'metrocar.car_unit_api',
     'metrocar.cars',
     'metrocar.invoices',
+    'metrocar.maps',
     'metrocar.reservations',
     'metrocar.subsidiaries',
     'metrocar.tariffs',
@@ -145,6 +147,14 @@ INSTALLED_APPS = (
     'metrocar.user_management',
     'metrocar.utils',
     'metrocar.utils.flatpagesmeta',
+)
+
+# Will this instance make use of geo-data from car units
+GEO_ENABLED = True
+
+INSTALLED_APPS_IF_GEO_ENABLED = (
+    'django.contrib.gis',
+    'geotrack.backends.geodjango',
 )
 
 
@@ -174,15 +184,6 @@ EMAIL_USE_TLS = True
 # TODO: what is this?
 EMAIL_NOMINATIM = 'xaralis@centrum.cz'
 
-
-COMM_TIME_FORMAT = '%y-%m-%d %H:%M'
-COMM_OUTPUT_ENCODING = 'windows-1252'
-COMM_INPUT_ENCODING = 'utf-8'
-COMM_AUTHENTICATION_REQUIRED = False
-COMM_DTD_ROOT = join(PROJECT_PATH, 'static', 'car_units')
-COMM_DTD_REQUEST = join(COMM_DTD_ROOT, 'request.dtd')
-COMM_DTD_RESPONSE = join(COMM_DTD_ROOT, 'response.dtd')
-COMM_GPX_SCHEMA = join(COMM_DTD_ROOT, 'gpx.xsd')
 
 # plugins to be used in reservation creation
 RESERVATION_PLUGINS = (

@@ -1,14 +1,10 @@
-'''
-Created on 21.4.2010
-
-@author: xaralis
-'''
-import hashlib
 from decimal import Decimal
 from datetime import datetime, date, time
 
-from django.contrib.sites.models import Site
+from django.conf import settings
 from django.contrib.gis.geos.polygon import Polygon
+from django.contrib.sites.models import Site
+from django.utils.unittest import TestCase
 
 from djangosanetesting.cases import DatabaseTestCase
 
@@ -20,14 +16,15 @@ from metrocar.reservations.models import Reservation
 from metrocar.tarification.models import Pricelist, PricelistDay,\
     PricelistDayTime
 
+
 def get_subsidiary():
     return Subsidiary.objects.get_current()
-    
+
 class SubsidiaryEnabledTestCase(DatabaseTestCase):
     def setUp(self):
         super(SubsidiaryEnabledTestCase, self).setUp()
         self.subsidiary = get_subsidiary()
-        
+
 class UserEnabledTestCase(DatabaseTestCase):
     def setUp(self):
         super(UserEnabledTestCase, self).setUp()
@@ -50,32 +47,28 @@ def get_cars(**kwargs):
         engine='engine', seats_count=1, storage_capacity=1, name='title',
         type=type, main_fuel=fuel, manufacturer=manufacturer
     )
-    
+
     defaults = {
         'active': True,
-        'authorization_key': hashlib.sha1('key').hexdigest(),
         'manufacture_date': datetime.now(),
-        'mobile_number': '+420 777883133',
-        'registration_number': 123,
         'model': car_model,
         'color': color,
         'home_subsidiary': get_subsidiary(),
-        'last_position': 'POINT (0.0 0.0)'
     }
     defaults.update(**kwargs)
-    
+
     try:
-        car = Car.objects.get(imei='123123')
+        car = Car.objects.get(registration_number='123123')
     except Car.DoesNotExist:
-        car = Car.objects.create(imei='123123', **defaults)
-        
+        car = Car.objects.create(registration_number='123123', **defaults)
+
     parking = Parking.objects.get_or_create(name='Test', places_count=200,
         land_registry_number='100', street='Test', city='Praha',
         polygon=Polygon(
             ((0.0, 0.0), (0.0, 50.0), (50.0, 50.0), (50.0, 0.0), (0.0, 0.0))
         )
     )
-        
+
     return car_model, car, parking
 
 
@@ -83,7 +76,7 @@ class CarEnabledWithoutReservationTestCase(UserEnabledTestCase):
     def setUp(self):
         super(CarEnabledWithoutReservationTestCase, self).setUp()
         self.car_model, self.car, self.parking = get_cars()
-        
+
         self.pricelist, created = Pricelist.objects.get_or_create(
             available=True,
             name='Test pricelist',
@@ -99,9 +92,9 @@ class CarEnabledWithoutReservationTestCase(UserEnabledTestCase):
             pricelist=self.pricelist
         )
         PricelistDayTime.objects.get_or_create(
-            car_unused_ratio=Decimal('0.5'), car_used_ratio=Decimal('1.6'), 
+            car_unused_ratio=Decimal('0.5'), car_used_ratio=Decimal('1.6'),
             late_return_ratio=Decimal('5'), time_from=time(hour=0),
-            pricelist_day=pd                                                   
+            pricelist_day=pd
         )
 
 class CarEnabledTestCase(CarEnabledWithoutReservationTestCase):
@@ -113,4 +106,44 @@ class CarEnabledTestCase(CarEnabledWithoutReservationTestCase):
             car=self.car,
             user=self.user
         )
-        
+
+
+# This is pretty retarded, but needed for test-skipping compatible with nose
+# in python < 2.7 -- we need to raise nose's SkipTest exception instead of
+# the one from Django
+
+from nose.plugins.skip import SkipTest
+from functools import wraps
+
+
+def _id(obj):
+    return obj
+
+
+def skip(reason):
+    """
+    Unconditionally skip a test.
+    """
+    def decorator(test_item):
+        if not (isinstance(test_item, type) and issubclass(test_item, TestCase)):
+            @wraps(test_item)
+            def skip_wrapper(*args, **kwargs):
+                raise SkipTest(reason)
+            test_item = skip_wrapper
+
+        test_item.__unittest_skip__ = True
+        test_item.__unittest_skip_why__ = reason
+        return test_item
+    return decorator
+
+
+def skipIf(condition, reason):
+    """
+    Skip a test if the condition is true.
+    """
+    if condition:
+        return skip(reason)
+    return _id
+
+
+skipIfNotGeoEnabled = skipIf(not settings.GEO_ENABLED, 'not geo-enabled')

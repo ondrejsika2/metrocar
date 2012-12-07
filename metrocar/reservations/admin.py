@@ -1,10 +1,8 @@
-from django.contrib.gis import admin
-from django.contrib.gis.db import models
-from django.db.models.base import Model
+from django.contrib import admin
+from django.forms.models import BaseInlineFormSet
 from django.utils.translation import ugettext_lazy as _
-from django.forms.models import BaseInlineFormSet, ModelForm
 
-from metrocar.reservations.models import *
+from metrocar.reservations.models import Reservation, ReservationReminder, ReservationBill
 from metrocar.cars.models import Journey
 
 class JourneyOrderedFormset(BaseInlineFormSet):
@@ -17,13 +15,12 @@ class JourneyInline(admin.StackedInline):
     formset = JourneyOrderedFormset
     exclude = ['user', 'car']
 
-class ReservationModelAdmin(admin.OSMGeoAdmin):
+class ReservationModelAdmin(admin.ModelAdmin):
     list_display = ('user', 'car', 'reserved_from', 'reserved_until', 'started', 'ended', 'cancelled', 'price')
     list_filter = ('user', 'car', 'started', 'ended', 'cancelled')
     fieldsets = (
         (_('Basic information'), {'fields': ('user', 'car', 'reserved_from', 'reserved_until', 'started', 'ended', 'cancelled', 'is_service',) }),
         (_('Additional information'), {'fields': ('comment',), 'classes': ('collapse') }),
-        (_('Track'), {'fields': ('path',), 'classes': ('wide') }),
     )
     inlines = [ JourneyInline, ]
     #readonly_fields = ('started', 'ended')

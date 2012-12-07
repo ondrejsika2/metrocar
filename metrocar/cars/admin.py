@@ -1,17 +1,24 @@
-from datetime import datetime
-
 from django.conf.urls.defaults import patterns
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.gis import admin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
+
 from metrocar.cars import utils
-from metrocar.cars.models import *
+from metrocar.cars.models import CarModelManufacturer, Car, CarColor, CarType, Fuel, FuelBill, ParkingDescription, MaintenanceBill, CarModel, Journey, Parking
 from metrocar.utils.permissions import PermissionsNameConst as PermName
+
+if settings.GEO_ENABLED:
+    from django.contrib.gis import admin
+    OSMGeoAdmin = admin.OSMGeoAdmin
+else:
+    from django.contrib import admin
+    OSMGeoAdmin = admin.ModelAdmin
+
 
 admin.site.register(CarModelManufacturer)
 admin.site.register(CarType)
@@ -19,27 +26,28 @@ admin.site.register(CarColor)
 admin.site.register(Fuel)
 admin.site.register(ParkingDescription)
 
+
 class FuelBillAdmin(admin.ModelAdmin):
     list_display = ('code', 'car', 'fuel', 'liter_count', 'approved')
 admin.site.register(FuelBill, FuelBillAdmin)
+
 
 class MaintenanceAdmin(admin.ModelAdmin):
     list_display = ('code', 'car', 'purpose', 'approved')
 admin.site.register(MaintenanceBill, MaintenanceAdmin)
 
+
 class CarModelAdmin(admin.ModelAdmin):
     list_display = ('name', 'manufacturer', 'type', 'engine', 'seats_count', 'storage_capacity')
     list_filter = ('manufacturer', 'type', 'engine',)
-
 admin.site.register(CarModel, CarModelAdmin)
 
-class CarAdmin(admin.OSMGeoAdmin):
-    list_display = ('registration_number', 'model', 'color', 'last_echo', 'last_address', 'active', 'state',)
+
+class CarAdmin(OSMGeoAdmin):
+    list_display = ('registration_number', 'model', 'color', 'last_address', 'active', 'state',)
     list_filter = ('model', 'color', 'active',)
     fieldsets = (
                  (_('Basic information'), {'fields': ('model', 'registration_number', 'active', 'owner', 'color', 'image', 'home_subsidiary', 'manufacture_date', 'dedicated_parking_only', )}),
-                 (_('Connection information'), {'fields': ('imei', 'authorization_key', 'last_echo', 'mobile_number', )}),
-                 (_('Location'), {'fields': ('last_position', )})
                  )
 
     def changelist_view(self, request, extra_context=None):
@@ -108,20 +116,13 @@ class CarAdmin(admin.OSMGeoAdmin):
 
 admin.site.register(Car, CarAdmin)
 
-class CarPositionInline(admin.StackedInline):
-    classes = ('collapse-closed',)
-    model = CarPosition
 
-class JourneyModelAdmin(admin.OSMGeoAdmin):
+class JourneyModelAdmin(OSMGeoAdmin):
     list_display = ('id', 'user', 'car', 'start_datetime', 'end_datetime', 'type', 'length', 'is_finished', 'reservation', 'is_service', 'total_price',)
     list_filter = ('car', 'user', 'type')
     fieldsets = (
                  (_('Basic information'), {'fields': ('user', 'car', 'reservation', 'start_datetime', 'end_datetime', 'total_price', 'speedometer_start', 'speedometer_end'), 'classes': ('show', 'extrapretty',)}),
-                 (_('Track'), {'fields': ('path',), 'classes': ('wide',)}),
                  )
-    inlines = [
-        CarPositionInline,
-    ]
     ordering = ('start_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
@@ -135,10 +136,6 @@ class JourneyModelAdmin(admin.OSMGeoAdmin):
                                                           request, object_id, extra_content
                                                           )
 
-class CarPositionModelAdmin(admin.OSMGeoAdmin):
-    list_display = ('id', 'journey', 'get_sequence_nr',)
-    list_filter = ('journey',)
 
 admin.site.register(Journey, JourneyModelAdmin)
-admin.site.register(Parking, admin.OSMGeoAdmin)
-admin.site.register(CarPosition, CarPositionModelAdmin)
+admin.site.register(Parking, OSMGeoAdmin)
