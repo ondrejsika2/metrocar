@@ -3,8 +3,9 @@ from pipetools import pipe, X
 import geotrack
 
 from metrocar.car_unit_api.utils import authenticate
+from metrocar.car_unit_api.validation import valid_timestamp, valid_location
 from metrocar.utils.apis import APICall, parse_json, process_request, validate_request
-from metrocar.utils.validation import required, optional, validate_each, valid_int, valid_string, valid_location, valid_timestamp
+from metrocar.utils.validation import required, optional, validate_each, valid_int, valid_string, valid_float
 
 
 class StoreLog(APICall):
@@ -21,7 +22,7 @@ class StoreLog(APICall):
             optional('event', valid_string),
             # TODO:
             # optional('user_id', valid_user_id),
-            # optional('odometer', valid_float),
+            optional('odometer', valid_float),
         ),
     )
 

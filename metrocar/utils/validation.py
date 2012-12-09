@@ -5,7 +5,6 @@ for invalid data.
 from collections import Iterable
 from functools import partial
 from pipetools import pipe, X, unless, foreach, select_first, flatten
-from geotrack.utils import extract_timestamp
 
 
 OK = True, None
@@ -90,28 +89,12 @@ def convertible_to(typ):
     return unless((TypeError, ValueError), typ) | (X != None)
 
 
-def is_valid_location(val):
-    return (len(val) == 2
-        and convertible_to(float)(val[0])
-        and convertible_to(float)(val[1]))
+def valid_type(typ, name):
+    return partial(field_validator,
+        test=convertible_to(typ),
+        message='"{field}" should be %s, not "{value}"' % name)
 
 
-valid_location = partial(field_validator,
-    test=is_valid_location,
-    message='"{value}" is not a valid location')
-
-
-valid_int = partial(field_validator,
-    test=convertible_to(int),
-    message='"{field}" should be an integer, not "{value}"')
-
-
-valid_string = partial(field_validator,
-    test=convertible_to(unicode),
-    message='"{field}" should be a string, not "{value}"')
-
-
-valid_timestamp = partial(field_validator,
-    # check if geotrack will be able to handle the value
-    test=convertible_to(extract_timestamp),
-    message='"{value}" is not a valid timestamp')
+valid_int = valid_type(int, 'an integer')
+valid_float = valid_type(float, 'a floating point number')
+valid_string = valid_type(unicode, 'a string')

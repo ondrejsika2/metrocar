@@ -4,7 +4,7 @@ from djangosanetesting.cases import UnitTestCase
 
 from metrocar.utils.validation import validate, check, validate_each
 from metrocar.utils.validation import valid_int, optional
-from metrocar.utils.validation import is_valid_location, required, OK
+from metrocar.utils.validation import required, OK
 
 
 class TestValidation(UnitTestCase):
@@ -43,15 +43,6 @@ class TestValidation(UnitTestCase):
         d = 123
         f = validate_each(check(X > 0))
         self.assertEqual(f(d), (False, '"123" is not iterable'))
-
-
-class TestValidLocation(UnitTestCase):
-
-    def test_valid(self):
-        self.assertTrue(is_valid_location([10, -20.123]))
-
-    def test_invalid(self):
-        self.assertFalse(is_valid_location(['asdf', 123]))
 
 
 class TestRequired(UnitTestCase):
