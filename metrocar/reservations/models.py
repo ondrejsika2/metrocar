@@ -23,28 +23,18 @@ class ReservationError(Exception):
 
 
 class Reservation(models.Model):
-    cancelled = models.BooleanField(blank=False, null=False, default=False,
-        verbose_name=_('Cancelled'))
-    comment = models.TextField(blank=True, null=False, default='',
-        verbose_name=_('Comment'))
-    created = models.DateTimeField(blank=False, null=False, editable=False,
-        verbose_name=_('Created'))
-    ended = models.DateTimeField(blank=True, null=True, verbose_name=_('Ended'))
-    finished = models.BooleanField(blank=False, null=False, editable=False,
-        default=False, verbose_name=_('Finished'))
-    is_service = models.BooleanField(blank=False, null=False, default=False,
-        verbose_name=_('Is service'))
-    modified = models.DateTimeField(blank=False, null=False, editable=False,
-        verbose_name=_('Modified'))
-    price = models.DecimalField(decimal_places=3, max_digits=8, blank=False,
-        null=False, editable=False, default=0,verbose_name=_('Price'))
-    reserved_from = models.DateTimeField(blank=False, null=False,
-        verbose_name=_('Reserved from'))
-    reserved_until = models.DateTimeField(blank=False, null=False,
-        verbose_name=_('Reserved until'))
-    started = models.DateTimeField(blank=True, null=True,
-        verbose_name=_('Started'))
-
+    cancelled = models.BooleanField(_('Cancelled'), default=False)
+    comment = models.TextField(_('Comment'), blank=True, null=False, default='')
+    created = models.DateTimeField(_('Created'), editable=False)
+    ended = models.DateTimeField(_('Ended'), blank=True, null=True)
+    finished = models.BooleanField(_('Finished'), editable=False, default=False)
+    is_service = models.BooleanField(_('Is service'), default=False)
+    modified = models.DateTimeField(_('Modified'), editable=False)
+    price = models.DecimalField(_('Price'), decimal_places=3, max_digits=8,
+        editable=False, default=0)
+    reserved_from = models.DateTimeField(_('Reserved from'))
+    reserved_until = models.DateTimeField(_('Reserved until'))
+    started = models.DateTimeField(_('Started'), blank=True, null=True)
     user = models.ForeignKey(MetrocarUser, verbose_name=_('User'),
         related_name='reservations')
     car = models.ForeignKey('cars.Car', verbose_name=_('Car'),
@@ -400,11 +390,10 @@ class Reservation(models.Model):
         journeys = Journey.objects.filter(reservation=self)
         return len(journeys) > 0
 
+
 class ReservationReminder(models.Model):
-    datetime = models.DateTimeField(blank=False, null=False,
-        verbose_name=_('Date time'))
-    sent = models.BooleanField(blank=False, null=False, editable=False,
-        default=False, verbose_name=_('Sent'))
+    datetime = models.DateTimeField(_('Date time'))
+    sent = models.BooleanField(_('Sent'), editable=False, default=False)
 
     reservation = models.OneToOneField(Reservation, verbose_name=_('Reservation'))
 
@@ -425,6 +414,7 @@ class ReservationReminder(models.Model):
 
         self.sent = True
         self.save()
+
 
 class ReservationBill(AccountActivity):
     reservation = models.ForeignKey(Reservation, verbose_name=_('Reservation'))
