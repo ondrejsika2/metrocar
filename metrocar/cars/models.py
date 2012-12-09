@@ -119,8 +119,6 @@ class Car(models.Model):
     last_address = models.CharField(_('Last address'), max_length=255,
         null=True, blank=True)
 
-    objects = managers.CarManager()
-
     class Meta:
         verbose_name = _('Car')
         verbose_name_plural = _('Cars')

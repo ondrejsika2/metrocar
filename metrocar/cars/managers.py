@@ -1,5 +1,4 @@
 from datetime import datetime
-import hashlib
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -8,37 +7,6 @@ from django.db.transaction import commit_on_success
 from metrocar.reservations.models import Reservation
 from metrocar.user_management.models import UserCard
 
-
-class CarManager(models.Manager):
-#    def get_query_set(self):
-#        """
-#        Return only cars from home subsidiary by default
-#        """
-#        from metrocar.utils.models import SiteSettings
-#        current_subsidiary = SiteSettings.objects.get_current()
-#        return super(CarManager, self).get_query_set().filter(home_subsidiary=current_subsidiary)
-#
-#    def get_all(self):
-#        """
-#        Returns all cars (not just local ones)
-#        """
-#        return super(CarManager, self).get_query_set()
-
-    def authenticate(self, imei, authorization_key):
-        """
-        Tries to authenticate car unit by using given imei and authorization key
-        """
-        try:
-            car = self.get_query_set().get(imei=imei)
-            if car.authorization_key == self.make_auth_key(authorization_key):
-                return car
-        except:
-            pass
-        return False
-
-    @classmethod
-    def make_auth_key(cls, password):
-        return hashlib.sha1(password).hexdigest()
 
 class JourneyManager(models.Manager):
     @commit_on_success
