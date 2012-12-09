@@ -11,6 +11,16 @@ from geotrack.api import query
 from metrocar.cars.models import Car
 
 
+class Events:
+    """
+    Possible values of LogEntry.event
+    """
+    UNLOCKED = 'UNLOCKED'
+    LOCKED = 'LOCKED'
+    ENGINE_ON = 'ENGINE_ON'
+    ENGINE_OFF = 'ENGINE_OFF'
+
+
 generate_key = partial(get_random_string, 50,
     'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
 
@@ -68,4 +78,8 @@ if settings.GEO_ENABLED:
         A model for storing logs from car units in Geotrack.
         """
         event = models.CharField(max_length=30, db_index=True,
+            null=True, blank=True)
+
+        user_id = models.IntegerField(null=True, blank=True, db_index=True)
+        odometer = models.DecimalField(decimal_places=2, max_digits=8,
             null=True, blank=True)

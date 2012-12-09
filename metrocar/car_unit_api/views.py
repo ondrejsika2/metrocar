@@ -19,6 +19,9 @@ class StoreLog(APICall):
             required('timestamp', valid_timestamp),
             required('location', valid_location),
             optional('event', valid_string),
+            # TODO:
+            # optional('user_id', valid_user_id),
+            # optional('odometer', valid_float),
         ),
     )
 
