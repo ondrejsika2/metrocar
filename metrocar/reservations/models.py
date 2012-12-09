@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _, ngettext
 from metrocar.reservations import managers
 from metrocar.user_management.models import MetrocarUser, AccountActivity
 from metrocar.utils.models import SiteSettings
-from metrocar.utils.geo import get_car_last_position
+from metrocar.utils.geo import get_car_last_position, create_journeys
 
 
 RESERVATION_TIME_SHIFT = settings.RESERVATION_TIME_SHIFT
@@ -181,7 +181,8 @@ class Reservation(models.Model):
             # is there a Parking that contains car's last_position?
             return (self.car > maybe
                 | get_car_last_position
-                | 'POINT ({location[1]} {location[0]})'
+                | X['location']
+                | 'POINT ({0} {1})'
                 | xcurry(Parking.objects.filter, polygon__contains=X)
                 | X.exists())
 
@@ -372,6 +373,14 @@ class Reservation(models.Model):
         from metrocar.cars.models import Journey
         if self.finished: return True
         if self.ready_to_finish() or by_daemon:
+
+            if not self.has_journey() and self.GEO_ENABLED:
+                # create Journeys from Geotrack log entries
+                create_journeys(
+                    start=self.started,
+                    end=finish_datetime,
+                    car=self.car,
+                    user=self.user)
 
             # normalize journey objects (splitting, filling up etc.)
             if normalize_journeys:
