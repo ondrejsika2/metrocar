@@ -1,3 +1,4 @@
+from decimal import Decimal
 from functools import partial
 from pipetools import maybe, unless
 
@@ -83,3 +84,8 @@ if settings.GEO_ENABLED:
         user_id = models.IntegerField(null=True, blank=True, db_index=True)
         odometer = models.DecimalField(decimal_places=2, max_digits=8,
             null=True, blank=True)
+
+        def save(self, *args, **kwargs):
+            # odometer value could be float, which would cause an error, so...
+            self.odometer = self.odometer > maybe | str | Decimal
+            super(LogEntry, self).save(*args, **kwargs)

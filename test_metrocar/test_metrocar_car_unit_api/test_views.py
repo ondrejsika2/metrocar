@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from decimal import Decimal
 
 from djangosanetesting.cases import DatabaseTestCase
 
@@ -31,7 +32,8 @@ class TestStoreLogDataValidation(DatabaseTestCase):
                 {
                     "timestamp": "2012-10-27T17:18:38.638Z",
                     "location": [50.05323, 14.45277],
-                    "event": "UNLOCKED"
+                    "event": "UNLOCKED",
+                    "odometer": 98746.12
                 },
                 {
                     "timestamp": "2012-10-27T17:18:39",
@@ -47,6 +49,8 @@ class TestStoreLogDataValidation(DatabaseTestCase):
 
         response = self.view(request)
 
+        print response.content
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(re.sub('\s+', '', response.content), '{"status":"ok"}')
 
@@ -59,6 +63,7 @@ class TestStoreLogDataValidation(DatabaseTestCase):
             datetime(2012, 10, 27, 17, 18, 38, 638000))
         self.assertEqual(stored[0]['location'], (50.05323, 14.45277))
         self.assertEqual(stored[0]['event'], 'UNLOCKED')
+        self.assertEqual(stored[0]['odometer'], Decimal('98746.12'))
 
         self.assertEqual(stored[1]['unit_id'], self.unit.unit_id)
         self.assertEqual(stored[1]['timestamp'],
