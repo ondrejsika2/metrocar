@@ -443,6 +443,7 @@ class Journey(models.Model):
     car = models.ForeignKey(Car,  verbose_name=_('Car'))
     user = models.ForeignKey(MetrocarUser,  verbose_name=_('User'))
 
+    # TODO: rename (or delete?)
     speedometer_start = models.IntegerField(null=True, verbose_name=_('Speedometer start state'),
                                             blank=True)
 
