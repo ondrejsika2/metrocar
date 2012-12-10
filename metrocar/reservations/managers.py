@@ -93,6 +93,14 @@ class ReservationManager(models.Manager):
         datetime_limit = datetime.now() - timedelta(seconds=cancel_interval)
         return self.get_query_set().filter(reserved_from__lte=datetime_limit)
 
+    def get_upcoming(self, car):
+        """
+        Returns upcoming reservations for given `car`
+        """
+        return (self.get_query_set()
+            .filter(car=car, reserved_until__gte=datetime.now())
+            .order_by('reserved_from'))
+
 
 class ReservationReminderManager(models.Manager):
     def create_for_reservation(self, reservation, datetime):

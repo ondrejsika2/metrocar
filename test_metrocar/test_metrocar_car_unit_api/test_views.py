@@ -2,12 +2,12 @@ import re
 from datetime import datetime
 from decimal import Decimal
 
-from djangosanetesting.cases import DatabaseTestCase
+from djangosanetesting.cases import DatabaseTestCase, UnitTestCase
 
 import geotrack.api
 
 from metrocar.car_unit_api.testing_data import unit
-from metrocar.car_unit_api.views import StoreLog
+from metrocar.car_unit_api.views import StoreLog, get_upcoming_reservations, reservation_user_data, reservation_data_for_car_unit
 from metrocar.utils import Bunch
 
 from test_metrocar.helpers import skipIfNotGeoEnabled
@@ -102,3 +102,30 @@ class TestStoreLogDataValidation(DatabaseTestCase):
         stored = geotrack.api.query('all')
 
         self.assertEqual(len(stored), 0)
+
+
+class TestReservationData(UnitTestCase):
+
+    def setUp(self):
+        self.pw_hash = 'asdfadfa:sadfad:sdafafda'
+        self.reservation = Bunch(
+            user=Bunch(
+                id=1234,
+                password=self.pw_hash,
+            ),
+            reserved_from=datetime(2012, 12, 12, 12, 12),
+            reserved_until=datetime(2012, 12, 12, 12, 13),
+        )
+
+    def test_user_data(self):
+        self.assertEqual(reservation_user_data(self.reservation.user), {
+            'id': 1234,
+            'password': self.pw_hash,
+        })
+
+    def test_reservation_data(self):
+        self.assertEqual(reservation_data_for_car_unit(self.reservation), {
+            'user': reservation_user_data(self.reservation.user),
+            'start': datetime(2012, 12, 12, 12, 12),
+            'end': datetime(2012, 12, 12, 12, 13),
+        })

@@ -187,6 +187,7 @@ class Car(models.Model):
         except Journey.DoesNotExist:
             return None
 
+    # TODO: this doesn't belong here
     def get_upcoming_reservations(self, format='json'):
         """
         Returns JSON object with reservation events suitable for using in
