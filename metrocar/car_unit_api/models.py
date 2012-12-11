@@ -84,6 +84,9 @@ if settings.GEO_ENABLED:
         user_id = models.IntegerField(null=True, blank=True, db_index=True)
         odometer = models.DecimalField(decimal_places=2, max_digits=8,
             null=True, blank=True)
+        velocity = models.FloatField(null=True, blank=True)
+        consumption = models.FloatField(null=True, blank=True)
+        fuel_remaining = models.FloatField(null=True, blank=True)
 
         def save(self, *args, **kwargs):
             # odometer value could be float, which would cause an error, so...

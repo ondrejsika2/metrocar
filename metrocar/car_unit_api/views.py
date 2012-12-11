@@ -25,6 +25,9 @@ class StoreLog(APICall):
             optional('event', valid_string),
             optional('user_id', valid_user_id),
             optional('odometer', valid_float),
+            optional('velocity', valid_float),
+            optional('consumption', valid_float),
+            optional('fuel_remaining', valid_float),
         ),
     )
 

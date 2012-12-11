@@ -300,12 +300,20 @@ class TestGetJourneyData(DatabaseTestCase):
             end=datetime(2012, 12, 13),
             unit_id=123)
 
-        def remove_added(entry):
-            "remove the `added` key for easier comparisons"
-            return entry.iteritems() > where(KEY != 'added') | dict
+        def only_take_keys(*keys):
+            return X.iteritems() | where(KEY._in_(keys)) | dict
 
+        # we'll trim the result to only a certain set of keys in the entries,
+        # so this test doesn't break whenever a new field is added to the model
         result = result > foreach({
-            'entries': X['entries'] | foreach(remove_added) | list,
+            'entries': X['entries'] | foreach(only_take_keys(
+                'event',
+                'location',
+                'odometer',
+                'timestamp',
+                'unit_id',
+                'user_id'
+            )) | list,
             'events': X['events'],
         }) | list
 
