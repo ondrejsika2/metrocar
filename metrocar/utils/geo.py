@@ -95,16 +95,34 @@ def split_by_idle_time(journey, entry, idle_after=timedelta(minutes=10)):
     return (t1 + idle_after) < t2
 
 
-def get_journey_data(start, end, unit_id, reducer=None, split_by=None):
+def split_by_any(*functions):
+    """
+    Returns a `split_by` function for `journey_splitter` that returns True
+    if any of `functions` do.
+    """
+    def splitter(*args, **kwargs):
+        for f in functions:
+            if f(*args, **kwargs):
+                return True
+    return splitter
+
+
+def split_entry_data_to_journeys(entries, reducer=None, split_by=None):
+    """
+    Splits Geotrack data to journey-segments using `reducer`.
+    """
+    split_by = split_by or split_by_any(split_by_events, split_by_idle_time)
+    reducer = reducer or partial(journey_splitter, split_by=split_by)
+    return reduce(reducer, entries, [])
+
+
+def get_journey_data(start, end, unit_id, **splitter_kwargs):
     """
     Extracts data from Geotrack for `start`, `end` and `unit_id` and splits
-    them into journey-fragments using `reducer`.
+    them into journey-segments.
     """
-    split_by = split_by or split_by_idle_time
-    reducer = reducer or partial(journey_splitter, split_by=split_by)
-
     entries = geotrack.api.query('all', start=start, end=end, units=[unit_id])
-    return reduce(reducer, entries, [])
+    return split_entry_data_to_journeys(entries, **splitter_kwargs)
 
 
 def distance(entries):
@@ -155,7 +173,7 @@ def create_journeys(start, end, car, user=None, split_by=None, **kwargs):
     if not unit:
         raise ImproperlyConfigured("No CarUnit associated with %s" % car)
 
-    return (get_journey_data(start, end, unit.unit_id, split_by) > pipe
+    return (get_journey_data(start, end, unit.unit_id, split_by=split_by) > pipe
         | foreach(X['entries'])
         | foreach(create_journey, car=car, user=user, **kwargs)
         | tuple)
