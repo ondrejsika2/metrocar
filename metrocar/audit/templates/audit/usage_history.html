@@ -1,0 +1,49 @@
+{% extends "admin/base_site.html" %}
+{% load url from future %}
+{% load i18n %}
+{# {% load map from open_layers %} #}
+
+{% block content %}
+	<style>
+	#app .map {width: 900px; height: 600px;}
+	.ui-datepicker  {z-index: 100000 !important;}
+	</style>
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/flick/jquery-ui-1.9.2.custom.min.css"/>
+
+
+<div id="app">
+
+	<div class="unit-select">
+		{% if units %}
+		<select>
+			<option value="">{% trans "(Select car unit)" %}</option>
+			{% for unit in units %}
+				<option value="{{ unit.unit_id }}">{{ unit }}</option>
+			{% endfor %}
+		</select>
+		{% else %}
+			<p>{% trans "No car units found." %} <a href="{% url 'admin:car_unit_api_carunit_add' %}">{% trans "You can add them here" %}.</a></p>
+		{% endif %}
+	</div>
+
+	<div class="start-cal"><label>{% trans "From" %} <input type="text" /> </label></div>
+
+	<div class="end-cal"><label>{% trans "Till" %} <input type="text" /> </label></div>
+
+	<div class="map"></div>
+
+</div>
+
+<script src="{{ STATIC_URL }}js/require.js"></script>
+<script src="{{ STATIC_URL }}js/require-config.js"></script>
+<script>
+requirejs.config({config: {
+	'audit/usagehistory/views': {
+		'rootUrl': "{% url 'admin:usage_history' %}",
+		'queryUrl': "{% url 'admin:usage_history_query' %}"
+	}}
+})
+</script>
+<script src="{{ STATIC_URL }}js/audit/usagehistory/main.js"></script>
+{% endblock content %}
+
