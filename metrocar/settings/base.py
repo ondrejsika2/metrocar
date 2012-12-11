@@ -163,6 +163,7 @@ INSTALLED_APPS_IF_GEO_ENABLED = (
 GEOTRACK = {
     'BACKEND': 'geotrack.backends.geodjango',
     'MODEL': 'car_unit_api.LogEntry',
+    'QUERY_PACKAGES': 'metrocar.utils.geotrack_queries',
 }
 
 
