@@ -2,9 +2,9 @@ from pipetools import X
 
 from djangosanetesting.cases import UnitTestCase
 
-from metrocar.car_unit_api.validation import validate, check, validate_each
-from metrocar.car_unit_api.validation import valid_int, optional
-from metrocar.car_unit_api.validation import is_valid_location, required, OK
+from metrocar.utils.validation import validate, check, validate_each
+from metrocar.utils.validation import valid_int, optional
+from metrocar.utils.validation import is_valid_location, required, OK
 
 
 class TestValidation(UnitTestCase):
