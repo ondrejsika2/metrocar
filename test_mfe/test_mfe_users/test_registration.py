@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from django.test import LiveServerTestCase
 from django.utils.unittest import SkipTest
 
@@ -20,9 +22,9 @@ class TestRegistration(LiveServerTestCase):
         self.browser.quit()
 
     def test_registration(self):
-        self.browser.get(self.live_server_url + '/registration/')
+        self.browser.get(self.live_server_url + '/registrace/')
         headings = self.browser.find_elements_by_tag_name('h1')
-        self.assertEquals(headings[1].text, 'Registration')
+        self.assertEquals(headings[1].text, 'Registrace')
         username_field = self.browser.find_element_by_id('id_username')
         username_field.send_keys('testUser')
         password_field = self.browser.find_element_by_id('id_password')
@@ -44,7 +46,8 @@ class TestRegistration(LiveServerTestCase):
         identity_card_number_field = self.browser.find_element_by_id('id_identity_card_number')
         identity_card_number_field.send_keys('123123123')
         identity_card_number_field.send_keys(Keys.RETURN)
-        succes_value = u"You have been successfully registered. You will be sent an e-mail as soon as our administrators validate your registration request."
+        succes_value = u"Registrace byla úspěšná. Děkujeme za váš zájem. Jakmile naši administrátoři ověří váš požadavek, bude vám zaslán email."
+
         succes = self.browser.find_element_by_css_selector("li[class='success']")
 
         self.assertEquals(succes.text, succes_value)
