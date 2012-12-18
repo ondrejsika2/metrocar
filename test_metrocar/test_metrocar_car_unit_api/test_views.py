@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 from djangosanetesting.cases import DatabaseTestCase, UnitTestCase
@@ -7,8 +7,11 @@ from djangosanetesting.cases import DatabaseTestCase, UnitTestCase
 import geotrack.api
 
 from metrocar.car_unit_api.testing_data import unit
-from metrocar.car_unit_api.views import StoreLog, get_upcoming_reservations, reservation_user_data, reservation_data_for_car_unit
+from metrocar.car_unit_api.views import StoreLog, get_upcoming_reservations, reservation_user_data, reservation_data_for_car_unit, Reservations
+from metrocar.reservations.models import Reservation
 from metrocar.utils import Bunch
+from metrocar.cars import testing_data as cars_testing_data
+from metrocar.user_management.testing_data import create_user
 
 from test_metrocar.helpers import skipIfNotGeoEnabled
 
@@ -129,3 +132,54 @@ class TestReservationData(UnitTestCase):
             'start': datetime(2012, 12, 12, 12, 12),
             'end': datetime(2012, 12, 12, 12, 13),
         })
+
+
+class TestReservationsView(DatabaseTestCase):
+
+    @skipIfNotGeoEnabled
+    def setUp(self):
+        self.car = cars_testing_data.create()['cars'][0]
+        self.unit = unit(123, car=self.car)
+        self.user = create_user('asdf', 'asdf', 'First', 'Last')
+        self.reservation = Reservation.objects.create(
+            reserved_from=datetime.now() + timedelta(days=1),
+            reserved_until=datetime.now() + timedelta(days=1, hours=4),
+            user=self.user,
+            car=self.car,
+        )
+
+    def tearDown(self):
+        self.reservation.delete()
+        self.user.delete()
+        self.unit.delete()
+
+    @property
+    def view(self):
+        return Reservations.as_view()
+
+    def test_request(self):
+        data = """{
+            "unit_id": %(unit_id)s,
+            "secret_key": "%(secret_key)s",
+            "entries": [
+                {
+                    "timestamp": "2012-10-27T17:18:38.638Z",
+                    "location": [50.05323, 14.45277],
+                    "event": "UNLOCKED",
+                    "odometer": 98746.12
+                },
+                {
+                    "timestamp": "2012-10-27T17:18:39",
+                    "location": [50.05323, 14.45276]
+                }
+            ]
+        }""" % dict(unit_id=self.unit.unit_id, secret_key=self.unit.secret_key)
+
+        request = Bunch(
+            method='GET',
+            body=data,
+        )
+
+        response = self.view(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('"status": "ok"', response.content)
