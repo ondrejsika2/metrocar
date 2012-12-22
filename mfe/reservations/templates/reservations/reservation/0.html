@@ -37,7 +37,7 @@
 <p>Please choose a car below to proceed.</p>
 {% endblocktrans %}
 
-<form action="." method="post">
+<form id='main_form' action="." method="post">
 	{% csrf_token %}
     <div class="float-left">
 	{% for field in form %}
