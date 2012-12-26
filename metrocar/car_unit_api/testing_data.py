@@ -13,5 +13,10 @@ def create():
             unit(123, cars[0]),
             unit(456, cars[1]),
             unit(789, cars[2]),
+            unit(147, cars[3]),
+            unit(258, cars[4]),
+            unit(369, cars[5]),
+            unit(753, cars[6]),
+            unit(951, cars[7]),
         ]
     }
