@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 
     (r'^invoices/', include('metrocar.invoices.urls.backend')),
 
+    (r'^tests/', include('metrocar.tests.urls')),
+
     (r'^', include(admin.site.urls)),
 )
 

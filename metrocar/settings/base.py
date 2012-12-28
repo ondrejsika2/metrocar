@@ -115,8 +115,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
@@ -147,6 +145,8 @@ INSTALLED_APPS = (
     'metrocar.user_management',
     'metrocar.utils',
     'metrocar.utils.flatpagesmeta',
+
+    'metrocar.tests',
 )
 
 # Will this instance make use of geo-data from car units
@@ -163,7 +163,7 @@ INSTALLED_APPS_IF_GEO_ENABLED = (
 GEOTRACK = {
     'BACKEND': 'geotrack.backends.geodjango',
     'MODEL': 'car_unit_api.LogEntry',
-    'QUERY_PACKAGES': 'metrocar.utils.geotrack_queries',
+    'QUERY_PACKAGES': 'metrocar.utils.geo.queries',
 }
 
 
