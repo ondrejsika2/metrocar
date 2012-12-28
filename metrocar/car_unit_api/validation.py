@@ -16,17 +16,6 @@ valid_timestamp = partial(field_validator,
     message='"{value}" is not a valid timestamp')
 
 
-def is_valid_location(val):
-    return (len(val) == 2
-        and convertible_to(float)(val[0])
-        and convertible_to(float)(val[1]))
-
-
-valid_location = partial(field_validator,
-    test=is_valid_location,
-    message='"{value}" is not a valid location')
-
-
 # TODO: some caching would be in order in case of higher loads, as these get
 # called on every request
 

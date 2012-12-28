@@ -4,10 +4,11 @@ from pipetools import pipe, X, foreach
 import geotrack
 
 from metrocar.car_unit_api.models import CarUnit
-from metrocar.car_unit_api.utils import authenticate
-from metrocar.car_unit_api.validation import valid_timestamp, valid_location, valid_user_id
+from metrocar.car_unit_api.utils import authenticate, update_car_status
+from metrocar.car_unit_api.validation import valid_timestamp, valid_user_id
 from metrocar.reservations.models import Reservation
 from metrocar.utils.apis import APICall, parse_json, process_request, validate_request
+from metrocar.utils.geo.validation import valid_location
 from metrocar.utils.validation import required, optional, validate_each, valid_int, valid_string, valid_float
 
 
@@ -28,6 +29,10 @@ class StoreLog(APICall):
             optional('velocity', valid_float),
             optional('consumption', valid_float),
             optional('fuel_remaining', valid_float),
+            optional('altitude', valid_float),
+            optional('engine_temp', valid_float),
+            optional('engine_rpm', valid_float),
+            optional('throttle', valid_float),
         ),
     )
 
@@ -36,11 +41,18 @@ class StoreLog(APICall):
         | authenticate
         | (validate_request, rules))
     def post(self, request, data):
-
-        for entry in data['entries']:
-            geotrack.api.store(unit_id=data['unit_id'], **entry)
-
+        store(data['unit_id'], data['entries'])
         return {'status': 'ok'}
+
+
+def store(unit_id, entries):
+    """
+    The actual storing action. Assumes valid data.
+    """
+    for entry in entries:
+        geotrack.api.store(unit_id=unit_id, **entry)
+
+    update_car_status(unit_id, entries)
 
 
 class Reservations(APICall):
