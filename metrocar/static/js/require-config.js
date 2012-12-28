@@ -23,10 +23,6 @@
         deps: ['underscore', 'jquery'],
         exports: 'Backbone'
       },
-      coffeekup: {
-        deps: ['coffee-script'],
-        exports: 'CoffeeKup'
-      },
       rickshaw: {
         deps: ['d3'],
         exports: 'Rickshaw'
