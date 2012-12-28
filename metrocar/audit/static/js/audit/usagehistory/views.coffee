@@ -1,30 +1,20 @@
-define [
-  'module'
-  'underscore'
-  'backbone'
-  'jquery'
-  'moment'
-  'rickshaw'
-  'maps/ol'
-  'maps/utils'
-  'audit/usagehistory/router'
-  'audit/usagehistory/templates'
-  'audit/usagehistory/utils'
-  'common/views/map'
-  'jquery-ui'
-], (module, _, Backbone, $, moment, Rickshaw, OLMap, map_utils, Router, templates, utils, MapView) ->
-
-  console.log 'graphsetTpl', templates.graphRow
-  console.log templates.graphRow caption: 'hellp'
-
-  config = module.config()
-
-  {boundsToPolygon, polygonToBounds} = map_utils
-  {extractGraphData} = utils
+define (require) ->
+  $ = require 'jquery'
+  _ = require 'underscore'
+  Backbone = require 'backbone'
+  config = require('module').config()
+  MapView = require 'common/views/map'
+  moment = require 'moment'
+  OLMap = require 'maps/ol'
+  Rickshaw = require 'rickshaw'
+  Router = require 'audit/usagehistory/router'
+  templates = require 'audit/usagehistory/templates'
+  {boundsToPolygon, polygonToBounds} = require 'maps/utils'
+  {extractGraphData} = require 'audit/usagehistory/utils'
+  require 'jquery-ui'
 
   encodeQuery = (object) -> encodeURIComponent JSON.stringify object
   decodeQuery = (string) -> JSON.parse decodeURIComponent string
-
 
   class UnitSelect extends Backbone.View
 

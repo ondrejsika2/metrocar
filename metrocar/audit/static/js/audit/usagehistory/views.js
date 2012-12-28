@@ -6,15 +6,21 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __slice = [].slice;
 
-  define(['module', 'underscore', 'backbone', 'jquery', 'moment', 'rickshaw', 'maps/ol', 'maps/utils', 'audit/usagehistory/router', 'audit/usagehistory/templates', 'audit/usagehistory/utils', 'common/views/map', 'jquery-ui'], function(module, _, Backbone, $, moment, Rickshaw, OLMap, map_utils, Router, templates, utils, MapView) {
-    var App, Calendar, Graph, GraphRow, GraphSet, Map, UnitSelect, boundsToPolygon, config, decodeQuery, encodeQuery, extractGraphData, marker, polygonToBounds, timeToInt;
-    console.log('graphsetTpl', templates.graphRow);
-    console.log(templates.graphRow({
-      caption: 'hellp'
-    }));
-    config = module.config();
-    boundsToPolygon = map_utils.boundsToPolygon, polygonToBounds = map_utils.polygonToBounds;
-    extractGraphData = utils.extractGraphData;
+  define(function(require) {
+    var $, App, Backbone, Calendar, Graph, GraphRow, GraphSet, Map, MapView, OLMap, Rickshaw, Router, UnitSelect, boundsToPolygon, config, decodeQuery, encodeQuery, extractGraphData, marker, moment, polygonToBounds, templates, timeToInt, _, _ref;
+    $ = require('jquery');
+    _ = require('underscore');
+    Backbone = require('backbone');
+    config = require('module').config();
+    MapView = require('common/views/map');
+    moment = require('moment');
+    OLMap = require('maps/ol');
+    Rickshaw = require('rickshaw');
+    Router = require('audit/usagehistory/router');
+    templates = require('audit/usagehistory/templates');
+    _ref = require('maps/utils'), boundsToPolygon = _ref.boundsToPolygon, polygonToBounds = _ref.polygonToBounds;
+    extractGraphData = require('audit/usagehistory/utils').extractGraphData;
+    require('jquery-ui');
     encodeQuery = function(object) {
       return encodeURIComponent(JSON.stringify(object));
     };
@@ -75,8 +81,8 @@
         this.input = this.$('input');
         return this.input.datepicker({
           onSelect: function() {
-            var _ref;
-            _this.input.val(((_ref = _this.input.datepicker('getDate')) != null ? _ref.toISOString() : void 0) || '');
+            var _ref1;
+            _this.input.val(((_ref1 = _this.input.datepicker('getDate')) != null ? _ref1.toISOString() : void 0) || '');
             return _this.changed();
           }
         });
@@ -99,11 +105,11 @@
       var entry, exclude, k, rows, tables, v;
       exclude = ['unit_id'];
       tables = (function() {
-        var _i, _len, _ref, _results;
-        _ref = data.entries;
+        var _i, _len, _ref1, _results;
+        _ref1 = data.entries;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          entry = _ref[_i];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          entry = _ref1[_i];
           rows = ((function() {
             var _results1;
             _results1 = [];
@@ -300,10 +306,10 @@
       };
 
       Graph.prototype.processValues = function(values) {
-        var timestamp, value, _i, _len, _ref, _results;
+        var timestamp, value, _i, _len, _ref1, _results;
         _results = [];
         for (_i = 0, _len = values.length; _i < _len; _i++) {
-          _ref = values[_i], value = _ref.value, timestamp = _ref.timestamp;
+          _ref1 = values[_i], value = _ref1.value, timestamp = _ref1.timestamp;
           _results.push({
             x: timeToInt(timestamp),
             y: value
@@ -326,7 +332,7 @@
       }
 
       App.prototype.initialize = function() {
-        var name, widget, _fn, _ref,
+        var name, widget, _fn, _ref1,
           _this = this;
         this.map = new Map({
           el: this.$('.map'),
@@ -348,14 +354,14 @@
           in_polygon: this.map
         };
         this.setupRouter();
-        _ref = this.controls;
+        _ref1 = this.controls;
         _fn = function(name, widget) {
           return widget.on('change', function() {
             return _this.processCurrentSettings();
           });
         };
-        for (name in _ref) {
-          widget = _ref[name];
+        for (name in _ref1) {
+          widget = _ref1[name];
           _fn(name, widget);
         }
         this.requestId = 0;
@@ -377,11 +383,11 @@
       };
 
       App.prototype.constructQuery = function() {
-        var name, q, widget, _ref;
+        var name, q, widget, _ref1;
         q = {};
-        _ref = this.controls;
-        for (name in _ref) {
-          widget = _ref[name];
+        _ref1 = this.controls;
+        for (name in _ref1) {
+          widget = _ref1[name];
           q[name] = widget.getValue();
         }
         return q;

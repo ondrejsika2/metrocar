@@ -59,7 +59,6 @@
           MapModule: OLMap
         });
         this.map.on('change', function() {
-          console.log('map change occured');
           return _this.update();
         });
         this.showAll();

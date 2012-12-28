@@ -28,9 +28,7 @@ define [
 
     initialize: ->
       @map = new Map el: @$('.map'), MapModule: OLMap
-      @map.on 'change', =>
-        console.log 'map change occured'
-        @update()
+      @map.on 'change', => @update()
       @showAll()
 
       @carSelect = new Select el: @$('.car-select')
