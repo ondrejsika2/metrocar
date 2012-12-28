@@ -24,7 +24,7 @@ class ReservationError(Exception):
 
 class Reservation(models.Model):
     cancelled = models.BooleanField(_('Cancelled'), default=False)
-    comment = models.TextField(_('Comment'), blank=True, null=False, default='')
+    comment = models.TextField(_('Comment'), blank=True, default='')
     created = models.DateTimeField(_('Created'), editable=False)
     ended = models.DateTimeField(_('Ended'), blank=True, null=True)
     finished = models.BooleanField(_('Finished'), editable=False, default=False)
