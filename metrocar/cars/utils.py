@@ -1,5 +1,6 @@
 # encoding: utf-8
 from datetime import datetime
+from pipetools import maybe, foreach, X
 
 from django.conf import settings
 
@@ -44,6 +45,29 @@ def get_map_for_geometry(geometry, width, height):
             'map_div_style': {'width': width, 'height': height}
          }
     )
+
+
+# TODO: smarter grouping....
+
+def get_grouping_precision(bounds):
+    x_min = min(x for (x, y) in bounds)
+    x_max = max(x for (x, y) in bounds)
+    dx = x_max - x_min
+    return (
+        20 if dx < .12 else
+        2 if dx < .5 else
+        1 if dx < 1.5 else
+        0)
+
+
+def grouping_precision(location, bounds=None, default=2):
+    """
+    Limit `location` precision to a level suitable for grouping locations
+    for a view of given bounds (polygon). If no bounds given `default`
+    precision will be used.
+    """
+    precision = get_grouping_precision(bounds) if bounds else default
+    return tuple((round((n * 5), precision) / 5) for n in location)
 
 
 # model factories:

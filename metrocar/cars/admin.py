@@ -48,6 +48,7 @@ class CarAdmin(OSMGeoAdmin):
     list_filter = ('model', 'color', 'active',)
     fieldsets = (
                  (_('Basic information'), {'fields': ('model', 'registration_number', 'active', 'owner', 'color', 'image', 'home_subsidiary', 'manufacture_date', 'dedicated_parking_only', )}),
+                 (None, {'fields': ('_last_position', 'last_echo', '_last_address')}),
                  )
 
     def changelist_view(self, request, extra_context=None):
