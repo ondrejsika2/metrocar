@@ -1,6 +1,6 @@
 from djangosanetesting.cases import UnitTestCase
 
-from metrocar.utils.geotrack_queries import usage_history
+from metrocar.utils.geo.queries import usage_history
 
 
 class TestUsageHistory(UnitTestCase):

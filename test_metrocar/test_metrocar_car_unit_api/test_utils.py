@@ -1,9 +1,11 @@
+from pipetools import sort_by, X
 
 from djangosanetesting.cases import DatabaseTestCase
 
 from metrocar.utils.apis import InvalidRequest
-from metrocar.car_unit_api.utils import authenticate
+from metrocar.car_unit_api.utils import authenticate, _current_position_data
 from metrocar.car_unit_api.testing_data import unit
+from metrocar.cars import testing_data as cars_testing_data
 
 from test_metrocar.helpers import skipIfNotGeoEnabled
 
@@ -104,3 +106,35 @@ class TestAuthenticate(DatabaseTestCase):
             authenticate(data)
         self.assertEqual(str(ctx.exception), 'Authentication failed '
             '("unit_id" should be an integer, not "asdf").')
+
+
+class TestCurrentPositionData(DatabaseTestCase):
+
+    def test_empty(self):
+        geotrack_data = {}
+        self.assertEqual(tuple(_current_position_data(geotrack_data)), ())
+
+    def test_not_empty(self):
+        car1, car2 = cars_testing_data.create()['cars'][:2]
+        unit1 = unit(123, car1)
+        unit2 = unit(456, car2)
+
+        geotrack_data = {
+            123: {'location': 'LOC1', 'timestamp': 'TS1'},
+            456: {'location': 'LOC2', 'timestamp': 'TS2'},
+        }
+
+        result = _current_position_data(geotrack_data)
+        expected = (
+            {'location': 'LOC1', 'timestamp': 'TS1', 'car': car1},
+            {'location': 'LOC2', 'timestamp': 'TS2', 'car': car2},
+        )
+
+        self.assertEqual(
+            # don't know (or care about) the output order,
+            # so we have to somehow sort them
+            result > sort_by(X['timestamp']) | tuple,
+            expected > sort_by(X['timestamp']) | tuple,
+        )
+        unit1.delete()
+        unit2.delete()
