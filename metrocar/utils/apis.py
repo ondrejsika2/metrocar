@@ -66,6 +66,13 @@ def parse_json(request):
         raise InvalidRequest('Invalid JSON (%s).' % ex)
 
 
+def parse_json_optional(request):
+    """
+    Parse JSON data from a request if there are any.
+    """
+    return parse_json(request) if request.body else None
+
+
 def validate_request(rules, data):
     valid, error = validate(rules)(data)
     if not valid:
