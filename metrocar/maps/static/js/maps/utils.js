@@ -36,6 +36,15 @@
         bottom: min.apply(null, lats),
         top: max.apply(null, lats)
       };
+    },
+    OLTransformLocationTypeFactory: function(type, from, to) {
+      return function(_arg) {
+        var lat, lon, obj;
+        lon = _arg[0], lat = _arg[1];
+        obj = new type(lon, lat);
+        obj.transform(from, to);
+        return obj;
+      };
     }
   });
 

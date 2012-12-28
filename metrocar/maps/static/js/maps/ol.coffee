@@ -5,14 +5,16 @@ requirejs.config
 define [
   'jquery'
   'OpenLayers'
-], ($, OpenLayers) ->
+  'maps/utils'
+], ($, OpenLayers, utils) ->
   {
-    Bounds
     Control
     Feature
     Geometry
+    Icon
     Layer
     Map
+    Marker
     Popup
     Projection
     Style
@@ -25,7 +27,7 @@ define [
     default: new Style
       # pointRadius: 10,
       # fillColor: "#ffcc66",
-      strokeColor: "#ff9933",
+      strokeColor: "#F80101",
       strokeWidth: 5,
       graphicZIndex: 1
     select: new Style
@@ -33,8 +35,22 @@ define [
       strokeColor: "#3399ff",
       graphicZIndex: 2
 
-  # Map constructor:
-  (container) ->
+  OLTransformType = (T, projection) -> (args...) ->
+    obj = new T args...
+    obj.transform WSG84, projection
+    obj
+
+  createPopup = (map, location, content) ->
+    markerPopup = new Popup.FramedCloud "popup",
+      location
+      null
+      content
+      null
+      true
+      -> @destroy()
+    map.addPopup markerPopup, true
+
+  createMap = (container) ->
     console.log 'initializing OL map in', container
     map = new Map()
     map.addLayer osmLayer = new Layer.OSM()
@@ -48,10 +64,11 @@ define [
 
     mapProjection = map.getProjectionObject()
 
-    Point = ([lon, lat]) ->
-      point = new Geometry.Point lon, lat
-      point.transform WSG84, mapProjection
-      point
+    # shortcuts to create OL types that need coordinate transformation
+    typeConstructor = (T) -> OLTransformType T, mapProjection
+    Point = typeConstructor OpenLayers.Geometry.Point
+    LonLat = typeConstructor OpenLayers.LonLat
+    Bounds = typeConstructor OpenLayers.Bounds
 
     markerPopup = null
 
@@ -66,23 +83,12 @@ define [
     map.addControl markerSelect = new Control.SelectFeature markerLayer,
       hover: true
     markerSelect.events.register 'featurehighlighted', map, ({feature}) ->
-      console.log 'markerSelect, featurehighlighted', feature
+      location = feature.geometry.getBounds().getCenterLonLat()
+      content = feature.attributes.content
+      createPopup map, location, content
 
-      markerPopup = new Popup.FramedCloud "markerPopup",
-        feature.geometry.getBounds().getCenterLonLat()
-        null
-        feature.attributes.content
-        null
-        true
-        -> @destroy()
-
-      feature.popup = markerPopup
-      markerPopup.feature = feature
-      map.addPopup markerPopup, true
-
-    # markerSelect.events.register 'featureunhighlighted', map, ->
-    #   if markerPopup
-    #     setTimeout ((popup) -> -> map.removePopup popup)(markerPopup), 500
+    map.addLayer iconMarkerLayer = new Layer.Markers "IconMarkers",
+      rendererOptions: zIndexing: true
 
     API =
       onMoved: (callback) ->
@@ -94,12 +100,12 @@ define [
         bounds
 
       setBounds: ({left, bottom, right, top}) ->
-        bounds = new Bounds left, bottom, right, top
-        bounds.transform WSG84, mapProjection
-        map.zoomToExtent bounds
+        # bounds = new Bounds left, bottom, right, top
+        # bounds.transform WSG84, mapProjection
+        map.zoomToExtent Bounds left, bottom, right, top
 
       drawRoute: (route) ->
-        points = route.map Point
+        points = route.map ([x, y]) -> Point x, y
         line = new Geometry.MultiLineString points[...-1].map (point, i) ->
           new Geometry.LineString [point, points[i + 1]]
 
@@ -107,10 +113,34 @@ define [
         routeLayer.addFeatures [routeFeature]
 
       drawMarker: ({location, content}) ->
-        point = Point location
+        point = Point location...
         marker = new Feature.Vector point, content: content
         markerLayer.addFeatures [marker]
         markerSelect.activate()
+
+      drawIconMarker: ({location, content, icon, size, offset}) ->
+        ###
+        content: HTML content of a pop-up
+        icon: URL to icon image
+        size: [x, y] pixels
+        offset: (optional) [x, y] pixels
+        ###
+        _size = new OpenLayers.Size size...
+        _offset = new OpenLayers.Pixel (offset or [-size[0] / 2, -size[1]])...
+        _icon = new OpenLayers.Icon icon, _size, _offset
+        _location = LonLat location...
+        iconMarkerLayer.addMarker marker = new Marker _location, _icon
+        marker.events.register 'click', map, ->
+          createPopup map, _location, content
+          # markerPopup = new Popup.FramedCloud "markerPopup",
+          #   _location
+          #   null
+          #   content
+          #   null
+          #   true
+          #   -> @destroy()
+
+          # map.addPopup markerPopup, true
 
       drawMarkers: (markers) -> @drawMarker m for m in markers
 
@@ -118,3 +148,12 @@ define [
         if markerPopup then map.removePopup markerPopup
         routeLayer.removeAllFeatures()
         markerLayer.removeAllFeatures()
+        iconMarkerLayer.clearMarkers()
+
+      focus: (locations) ->
+        console.log 'OLMap focus called with', locations
+        API.setBounds utils.polygonToBounds locations
+        # {left, bottom, right, top} = utils.polygonToBounds locations
+        # map.zoomToExtent Bounds left, bottom, right, top
+
+  {createMap}
