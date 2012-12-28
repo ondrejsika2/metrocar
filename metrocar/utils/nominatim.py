@@ -13,19 +13,20 @@ from django.utils.encoding import smart_str
 class NominatimQuerier(object):
     forward_url = 'http://nominatim.openstreetmap.org/search?%s'
     reverse_url = 'http://nominatim.openstreetmap.org/reverse?%s'
-    
+
     def make_query(self, url, params):
         """
         Urlencodes given param dict a performs a query to given url
         """
         f = urllib.urlopen(url % urllib.urlencode(params))
         return simplejson.load(f)
-    
-    def resolve_address(self, lat, lon):
+
+    def resolve_address(self, location):
         """
-        Tries to resolve address for given lat and log and returns result 
+        Tries to resolve address for given location and returns result
         as dictionary.
         """
+        lon, lat = location
         params = {
             'format': 'json',
             'accept-language': settings.LANGUAGE_CODE,
@@ -36,7 +37,7 @@ class NominatimQuerier(object):
             'email': settings.EMAIL_NOMINATIM
         }
         return self.make_query(self.reverse_url, params)
-    
+
     def search_location(self, query):
         """
         Resolves query string in location and returns it as a dictionary
@@ -50,4 +51,4 @@ class NominatimQuerier(object):
             'email': settings.EMAIL_NOMINATIM
         }
         return self.make_query(self.forward_url, params)
-        
+
