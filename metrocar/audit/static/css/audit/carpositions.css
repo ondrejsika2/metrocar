@@ -1,0 +1,13 @@
+#app .map-wrapper {width: 1200px; height: 600px; padding: 5px; border:1px solid #ddd;}
+#app .map {height: 100%;}
+#app .map .olAlphaImg {cursor: pointer;}
+#app .map .car-popup {
+	line-height: 1.8;
+	max-width: 500px;
+	border-bottom: 1px solid #ddd;
+}
+#app .map .car-popup .heading {
+	margin: 0px;
+	font-weight: normal;
+	border-bottom: 1px solid #ddd;
+}

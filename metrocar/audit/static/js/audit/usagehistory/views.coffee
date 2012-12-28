@@ -4,25 +4,26 @@ define [
   'backbone'
   'jquery'
   'moment'
+  'rickshaw'
   'maps/ol'
   'maps/utils'
   'audit/usagehistory/router'
+  'audit/usagehistory/templates'
+  'audit/usagehistory/utils'
+  'common/views/map'
   'jquery-ui'
-], (module, _, Backbone, $, moment, OLMap, utils, Router) ->
+], (module, _, Backbone, $, moment, Rickshaw, OLMap, map_utils, Router, templates, utils, MapView) ->
+
+  console.log 'graphsetTpl', templates.graphRow
+  console.log templates.graphRow caption: 'hellp'
 
   config = module.config()
 
-  {boundsToPolygon, polygonToBounds} = utils
+  {boundsToPolygon, polygonToBounds} = map_utils
+  {extractGraphData} = utils
 
   encodeQuery = (object) -> encodeURIComponent JSON.stringify object
   decodeQuery = (string) -> JSON.parse decodeURIComponent string
-
-  enlargeBounds = ({left, right, top, bottom}) ->
-    # Make bounds a bit larger so the displayed route doesn't seem cut-off
-    left: left - 0.01
-    right: right + 0.01
-    top: top + 0.01
-    bottom: bottom - 0.01
 
 
   class UnitSelect extends Backbone.View
@@ -46,10 +47,9 @@ define [
 
     initialize: ->
       @input = @$('input')
-      console.log @input
-      # @input.datepicker onSelect: =>
-      #   @input.val @input.datepicker('getDate')?.toISOString() or ''
-      #   @changed()
+      @input.datepicker onSelect: =>
+        @input.val @input.datepicker('getDate')?.toISOString() or ''
+        @changed()
 
     changed: -> @trigger 'change'
 
@@ -66,33 +66,110 @@ define [
       "<table><tbody>#{rows}</tbody></table>"
 
     location: data.location
-    # content: "#{data.location}<br>#{data.timestamp}"
     content: tables.join '<br>'
 
 
-  class Map extends Backbone.View
-
-    initialize: ->
-      @map = OLMap @el
-      @map.onMoved (bounds) => @trigger 'change', boundsToPolygon bounds
-
-    getValue: -> boundsToPolygon enlargeBounds @map.getBounds()
-
-    setValue: (polygon) -> @map.setBounds polygonToBounds polygon
+  class Map extends MapView
 
     display: (data) ->
       @map.clear()
       if data then for route in data
-        console.log 'route': route
         @map.drawRoute route.entries.map (x) -> x.location
         @map.drawMarkers route.entries.map marker
 
 
-  # exports
-  App: class App extends Backbone.View
+  timeToInt = (timestamp) -> moment(timestamp).unix()
+
+
+  class GraphSet extends Backbone.View
+
+    events:
+      'click .graph-row .header': 'toggleCollapse'
 
     initialize: ->
-      @map = new Map el: @$('.map')
+      @collapsed = {}
+
+    display: (data) ->
+      console.log 'GraphSet display', data
+      @$el.html ''
+      palette = new Rickshaw.Color.Palette
+      for category, cData of data
+        graphRow = new GraphRow
+          collapsed: @collapsed[category]
+          category: category
+          color: palette.color()
+          width: 1200
+        @$el.append graphRow.$el.addClass 'graph-row-wrapper'
+        graphRow.render cData
+
+    toggleCollapse: ({target}) =>
+      row = $(target).closest '.graph-row-wrapper'
+      category = row.find('.header .caption').text()
+      if row.is '.collapsed'
+        @collapsed[category] = false
+        row.removeClass 'collapsed'
+      else
+        @collapsed[category] = true
+        row.addClass 'collapsed'
+
+
+  class GraphRow extends Backbone.View
+
+    initialize: ({@category, @collapsed}) ->
+      console.log 'initialized GraphRow for', @category
+
+    render: (data) ->
+      @$el.html templates.graphRow caption: @category
+      if @collapsed then $(@el).addClass 'collapsed'
+
+      totalCount = data.map((x) -> x.length).reduce (a, b) -> a + b
+
+      for dataset in data
+        (new Graph
+          el: $('<div>').appendTo(@$('.content'))[0]
+          category: @category
+          width: @options.width * (dataset.length / totalCount)
+          color: @options.color
+        ).render dataset
+
+
+  class Graph extends Backbone.View
+
+    initialize: ({@category}) ->
+      console.log 'initialized Graph', @category
+
+    render: (data) ->
+      padding = 20
+      args =
+        element: @el
+        width: @options.width - padding
+        height: 150
+        renderer: 'line'
+        series: [
+          name: @category
+          data: @processValues data
+          color: @options.color
+        ]
+      @graph = new Rickshaw.Graph args
+
+      if @options.width > 250
+        new Rickshaw.Graph.Axis.Time graph: @graph
+
+      new Rickshaw.Graph.HoverDetail graph: @graph
+
+      @graph.render()
+
+    processValues: (values) ->
+      for {value, timestamp} in values
+        x: timeToInt timestamp
+        y: value
+
+
+  class App extends Backbone.View
+
+    initialize: ->
+      @map = new Map el: @$('.map'), MapModule: OLMap
+      @graphSet = new GraphSet el: @$('.graphs')
 
       @controls =
         units: (new UnitSelect el: @$('.unit-select'))
@@ -105,10 +182,10 @@ define [
       for name, widget of @controls
         do (name, widget) => widget.on 'change', => @processCurrentSettings()
 
-      @processCurrentSettings()
-
       @requestId = 0
       @latestResponse = 0
+
+      @processCurrentSettings()
 
     processCurrentSettings: ->
       query = @constructQuery()
@@ -134,8 +211,8 @@ define [
         error: (args...) -> console.log 'AJAX error', args...
 
     display: (response) ->
-      console.log 'display', response
       @map.display response.results
+      @graphSet.display extractGraphData response.results
 
     setupRouter: ->
       @router = new Router
@@ -148,3 +225,7 @@ define [
       Backbone.history.start
         pushState: true
         root: config.rootUrl
+
+
+  # exports:
+  {App}

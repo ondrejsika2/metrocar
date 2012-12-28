@@ -3,27 +3,23 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __slice = [].slice;
 
-  define(['module', 'underscore', 'backbone', 'jquery', 'moment', 'maps/ol', 'maps/utils', 'audit/usagehistory/router', 'jquery-ui'], function(module, _, Backbone, $, moment, OLMap, utils, Router) {
-    var App, Calendar, Map, UnitSelect, boundsToPolygon, config, decodeQuery, encodeQuery, enlargeBounds, marker, polygonToBounds;
+  define(['module', 'underscore', 'backbone', 'jquery', 'moment', 'rickshaw', 'maps/ol', 'maps/utils', 'audit/usagehistory/router', 'audit/usagehistory/templates', 'audit/usagehistory/utils', 'common/views/map', 'jquery-ui'], function(module, _, Backbone, $, moment, Rickshaw, OLMap, map_utils, Router, templates, utils, MapView) {
+    var App, Calendar, Graph, GraphRow, GraphSet, Map, UnitSelect, boundsToPolygon, config, decodeQuery, encodeQuery, extractGraphData, marker, polygonToBounds, timeToInt;
+    console.log('graphsetTpl', templates.graphRow);
+    console.log(templates.graphRow({
+      caption: 'hellp'
+    }));
     config = module.config();
-    boundsToPolygon = utils.boundsToPolygon, polygonToBounds = utils.polygonToBounds;
+    boundsToPolygon = map_utils.boundsToPolygon, polygonToBounds = map_utils.polygonToBounds;
+    extractGraphData = utils.extractGraphData;
     encodeQuery = function(object) {
       return encodeURIComponent(JSON.stringify(object));
     };
     decodeQuery = function(string) {
       return JSON.parse(decodeURIComponent(string));
-    };
-    enlargeBounds = function(_arg) {
-      var bottom, left, right, top;
-      left = _arg.left, right = _arg.right, top = _arg.top, bottom = _arg.bottom;
-      return {
-        left: left - 0.01,
-        right: right + 0.01,
-        top: top + 0.01,
-        bottom: bottom - 0.01
-      };
     };
     UnitSelect = (function(_super) {
 
@@ -75,8 +71,15 @@
       };
 
       Calendar.prototype.initialize = function() {
+        var _this = this;
         this.input = this.$('input');
-        return console.log(this.input);
+        return this.input.datepicker({
+          onSelect: function() {
+            var _ref;
+            _this.input.val(((_ref = _this.input.datepicker('getDate')) != null ? _ref.toISOString() : void 0) || '');
+            return _this.changed();
+          }
+        });
       };
 
       Calendar.prototype.changed = function() {
@@ -131,22 +134,6 @@
         return Map.__super__.constructor.apply(this, arguments);
       }
 
-      Map.prototype.initialize = function() {
-        var _this = this;
-        this.map = OLMap(this.el);
-        return this.map.onMoved(function(bounds) {
-          return _this.trigger('change', boundsToPolygon(bounds));
-        });
-      };
-
-      Map.prototype.getValue = function() {
-        return boundsToPolygon(enlargeBounds(this.map.getBounds()));
-      };
-
-      Map.prototype.setValue = function(polygon) {
-        return this.map.setBounds(polygonToBounds(polygon));
-      };
-
       Map.prototype.display = function(data) {
         var route, _i, _len, _results;
         this.map.clear();
@@ -154,9 +141,6 @@
           _results = [];
           for (_i = 0, _len = data.length; _i < _len; _i++) {
             route = data[_i];
-            console.log({
-              'route': route
-            });
             this.map.drawRoute(route.entries.map(function(x) {
               return x.location;
             }));
@@ -168,125 +152,292 @@
 
       return Map;
 
+    })(MapView);
+    timeToInt = function(timestamp) {
+      return moment(timestamp).unix();
+    };
+    GraphSet = (function(_super) {
+
+      __extends(GraphSet, _super);
+
+      GraphSet.name = 'GraphSet';
+
+      function GraphSet() {
+        this.toggleCollapse = __bind(this.toggleCollapse, this);
+        return GraphSet.__super__.constructor.apply(this, arguments);
+      }
+
+      GraphSet.prototype.events = {
+        'click .graph-row .header': 'toggleCollapse'
+      };
+
+      GraphSet.prototype.initialize = function() {
+        return this.collapsed = {};
+      };
+
+      GraphSet.prototype.display = function(data) {
+        var cData, category, graphRow, palette, _results;
+        console.log('GraphSet display', data);
+        this.$el.html('');
+        palette = new Rickshaw.Color.Palette;
+        _results = [];
+        for (category in data) {
+          cData = data[category];
+          graphRow = new GraphRow({
+            collapsed: this.collapsed[category],
+            category: category,
+            color: palette.color(),
+            width: 1200
+          });
+          this.$el.append(graphRow.$el.addClass('graph-row-wrapper'));
+          _results.push(graphRow.render(cData));
+        }
+        return _results;
+      };
+
+      GraphSet.prototype.toggleCollapse = function(_arg) {
+        var category, row, target;
+        target = _arg.target;
+        row = $(target).closest('.graph-row-wrapper');
+        category = row.find('.header .caption').text();
+        if (row.is('.collapsed')) {
+          this.collapsed[category] = false;
+          return row.removeClass('collapsed');
+        } else {
+          this.collapsed[category] = true;
+          return row.addClass('collapsed');
+        }
+      };
+
+      return GraphSet;
+
+    })(Backbone.View);
+    GraphRow = (function(_super) {
+
+      __extends(GraphRow, _super);
+
+      GraphRow.name = 'GraphRow';
+
+      function GraphRow() {
+        return GraphRow.__super__.constructor.apply(this, arguments);
+      }
+
+      GraphRow.prototype.initialize = function(_arg) {
+        this.category = _arg.category, this.collapsed = _arg.collapsed;
+        return console.log('initialized GraphRow for', this.category);
+      };
+
+      GraphRow.prototype.render = function(data) {
+        var dataset, totalCount, _i, _len, _results;
+        this.$el.html(templates.graphRow({
+          caption: this.category
+        }));
+        if (this.collapsed) {
+          $(this.el).addClass('collapsed');
+        }
+        totalCount = data.map(function(x) {
+          return x.length;
+        }).reduce(function(a, b) {
+          return a + b;
+        });
+        _results = [];
+        for (_i = 0, _len = data.length; _i < _len; _i++) {
+          dataset = data[_i];
+          _results.push((new Graph({
+            el: $('<div>').appendTo(this.$('.content'))[0],
+            category: this.category,
+            width: this.options.width * (dataset.length / totalCount),
+            color: this.options.color
+          })).render(dataset));
+        }
+        return _results;
+      };
+
+      return GraphRow;
+
+    })(Backbone.View);
+    Graph = (function(_super) {
+
+      __extends(Graph, _super);
+
+      Graph.name = 'Graph';
+
+      function Graph() {
+        return Graph.__super__.constructor.apply(this, arguments);
+      }
+
+      Graph.prototype.initialize = function(_arg) {
+        this.category = _arg.category;
+        return console.log('initialized Graph', this.category);
+      };
+
+      Graph.prototype.render = function(data) {
+        var args, padding;
+        padding = 20;
+        args = {
+          element: this.el,
+          width: this.options.width - padding,
+          height: 150,
+          renderer: 'line',
+          series: [
+            {
+              name: this.category,
+              data: this.processValues(data),
+              color: this.options.color
+            }
+          ]
+        };
+        this.graph = new Rickshaw.Graph(args);
+        if (this.options.width > 250) {
+          new Rickshaw.Graph.Axis.Time({
+            graph: this.graph
+          });
+        }
+        new Rickshaw.Graph.HoverDetail({
+          graph: this.graph
+        });
+        return this.graph.render();
+      };
+
+      Graph.prototype.processValues = function(values) {
+        var timestamp, value, _i, _len, _ref, _results;
+        _results = [];
+        for (_i = 0, _len = values.length; _i < _len; _i++) {
+          _ref = values[_i], value = _ref.value, timestamp = _ref.timestamp;
+          _results.push({
+            x: timeToInt(timestamp),
+            y: value
+          });
+        }
+        return _results;
+      };
+
+      return Graph;
+
+    })(Backbone.View);
+    App = (function(_super) {
+
+      __extends(App, _super);
+
+      App.name = 'App';
+
+      function App() {
+        return App.__super__.constructor.apply(this, arguments);
+      }
+
+      App.prototype.initialize = function() {
+        var name, widget, _fn, _ref,
+          _this = this;
+        this.map = new Map({
+          el: this.$('.map'),
+          MapModule: OLMap
+        });
+        this.graphSet = new GraphSet({
+          el: this.$('.graphs')
+        });
+        this.controls = {
+          units: new UnitSelect({
+            el: this.$('.unit-select')
+          }),
+          start: new Calendar({
+            el: this.$('.start-cal')
+          }),
+          end: new Calendar({
+            el: this.$('.end-cal')
+          }),
+          in_polygon: this.map
+        };
+        this.setupRouter();
+        _ref = this.controls;
+        _fn = function(name, widget) {
+          return widget.on('change', function() {
+            return _this.processCurrentSettings();
+          });
+        };
+        for (name in _ref) {
+          widget = _ref[name];
+          _fn(name, widget);
+        }
+        this.requestId = 0;
+        this.latestResponse = 0;
+        return this.processCurrentSettings();
+      };
+
+      App.prototype.processCurrentSettings = function() {
+        var query;
+        query = this.constructQuery();
+        if (query.units) {
+          this.router.navigate("q/" + (encodeQuery(query)), {
+            replace: true
+          });
+          return this.queryServer(_.extend(query, {
+            request_id: this.requestId += 1
+          }));
+        }
+      };
+
+      App.prototype.constructQuery = function() {
+        var name, q, widget, _ref;
+        q = {};
+        _ref = this.controls;
+        for (name in _ref) {
+          widget = _ref[name];
+          q[name] = widget.getValue();
+        }
+        return q;
+      };
+
+      App.prototype.queryServer = function(query) {
+        var _this = this;
+        return $.ajax({
+          url: config.queryUrl,
+          type: 'POST',
+          data: JSON.stringify(query),
+          success: function(response) {
+            if (response.request_id > _this.latestResponse) {
+              _this.latestResponse = response.request_id;
+              return _this.display(response);
+            }
+          },
+          error: function() {
+            var args;
+            args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+            return console.log.apply(console, ['AJAX error'].concat(__slice.call(args)));
+          }
+        });
+      };
+
+      App.prototype.display = function(response) {
+        this.map.display(response.results);
+        return this.graphSet.display(extractGraphData(response.results));
+      };
+
+      App.prototype.setupRouter = function() {
+        var _this = this;
+        this.router = new Router;
+        this.router.on('route:query', function(querystring) {
+          var name, q, val, _results;
+          q = decodeQuery(querystring);
+          _results = [];
+          for (name in q) {
+            val = q[name];
+            if (val) {
+              _results.push(_this.controls[name].setValue(val));
+            }
+          }
+          return _results;
+        });
+        return Backbone.history.start({
+          pushState: true,
+          root: config.rootUrl
+        });
+      };
+
+      return App;
+
     })(Backbone.View);
     return {
-      App: App = (function(_super) {
-
-        __extends(App, _super);
-
-        App.name = 'App';
-
-        function App() {
-          return App.__super__.constructor.apply(this, arguments);
-        }
-
-        App.prototype.initialize = function() {
-          var name, widget, _fn, _ref,
-            _this = this;
-          this.map = new Map({
-            el: this.$('.map')
-          });
-          this.controls = {
-            units: new UnitSelect({
-              el: this.$('.unit-select')
-            }),
-            start: new Calendar({
-              el: this.$('.start-cal')
-            }),
-            end: new Calendar({
-              el: this.$('.end-cal')
-            }),
-            in_polygon: this.map
-          };
-          this.setupRouter();
-          _ref = this.controls;
-          _fn = function(name, widget) {
-            return widget.on('change', function() {
-              return _this.processCurrentSettings();
-            });
-          };
-          for (name in _ref) {
-            widget = _ref[name];
-            _fn(name, widget);
-          }
-          this.processCurrentSettings();
-          this.requestId = 0;
-          return this.latestResponse = 0;
-        };
-
-        App.prototype.processCurrentSettings = function() {
-          var query;
-          query = this.constructQuery();
-          if (query.units) {
-            this.router.navigate("q/" + (encodeQuery(query)), {
-              replace: true
-            });
-            return this.queryServer(_.extend(query, {
-              request_id: this.requestId += 1
-            }));
-          }
-        };
-
-        App.prototype.constructQuery = function() {
-          var name, q, widget, _ref;
-          q = {};
-          _ref = this.controls;
-          for (name in _ref) {
-            widget = _ref[name];
-            q[name] = widget.getValue();
-          }
-          return q;
-        };
-
-        App.prototype.queryServer = function(query) {
-          var _this = this;
-          return $.ajax({
-            url: config.queryUrl,
-            type: 'POST',
-            data: JSON.stringify(query),
-            success: function(response) {
-              if (response.request_id > _this.latestResponse) {
-                _this.latestResponse = response.request_id;
-                return _this.display(response);
-              }
-            },
-            error: function() {
-              var args;
-              args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-              return console.log.apply(console, ['AJAX error'].concat(__slice.call(args)));
-            }
-          });
-        };
-
-        App.prototype.display = function(response) {
-          console.log('display', response);
-          return this.map.display(response.results);
-        };
-
-        App.prototype.setupRouter = function() {
-          var _this = this;
-          this.router = new Router;
-          this.router.on('route:query', function(querystring) {
-            var name, q, val, _results;
-            q = decodeQuery(querystring);
-            _results = [];
-            for (name in q) {
-              val = q[name];
-              if (val) {
-                _results.push(_this.controls[name].setValue(val));
-              }
-            }
-            return _results;
-          });
-          return Backbone.history.start({
-            pushState: true,
-            root: config.rootUrl
-          });
-        };
-
-        return App;
-
-      })(Backbone.View)
+      App: App
     };
   });
 

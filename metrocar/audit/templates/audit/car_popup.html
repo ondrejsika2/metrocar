@@ -1,0 +1,12 @@
+{% load url from future %}
+{% load i18n %}
+<div class="car-popup">
+	{% for car in cars %}
+		<h3 class="heading"><a href="{% url 'admin:cars_car_change' car.id %}">{{ car }}</a></h3>
+		{% if car.last_position %}
+			{% trans "Last echo" %}: {{ car.last_echo }} ({{ car.last_echo|timesince }})<br/>
+			<strong>GPS:</strong> <span>{{car.last_position.x}} {{car.last_position.y}}</span><br>
+		{% endif %}
+		{{ car.last_address|default:'' }}
+	{% endfor %}
+</div>

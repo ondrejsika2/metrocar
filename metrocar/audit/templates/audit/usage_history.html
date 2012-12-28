@@ -1,17 +1,27 @@
 {% extends "admin/base_site.html" %}
 {% load url from future %}
 {% load i18n %}
-{# {% load map from open_layers %} #}
+
+{% block title %}{% trans "Usage history" %}{{ block.super }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/audit/usagehistory.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/flick/jquery-ui-1.9.2.custom.min.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/rickshaw.min.css"/>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../">Audit</a> &rsaquo;
+     {% trans "Usage history" %}
+</div>
+{% endblock %}
 
 {% block content %}
-	<style>
-	#app .map {width: 900px; height: 600px;}
-	.ui-datepicker  {z-index: 100000 !important;}
-	</style>
-	<link rel="stylesheet" href="{{ STATIC_URL }}css/flick/jquery-ui-1.9.2.custom.min.css"/>
 
-
-<div id="app">
+<div id="app" class="usage-history">
 
 	<div class="unit-select">
 		{% if units %}
@@ -31,6 +41,8 @@
 	<div class="end-cal"><label>{% trans "Till" %} <input type="text" /> </label></div>
 
 	<div class="map"></div>
+
+	<div class="graphs"></div>
 
 </div>
 

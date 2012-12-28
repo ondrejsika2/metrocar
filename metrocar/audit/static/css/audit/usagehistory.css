@@ -1,0 +1,43 @@
+#app .map {width: 1200px; height: 600px;}
+.ui-datepicker  {z-index: 100000 !important;}
+
+.usage-history .graphs {
+	overflow: hidden;
+	width: 1200px;
+}
+.usage-history .graph-row-wrapper {
+	border: 1px solid #ddd;
+	margin: 5px 0;
+}
+.usage-history .graph-row .header {
+	padding: 3px;
+	background: #fafafa;
+	cursor: pointer;
+}
+.usage-history .graph-row .header .icon {
+	color: #777;
+}
+.usage-history .graph-row .header:hover .icon {
+	color: #000;
+}
+.usage-history .collapsed .graph-row .header {
+	background: #eee;
+	color: #666;
+}
+.usage-history .collapsed .graph-row .header:hover {
+	background: #f3f3f3;
+	color: #666;
+}
+
+
+.usage-history .graphs .rickshaw_graph {
+	display: inline-block;
+	margin: 8px;
+	border: 1px solid #ddd;
+}
+.graph-row .header .icon-collapsed {display: none;}
+.graph-row .header .icon-visible {display: inline-block;}
+
+.collapsed .graph-row .header .icon-collapsed {display: inline-block;}
+.collapsed .graph-row .header .icon-visible {display: none;}
+.collapsed .graph-row .content {display: none;}
