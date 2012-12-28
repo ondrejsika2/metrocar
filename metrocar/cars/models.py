@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal, DivisionByZero
+from pipetools import maybe, unless, X
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -12,6 +13,7 @@ from metrocar.user_management.models import AccountActivity
 from metrocar.user_management.models import MetrocarUser
 from metrocar.utils.fields import PolygonField, PointField
 from metrocar.utils.geo import GeoManager
+from metrocar.utils.nominatim import NominatimQuerier
 
 
 class CarModelManufacturer(models.Model):
@@ -115,9 +117,11 @@ class Car(models.Model):
     home_subsidiary = models.ForeignKey(Subsidiary,
         verbose_name=_('Subsidiary'))
 
-    last_position = PointField(_('Last position'), null=True, blank=True)
-    last_address = models.CharField(_('Last address'), max_length=255,
-        null=True, blank=True)
+    last_echo = models.DateTimeField(_('Last echo'), null=True, blank=True)
+    _last_position = PointField(_('Last position'),
+        db_column='last_position', null=True, blank=True)
+    _last_address = models.CharField(_('Last address'),
+        db_column='last_address', max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = _('Car')
@@ -126,24 +130,21 @@ class Car(models.Model):
     def __unicode__(self):
         return self.get_full_name()
 
-    # TODO:
-    # def save(self, * args, ** kwargs):
-    #     """
-    #     If position text is none, query it and save it.
-    #     """
-    #     if self.last_address is None:
-    #         try:
-    #             from metrocar.utils.nominatim import NominatimQuerier
-    #             n = NominatimQuerier()
-    #             self.last_address = n.resolve_address(self.last_position.y,
-    #                                                   self.last_position.x)['display_name']
-    #         except:
-    #             # cannot fetch nominatim data - fail silently
-    #             from metrocar.utils.log import get_logger, logging
-    #             get_logger().log(logging.WARN, "Cannot fetch nominatim data "
-    #                              "for position %s" % self.last_position)
-    #             self.last_address = ugettext('Unknown')
-    #     super(Car, self).save(*args, ** kwargs)
+    @property
+    def last_address(self):
+        if not self._last_address:
+            self._last_address = (self._last_position > maybe
+                | X.coords
+                | unless(Exception, NominatimQuerier().resolve_address)
+                | X['display_name']
+                ) or _('Unknown')
+            self.save()
+        return self._last_address
+
+    @property
+    def last_position(self):
+        # TODO: get from address
+        return self._last_position
 
     def get_full_name(self):
         return "%s (%s)" % (unicode(self.model), self.registration_number)
