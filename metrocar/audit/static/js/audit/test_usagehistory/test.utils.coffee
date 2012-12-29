@@ -3,11 +3,7 @@ define [
   'audit/usagehistory/utils'
 ], ({assert, should}, utils) ->
 
-
   should()
-
-  console.log 'XXaudit test utils script'
-
 
   routeData = [
     # data can contain multiple routes

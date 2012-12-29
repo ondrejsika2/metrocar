@@ -47,15 +47,16 @@ def get_map_for_geometry(geometry, width, height):
     )
 
 
-# TODO: smarter grouping....
+# TODO: smarter grouping.... probably best idea would be to send zoom level
+# from the browser
 
 def get_grouping_precision(bounds):
     x_min = min(x for (x, y) in bounds)
     x_max = max(x for (x, y) in bounds)
     dx = x_max - x_min
     return (
-        20 if dx < .12 else
-        2 if dx < .5 else
+        20 if dx < .06 else
+        2 if dx < .25 else
         1 if dx < 1.5 else
         0)
 

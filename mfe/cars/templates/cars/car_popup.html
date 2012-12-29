@@ -1,0 +1,22 @@
+{% load url from future %}
+{% load i18n %}
+{% load thumbnail %}
+
+<div class="car-popup">
+	{% for car in cars %}
+		<div class="car">
+			{% if car.image %}
+				<img src="{{ car.image.url }}" class="photo" />
+			{% endif %}
+			<h3 class="heading">{{ car.model }}</h3>
+
+			<span class="button button-green">
+				<span><a href="{% url 'mfe_reservations_reserve_car' car.id %}" class="green">{% trans "Reserve this car now" %}&nbsp;&raquo;</a></span>
+			</span>
+		</div>
+
+	{% endfor %}
+</div>
+
+
+

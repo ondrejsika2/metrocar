@@ -183,7 +183,6 @@
 
       GraphSet.prototype.display = function(data) {
         var cData, category, graphRow, palette, _results;
-        console.log('GraphSet display', data);
         this.$el.html('');
         palette = new Rickshaw.Color.Palette;
         _results = [];
@@ -230,7 +229,6 @@
 
       GraphRow.prototype.initialize = function(_arg) {
         this.category = _arg.category, this.collapsed = _arg.collapsed;
-        return console.log('initialized GraphRow for', this.category);
       };
 
       GraphRow.prototype.render = function(data) {
@@ -274,7 +272,6 @@
 
       Graph.prototype.initialize = function(_arg) {
         this.category = _arg.category;
-        return console.log('initialized Graph', this.category);
       };
 
       Graph.prototype.render = function(data) {
@@ -408,7 +405,7 @@
           error: function() {
             var args;
             args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-            return console.log.apply(console, ['AJAX error'].concat(__slice.call(args)));
+            return console.error.apply(console, ['AJAX error'].concat(__slice.call(args)));
           }
         });
       };

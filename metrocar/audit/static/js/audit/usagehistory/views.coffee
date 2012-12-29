@@ -80,7 +80,6 @@ define (require) ->
       @collapsed = {}
 
     display: (data) ->
-      console.log 'GraphSet display', data
       @$el.html ''
       palette = new Rickshaw.Color.Palette
       for category, cData of data
@@ -106,7 +105,6 @@ define (require) ->
   class GraphRow extends Backbone.View
 
     initialize: ({@category, @collapsed}) ->
-      console.log 'initialized GraphRow for', @category
 
     render: (data) ->
       @$el.html templates.graphRow caption: @category
@@ -126,7 +124,6 @@ define (require) ->
   class Graph extends Backbone.View
 
     initialize: ({@category}) ->
-      console.log 'initialized Graph', @category
 
     render: (data) ->
       padding = 20
@@ -198,7 +195,7 @@ define (require) ->
           if response.request_id > @latestResponse
             @latestResponse = response.request_id
             @display response
-        error: (args...) -> console.log 'AJAX error', args...
+        error: (args...) -> console.error 'AJAX error', args...
 
     display: (response) ->
       @map.display response.results

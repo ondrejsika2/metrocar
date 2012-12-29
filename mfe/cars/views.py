@@ -1,21 +1,20 @@
-#coding=utf-8
-
-'''
-Created on 11.3.2010
-
-@author: xaralis
-'''
-from django.contrib.auth.decorators import login_required
-from django.utils.translation import gettext_lazy as _
-from django.http import HttpResponse, HttpResponseNotFound
-from django.template import loader, RequestContext, Context, Template
-from django.views.generic import list_detail
-from django.shortcuts import render_to_response
-from django.core import serializers
-from django.contrib.gis.geos import Polygon
-from metrocar.cars.models import CarType, CarModel, Car, Parking, Reservation
+# encoding: utf-8
 from datetime import datetime
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import Polygon
+from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.utils import simplejson
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import list_detail
+from django.views.generic.base import TemplateView
+
+from metrocar.cars.models import CarType, Car, Parking
+from metrocar.cars.views import CarPositions
+
 
 def car_list(request, **kwargs):
     cars = Car.objects.filter(active=True)
@@ -49,7 +48,7 @@ def car_detail(request, id=None):
     car = Car.objects.filter(active=True).get(pk=id)
     pricelist = car.model.get_pricelist()
     context = { 'object': car }
-    
+
     if pricelist:
         context.update({
             'timeline': pricelist.get_pricing_summary()['timeline'],
@@ -91,7 +90,7 @@ def geo_feed(request, type=None):
         'objects': FEED_TYPES[type][0].objects.filter(**kwargs),
         'type': type
     })
-    
+
 def geo_details(request, type=None, id=None):
     if type is None:
         return HttpResponse('No feed type supplied')
@@ -103,4 +102,16 @@ def geo_details(request, type=None, id=None):
     return render_to_response('cars/geo_detail_%s.html' % type, {
         'object': FEED_TYPES[type][0].objects.get(pk=id)
     });
-    
+
+
+class CarMap(TemplateView):
+    template_name = 'cars/car_map.html'
+
+
+class CarMapData(CarPositions):
+
+    def filter(self, car):
+        return True
+
+    def get_car_data(self, cars):
+        return render_to_string('cars/car_popup.html', {'cars': cars})

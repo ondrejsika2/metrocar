@@ -51,7 +51,7 @@ define [
     map.addPopup markerPopup, true
 
   createMap = (container) ->
-    console.log 'initializing OL map in', container
+    console?.debug 'initializing OL map in', container
     map = new Map()
     map.addLayer osmLayer = new Layer.OSM()
     map.zoomToMaxExtent()

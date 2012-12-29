@@ -51,7 +51,9 @@
     };
     createMap = function(container) {
       var API, Bounds, LonLat, Point, iconMarkerLayer, map, mapProjection, markerLayer, markerPopup, markerSelect, osmLayer, routeLayer, typeConstructor;
-      console.log('initializing OL map in', container);
+      if (typeof console !== "undefined" && console !== null) {
+        console.debug('initializing OL map in', container);
+      }
       map = new Map();
       map.addLayer(osmLayer = new Layer.OSM());
       map.zoomToMaxExtent();

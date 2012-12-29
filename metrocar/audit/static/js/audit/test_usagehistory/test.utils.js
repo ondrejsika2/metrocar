@@ -5,7 +5,6 @@
     var assert, routeData, should;
     assert = _arg.assert, should = _arg.should;
     should();
-    console.log('XXaudit test utils script');
     routeData = [
       {
         events: [],
