@@ -11,7 +11,7 @@
 
   requirejs(['tests/chai', 'tests/mocha'], function(chai, mocha) {
     mocha.setup('bdd');
-    return requirejs(['audit/test_usagehistory/test.utils'], function() {
+    return requirejs(['audit/test_usagehistory/test.utils', 'test_maps/test.ol'], function() {
       return mocha.run();
     });
   });

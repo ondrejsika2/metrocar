@@ -9,4 +9,5 @@ requirejs [
 
   requirejs [
     'audit/test_usagehistory/test.utils'
+    'test_maps/test.ol'
   ], -> mocha.run()
