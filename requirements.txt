@@ -68,7 +68,7 @@ South==0.7.6
 
 
 # some useful utils :-)
-pipetools==0.1.9
+pipetools==0.2.0
 
 
 # Automatic sane defaults for ModelAdmin
