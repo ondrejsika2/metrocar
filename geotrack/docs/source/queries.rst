@@ -1,6 +1,6 @@
 Queries
 =======
-As you might have noticed, the ``query`` `API <usage>`_ method only takes a name of a query. So how are the queries defined? A Geotrack query is just a regular Python module that has an ``execute`` method and is located in a *query package*, which is just a Python package specified in configuration (more on that in :ref:`configuration`).
+As you might have noticed, the ``query`` `API <usage>`_ method only takes a name of a query. So how are the queries defined? A Geotrack query is just a regular Python module that has an ``execute`` method and is located in a *query package*, which is just a Python package specified in :doc:`configuration <installation>`.
 
 Having the queries defined like this enables the users to define queries they need without having to add them to Geotrack directly, and without having to implement some sort of query language (our query language in this case is just Python). It also forces them to keep all the query logic in one place and not mixed in with other code.
 

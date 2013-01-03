@@ -18,7 +18,7 @@ The API provides two main methods:
 
 - ``geotrack.api.query(query_name, **kwargs)``
 
-  The ``query`` method executes a query defined for ``query_name`` (see :ref:`query-mechanism` for details) with any given keyword arguments (mapping) from ``**kwargs`` and returns the results. This is always a blocking call and possible background processing of longer-running queries should be handled by the caller (or some special middle-ware).
+  The ``query`` method executes a query defined for ``query_name`` (see :doc:`queries` for details) with any given keyword arguments (mapping) from ``**kwargs`` and returns the results. This is always a blocking call and possible background processing of longer-running queries should be handled by the caller (or some special middle-ware).
 
 There is also ``geotrack.api.flush()`` to delete all stored content -- useful for testing.
 
