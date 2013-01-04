@@ -1,13 +1,10 @@
-subsidiaries Package
-====================
+metrocar.subsidiaries
+=====================
 
-:mod:`admin` Module
--------------------
+This application manages operating multiple subsidiaries in one instance of the project.
 
-.. automodule:: metrocar.subsidiaries.admin
-    :members:
-    :undoc-members:
-    :show-inheritance:
+This currently has low priority.
+
 
 :mod:`context_processors` Module
 --------------------------------

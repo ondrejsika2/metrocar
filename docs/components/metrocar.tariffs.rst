@@ -1,13 +1,8 @@
-tariffs Package
-===============
+metrocar.tariffs
+================
 
-:mod:`admin` Module
--------------------
+This application should handle special tariffs/pricing conditions for regular customers.
 
-.. automodule:: metrocar.tariffs.admin
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 :mod:`models` Module
 --------------------

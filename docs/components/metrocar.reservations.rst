@@ -1,23 +1,22 @@
-reservations Package
-====================
+metrocar.reservations
+============================
 
-:mod:`admin` Module
--------------------
+This application deals with reservations.
 
-.. automodule:: metrocar.reservations.admin
+Reservations are related to a specific :class:`~metrocar.cars.models.Car`. When completed, they can consist of several :class:`~metrocar.cars.models.Journey` s. The price to be paid for a completed reservation is computed from the Journeys' data using a :class:`~metrocar.tarification.models.Pricelist` and added to the user's :class:`~metrocar.user_management.models.Account` in the form of :class:`~metrocar.reservations.models.ReservationBill`.
+
+
+
+
+:mod:`models`
+--------------------
+
+.. automodule:: metrocar.reservations.models
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`forms` Module
--------------------
-
-.. automodule:: metrocar.reservations.forms
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`managers` Module
+:mod:`managers`
 ----------------------
 
 .. automodule:: metrocar.reservations.managers
@@ -25,10 +24,10 @@ reservations Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`models` Module
---------------------
+:mod:`forms`
+-------------------
 
-.. automodule:: metrocar.reservations.models
+.. automodule:: metrocar.reservations.forms
     :members:
     :undoc-members:
     :show-inheritance:

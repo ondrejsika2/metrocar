@@ -1,23 +1,12 @@
-tarification Package
-====================
+metrocar.tarification
+=====================
 
-:mod:`admin` Module
--------------------
+This application handles the regular pricing of :mod:`~metrocar.reservations`.
 
-.. automodule:: metrocar.tarification.admin
-    :members:
-    :undoc-members:
-    :show-inheritance:
+There is a separate :class:`~metrocar.tarification.models.Pricelist` for each :class:`~metrocar.cars.models.CarModel`. The price list then consists of one or several :class:`~metrocar.tarification.models.PricelistDay` s which in turn consist of one or more :class:`~metrocar.tarification.models.PricelistDayTime`.
 
-:mod:`managers` Module
-----------------------
 
-.. automodule:: metrocar.tarification.managers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`models` Module
+:mod:`models`
 --------------------
 
 .. automodule:: metrocar.tarification.models
@@ -25,13 +14,15 @@ tarification Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`tests` Module
--------------------
+:mod:`managers`
+----------------------
 
-.. automodule:: metrocar.tarification.tests
+.. automodule:: metrocar.tarification.managers
     :members:
     :undoc-members:
     :show-inheritance:
+
+
 
 Subpackages
 -----------

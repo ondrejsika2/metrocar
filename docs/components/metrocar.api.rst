@@ -1,12 +1,13 @@
-api
-===
+metrocar.api
+============
+
+This application was designed to provide a generic API to all the backend's data. Supposedly for someone to be able to create a front-end application only using this API. This objective currently has low priority.
 
 :mod:`auth` Module
 ------------------
 
 .. automodule:: metrocar.api.auth
     :members:
-    :undoc-members:
     :show-inheritance:
 
 :mod:`handlers` Module
@@ -14,7 +15,6 @@ api
 
 .. automodule:: metrocar.api.handlers
     :members:
-    :undoc-members:
     :show-inheritance:
 
 :mod:`urls` Module
@@ -22,7 +22,6 @@ api
 
 .. automodule:: metrocar.api.urls
     :members:
-    :undoc-members:
     :show-inheritance:
 
 :mod:`views` Module
@@ -30,6 +29,5 @@ api
 
 .. automodule:: metrocar.api.views
     :members:
-    :undoc-members:
     :show-inheritance:
 

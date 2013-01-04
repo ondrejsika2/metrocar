@@ -1,5 +1,5 @@
-car_unit_api
-============
+metrocar.car_unit_api
+======================
 
 This app provides an API for car-units.
 

@@ -22,15 +22,16 @@ Subpackages:
     :maxdepth: 1
 
     metrocar.api
+    metrocar.audit
     metrocar.car_unit_api
     metrocar.cars
-    metrocar.config
     metrocar.invoices
+    metrocar.maps
     metrocar.reservations
+    metrocar.settings
     metrocar.subsidiaries
     metrocar.tariffs
     metrocar.tarification
-    metrocar.tests
     metrocar.user_management
     metrocar.utils
 

@@ -20,3 +20,6 @@ A sequence of *points* that represents a polygon. The last item should be the sa
 Geotrack
 --------
 `Geotrack <http://autonapul.cz/docs/geotrack/>`_ is a primary geographic storage used for this project. See its `documentation <http://autonapul.cz/docs/geotrack/>`_.
+
+
+There are various utilities for working with geo data in the :mod:`metrocar.utils.geo` package.

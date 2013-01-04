@@ -1,22 +1,18 @@
-cars Package
-============
+metrocar.cars
+==============
 
-:mod:`admin` Module
--------------------
+This applications manages available cars.
 
-.. automodule:: metrocar.cars.admin
+
+:mod:`models`
+--------------------
+
+.. automodule:: metrocar.cars.models
     :members:
-
-
-:mod:`forms` Module
--------------------
-
-.. automodule:: metrocar.cars.forms
-    :members:
-    :undoc-members:
     :show-inheritance:
 
-:mod:`managers` Module
+
+:mod:`managers`
 ----------------------
 
 .. automodule:: metrocar.cars.managers
@@ -24,29 +20,21 @@ cars Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`models` Module
---------------------
-
-.. automodule:: metrocar.cars.models
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`tests` Module
+:mod:`views`
 -------------------
 
-.. automodule:: metrocar.cars.tests
+.. automodule:: metrocar.cars.views
     :members:
-    :undoc-members:
     :show-inheritance:
 
-:mod:`utils` Module
+
+:mod:`utils`
 -------------------
 
 .. automodule:: metrocar.cars.utils
     :members:
-    :undoc-members:
     :show-inheritance:
+
 
 Subpackages
 -----------

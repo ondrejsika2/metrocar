@@ -1,15 +1,12 @@
-invoices Package
-================
+metrocar.invoices
+==================
 
-:mod:`admin` Module
--------------------
+This application deals with billing.
 
-.. automodule:: metrocar.invoices.admin
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Invoices should be created for every member each month and sent via email.
 
-:mod:`managers` Module
+
+:mod:`managers`
 ----------------------
 
 .. automodule:: metrocar.invoices.managers
@@ -17,7 +14,7 @@ invoices Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`models` Module
+:mod:`models`
 --------------------
 
 .. automodule:: metrocar.invoices.models
@@ -25,7 +22,7 @@ invoices Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`printing` Module
+:mod:`printing`
 ----------------------
 
 .. automodule:: metrocar.invoices.printing
@@ -33,7 +30,7 @@ invoices Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`views` Module
+:mod:`views`
 -------------------
 
 .. automodule:: metrocar.invoices.views
@@ -47,5 +44,4 @@ Subpackages
 .. toctree::
 
     metrocar.invoices.management
-    metrocar.invoices.urls
 

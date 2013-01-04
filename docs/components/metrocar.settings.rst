@@ -1,35 +1,26 @@
-settings Package
-================
+metrocar.settings
+=================
 
-:mod:`settings` Package
------------------------
+The project's settings are the form of a package.
 
-.. automodule:: metrocar.settings
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 :mod:`base` Module
 ------------------
 
-.. automodule:: metrocar.settings.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
+The ``base`` module contains the project's production settings without any credentials that shouldn't be present in the VCS -- as that's publicly available on the Internet.
+
 
 :mod:`local` Module
 -------------------
 
-.. automodule:: metrocar.settings.local
-    :members:
-    :undoc-members:
-    :show-inheritance:
+The ``local`` module should contain settings that override the ``base`` settings for the specific environment where the project is installed. These shouldn't be in the VCS at all, each developer should create their own version.
+
+This module can also hold the credentials needed for the version deployed on production.
+
 
 :mod:`local_example` Module
 ---------------------------
 
-.. automodule:: metrocar.settings.local_example
-    :members:
-    :undoc-members:
-    :show-inheritance:
+This module contains an example of what could be placed in the ``local`` settings for development.
 
+It can be even imported in the ``local`` module for convenience.

@@ -1,10 +1,25 @@
-utils Package
-=============
+metrocar.utils
+==============
+
+:mod:`utils` Package
+--------------------
+
+.. automodule:: metrocar.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 :mod:`admin` Module
 -------------------
 
 .. automodule:: metrocar.utils.admin
+    :members:
+    :show-inheritance:
+
+:mod:`apis` Module
+------------------
+
+.. automodule:: metrocar.utils.apis
     :members:
     :undoc-members:
     :show-inheritance:
@@ -73,10 +88,26 @@ utils Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`testrunner` Module
+------------------------
+
+.. automodule:: metrocar.utils.testrunner
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`tests` Module
 -------------------
 
 .. automodule:: metrocar.utils.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:mod:`validation` Module
+------------------------
+
+.. automodule:: metrocar.utils.validation
     :members:
     :undoc-members:
     :show-inheritance:
@@ -97,7 +128,9 @@ Subpackages
     metrocar.utils.auth
     metrocar.utils.flatpagesmeta
     metrocar.utils.generic_crud
+    metrocar.utils.geo
     metrocar.utils.management
+    metrocar.utils.migrations
     metrocar.utils.serializers
     metrocar.utils.templatetags
 
