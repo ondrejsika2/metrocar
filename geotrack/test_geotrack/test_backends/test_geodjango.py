@@ -1,8 +1,7 @@
 from django.test import TestCase
 
 from geotrack.backends import get_backend
-
-from universal_backend_test import BackendTest
+from geotrack.test import BackendTest
 
 
 class TestGeodjango(BackendTest, TestCase):

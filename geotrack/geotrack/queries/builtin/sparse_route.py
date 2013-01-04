@@ -1,3 +1,10 @@
+"""
+Reduces the number of returned entries to a given amount (`max_items`)
+by excluding some of the intermediate points.
+
+Results are grouped by unit_id, just like in the ``route`` query.
+"""
+
 from pipetools import pipe, group_by, X, foreach, KEY, VALUE
 
 

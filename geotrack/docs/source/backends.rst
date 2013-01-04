@@ -6,7 +6,7 @@ A valid Geotrack backend has to be a python module / package that provides the f
 
 * ``store(unit_id, timestamp, location, added, **kwargs)``
 
-  basically identical to the `public API one <usage>`_, except it has an extra argument ``added``, used to store when the particular *entry* arrived in the system, which can be useful for debugging or audit.
+  basically identical to the :doc:`public API one <usage>`, except it has an extra argument ``added``, used to store when the particular *entry* arrived in the system, which can be useful for debugging or audit.
 
 * ``query(start=None, end=None, in_polygon=None, units=None)``
 
@@ -20,6 +20,22 @@ A valid Geotrack backend has to be a python module / package that provides the f
 * ``query_last_position(start=None, end=None, in_polygon=None, units=None)``
 
   Because the *last known position* query is so important and needs to be fast, and handling it through the regular query would mean significant overhead for basically any type of backend (filtering, sorting and selecting the last value for each unit), the backends are expected to provide this method that will provide an efficient way of getting the last positions.
+
+
+If you implement a new backend, you should test it using the provided test suite, example::
+
+	from django.test import TestCase
+
+	from geotrack.backends import get_backend
+	from geotrack.test import BackendTest
+
+
+	class TestMyBackend(BackendTest, TestCase):
+
+	    backend = get_backend('path.to.my.backend')
+
+
+.. _builtin-backends:
 
 Built-in backends
 -----------------
