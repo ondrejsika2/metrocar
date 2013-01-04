@@ -8,6 +8,10 @@ We are using `Paver`_ for this
 
 Read `Paver documentation`_
 
+To see available commands, run::
+
+	paver help
+
 
 .. _Paver: http://paver.github.com/paver/
 .. _Paver documentation: http://paver.github.com/paver/#contents

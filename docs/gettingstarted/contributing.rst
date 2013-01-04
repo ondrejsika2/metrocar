@@ -15,6 +15,7 @@ work and why is it broken.
 Not only is this better for the project, but also for *you* -- if you're doing
 this to learn something useful, that is.
 
+.. _contributing-coding-style:
 
 Coding style
 ------------
@@ -47,14 +48,18 @@ short intervals, **documentation is kinda important**.
   **write at least one sentence about what it does**. This can be very helpful
   for new people coming to the project.
 
-* **If you change something**, don't forget to **update the documentation**!
-    * At the very least, delete what no longer applies.
+* **If you change something**, don't forget to **update the documentation**.
+
+  * At the very least, delete what no longer applies.
 
 * By not following these rules, you will most likely cause a massive headache
   to people who'll be picking up the project after you.
 
 
+`PyCon 2011: Writing great documentation <http://blip.tv/pycon-us-videos-2009-2010-2011/pycon-2011-writing-great-documentation-4899042>`_
 
+
+.. _contributing-testing:
 
 Tests
 -----

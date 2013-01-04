@@ -10,4 +10,7 @@ How to...
    south
    paver
    deployment
+   geo
+   js
+   code
 

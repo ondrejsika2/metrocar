@@ -9,10 +9,7 @@ Welcome to Metrocar documentation!
 
 This documentation covers primarily the server-side component, which is written
 in Python_ and on top of the Django_ framework. :doc:`Read more about
-this documentation <about>`.
-
-.. note::
-    This documentation is still under construction
+this documentation <overview/about>`.
 
 
 .. _Python: http://www.python.org/
@@ -27,7 +24,10 @@ The big picture
 
 * :doc:`overview/metrocar`
 
+* :doc:`overview/about`
+
 * :doc:`overview/people`
+
 
 
 Getting started
@@ -40,16 +40,23 @@ Getting started
 
 * :doc:`gettingstarted/contributing` -- some hints to follow to not make a (*bigger than it already is*) mess of this project.
 
+  * :ref:`contributing-coding-style`
+  * :ref:`contributing-documentation`
+  * :ref:`Testing <contributing-testing>`
+
 
 How to...
 =========
 
-* :doc:`howto/git`
-* :doc:`Run the test suite <howto/tests>`
-* :doc:`howto/documentation`
-* :doc:`Create and apply database schema migrations <howto/south>`
-* :doc:`howto/paver`
-* :doc:`Deploy to the production server <howto/deployment>`
+* :doc:`...work with Git <howto/git>`
+* :doc:`...run the test suite <howto/tests>`
+* :doc:`...work with the documentation <howto/documentation>`
+* :doc:`...create and apply database schema migrations <howto/south>`
+* :doc:`...project task automation / build system <howto/paver>`
+* :doc:`...deploy to the production server <howto/deployment>`
+* :doc:`...work with geographic data within Metrocar <howto/geo>`
+* :doc:`...write JavaScript <howto/js>`
+.. * :doc:`...write better code <howto/code>`
 
 
 System components' documentation
