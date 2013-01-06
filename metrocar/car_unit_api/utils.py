@@ -59,11 +59,13 @@ def _current_position_data(geotrack_data):
     units = CarUnit.objects.filter(unit_id__in=unit_ids).select_related('car')
     unit_dict = units > foreach([X.unit_id, X]) | dict
     for unit_id, data in unit_data:
-        yield {
-            'location': data['location'],
-            'timestamp': data['timestamp'],
-            'car': unit_dict[unit_id].car,
-        }
+        # in case a CarUnit was deleted...
+        if unit_id in unit_dict:
+            yield {
+                'location': data['location'],
+                'timestamp': data['timestamp'],
+                'car': unit_dict[unit_id].car,
+            }
 
 
 def with_parsed_timestamp(entry):
