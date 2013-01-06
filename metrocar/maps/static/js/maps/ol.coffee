@@ -35,6 +35,12 @@ define [
       strokeColor: "#3399ff",
       graphicZIndex: 2
 
+  defaultView =
+    left: 14.23141
+    right: 14.59533
+    top: 50.13334
+    bottom: 49.99140
+
   OLTransformType = (T, projection) -> (args...) ->
     obj = new T args...
     obj.transform WSG84, projection
@@ -54,7 +60,6 @@ define [
     console?.debug 'initializing OL map in', container
     map = new Map()
     map.addLayer osmLayer = new Layer.OSM()
-    map.zoomToMaxExtent()
 
     # specifying the container in the constructor doesn't seem to work
     map.render container
@@ -90,6 +95,12 @@ define [
     map.addLayer iconMarkerLayer = new Layer.Markers "IconMarkers",
       rendererOptions: zIndexing: true
 
+    map.zoomToExtent Bounds(
+      defaultView.left
+      defaultView.bottom
+      defaultView.right
+      defaultView.top)
+
     API =
       onMoved: (callback) ->
         map.events.register 'moveend', map, -> callback API.getBounds()
@@ -100,8 +111,6 @@ define [
         bounds
 
       setBounds: ({left, bottom, right, top}) ->
-        # bounds = new Bounds left, bottom, right, top
-        # bounds.transform WSG84, mapProjection
         map.zoomToExtent Bounds left, bottom, right, top
 
       drawRoute: (route) ->
@@ -132,15 +141,6 @@ define [
         iconMarkerLayer.addMarker marker = new Marker _location, _icon
         marker.events.register 'click', map, ->
           createPopup map, _location, content
-          # markerPopup = new Popup.FramedCloud "markerPopup",
-          #   _location
-          #   null
-          #   content
-          #   null
-          #   true
-          #   -> @destroy()
-
-          # map.addPopup markerPopup, true
 
       drawMarkers: (markers) -> @drawMarker m for m in markers
 
@@ -151,9 +151,6 @@ define [
         iconMarkerLayer.clearMarkers()
 
       focus: (locations) ->
-        console.log 'OLMap focus called with', locations
         API.setBounds utils.polygonToBounds locations
-        # {left, bottom, right, top} = utils.polygonToBounds locations
-        # map.zoomToExtent Bounds left, bottom, right, top
 
   {createMap}

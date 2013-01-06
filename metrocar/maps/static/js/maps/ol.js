@@ -14,7 +14,7 @@
   });
 
   define(['jquery', 'OpenLayers', 'maps/utils'], function($, OpenLayers, utils) {
-    var Control, Feature, Geometry, Icon, Layer, Map, Marker, OLTransformType, Popup, Projection, Style, StyleMap, WSG84, createMap, createPopup, styleMap;
+    var Control, Feature, Geometry, Icon, Layer, Map, Marker, OLTransformType, Popup, Projection, Style, StyleMap, WSG84, createMap, createPopup, defaultView, styleMap;
     Control = OpenLayers.Control, Feature = OpenLayers.Feature, Geometry = OpenLayers.Geometry, Icon = OpenLayers.Icon, Layer = OpenLayers.Layer, Map = OpenLayers.Map, Marker = OpenLayers.Marker, Popup = OpenLayers.Popup, Projection = OpenLayers.Projection, Style = OpenLayers.Style, StyleMap = OpenLayers.StyleMap;
     WSG84 = new Projection("EPSG:4326");
     styleMap = new StyleMap({
@@ -29,6 +29,12 @@
         graphicZIndex: 2
       })
     });
+    defaultView = {
+      left: 14.23141,
+      right: 14.59533,
+      top: 50.13334,
+      bottom: 49.99140
+    };
     OLTransformType = function(T, projection) {
       return function() {
         var args, obj;
@@ -56,7 +62,6 @@
       }
       map = new Map();
       map.addLayer(osmLayer = new Layer.OSM());
-      map.zoomToMaxExtent();
       map.render(container);
       window.themap = map;
       mapProjection = map.getProjectionObject();
@@ -93,6 +98,7 @@
           zIndexing: true
         }
       }));
+      map.zoomToExtent(Bounds(defaultView.left, defaultView.bottom, defaultView.right, defaultView.top));
       return API = {
         onMoved: function(callback) {
           return map.events.register('moveend', map, function() {
@@ -178,7 +184,6 @@
           return iconMarkerLayer.clearMarkers();
         },
         focus: function(locations) {
-          console.log('OLMap focus called with', locations);
           return API.setBounds(utils.polygonToBounds(locations));
         }
       };
