@@ -1,6 +1,7 @@
 from functools import wraps
 
 from django.conf.urls.defaults import patterns, url
+from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
@@ -58,32 +59,33 @@ class CarPositionsAdmin(admin.ModelAdmin):
         return self.has_permission(request.user)
 
 
-@faux_admin('audit', 'usage_history')
-class UsageHistoryAdmin(admin.ModelAdmin):
+if settings.GEO_ENABLED:
+    @faux_admin('audit', 'usage_history')
+    class UsageHistoryAdmin(admin.ModelAdmin):
 
-    def get_urls(self):
-        index = wrap(self, views.UsageHistory.as_view())
-        query = wrap(self, csrf_exempt(views.Query.as_view()))
-        return patterns('',
-            url(r'^query/$', query, name='usage_history_query'),
+        def get_urls(self):
+            index = wrap(self, views.UsageHistory.as_view())
+            query = wrap(self, csrf_exempt(views.UsageQuery.as_view()))
+            return patterns('',
+                url(r'^query/$', query, name='usage_history_query'),
 
-            # needed for admin
-            url(r'^', index, name='%s_%s_changelist' % (
-                self.model._meta.app_label,
-                self.model._meta.module_name)),
+                # needed for admin
+                url(r'^', index, name='%s_%s_changelist' % (
+                    self.model._meta.app_label,
+                    self.model._meta.module_name)),
 
-            # url alias / shortcut
-            url(r'^', index, name='usage_history'),
-        )
+                # url alias / shortcut
+                url(r'^', index, name='usage_history'),
+            )
 
-    has_add_permission = NO
-    has_delete_permission = NO
+        has_add_permission = NO
+        has_delete_permission = NO
 
-    def has_permission(self, user):
-        """
-        Return whether `user` should be allowed to view usage history.
-        """
-        return user.is_superuser
+        def has_permission(self, user):
+            """
+            Return whether `user` should be allowed to view usage history.
+            """
+            return user.is_superuser
 
-    def has_change_permission(self, request, obj=None, *args, **kwargs):
-        return self.has_permission(request.user)
+        def has_change_permission(self, request, obj=None, *args, **kwargs):
+            return self.has_permission(request.user)

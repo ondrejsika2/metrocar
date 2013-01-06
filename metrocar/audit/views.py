@@ -10,13 +10,21 @@ from metrocar.utils.apis import APICall, process_request, parse_json
 
 
 class UsageHistory(TemplateView):
+    """
+    A view containing a JavaScript interface for usage history.
+    """
     template_name = 'audit/usage_history.html'
 
     def get(self, request):
         return self.render_to_response(dict(units=CarUnit.objects.all()))
 
 
-class Query(APICall):
+class UsageQuery(APICall):
+    """
+    An API endpoint for UsageHistory view's JS application.
+
+    Returns results of :func:`~metrocar.utils.geo.queries.usage_history` query.
+    """
 
     # the maximum number of entries we will process
     threshold = 1000
@@ -35,6 +43,9 @@ class Query(APICall):
 
 
 class CarPositionsMap(TemplateView):
+    """
+    A view containing a JavaScript interface for displaying car positions.
+    """
     template_name = 'audit/car_positions.html'
 
     def get(self, request):
@@ -43,6 +54,9 @@ class CarPositionsMap(TemplateView):
 
 
 class CarPositions(CarPositionsBase):
+    """
+    An API endpoint for car positions JS application.
+    """
 
     def get_car_data(self, cars):
         return render_to_string('audit/car_popup.html', {'cars': cars})
