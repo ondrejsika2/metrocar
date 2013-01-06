@@ -1,14 +1,17 @@
 # encoding: utf-8
 from csv import DictReader
 from datetime import datetime
-from itertools import chain
-from pipetools import pipe, foreach, VALUE, where, maybe, unless
+from itertools import chain, count, izip
+from pipetools import pipe, foreach, VALUE, where, maybe, unless, where_not, X
 from random import randint, random
 
 from geotrack import dummy_generator
 
 from metrocar.car_unit_api import testing_data as car_units_testing_data
+from metrocar.car_unit_api.models import CarUnit
+from metrocar.car_unit_api.testing_data import unit
 from metrocar.car_unit_api.views import store
+from metrocar.cars.models import Car
 
 
 def create():
@@ -17,6 +20,16 @@ def create():
     assing_positions(units)
     # for u in units:
     #     create_random_geo_data(u.unit_id)
+
+
+def create_units():
+    "Creates CarUnits for existing Cars that don't have them"
+    cars_with_units = CarUnit.objects.values_list('car_id', flat=True)
+    taken_unit_ids = set(CarUnit.objects.values_list('unit_id', flat=True))
+    free_unit_ids = count(1) > where_not(X._in_(taken_unit_ids))
+    cars_without_units = Car.objects.all() > where_not(X.id._in_(cars_with_units))
+    for car, unit_id in izip(cars_without_units, free_unit_ids):
+        unit(unit_id, car)
 
 
 def extra_data_generator():
