@@ -7,7 +7,9 @@ from metrocar.utils.permissions import PermissionsNameConst as PermName
 
 if settings.GEO_ENABLED:
     from django.contrib.gis import admin
-    OSMGeoAdmin = admin.OSMGeoAdmin
+    OSMGeoAdmin = (admin.OSMGeoAdmin
+      # FIXME: weird bug on rosti - somehow admin.HAS_OSM == False... (?)
+      if admin.HAS_OSM else admin.GeoModelAdmin)
 else:
     from django.contrib import admin
     OSMGeoAdmin = admin.ModelAdmin
