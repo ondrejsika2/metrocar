@@ -102,6 +102,9 @@ def deploy():
 def build_docs():
     doctools.doc_clean()
     doctools.html()
+    # also build docs for Geotrack
+    with pushd('geotrack/docs'):
+        sh('make clean && make html')
 
 
 @task
