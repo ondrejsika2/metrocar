@@ -13,14 +13,16 @@ from metrocar.utils.validation import optional
 
 def get_car_position_data(in_polygon=None, car_id=None):
     """
+    Returns Cars and their positions, including a timestamp indicating when
+    the position was last updated.
+
     Returns a sequence of mappings::
 
         {
-            car: Car,
-            location: (x, y),
-            timestamp: datetime,
+            'car': Car,
+            'location': (x, y),
+            'timestamp': datetime,
         }
-
     """
     if car_id:
         return [car_position_data(Car.objects.get(id=car_id))]
@@ -81,9 +83,9 @@ class CarPositions(APICall):
         Override to specify data to send to the front-end application for
         given `car`.
         """
-        return ({
+        return [{
             'name': unicode(car),
-        } for car in cars)
+        } for car in cars]
 
     @process_request(maybe | parse_json_optional | (validate_request, rules))
     def get(self, request, data):
