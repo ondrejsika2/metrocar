@@ -1,14 +1,7 @@
-from django.conf.urls.defaults import patterns
 from django.conf import settings
-from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
-from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
-from metrocar.cars import utils
 from metrocar.cars.models import CarModelManufacturer, Car, CarColor, CarType, Fuel, FuelBill, ParkingDescription, MaintenanceBill, CarModel, Journey, Parking
 from metrocar.utils.permissions import PermissionsNameConst as PermName
 
@@ -43,55 +36,12 @@ class CarModelAdmin(admin.ModelAdmin):
 admin.site.register(CarModel, CarModelAdmin)
 
 
-class CarAdmin(OSMGeoAdmin):
+class CarAdmin(admin.ModelAdmin):
     list_display = ('registration_number', 'model', 'color', 'last_address', 'active', 'state',)
     list_filter = ('model', 'color', 'active',)
     fieldsets = (
                  (_('Basic information'), {'fields': ('model', 'registration_number', 'active', 'owner', 'color', 'image', 'home_subsidiary', 'manufacture_date', 'dedicated_parking_only', )}),
-                 (None, {'fields': ('_last_position', 'last_echo', '_last_address')}),
                  )
-
-    def changelist_view(self, request, extra_context=None):
-        map = utils.get_car_infomap()
-        return super(CarAdmin, self).changelist_view(request, {'car_position_map': map})
-
-    def change_auth_key(self, request, object_id, extra_context=None):
-        from metrocar.cars.forms import SetCarAuthKeyForm
-        car = Car.objects.get(pk=object_id)
-
-        if request.method == 'POST':
-            form = SetCarAuthKeyForm(car, request.POST)
-            if form.is_valid():
-                form.save()
-                msg = ugettext('Authorization key changed successfully.')
-                messages.success(request, msg)
-                return HttpResponseRedirect('..')
-        else:
-            form = SetCarAuthKeyForm(car)
-        return render_to_response('admin/cars/car/change_auth_key.html',
-                                  {
-                                  'title': _('Change authorization key for %s') % car.get_full_name(),
-                                  'form': form,
-                                  'is_popup': '_popup' in request.REQUEST,
-                                  'add': True,
-                                  'change': False,
-                                  'has_delete_permission': False,
-                                  'has_change_permission': True,
-                                  'has_absolute_url': False,
-                                  'opts': car._meta,
-                                  'original': car,
-                                  'save_as': False,
-                                  'show_save': True,
-                                  },
-                                  context_instance=RequestContext(request))
-
-    def get_urls(self):
-        urls = super(CarAdmin, self).get_urls()
-        my_urls = patterns('',
-                           (r'^(.+)/change-authorization-key/$',
-                           self.admin_site.admin_view(self.change_auth_key))
-                           )
-        return my_urls + urls
 
     def has_delete_permission(self, request, obj=None):
         has_perm = super(CarAdmin, self).has_delete_permission(request, obj)
@@ -118,7 +68,7 @@ class CarAdmin(OSMGeoAdmin):
 admin.site.register(Car, CarAdmin)
 
 
-class JourneyModelAdmin(OSMGeoAdmin):
+class JourneyModelAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'car', 'start_datetime', 'end_datetime', 'type', 'length', 'is_finished', 'reservation', 'is_service', 'total_price',)
     list_filter = ('car', 'user', 'type')
     fieldsets = (
