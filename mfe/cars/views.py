@@ -1,5 +1,5 @@
 # encoding: utf-8
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Polygon
@@ -14,6 +14,7 @@ from django.views.generic.base import TemplateView
 
 from metrocar.cars.models import CarType, Car, Parking
 from metrocar.cars.views import CarPositions
+from metrocar.reservations.models import Reservation
 
 
 def car_list(request, **kwargs):
@@ -110,8 +111,14 @@ class CarMap(TemplateView):
 
 class CarMapData(CarPositions):
 
+    # for how long into the future the cars have to be unreserved
+    # to be considered available
+    availability_period = timedelta(hours=4)
+
     def filter(self, car):
-        return True
+        now = datetime.now()
+        return car.active and not Reservation.find_conflicts(car,
+            now, now + self.availability_period)
 
     def get_car_data(self, cars):
         return render_to_string('cars/car_popup.html', {'cars': cars})
