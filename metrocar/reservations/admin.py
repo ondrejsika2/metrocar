@@ -14,6 +14,7 @@ class JourneyInline(admin.StackedInline):
     model = Journey
     formset = JourneyOrderedFormset
     exclude = ['user', 'car']
+    extra = 0
 
 class ReservationModelAdmin(admin.ModelAdmin):
     list_display = ('user', 'car', 'reserved_from', 'reserved_until', 'started', 'ended', 'cancelled', 'price')
@@ -39,14 +40,12 @@ class ReservationModelAdmin(admin.ModelAdmin):
                 journey.update()
             r.finish()
 
-    def change_view(self, request, object_id, extra_content=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
         reservation = Reservation.objects.get(pk=object_id)
-        extra_content = {
-            'pricing': reservation.get_pricing_summary()
-        }
+        extra_context = dict(extra_context or {},
+            pricing=reservation.get_pricing_summary())
         return super(ReservationModelAdmin, self).change_view(
-               request, object_id, extra_content
-        )
+               request, object_id, form_url, extra_context)
 
 
 admin.site.register(Reservation, ReservationModelAdmin)
