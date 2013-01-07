@@ -14,7 +14,7 @@ define [], -> utils =
     for route in data
       for location in route.entries
         for entry in location.entries
-          for field, val of entry when field not in exclude
+          for field, val of entry when field not in exclude and val isnt null
             categories[field] = true
     (key for key, val of categories).sort()
 

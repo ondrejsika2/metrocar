@@ -19,7 +19,7 @@
               entry = _ref1[_k];
               for (field in entry) {
                 val = entry[field];
-                if (__indexOf.call(exclude, field) < 0) {
+                if (__indexOf.call(exclude, field) < 0 && val !== null) {
                   categories[field] = true;
                 }
               }

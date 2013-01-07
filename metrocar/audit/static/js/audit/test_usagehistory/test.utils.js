@@ -35,6 +35,7 @@
               {
                 consumption: 12.5,
                 velocity: 3,
+                something: null,
                 timestamp: '123456'
               }
             ]
