@@ -27,11 +27,11 @@ class Reservation(models.Model):
     comment = models.TextField(_('Comment'), blank=True, default='')
     created = models.DateTimeField(_('Created'), editable=False)
     ended = models.DateTimeField(_('Ended'), blank=True, null=True)
-    finished = models.BooleanField(_('Finished'), editable=False, default=False)
+    finished = models.BooleanField(_('Finished'), default=False)
     is_service = models.BooleanField(_('Is service'), default=False)
     modified = models.DateTimeField(_('Modified'), editable=False)
     price = models.DecimalField(_('Price'), decimal_places=3, max_digits=8,
-        editable=False, default=0)
+        default=0)
     reserved_from = models.DateTimeField(_('Reserved from'))
     reserved_until = models.DateTimeField(_('Reserved until'))
     started = models.DateTimeField(_('Started'), blank=True, null=True)
@@ -364,13 +364,14 @@ class Reservation(models.Model):
         if self.finished: return True
         if self.ready_to_finish() or by_daemon:
 
-            if not self.has_journey() and self.GEO_ENABLED:
+            if not self.has_journey() and settings.GEO_ENABLED:
                 # create Journeys from Geotrack log entries
                 create_journeys(
                     start=self.started,
                     end=finish_datetime,
                     car=self.car,
-                    user=self.user)
+                    user=self.user,
+                    reservation=self)
 
             # normalize journey objects (splitting, filling up etc.)
             if normalize_journeys:

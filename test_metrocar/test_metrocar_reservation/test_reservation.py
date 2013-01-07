@@ -1,19 +1,21 @@
-'''
-Created on 24.4.2010
-
-@author: xaralis
-'''
-
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 from django.contrib.gis.geos import Point
+from djangosanetesting.cases import DatabaseTestCase
 
 from nose.tools import raises
 
 from metrocar.car_unit_api.testing_data import unit
+from metrocar.car_unit_api.views import store as api_store
+from metrocar.cars import testing_data as cars_testing_data
 from metrocar.cars.models import Journey
 from metrocar.reservations.models import Reservation, ReservationError
 from metrocar.tarification.models import Pricelist
+from metrocar.tarification.testing_data import create_pricelist
+from metrocar.user_management.models import Account
+from metrocar.user_management.testing_data import create_user
+from metrocar.utils import Bunch
 from metrocar.utils.models import SiteSettings
 
 import geotrack
@@ -142,6 +144,7 @@ class TestReservation(ReservationEnabledTestCase):
         self.pricelist.delete()
         self.reservation.delete()
 
+
 class TestReservationManager(CarEnabledWithoutReservationTestCase):
     def setUp(self):
         super(TestReservationManager, self).setUp()
@@ -225,5 +228,71 @@ class TestReservationManager(CarEnabledWithoutReservationTestCase):
         self.assert_equals(finished[0].pk, self.r3.pk)
 
 
+class TestGeoEnabledReservationIntegration(DatabaseTestCase):
 
+    def test_complete_process(self):
 
+        # there is a user
+        user = create_user('some_user', 'some_password', 'Some', 'Name')
+
+        # there is a car with a car unit
+        car = cars_testing_data.create()['cars'][0]
+        unit_id = 456789
+        car_unit = unit(unit_id, car)
+
+        # a price list definition for the car
+        prices = dict(
+            pickup_fee=11,
+            price_per_hour=11,
+            price_per_km=15,
+            reservation_fee=17,
+        )
+        price_list = create_pricelist(car.model, **prices)
+
+        # user has a reservation
+        r_from = datetime(2012, 12, 12, 10)
+        r_until = datetime(2012, 12, 12, 12)
+        reservation = Reservation.objects.create(
+            user=user,
+            car=car,
+            reserved_from=r_from,
+            reserved_until=r_until,
+        )
+
+        # data arrive from car unit
+        api_store(unit_id, [
+            dict(
+                timestamp=datetime(2012, 12, 12, 11, 1),
+                location=(14, 50),
+                odometer=10000,
+            ),
+            dict(
+                timestamp=datetime(2012, 12, 12, 11, 5),
+                location=(14, 51),
+                odometer=10010,
+            ),
+            dict(
+                timestamp=datetime(2012, 12, 12, 11, 9),
+                location=(14, 52),
+                odometer=10030,
+            ),
+        ])
+
+        # reservation is finished (by a daemon)
+        reservation.finish(
+            finish_datetime=datetime(2012, 12, 12, 12),
+            by_daemon=True)
+
+        # appropriate amount of money is deducted from user's account
+        account = Account.objects.get(user=user)
+        self.assert_equals(account.balance, -Decimal(str(sum((
+            prices['pickup_fee'],
+            prices['reservation_fee'],
+            30 * prices['price_per_km'],
+            2 * prices['price_per_hour'],
+        )))))
+
+        reservation.delete()
+        user.delete()
+        car_unit.delete()
+        price_list.delete()
