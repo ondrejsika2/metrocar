@@ -56,7 +56,7 @@ How to...
 * :doc:`...deploy to the production server <howto/deployment>`
 * :doc:`...work with geographic data within Metrocar <howto/geo>`
 * :doc:`...write JavaScript <howto/js>`
-.. * :doc:`...write better code <howto/code>`
+* :doc:`...write better code <howto/code>`
 
 
 System components' documentation
