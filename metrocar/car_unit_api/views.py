@@ -83,6 +83,7 @@ def reservation_data_for_car_unit(reservation):
         'user': reservation_user_data(user),
         'start': reservation.reserved_from,
         'end': reservation.reserved_until,
+        'reservationId' : reservation.id,
     }
 
 
