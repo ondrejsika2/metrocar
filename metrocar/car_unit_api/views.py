@@ -89,6 +89,6 @@ def reservation_data_for_car_unit(reservation):
 
 def reservation_user_data(user):
     return {
-        'id': user.id,
+        'username': user.username,
         'password': user.password,
     }
