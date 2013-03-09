@@ -113,6 +113,7 @@ class TestReservationData(UnitTestCase):
         self.pw_hash = 'asdfadfa:sadfad:sdafafda'
         self.reservation = Bunch(
             user=Bunch(
+                id=1234,
                 username='komarem',
                 password=self.pw_hash,
             ),
@@ -123,6 +124,7 @@ class TestReservationData(UnitTestCase):
 
     def test_user_data(self):
         self.assertEqual(reservation_user_data(self.reservation.user), {
+            'id': 1234,
             'username': 'komarem',
             'password': self.pw_hash,
         })
