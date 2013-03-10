@@ -123,6 +123,14 @@ msgstr "Číslo OP"
 msgid "Preferred language"
 msgstr "Preferovaný jazyk"
 
+#: forms.py:42
+#: forms.py:63
+msgid "Do you agree?"
+msgstr "Souhlasíte s podmínkami?"
+
+msgid "You must accept our Terms of Service."
+msgstr "Musíte souhlasit s podmínkami použití."
+
 #: forms.py:49
 msgid "A user with that username already exists."
 msgstr "Uživatel s tímo uživatelským jménem již existuje."

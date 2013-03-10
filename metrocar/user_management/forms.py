@@ -39,6 +39,7 @@ class MetrocarUserCreationForm(forms.Form):
     identity_card_number = forms.RegexField(label=_('Identity card number'),
         regex=r'^[0-9]{9}$')
     language = forms.CharField(label=_('Preferred language'), max_length=2, widget=forms.Select(choices=settings.LANG_CHOICES))
+    license_terms = forms.BooleanField(label=_('Do you agree?'), error_messages={'required': _('You must accept our Terms of Service.')})
     
     def clean_username(self):
         username = self.cleaned_data['username']
