@@ -33,6 +33,7 @@ class StoreLog(APICall):
             optional('engine_temp', valid_float),
             optional('engine_rpm', valid_float),
             optional('throttle', valid_float),
+            optional('gps_accuracy', valid_float),
         ),
     )
 
