@@ -91,7 +91,7 @@ if settings.GEO_ENABLED:
         engine_temp = models.FloatField(null=True, blank=True)
         engine_rpm = models.FloatField(null=True, blank=True)
         throttle = models.FloatField(null=True, blank=True)
-	gps_accuracy = models.FloatField(null=True, blank=True) 
+        gps_accuracy = models.FloatField(null=True, blank=True) 
 
         def save(self, *args, **kwargs):
             # odometer value could be float, which would cause an error, so...
