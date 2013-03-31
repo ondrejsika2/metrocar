@@ -7,6 +7,8 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 
+from decimal import Decimal
+
 from django.db import models
 from django.db.models import signals
 from django.utils.translation import ugettext_lazy as _
@@ -251,7 +253,7 @@ class InvoiceItem(models.Model):
         """
         Returns item's amount of money with tax added
         """
-        tax = self.amount * (self.invoice.user.home_subsidiary.tax_rate / 100)
+        tax = self.amount * Decimal(self.invoice.user.home_subsidiary.tax_rate / 100)
         return self.amount + tax
     
 signals.post_save.connect(InvoiceItem.objects.create_for_invoice, Invoice)
