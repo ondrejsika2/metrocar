@@ -45,7 +45,7 @@ class InvoiceAddress(models.Model):
         verbose_name_plural = _('Invoice addresses')
 
     def __unicode__(self):
-        return '%s %s, %s %s, %s' % (self.street, self.house_number, 
+        return '%s %s, %s %s, %s' % (self.street, self.land_registry_number, 
                                      self.zip_code, self.city, self.state)
     
 class CompanyInvoiceAddress(InvoiceAddress):

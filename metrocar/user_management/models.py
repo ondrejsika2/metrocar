@@ -99,9 +99,15 @@ class MetrocarUser(User):
         from metrocar.invoices.models import CompanyInvoiceAddress, \
             UserInvoiceAddress
         if self.company is not None:
-            return CompanyInvoiceAddress.objects.get(company=self.company)
+            try:                
+                return CompanyInvoiceAddress.objects.get(company=self.company)
+            except CompanyInvoiceAddress.DoesNotExist:
+                return None        
         else:
-            return UserInvoiceAddress.objects.get(user=self)
+            try:
+                return UserInvoiceAddress.objects.get(user=self)
+            except UserInvoiceAddress.DoesNotExist:
+                return None    
 
     def get_uninvoiced_account_activities(self):
         """

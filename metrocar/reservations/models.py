@@ -80,6 +80,7 @@ class Reservation(models.Model):
             - valid pricelist exists
             - account balance is sufficent
             - no conflicting reservation exists
+            - user has entered invoice address
         """
         from metrocar.cars.models import Car
 
