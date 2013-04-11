@@ -23,11 +23,19 @@ your request, you will be sent an e-mail confirming the account activation.</p>
 <form id="registration_form" class="registration" action="{% url mfe_users_registration %}" method="post">
     <table>
         {% for field in form %}
-        <tr>
-            <td><label>{{ field.label }}</label></td>
-            <td>{{ field }}{% include "includes/field_errors.html" %}</td>
-            <td>{% if field.help_text %}<span class="help-text">{{ field.help_text }}</span>{% endif %}</td>
-        </tr>
+            {% if field.html_name == 'license_terms' %}
+                <tr>
+                    <td><label> <a href="/podminky-pouziti/">{{ field.label }}</a></label></td>
+                    <td>{{ field }}{% include "includes/field_errors.html" %}</td>
+                    <td>{% if field.help_text %}<span class="help-text">{{ field.help_text }}</span>{% endif %}</td>
+                </tr>
+            {% else %}    
+                <tr>
+                    <td><label>{{ field.label }}</label></td>
+                    <td>{{ field }}{% include "includes/field_errors.html" %}</td>
+                    <td>{% if field.help_text %}<span class="help-text">{{ field.help_text }}</span>{% endif %}</td>
+                </tr>
+            {% endif %}   
         {% endfor %}
     </table>
     <p class="submit-row">
