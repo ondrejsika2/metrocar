@@ -156,6 +156,9 @@ msgstr "Nebyl nalezen žádný platný ceník pro zvolený model automobilu."
 msgid "You don't have enough money to create reservation. Required account balance is %s."
 msgstr "Nemáte dostatek peněz pro vytvoření rezervace. Požadovaná částka je přibližně %s."
 
+msgid "You need to enter your address first at yout account settings. We need this information for creation of invoice."
+msgstr "Nejprve musíte vložit svou adresu v nastavení účtu. Tato informace je pro nás nezbytná kvůli fakturaci."
+
 #: models.py:159
 msgid "Reservation cannot be created due to conflicting time"
 msgstr "Rezervace nemůže být dokončena, protože zadané časy nesouhlasí."

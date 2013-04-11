@@ -94,7 +94,8 @@ class MetrocarUser(User):
 
     def get_invoice_address(self):
         """
-        Return concrete invoice address for the user.
+        Return concrete invoice address for the user. 
+        Or None if he has not yet entered it.
         """
         from metrocar.invoices.models import CompanyInvoiceAddress, \
             UserInvoiceAddress
@@ -304,6 +305,21 @@ class Account(models.Model):
             account = Account()
             account.user = kwargs['instance']
             account.save()
+
+    def send_warning_mail(self):
+        """
+        Sends warning about negative balance on user account.
+        """
+        from metrocar.utils.models import EmailTemplate
+        from django.core.mail import EmailMessage
+        from metrocar.utils.log import get_logger
+        et = EmailTemplate.objects.get(code='TAR_' + self.user.language)        
+        email = EmailMessage(et.subject, et.content, settings.EMAIL_HOST_USER, [self.user.email])
+        try:
+            email.send(fail_silently=False)
+            get_logger().info("Mail TAR_" + self.user.language + " sent to " + str([self.user.email]))
+        except Exception as ex:
+            get_logger().error("Mail TAR_" + self.user.language + " could not be sent. Exception was: " + str(ex))        
 
 post_save.connect(Account.create_for_user, sender=MetrocarUser)
 
