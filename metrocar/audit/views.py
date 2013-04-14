@@ -27,7 +27,7 @@ class UsageQuery(APICall):
     """
 
     # the maximum number of entries we will process
-    threshold = 1000
+    threshold = 3600
 
     @process_request(parse_json)
     # using POST because it's easier to do with jQuery...
