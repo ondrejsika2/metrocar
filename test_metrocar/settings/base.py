@@ -32,6 +32,7 @@ if not GEO_ENABLED:
         }
     }
 
+ACCOUNTING_ENABLED = False
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

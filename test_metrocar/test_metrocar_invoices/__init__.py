@@ -30,6 +30,7 @@ class InvoiceEnabledTestCase(UserEnabledTestCase):
 
     def tearDown(self):
         super(InvoiceEnabledTestCase, self).tearDown()
+        self.invoice.delete()
         self.acc_act_1.delete()
         self.acc_act_2.delete()
-        self.acc_act_3.delete()
+        self.acc_act_3.delete()        
