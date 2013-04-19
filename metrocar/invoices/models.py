@@ -23,6 +23,7 @@ from metrocar.user_management.models import MetrocarUser
 from metrocar.utils.fields import *
 from metrocar.utils.models import SystemModel
 
+
 class InvoiceAddress(models.Model):
     street = models.CharField(max_length=100, blank=False, null=False,
                               verbose_name=_('Street'))
@@ -172,22 +173,23 @@ class Invoice(models.Model):
         if not self.pk:
             from django.conf import settings
             # generate vs, draw date and due date
-            self.variable_symbol = self.user.variable_symbol
-            self.specific_symbol = Invoice.generate_specific_symbol()
+            self.variable_symbol = Invoice.generate_variable_symbol()
+            self.specific_symbol = self.user.specific_symbol
             self.draw_date = date.today()
             self.due_date = self.draw_date + timedelta(days=settings.INVOICE_DUE_DATE_INTERVAL)
-            self.status = 'ACTIVE'
+            if self.status != 'PAID':
+                self.status = 'ACTIVE'    
         super(Invoice, self).save(*args, ** kwargs)
     
     @classmethod
-    def generate_specific_symbol(cls):
+    def generate_variable_symbol(cls):
         """
-        Generates Specific symbol for new invoice. Specific symbol is used because VS alone would
-        not unambiguously identify the invoice
+        Generates variable symbol for new invoice. Variable symbol is used because specific_symbol alone would
+        not unambiguously identify the invoice. Also VS should allways be unique.
         """
         now = datetime.now()
         ss = now.strftime("%m%d%H")
-        order_count = len(cls.objects.filter(specific_symbol=ss))
+        order_count = len(cls.objects.filter(variable_symbol=ss))
         # expect maximum of 9998 orders per hour
         return u"%s%04d" % (ss, order_count + 1)
     
@@ -195,19 +197,19 @@ class Invoice(models.Model):
     def create_invoice(cls, usr):
         """
         Creates, saves and returns new invoice for the given user.
-        Also subtracts the invoice price from the user's account
+        This invoice is created for every user once per month. It contains
+        account activities that were already credited
         """
         inv = Invoice(user=usr)
+        inv.status = 'PAID'
         inv.save()
         activities = usr.get_invoiceable_activities()
         for ac in activities:
             ii = InvoiceItem(account_activity=ac, invoice=inv)
             ii.save()
-        sum = inv.total_price_with_tax()
-        usr.account.balance -= sum
         pdf = inv.get_printable_invoice()
         inv.pdf_invoice = pdf.generate_pdf()
-        inv.save()
+        #these activities were already taken from account                
         return inv
     
     @classmethod
@@ -256,4 +258,9 @@ class InvoiceItem(models.Model):
         tax = self.amount * Decimal(self.invoice.user.home_subsidiary.tax_rate / 100)
         return self.amount + tax
     
+
 signals.post_save.connect(InvoiceItem.objects.create_for_invoice, Invoice)
+if settings.ACCOUNTING_ENABLED:
+    from metrocar.accounting import invoices_management
+    signals.post_delete.connect(invoices_management.delete_invoice_receiver, Invoice)
+    signals.post_save.connect(invoices_management.save_invoice_receiver, Invoice) 

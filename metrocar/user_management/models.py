@@ -49,8 +49,8 @@ class MetrocarUser(User):
                                verbose_name=_('Primary phone number'))
     secondary_phone = PhoneField(blank=True, null=True,
                                  verbose_name=_('Secondary phone number'))
-    variable_symbol = models.IntegerField(max_length=12, blank=False,
-        null=True, editable=False, verbose_name=_('Variable symbol'))
+    specific_symbol = models.IntegerField(max_length=12, blank=False,
+        null=True, editable=False, verbose_name=_('Specific symbol'))
     invoice_date = models.DateField(blank=False, null=False,
         verbose_name=_('Invoice date'))
     company = models.ForeignKey(Company, null=True, blank=True,
@@ -141,16 +141,16 @@ class MetrocarUser(User):
 
         return hash
 
-    def parse_vs_from_id_card_number(self):
+    def parse_ss_from_id_card_number(self):
         """
-        Parses variable_symbol from identity_card_number. Extracts only digits and casts the number to int
+        Parses specific_symbol from identity_card_number. Extracts only digits and casts the number to int
         """
-        vs = re.sub("\D", "", self.identity_card_number)
+        ss = re.sub("\D", "", self.identity_card_number)
         try:
-            vs = int(vs)
+            ss = int(ss)
         except ValueError:      #should not happen, id_card_num consists only of digits and characters
-            vs = 1
-        return vs
+            ss = 1
+        return ss
 
     def request_password_reset(self):
         """
@@ -166,7 +166,7 @@ class MetrocarUser(User):
         Overload to set home subsidiary if missing
         """
         self.invoice_date = date.today()
-        self.variable_symbol = self.parse_vs_from_id_card_number()
+        self.specific_symbol = self.parse_ss_from_id_card_number()
         if not self.pk:
             try:
                 self.home_subsidiary

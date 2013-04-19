@@ -29,7 +29,7 @@ class MetrocarUserManager(UserManager):
             'is_superuser': False,
             'last_login': now,
             'date_joined': now,
-            'variable_symbol': 0,
+            'specific_symbol': 0,
             'invoice_date': now,
             'home_subsidiary': Subsidiary.objects.get_current(),
 		        'language': 'CS',
