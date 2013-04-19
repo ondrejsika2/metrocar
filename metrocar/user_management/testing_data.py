@@ -29,7 +29,7 @@ def create_user(username, password, first_name, last_name, email=None, **kwargs)
         email=email or '%s@mailinator.com' % username,
         drivers_licence_number='0000000',
         gender='M',
-        identity_card_number='0000000',
+        identity_card_number='123123123',
         primary_phone='000 000000000',
         language=settings.LANG_CHOICES[0][0],
     )

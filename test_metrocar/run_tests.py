@@ -31,7 +31,6 @@ for p in PYTHONPATH:
 # django needs this env variable
 os.environ['DJANGO_SETTINGS_MODULE'] = DJANGO_SETTINGS_MODULE
 
-
 # TODO: ugly hack to inject django plugin to nose.run
 sys.argv.insert(1, '--with-django')
 
