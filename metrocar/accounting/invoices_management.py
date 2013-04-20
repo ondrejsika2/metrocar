@@ -20,7 +20,7 @@ def create_invoice(invoice):
 		#account activity of item
 		activity = item.account_activity
 		#abs because ammount in activity is negative when it's expense
-		it_price = str(abs(activity.money_amount))	 
+		it_price = str(abs(activity.money_amount))
 		it = {'kod':'item'+str(item.id),'nazev': activity.comment, 'zdrojProSkl':False, 'ucetni':True, 'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
 		invoice_items.append(it)
 	# i need infromation about address of user for invoice	
@@ -97,6 +97,7 @@ def update_invoice(invoice):
 		flexipy.update_vydana_faktura(inv_id, flex_inv)
 	except FlexipyException as e:
 		get_logger().error("Error during update of invoice in Flexibee, error was "+str(e))	
+		
 
 def save_invoice_receiver(sender, **kwargs):
 	"""
@@ -111,3 +112,43 @@ def save_invoice_receiver(sender, **kwargs):
 	else:
 		# if created is False then this invoice is just being created
 		create_invoice(inv)
+
+def pair_payments():
+	"""
+	This function is flexibee specific, because flexibee can pait payemnts automaticly, 
+	just by comparing incoming payments vs with invoice vs.
+	"""		
+	try:
+		flexipy.proved_sparovani()
+		get_logger().info("Automatic pairing of payments in Flexibee successfully executed.")
+	except FlexipyException as e:
+		get_logger().error("Error during automatic pairing of payments in Flexibee, error was "+str(e))	
+
+def check_incoming_payments():
+	"""
+	This function will automaticly execute pairing of payments. Then 
+	it will take all invoices from metrocar that are in ACTIVE state and compare them 
+	to there doppelganger in Flexibee. 
+	"""	
+	pass
+	# pair_payments()
+	# from metrocar.invoices.models import Invoice
+	# from datetime import datetime
+	# unpaid_inv = Invoice.objects.all().filter(status='ACTIVE')
+	# for inv in unpaid_inv:
+	# 	try:
+	# 		#get doppelganger from Flexibee
+	# 		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(inv.id))
+	# 		if flex_inv['stavUhrK'] == 'stavUhr.uhrazeno':
+	# 			#set also metrocar invoice to PAID
+	# 			inv.status = 'PAID'
+	# 			inv.payment_datetime = datetime.now()
+	# 			#credit the payent
+	# 			inv.user.account.balance += inv.total_price()
+	# 			#set account activities as credited
+	# 			for item in inv.get_items():
+	# 				item.account_activity.credited = True
+	# 			inv.save()
+	# 	except FlexipyException as e:
+	# 		get_logger().error("Error during automatic pairing of payments in Flexibee, error was "+str(e))	
+
