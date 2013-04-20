@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from time import strftime
+import os
 from flexipy.exceptions import FlexipyException
 import flexipy
 #get logger 
@@ -19,9 +20,12 @@ def create_invoice(invoice):
 	for item in invoice.get_items():
 		#account activity of item
 		activity = item.account_activity
-		#abs because ammount in activity is negative when it's expense
-		it_price = str(activity.money_amount)
-		it = {'kod':'item'+str(item.id),'nazev': activity.comment, 'zdrojProSkl':False, 'ucetni':True, 'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
+		#abs because if invoice is paid than all money where taken from account
+		if invoice.status == 'PAID':
+			it_price = str(abs(activity.money_amount))
+		else:
+			it_price = str(activity.money_amount)
+		it = {'kod':'item'+str(item.id),'nazev': str(activity.as_concrete_class()), 'zdrojProSkl':False, 'ucetni':True, 'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
 		invoice_items.append(it)
 	# i need infromation about address of user for invoice	
 	inv_address = invoice.user.get_invoice_address()
@@ -109,9 +113,6 @@ def save_invoice_receiver(sender, **kwargs):
 		#if kwargs contains created = True then the already existing instance
 		#is being created
 		update_invoice(inv)
-	else:
-		# if created is False then this invoice is just being created
-		create_invoice(inv)
 
 def pair_payments():
 	"""
@@ -152,3 +153,16 @@ def check_incoming_payments():
 	# 	except FlexipyException as e:
 	# 		get_logger().error("Error during automatic pairing of payments in Flexibee, error was "+str(e))	
 
+
+def print_invoice(invoice):
+	"""
+	This function print invoice in flexibee into pdf and save it to MEDIA_ROOT/files/invoices
+	"""
+	try:
+		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(inv.id))
+		save_to = os.path.join('invoices', strftime('%Y-%m'))
+		save_path = os.path.join(settings.MEDIA_ROOT, save_to)
+		if not os.path.exists(save_path):
+			os.makedirs(save_path)
+	except FlexipyException as e:
+		get_logger().error("Error during pdf printig invoice from Flexibee, error was "+str(e))	

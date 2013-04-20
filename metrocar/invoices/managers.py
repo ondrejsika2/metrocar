@@ -20,5 +20,5 @@ class InvoiceItemManager(models.Manager):
         for activity in univoiced_activities:
             i = self.model(invoice=invoice, account_activity=activity)
             i.save()
-            items.append(i)
+            items.append(i)   
         return items

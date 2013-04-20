@@ -202,14 +202,18 @@ class Invoice(models.Model):
         if len(activities) > 0:
             inv = Invoice(user=usr)
             inv.save()        
-            # for ac in activities:
-            #     ii = InvoiceItem(account_activity=ac, invoice=inv)
-            #     ii.save()
             sum = inv.total_price_with_tax()
             usr.account.balance -= sum
             pdf = inv.get_printable_invoice()
             inv.pdf_invoice = pdf.generate_pdf()
+            #if total price is less then zero then all these activites where taken from account
+            #therefore invoice was already paid
+            if sum < 0:
+                inv.status = 'PAID'
             inv.save()
+            if settings.ACCOUNTING_ENABLED:
+                from metrocar.accounting import invoices_management
+                invoices_management.create_invoice(inv)
             return inv
         else: 
             return None            
@@ -265,4 +269,4 @@ signals.post_save.connect(InvoiceItem.objects.create_for_invoice, Invoice)
 if settings.ACCOUNTING_ENABLED:
     from metrocar.accounting import invoices_management
     signals.post_delete.connect(invoices_management.delete_invoice_receiver, Invoice)
-    signals.post_save.connect(invoices_management.save_invoice_receiver, Invoice) 
+    #signals.post_save.connect(invoices_management.save_invoice_receiver, Invoice)
