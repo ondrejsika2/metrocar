@@ -177,8 +177,7 @@ class Invoice(models.Model):
             self.specific_symbol = self.user.specific_symbol
             self.draw_date = date.today()
             self.due_date = self.draw_date + timedelta(days=settings.INVOICE_DUE_DATE_INTERVAL)
-            if self.status != 'PAID':
-                self.status = 'ACTIVE'    
+            self.status = 'ACTIVE'
         super(Invoice, self).save(*args, ** kwargs)
     
     @classmethod
@@ -197,20 +196,23 @@ class Invoice(models.Model):
     def create_invoice(cls, usr):
         """
         Creates, saves and returns new invoice for the given user.
-        This invoice is created for every user once per month. It contains
-        account activities that were already credited
+        Also subtracts the invoice price from the user's account
         """
-        inv = Invoice(user=usr)
-        inv.status = 'PAID'
-        inv.save()
         activities = usr.get_invoiceable_activities()
-        for ac in activities:
-            ii = InvoiceItem(account_activity=ac, invoice=inv)
-            ii.save()
-        pdf = inv.get_printable_invoice()
-        inv.pdf_invoice = pdf.generate_pdf()
-        #these activities were already taken from account                
-        return inv
+        if len(activities) > 0:
+            inv = Invoice(user=usr)
+            inv.save()        
+            # for ac in activities:
+            #     ii = InvoiceItem(account_activity=ac, invoice=inv)
+            #     ii.save()
+            sum = inv.total_price_with_tax()
+            usr.account.balance -= sum
+            pdf = inv.get_printable_invoice()
+            inv.pdf_invoice = pdf.generate_pdf()
+            inv.save()
+            return inv
+        else: 
+            return None            
     
     @classmethod
     def collect_payment(cls, vs, ss, sum):

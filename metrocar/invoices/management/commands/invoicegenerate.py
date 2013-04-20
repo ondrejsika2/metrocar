@@ -22,6 +22,7 @@ class Command(NoArgsCommand):
         # first get all users (not just local ones)
         for u in MetrocarUser.objects.all():
             if u.invoice_date.day == date.today().day:
-				inv = Invoice.create_invoice(u)
-				inv.send_by_email()
+                inv = Invoice.create_invoice(u)
+                if inv != None:
+                    inv.send_by_email()
 				
