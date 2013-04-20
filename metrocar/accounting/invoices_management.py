@@ -20,7 +20,7 @@ def create_invoice(invoice):
 		#account activity of item
 		activity = item.account_activity
 		#abs because ammount in activity is negative when it's expense
-		it_price = str(abs(activity.money_amount))
+		it_price = str(activity.money_amount)
 		it = {'kod':'item'+str(item.id),'nazev': activity.comment, 'zdrojProSkl':False, 'ucetni':True, 'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
 		invoice_items.append(it)
 	# i need infromation about address of user for invoice	
