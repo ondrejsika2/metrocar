@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from metrocar.user_management.models import MetrocarUser, Deposit, Account
+from metrocar.invoices.models import UserInvoiceAddress
 
 
 def create_admin(username='admin', password='admin'):
@@ -37,7 +38,11 @@ def create_user(username, password, first_name, last_name, email=None, **kwargs)
         defaults=dict(defaults, **kwargs), **id)[0]
     user.set_password(password)
     user.save()
+    create_invoice_address(user)
     return user
+
+def create_invoice_address(user):
+    UserInvoiceAddress.objects.create(street='Testing alley',land_registry_number=4815,zip_code=78916,city='Portland',user=user)
 
 
 def create_deposit(username, amount, comment='Testing deposit', **kwargs):
