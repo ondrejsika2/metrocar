@@ -204,16 +204,18 @@ class Invoice(models.Model):
             inv.save()        
             sum = inv.total_price_with_tax()
             usr.account.balance -= sum
-            pdf = inv.get_printable_invoice()
-            inv.pdf_invoice = pdf.generate_pdf()
+            if settings.ACCOUNTING_ENABLED ==False:
+                pdf = inv.get_printable_invoice()
+                inv.pdf_invoice = pdf.generate_pdf()
             #if total price is less then zero then all these activites where taken from account
             #therefore invoice was already paid
             if sum < 0:
                 inv.status = 'PAID'
-            inv.save()
             if settings.ACCOUNTING_ENABLED:
                 from metrocar.accounting import invoices_management
                 invoices_management.create_invoice(inv)
+                inv.pdf_invoice = invoices_management.print_invoice(inv)
+            inv.save()    
             return inv
         else: 
             return None            

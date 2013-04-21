@@ -157,12 +157,21 @@ def check_incoming_payments():
 def print_invoice(invoice):
 	"""
 	This function print invoice in flexibee into pdf and save it to MEDIA_ROOT/files/invoices
+	It returns path to the file.
 	"""
 	try:
-		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(inv.id))
+		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(invoice.id))
+		pdf = flexipy.get_faktura_vydana_pdf(flex_inv['id'])
+		filename = '%s_%s' % (invoice.user.username, invoice.variable_symbol)
 		save_to = os.path.join('invoices', strftime('%Y-%m'))
+		from django.conf import settings
 		save_path = os.path.join(settings.MEDIA_ROOT, save_to)
 		if not os.path.exists(save_path):
 			os.makedirs(save_path)
+		file = open('%s/%s.pdf' % (save_path, filename), 'wb')	
+		file.write(pdf)
+		file.close()
+		get_logger().info("Pdf of invoice id="+str(invoice.id)+" successfully created.")
+		return '%s/%s.pdf' % (save_to, filename)
 	except FlexipyException as e:
 		get_logger().error("Error during pdf printig invoice from Flexibee, error was "+str(e))	
