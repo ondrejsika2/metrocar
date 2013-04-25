@@ -34,7 +34,7 @@ filter and search.</p>
 	<tr class="{% cycle "even" "odd" %}">
 		<td class="smaller">{{ row.datetime|date:"DATETIME_FORMAT" }}</td>
 		<td class="smaller">{{ row.as_concrete_class }}</td>
-		<td class="smaller">{% if row.as_concrete_class.is_positive %}<span class="number-positive">+{{ row.money_amount|floatformat:"2" }}</span>{% else %}<span class="number-negative">{{ row.money_amount|floatformat:"2" }}</span>{% endif %}</td>
+		<td class="smaller">{% if row.as_concrete_class.is_positive %}<span class="number-positive">+{{ row.as_concrete_class.money_amount_with_tax|floatformat:"2" }}</span>{% else %}<span class="number-negative">{{ row.as_concrete_class.money_amount_with_tax|floatformat:"2" }}</span>{% endif %}</td>
 		<td class="smaller">{{ row.account_balance|floatformat:"2" }}</td>
 	</tr>
 	{% endif %}
