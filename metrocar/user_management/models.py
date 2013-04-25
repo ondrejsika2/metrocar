@@ -346,7 +346,7 @@ class AccountActivity(models.Model):
     """
 
     def __unicode__(self):
-        return "%+8.2f" % self.money_amount
+        return "%+8.2f" % self.money_amount_with_tax
 
     @commit_on_success
     def save(self, **kwargs):
@@ -359,7 +359,7 @@ class AccountActivity(models.Model):
         if not self.credited and self.ready_to_be_invoiced():
             # perform change of account balance and freeze it's current state
             # to account_balance field
-            self.account.balance += self.money_amount
+            self.account.balance += self.money_amount_with_tax
             self.account_balance = self.account.balance
             self.credited = True
             self.account.save()
@@ -388,10 +388,19 @@ class AccountActivity(models.Model):
         """
         return True
 
+    @property    
+    def money_amount_with_tax(self):
+        """
+        Returns money ammount with tax 
+        """        
+        tax = self.money_amount * Decimal(self.account.user.home_subsidiary.tax_rate / 100)
+        result = self.money_amount + tax
+        return result.quantize(Decimal('0.01'))
+
 class Deposit(AccountActivity):
     class Meta:
         verbose_name = _('Deposit')
         verbose_name_plural = _('Deposits')
 
     def __unicode__(self):
-        return "%s %s" % (unicode(_('Deposit')), self.money_amount)
+        return "%s %s" % (unicode(_('Deposit')), self.money_amount_with_tax)

@@ -140,7 +140,7 @@ class Invoice(models.Model):
         total_price = 0
         for item in self.get_items():
             total_price += item.amount_with_tax()
-        return total_price
+        return total_price.quantize(Decimal('0.01'))
     
     def send_by_email(self):
         """
@@ -151,7 +151,10 @@ class Invoice(models.Model):
         from metrocar.utils.serializers import to_dict
         from metrocar.utils.log import get_logger
         self.pdf_invoice.open(mode='rb')
-        et = EmailTemplate.objects.get(code='INV_' + self.user.language)
+        if self.status == 'PAID':
+            et = EmailTemplate.objects.get(code='INV_' + self.user.language)
+        else:
+            et = EmailTemplate.objects.get(code='INV_A_' + self.user.language)    
         params = to_dict(self)
         params = params[0]
         subject = et.render_subject(** params)

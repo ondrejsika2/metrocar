@@ -25,7 +25,7 @@ def create_invoice(invoice):
 			it_price = str(abs(activity.money_amount))
 		else:
 			it_price = str(activity.money_amount)
-		it = {'kod':'item'+str(item.id),'nazev': str(activity.as_concrete_class()), 'zdrojProSkl':False, 'ucetni':True, 'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
+		it = {'kod':'item'+str(item.id),'nazev': str(activity.as_concrete_class()), 'typSzbDphK':'typSzbDph.dphZakl','szbDph':'21','zdrojProSkl':False, 'ucetni':True,'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
 		invoice_items.append(it)
 	# i need infromation about address of user for invoice	
 	inv_address = invoice.user.get_invoice_address()
@@ -131,27 +131,23 @@ def check_incoming_payments():
 	it will take all invoices from metrocar that are in ACTIVE state and compare them 
 	to there doppelganger in Flexibee. 
 	"""	
-	pass
-	# pair_payments()
-	# from metrocar.invoices.models import Invoice
-	# from datetime import datetime
-	# unpaid_inv = Invoice.objects.all().filter(status='ACTIVE')
-	# for inv in unpaid_inv:
-	# 	try:
-	# 		#get doppelganger from Flexibee
-	# 		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(inv.id))
-	# 		if flex_inv['stavUhrK'] == 'stavUhr.uhrazeno':
-	# 			#set also metrocar invoice to PAID
-	# 			inv.status = 'PAID'
-	# 			inv.payment_datetime = datetime.now()
-	# 			#credit the payent
-	# 			inv.user.account.balance += inv.total_price()
-	# 			#set account activities as credited
-	# 			for item in inv.get_items():
-	# 				item.account_activity.credited = True
-	# 			inv.save()
-	# 	except FlexipyException as e:
-	# 		get_logger().error("Error during automatic pairing of payments in Flexibee, error was "+str(e))	
+	pair_payments()
+	from metrocar.invoices.models import Invoice
+	from datetime import datetime
+	#get all unpaid invoices from db
+	unpaid_inv = Invoice.objects.all().filter(status='ACTIVE')
+	for inv in unpaid_inv:
+		try:
+			#get doppelganger from Flexibee
+			flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(inv.id))
+			if flex_inv['stavUhrK'] == 'stavUhr.uhrazeno':
+				#TODO osetreni castecne uhrady
+				#set also metrocar invoice to PAID
+				inv.status = 'PAID'
+				inv.payment_datetime = datetime.now()
+				inv.save()
+		except FlexipyException as e:
+			get_logger().error("Error during automatic pairing of payments in Flexibee, error was "+str(e))	
 
 
 def print_invoice(invoice):

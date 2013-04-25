@@ -22,7 +22,7 @@ class Subsidiary(models.Model):
     street = models.CharField(_('Street'), max_length=100)
     house_number = models.IntegerField(_('House number'), max_length=8)
     city = models.CharField(_('City'), max_length=80)
-    tax_rate = models.FloatField(_('Tax rate'), default=19)
+    tax_rate = models.FloatField(_('Tax rate'), default=21)
 
     site = models.OneToOneField(Site)
 
