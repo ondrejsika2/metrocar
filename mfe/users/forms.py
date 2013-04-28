@@ -10,11 +10,12 @@ Created on 12.3.2010
 from datetime import datetime
 
 from django import forms
+from django.contrib import messages
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from metrocar.user_management.forms import MetrocarUserCreationForm
-from metrocar.invoices.models import UserInvoiceAddress
+from metrocar.invoices.models import UserInvoiceAddress, Invoice
 from metrocar.cars.models import FuelBill, Car
 
 class MetrocarUserRegistrationForm(MetrocarUserCreationForm):
@@ -80,3 +81,24 @@ class FuelBillClaimForm(forms.ModelForm):
     
 class UsernameForm(forms.Form):
     username = forms.CharField(max_length=100)
+
+
+class DepositForm(forms.Form):   
+    money_amount = forms.DecimalField(decimal_places=2, max_digits=8,help_text=_("Enter the money ammount for deposit."))
+
+    def __init__(self, request=None, data=None):
+        super(DepositForm, self).__init__(data=data)
+        self.request = request        
+        
+    def clean(self):
+        cleaned_data = super(DepositForm, self).clean()
+        try:
+            if cleaned_data["money_amount"] <= 0:
+                raise forms.ValidationError(_('Deposit amount must be greater then zero.'))
+        except KeyError:
+            raise forms.ValidationError(_('Please enter the money ammount of the deposit.'))            
+        # now check busines logic for creating of deposit
+        #check number of unpaid invoices
+        if Invoice.get_count_of_unpaid_invoices(self.request.user) > 0:
+            raise forms.ValidationError(_('You have some unpaid invoices. You cannot create deposit only if all invoices are paid.'))
+        return cleaned_data    

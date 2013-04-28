@@ -54,7 +54,7 @@ def delete_invoice(invoice):
 	:param invoice: metrocar.invoices.models.Invoice object
 	"""
 	try:
-		flexInvoice = flexipy.get_vydana_faktura_by_code(code='inv'+str(invoice.id))
+		flexInvoice = flexipy.get_vydana_faktura_by_code(code='inv'+str(invoice.id))		
 		flexID = flexInvoice['id']
 		flexipy.delete_vydana_faktura(flexID)
 		get_logger().info("Invoice with flexibee id "+str(invoice.id)+" was successfully deleted.")
@@ -99,6 +99,7 @@ def update_invoice(invoice):
 		flex_inv['datSplat'] = str(invoice.due_date)
 		inv_id = flex_inv['id']
 		flexipy.update_vydana_faktura(inv_id, flex_inv)
+		get_logger().info("Invoice id: "+str(invoice.id)+" successfully updated.")
 	except FlexipyException as e:
 		get_logger().error("Error during update of invoice in Flexibee, error was "+str(e))	
 		
@@ -106,13 +107,17 @@ def update_invoice(invoice):
 def save_invoice_receiver(sender, **kwargs):
 	"""
 	This function is receiving signal from metrocar.invoices.models.Invoice 
-	whenever is invoice saved. It will save invoice into Flexibee.
+	whenever is invoice saved. It is here for updating invoice in flexibee.
 	"""
 	inv = kwargs['instance']
-	if not kwargs['created']:
-		#if kwargs contains created = True then the already existing instance
-		#is being created
-		update_invoice(inv)
+	#first check wheter inv alredy exists in flexibee
+	try:			
+		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(inv.id))
+	except FlexipyException as e:
+		return
+	else:
+		#if invoice in flexibee then call update
+		update_invoice(inv)	
 
 def pair_payments():
 	"""

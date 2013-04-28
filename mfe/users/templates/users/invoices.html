@@ -52,7 +52,8 @@ or not.</p>
         {% for invoice in invoices %}
         <li>
             {{ invoice.draw_date|date:"F Y" }} ({{ invoice.variable_symbol }})
-            <a href="{{ invoice.pdf_invoice.url }}" class="attachment pdf">{% trans "pdf" %}</a></li>
+            <a href="{{ invoice.pdf_invoice.url }}" class="attachment pdf">{% trans "pdf" %}</a>
+            {% if invoice.status == 'PAID' %}<span class="number-positive">&nbsp;&nbsp;&nbsp;{% trans "Paid" %}</span>{% else %}<span class="number-negative">&nbsp;&nbsp;&nbsp;{% trans "Active" %}</span>{% endif %}</li>
         {% endfor %}
     </ul>
 {% else %}

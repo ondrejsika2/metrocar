@@ -9,7 +9,10 @@ def create_invoice(inv):
 	invoices_management.create_invoice(inv)	
 
 def print_invoice(inv):
-	invoices_management.print_invoice(inv)	
+	return invoices_management.print_invoice(inv)	
 
-def delete_invoice_receiver():
-	invoices_management.delete_invoice_receiver
+def delete_invoice_receiver(sender, **kwargs):
+	invoices_management.delete_invoice_receiver(sender, **kwargs)
+
+def save_invoice_receiver(sender, **kwargs):
+	invoices_management.save_invoice_receiver(sender, **kwargs)	
