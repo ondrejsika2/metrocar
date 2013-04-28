@@ -13,13 +13,13 @@ class TestAccountActivity(UserEnabledTestCase):
         d = Deposit(account=self.user.account, money_amount=300, credited=False)
         d.save()
         a = Account.objects.get(user=self.user)
-        self.assert_equals(a.balance, old_account_balance + d.money_amount)
+        self.assert_equals(a.balance, old_account_balance + d.money_amount_with_tax)
         self.assert_equals('deposit', d.content_type.model)
         
         d2 = Deposit(account=self.user.account, money_amount=300, credited=True)
         d.save()
         a = Account.objects.get(user=self.user)
-        self.assert_equals(a.balance, old_account_balance + d.money_amount)
+        self.assert_equals(a.balance, old_account_balance + d.money_amount_with_tax)
         
     def test_1_as_concrete_class(self):
         d = Deposit(account=self.user.account, money_amount=300, credited=True)

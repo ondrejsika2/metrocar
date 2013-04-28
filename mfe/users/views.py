@@ -17,12 +17,12 @@ from django.utils.translation import gettext_lazy as _
 import django_tables as tables
 
 from metrocar.cars.models import FuelBill
-from metrocar.user_management.models import MetrocarUser, AccountActivity
+from metrocar.user_management.models import MetrocarUser, AccountActivity, Deposit, Account
 from metrocar.user_management.forms import MetrocarUserChangeForm
 from metrocar.reservations.models import Reservation
 from metrocar.invoices.models import Invoice
 
-from forms import MetrocarUserRegistrationForm, AddressChangeForm, FuelBillClaimForm, UsernameForm
+from forms import MetrocarUserRegistrationForm, AddressChangeForm, FuelBillClaimForm, UsernameForm, DepositForm
 
 def login(request):
     if request.method == 'POST':
@@ -186,7 +186,21 @@ def account_invoices_claim_bill(request):
 
 @login_required
 def account_invoices_transfer_money(request):
-    return render_to_response('users/transfer_money.html', context_instance=RequestContext(request))
+    if request.method == 'POST':
+        form = DepositForm(request, data=request.POST)
+        if form.is_valid():
+            money_amount = form.cleaned_data.get('money_amount')
+            a = Account.objects.get(user=request.user)
+            d = Deposit(account=a,money_amount=money_amount)
+            d.save()
+            messages.success(request, _('Deposit to your account successfully created.'))
+        else:
+            messages.error(request, _('Remove errors below.'))
+    else:
+        form = DepositForm()
+    return render_to_response('users/transfer_money.html', {
+        'form': form,
+    }, context_instance=RequestContext(request))
         
 
 # Send email with instructions to reset user passwd

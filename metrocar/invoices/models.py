@@ -207,7 +207,7 @@ class Invoice(models.Model):
             inv.save()        
             sum = inv.total_price_with_tax()
             usr.account.balance -= sum
-            if settings.ACCOUNTING_ENABLED ==False:
+            if settings.ACCOUNTING_ENABLED == False:
                 pdf = inv.get_printable_invoice()
                 inv.pdf_invoice = pdf.generate_pdf()
             #if total price is less then zero then all these activites where taken from account
@@ -215,13 +215,26 @@ class Invoice(models.Model):
             if sum < 0:
                 inv.status = 'PAID'
             if settings.ACCOUNTING_ENABLED:
-                from metrocar.accounting import invoices_management
-                invoices_management.create_invoice(inv)
-                inv.pdf_invoice = invoices_management.print_invoice(inv)
+                from metrocar.accounting import api
+                api.create_invoice(inv)
+                inv.pdf_invoice = api.print_invoice(inv)
             inv.save()    
             return inv
         else: 
-            return None            
+            return None           
+
+    @classmethod
+    def get_count_of_unpaid_invoices(cls, usr):
+        """
+        Returns number of unpaid invoices.
+        """
+        #get all invoices of user ur
+        number_of_invoices = len(Invoice.objects.filter(user=usr))
+        # now get number of paid
+        number_of_paid = len(Invoice.objects.filter(user=usr, status='PAID'))        
+        return number_of_invoices - number_of_paid
+
+
     
     @classmethod
     def collect_payment(cls, vs, ss, sum):
@@ -272,6 +285,6 @@ class InvoiceItem(models.Model):
 
 signals.post_save.connect(InvoiceItem.objects.create_for_invoice, Invoice)
 if settings.ACCOUNTING_ENABLED:
-    from metrocar.accounting import invoices_management
-    signals.post_delete.connect(invoices_management.delete_invoice_receiver, Invoice)
-    #signals.post_save.connect(invoices_management.save_invoice_receiver, Invoice)
+    from metrocar.accounting import api
+    signals.post_delete.connect(api.delete_invoice_receiver, Invoice)
+    signals.post_save.connect(api.save_invoice_receiver, Invoice)
