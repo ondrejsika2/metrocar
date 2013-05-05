@@ -25,6 +25,8 @@ class Subsidiary(models.Model):
     house_number = models.IntegerField(_('House number'), max_length=8)
     city = models.CharField(_('City'), max_length=80)
     tax_rate = models.FloatField(_('Tax rate'), default=21)
+    max_account_balance = models.DecimalField(decimal_places=2, max_digits=8, 
+        default=Decimal('15000'), blank=False, null=False, editable=False, verbose_name=_('Maximal account balance.'))
 
     site = models.OneToOneField(Site)
 

@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
+from metrocar.user_management.models import Account
 from metrocar.user_management.forms import MetrocarUserCreationForm
 from metrocar.invoices.models import UserInvoiceAddress, Invoice
 from metrocar.cars.models import FuelBill, Car
@@ -95,6 +96,10 @@ class DepositForm(forms.Form):
         try:
             if cleaned_data["money_amount"] <= 0:
                 raise forms.ValidationError(_('Deposit amount must be greater then zero.'))
+            current_balance = Account.objects.get(user=self.request.user).balance
+            total_balance = current_balance + cleaned_data["money_amount"]
+            if total_balance > self.request.user.home_subsidiary.max_account_balance:
+                raise forms.ValidationError(_('This deposit would overreach maximal allowed account balance.'))
         except KeyError:
             raise forms.ValidationError(_('Please enter the money ammount of the deposit.'))            
         # now check busines logic for creating of deposit

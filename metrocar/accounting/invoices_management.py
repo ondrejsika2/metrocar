@@ -20,23 +20,15 @@ def create_invoice(invoice):
 	for item in invoice.get_items():
 		#account activity of item
 		activity = item.account_activity
-		#abs because if invoice is paid than all money where taken from account
-		if invoice.status == 'PAID':
-			it_price = str(abs(activity.money_amount))
-		else:
-			it_price = str(activity.money_amount)
+		it_price = str(item.amount)
 		it = {'kod':'item'+str(item.id),'nazev': str(activity.as_concrete_class()), 'typSzbDphK':'typSzbDph.dphZakl','szbDph':'21','zdrojProSkl':False, 'ucetni':True,'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
 		invoice_items.append(it)
 	# i need infromation about address of user for invoice	
 	inv_address = invoice.user.get_invoice_address()
 	street = inv_address.street +' '+ str(inv_address.land_registry_number)
 	address_params = {'nazFirmy':invoice.user.full_name(),'ulice':street,'mesto':inv_address.city,'psc':inv_address.zip_code,'postovniShodna':True}
-	invoice_params = {'typUcOp':'code:'+conf.get_typ_ucetni_operace()[0],'specSym':invoice.specific_symbol,'datSplat':str(invoice.due_date)}
+	invoice_params = {'typUcOp':'code:'+conf.get_typ_ucetni_operace()[0],'specSym':str(invoice.specific_symbol),'datSplat':str(invoice.due_date)}
 	invoice_params.update(address_params)
-	# now check if invoice is paid aka money where already taken from user's account
-	if invoice.status == 'PAID':
-		invoice_params['stavUhrK']='stavUhr.uhrazenoRucne'
-		#todo datum splatnosti 
 	try:
 		result = flexipy.create_vydana_faktura(kod='inv'+str(invoice.id), var_sym=invoice.variable_symbol, datum_vyst=str(invoice.draw_date), dalsi_param = invoice_params, polozky_faktury=invoice_items)
 		if result[0] == True:
@@ -95,7 +87,7 @@ def update_invoice(invoice):
 	#first i will get this invoice from flexibee
 	try:
 		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(invoice.id))
-		flex_inv['datSplat'] = str(invoice.draw_date)
+		flex_inv['datVyst'] = str(invoice.draw_date)
 		flex_inv['datSplat'] = str(invoice.due_date)
 		inv_id = flex_inv['id']
 		flexipy.update_vydana_faktura(inv_id, flex_inv)
@@ -116,7 +108,7 @@ def save_invoice_receiver(sender, **kwargs):
 	except FlexipyException as e:
 		return
 	else:
-		#if invoice in flexibee then call update
+		#if invoice is in flexibee then call update
 		update_invoice(inv)	
 
 def pair_payments():
@@ -176,3 +168,14 @@ def print_invoice(invoice):
 		return '%s/%s.pdf' % (save_to, filename)
 	except FlexipyException as e:
 		get_logger().error("Error during pdf printig invoice from Flexibee, error was "+str(e))	
+
+def get_invoice(invoice):
+	"""
+	This function get invoice from accounting system.	
+	"""
+	try:
+		flex_inv = flexipy.get_vydana_faktura_by_code(code='inv'+str(invoice.id), detail='full')
+		return flex_inv
+	except FlexipyException as e:
+		get_logger().error("Can't get invoice with id="+invoice.id+". Complete error: "+str(e))			
+		return None

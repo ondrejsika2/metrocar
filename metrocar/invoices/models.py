@@ -210,10 +210,6 @@ class Invoice(models.Model):
             if settings.ACCOUNTING_ENABLED == False:
                 pdf = inv.get_printable_invoice()
                 inv.pdf_invoice = pdf.generate_pdf()
-            #if total price is less then zero then all these activites where taken from account
-            #therefore invoice was already paid
-            if sum < 0:
-                inv.status = 'PAID'
             if settings.ACCOUNTING_ENABLED:
                 from metrocar.accounting import api
                 api.create_invoice(inv)
@@ -273,14 +269,14 @@ class InvoiceItem(models.Model):
         """
         Returns amount of money 
         """
-        return self.account_activity.money_amount
+        return abs(self.account_activity.money_amount)
 
     def amount_with_tax(self):
         """
         Returns item's amount of money with tax added
         """
-        tax = self.amount * Decimal(self.invoice.user.home_subsidiary.tax_rate / 100)
-        return self.amount + tax
+        tax = abs(self.amount) * Decimal(self.invoice.user.home_subsidiary.tax_rate / 100)
+        return abs(self.amount) + tax
     
 
 signals.post_save.connect(InvoiceItem.objects.create_for_invoice, Invoice)

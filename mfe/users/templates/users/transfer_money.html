@@ -14,9 +14,11 @@
 
 
 {% blocktrans %}
-<p>You can create deposit to your account on this page. Just enter money amount into the inputobx. This deposit will be credited inmidietly but it will be invoiced as on of the items in the next 
-invoice which will be drawn on your invoice date. Also there are certain limits. You can't create deposit to your account when you have some unpaid invoices. All your invocies must be PAID. There is also limit of how much money you can deposit. Limit is a ammount of your insuarance(it is based on your subsidiary). Your insurance(and maximal ammmount of money which you can have on your account) is .</p>
+<p>You can create deposit to your account on this page. Just enter money amount into the input box. This deposit will be credited immediately but it will be invoiced as on of the items in the next 
+invoice which will be drawn on your invoice date. Also there are certain limits. You can't create deposit to your account when you have some unpaid invoices. All your invoices must be PAID.There is also limit of how much money you can deposit. Limit is a amount of your insurance(it is based on your subsidiary). The tax will be automatically added to the money amount.</p>
 {% endblocktrans %}
+
+<p>{% trans "Maximal possible account balance is" %}: {{ user.home_subsidiary.max_account_balance }}</p>
 
 <p>{% trans "Your invoice date" %}: {{ user.invoice_date }}</p>
 <form action="{% url mfe.users.views.account_invoices_transfer_money %}" method="post">

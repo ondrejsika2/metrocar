@@ -32,8 +32,6 @@ if not GEO_ENABLED:
         }
     }
 
-ACCOUNTING_ENABLED = False
-
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
@@ -53,7 +51,6 @@ MIDDLEWARE_CLASSES = (
 INSTALLED_APPS = [x for x in INSTALLED_APPS if x != 'south'] + [
     'test_metrocar.test_metrocar_utils',
 ]
-
 
 TEMPLATE_CONTEXT_PROCESSORS += (
   "metrocar.subsidiaries.context_processors.subsidiary",
