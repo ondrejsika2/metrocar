@@ -9,6 +9,7 @@ from datetime import timedelta
 
 from decimal import Decimal
 
+from django.utils import importlib
 from django.db import models
 from django.db.models import signals
 from django.utils.translation import ugettext_lazy as _
@@ -22,6 +23,7 @@ from metrocar.user_management.models import Company
 from metrocar.user_management.models import MetrocarUser
 from metrocar.utils.fields import *
 from metrocar.utils.models import SystemModel
+from metrocar.utils.log import get_logger
 
 
 class InvoiceAddress(models.Model):
@@ -211,9 +213,13 @@ class Invoice(models.Model):
                 pdf = inv.get_printable_invoice()
                 inv.pdf_invoice = pdf.generate_pdf()
             if settings.ACCOUNTING_ENABLED:
-                from metrocar.accounting import api
-                api.create_invoice(inv)
-                inv.pdf_invoice = api.print_invoice(inv)
+                try:
+                    accounting =  importlib.import_module(settings.ACCOUNTING['IMPLEMENTATION'])
+                    account_instance = accounting.get_accounting_instance()
+                    account_instance.create_invoice(inv)
+                    inv.pdf_invoice = account_instance.print_invoice(inv)
+                except ImportError, ex:
+                    get_logger().error("Can't import accounting implementation from settings") 
             inv.save()    
             return inv
         else: 
@@ -281,6 +287,10 @@ class InvoiceItem(models.Model):
 
 signals.post_save.connect(InvoiceItem.objects.create_for_invoice, Invoice)
 if settings.ACCOUNTING_ENABLED:
-    from metrocar.accounting import api
-    signals.post_delete.connect(api.delete_invoice_receiver, Invoice)
-    signals.post_save.connect(api.save_invoice_receiver, Invoice)
+    try:
+        accounting =  importlib.import_module(settings.ACCOUNTING['IMPLEMENTATION'])
+        account_instance = accounting.get_accounting_instance()
+        signals.post_delete.connect(account_instance.delete_invoice_receiver, Invoice)
+        signals.post_save.connect(account_instance.save_invoice_receiver, Invoice)
+    except ImportError, ex:
+        get_logger().error("Can't import accounting implementation from settings")   
