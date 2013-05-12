@@ -7,14 +7,24 @@ import os
 from flexipy.exceptions import FlexipyException
 from flexipy import Faktura
 
+#private global variable
+__instance = None
+
 def get_accounting_instance():
-	f = FlexibeeManager()
-	return f
+	"""
+	This function returns instance of the FlexibeeManager. 
+	This use Singleton pattern as their is allways only one instance of 
+	the FlexibeeManager per module.
+	"""
+	global __instance
+	if __instance == None:
+		__instance = FlexibeeManager()
+	return __instance
 
 class FlexibeeManager(AccountingManager):
 
-	def __init__(self):
-		self.faktura = Faktura()
+	def __init__(self, faktura=Faktura()):
+		self.faktura = faktura
 
 	def create_invoice(self, invoice):
 		"""
@@ -126,7 +136,7 @@ class FlexibeeManager(AccountingManager):
 		just by comparing incoming payments vs with invoice vs.
 		"""		
 		try:
-			self.faktura.proved_sparovani()
+			self.faktura.proved_sparovani_plateb()
 			get_logger().info("Automatic pairing of payments in Flexibee successfully executed.")
 		except FlexipyException as e:
 			get_logger().error("Error during automatic pairing of payments in Flexibee, error was "+str(e))	
