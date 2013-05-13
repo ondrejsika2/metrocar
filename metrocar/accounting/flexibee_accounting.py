@@ -46,11 +46,7 @@ class FlexibeeManager(AccountingManager):
 		inv_address = invoice.user.get_invoice_address()
 		street = inv_address.street +' '+ str(inv_address.land_registry_number)
 		address_params = {'nazFirmy':invoice.user.full_name(),'ulice':street,'mesto':inv_address.city,'psc':inv_address.zip_code,'postovniShodna':True}
-<<<<<<< HEAD
 		invoice_params = {'typUcOp':'code:'+conf.get_typ_ucetni_operace()[0],'specSym':str(invoice.specific_symbol),'datSplat':str(invoice.due_date),'clenDph':'code:01-02'}
-=======
-		invoice_params = {'typUcOp':'code:'+conf.get_typ_ucetni_operace()[0],'specSym':str(invoice.specific_symbol),'datSplat':str(invoice.due_date)}
->>>>>>> a2066d7eaf9e2e0c0255a17dfea66b880715bf83
 		invoice_params.update(address_params)
 		try:
 			result = self.faktura.create_vydana_faktura(kod='inv'+str(invoice.id), var_sym=invoice.variable_symbol, datum_vyst=str(invoice.draw_date), dalsi_param = invoice_params, polozky_faktury=invoice_items)
@@ -172,11 +168,7 @@ class FlexibeeManager(AccountingManager):
 
 	def print_invoice(self, invoice):
 		"""
-<<<<<<< HEAD
 		This method print invoice in flexibee into pdf and save it to MEDIA_ROOT/files/invoices
-=======
-		This function print invoice in flexibee into pdf and save it to MEDIA_ROOT/files/invoices
->>>>>>> a2066d7eaf9e2e0c0255a17dfea66b880715bf83
 		It returns path to the file.
 		"""
 		try:
