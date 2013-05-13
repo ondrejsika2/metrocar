@@ -207,6 +207,11 @@ class Invoice(models.Model):
         if len(activities) > 0:
             inv = Invoice(user=usr)
             inv.save()        
+<<<<<<< HEAD
+=======
+            sum = inv.total_price_with_tax()
+            usr.account.balance -= sum
+>>>>>>> a2066d7eaf9e2e0c0255a17dfea66b880715bf83
             if settings.ACCOUNTING_ENABLED == False:
                 pdf = inv.get_printable_invoice()
                 inv.pdf_invoice = pdf.generate_pdf()
