@@ -207,9 +207,14 @@ class Invoice(models.Model):
         if len(activities) > 0:
             inv = Invoice(user=usr)
             inv.save()
+            sum = inv.total_price_with_tax()
             if settings.ACCOUNTING_ENABLED == False:
                 pdf = inv.get_printable_invoice()
                 inv.pdf_invoice = pdf.generate_pdf()
+            #if total price is less then zero then all these activites where taken from account
+            #therefore invoice was already paid
+            if sum < 0:
+                inv.status = 'PAID'    
             if settings.ACCOUNTING_ENABLED:
                 try:
                     accounting =  importlib.import_module(settings.ACCOUNTING['IMPLEMENTATION'])

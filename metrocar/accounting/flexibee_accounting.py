@@ -2,6 +2,7 @@
 
 from base_accounting import AccountingManager
 from metrocar.utils.log import get_logger
+from decimal import Decimal
 from time import strftime
 import os
 from flexipy.exceptions import FlexipyException
@@ -34,11 +35,16 @@ class FlexibeeManager(AccountingManager):
 		"""
 		#get config
 		conf = self.faktura.conf
+		paid_ammout_sum = Decimal()
 		invoice_items = []
 		invoice_params = {}
 		for item in invoice.get_items():
 			#account activity of item
 			activity = item.account_activity
+			# if accountacitivity is negative then it means
+			#that it was already credited(paid) from users account
+			if activity.is_positive() == False:
+				paid_ammout_sum += activity.money_amount
 			it_price = str(item.amount)
 			it = {'kod':'item'+str(item.id),'nazev': str(activity.as_concrete_class()), 'typSzbDphK':'typSzbDph.dphZakl','szbDph':'21','zdrojProSkl':False, 'ucetni':True,'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
 			invoice_items.append(it)
@@ -48,6 +54,16 @@ class FlexibeeManager(AccountingManager):
 		address_params = {'nazFirmy':invoice.user.full_name(),'ulice':street,'mesto':inv_address.city,'psc':inv_address.zip_code,'postovniShodna':True}
 		invoice_params = {'typUcOp':'code:'+conf.get_typ_ucetni_operace()[0],'specSym':str(invoice.specific_symbol),'datSplat':str(invoice.due_date),'clenDph':'code:01-02'}
 		invoice_params.update(address_params)
+		# now check if invoice is paid aka money where already taken from user's account
+		if invoice.status == 'PAID':
+			invoice_params['stavUhrK']='stavUhr.uhrazenoRucne'
+		else:
+			#if not paid substract already paid items
+			if paid_ammout_sum != 0:
+				#already paid items declare as already paid
+				it_price = str(paid_ammout_sum)
+				it = {'kod':'itemUhr','nazev': 'Jiz uhrazeno z vaseho konta', 'typSzbDphK':'typSzbDph.dphZakl','szbDph':'21','zdrojProSkl':False, 'ucetni':True,'cenaMj':it_price, 'typPolozkyK':conf.get_typ_polozky_vydane()[0]}
+				invoice_items.append(it)
 		try:
 			result = self.faktura.create_vydana_faktura(kod='inv'+str(invoice.id), var_sym=invoice.variable_symbol, datum_vyst=str(invoice.draw_date), dalsi_param = invoice_params, polozky_faktury=invoice_items)
 			if result[0] == True:

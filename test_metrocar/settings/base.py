@@ -32,12 +32,10 @@ if not GEO_ENABLED:
         }
     }
 
-<<<<<<< HEAD
+
 #deactivate accounting for tests
 ACCOUNTING_ENABLED = False    
 
-=======
->>>>>>> a2066d7eaf9e2e0c0255a17dfea66b880715bf83
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.

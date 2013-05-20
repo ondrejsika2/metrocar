@@ -8,13 +8,14 @@ Created on 12.3.2010
 '''
 
 from datetime import datetime
+from decimal import Decimal
 
 from django import forms
 from django.contrib import messages
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from metrocar.user_management.models import Account
+from metrocar.user_management.models import Account, Deposit
 from metrocar.user_management.forms import MetrocarUserCreationForm
 from metrocar.invoices.models import UserInvoiceAddress, Invoice
 from metrocar.cars.models import FuelBill, Car
@@ -96,9 +97,13 @@ class DepositForm(forms.Form):
         try:
             if cleaned_data["money_amount"] <= 0:
                 raise forms.ValidationError(_('Deposit amount must be greater then zero.'))
-            current_balance = Account.objects.get(user=self.request.user).balance
-            total_balance = current_balance + cleaned_data["money_amount"]
-            if total_balance > self.request.user.home_subsidiary.max_account_balance:
+            #returns all unpaid(uninvoiced) deposit objects    
+            unpaid_deposits = Deposit.objects.filter(account__user=self.request.user, invoice_item=None)
+            unpaid_sum = Decimal()
+            for d in unpaid_deposits:
+                unpaid_sum += d.money_amount
+            total_unpaid_deposits = unpaid_sum + cleaned_data["money_amount"]
+            if total_unpaid_deposits > self.request.user.home_subsidiary.max_account_balance:
                 raise forms.ValidationError(_('This deposit would overreach maximal allowed account balance.'))
         except KeyError:
             raise forms.ValidationError(_('Please enter the money ammount of the deposit.'))            
