@@ -46,7 +46,7 @@ class MetrocarUserAdmin(UserAdmin):
                       (_('Important dates'), {'fields': ('last_login', 'date_joined', 'invoice_date')}),
                       )
 
-    list_display = ('username', 'email', 'first_name', 'last_name', 'home_subsidiary', 'invoice_date', 'variable_symbol')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'home_subsidiary', 'invoice_date', 'specific_symbol')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'home_subsidiary')
     form = MetrocarUserChangeForm
     add_form = MetrocarUserCreationForm

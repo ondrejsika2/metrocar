@@ -35,6 +35,7 @@ class TestRegistration(WebTest):
         form['drivers_licence_number'] = drivers_licence_number
         form['identity_card_number'] = identity_card_number
         form['language'] = language
+        form['license_terms'] = 'true'
         
         response = form.submit()
 

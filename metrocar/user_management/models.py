@@ -49,8 +49,8 @@ class MetrocarUser(User):
                                verbose_name=_('Primary phone number'))
     secondary_phone = PhoneField(blank=True, null=True,
                                  verbose_name=_('Secondary phone number'))
-    variable_symbol = models.IntegerField(max_length=12, blank=False,
-        null=True, editable=False, verbose_name=_('Variable symbol'))
+    specific_symbol = models.IntegerField(max_length=12, blank=False,
+        null=True, editable=False, verbose_name=_('Specific symbol'))
     invoice_date = models.DateField(blank=False, null=False,
         verbose_name=_('Invoice date'))
     company = models.ForeignKey(Company, null=True, blank=True,
@@ -94,14 +94,21 @@ class MetrocarUser(User):
 
     def get_invoice_address(self):
         """
-        Return concrete invoice address for the user.
+        Return concrete invoice address for the user. 
+        Or None if he has not yet entered it.
         """
         from metrocar.invoices.models import CompanyInvoiceAddress, \
             UserInvoiceAddress
         if self.company is not None:
-            return CompanyInvoiceAddress.objects.get(company=self.company)
+            try:                
+                return CompanyInvoiceAddress.objects.get(company=self.company)
+            except CompanyInvoiceAddress.DoesNotExist:
+                return None        
         else:
-            return UserInvoiceAddress.objects.get(user=self)
+            try:
+                return UserInvoiceAddress.objects.get(user=self)
+            except UserInvoiceAddress.DoesNotExist:
+                return None    
 
     def get_uninvoiced_account_activities(self):
         """
@@ -134,16 +141,16 @@ class MetrocarUser(User):
 
         return hash
 
-    def parse_vs_from_id_card_number(self):
+    def parse_ss_from_id_card_number(self):
         """
-        Parses variable_symbol from identity_card_number. Extracts only digits and casts the number to int
+        Parses specific_symbol from identity_card_number. Extracts only digits and casts the number to int
         """
-        vs = re.sub("\D", "", self.identity_card_number)
+        ss = re.sub("\D", "", self.identity_card_number)
         try:
-            vs = int(vs)
+            ss = int(ss)
         except ValueError:      #should not happen, id_card_num consists only of digits and characters
-            vs = 1
-        return vs
+            ss = 1
+        return ss
 
     def request_password_reset(self):
         """
@@ -159,7 +166,7 @@ class MetrocarUser(User):
         Overload to set home subsidiary if missing
         """
         self.invoice_date = date.today()
-        self.variable_symbol = self.parse_vs_from_id_card_number()
+        self.specific_symbol = self.parse_ss_from_id_card_number()
         if not self.pk:
             try:
                 self.home_subsidiary
@@ -299,6 +306,21 @@ class Account(models.Model):
             account.user = kwargs['instance']
             account.save()
 
+    def send_warning_mail(self):
+        """
+        Sends warning about negative balance on user account.
+        """
+        from metrocar.utils.models import EmailTemplate
+        from django.core.mail import EmailMessage
+        from metrocar.utils.log import get_logger
+        et = EmailTemplate.objects.get(code='TAR_' + self.user.language)        
+        email = EmailMessage(et.subject, et.content, settings.EMAIL_HOST_USER, [self.user.email])
+        try:
+            email.send(fail_silently=False)
+            get_logger().info("Mail TAR_" + self.user.language + " sent to " + str([self.user.email]))
+        except Exception as ex:
+            get_logger().error("Mail TAR_" + self.user.language + " could not be sent. Exception was: " + str(ex))        
+
 post_save.connect(Account.create_for_user, sender=MetrocarUser)
 
 class AccountActivity(models.Model):
@@ -324,7 +346,7 @@ class AccountActivity(models.Model):
     """
 
     def __unicode__(self):
-        return "%+8.2f" % self.money_amount
+        return "%+8.2f" % self.money_amount_with_tax
 
     @commit_on_success
     def save(self, **kwargs):
@@ -337,7 +359,7 @@ class AccountActivity(models.Model):
         if not self.credited and self.ready_to_be_invoiced():
             # perform change of account balance and freeze it's current state
             # to account_balance field
-            self.account.balance += self.money_amount
+            self.account.balance += self.money_amount_with_tax
             self.account_balance = self.account.balance
             self.credited = True
             self.account.save()
@@ -366,10 +388,19 @@ class AccountActivity(models.Model):
         """
         return True
 
+    @property    
+    def money_amount_with_tax(self):
+        """
+        Returns money ammount with tax 
+        """        
+        tax = self.money_amount * Decimal(self.account.user.home_subsidiary.tax_rate / 100)
+        result = self.money_amount + tax
+        return result.quantize(Decimal('0.01'))
+
 class Deposit(AccountActivity):
     class Meta:
         verbose_name = _('Deposit')
         verbose_name_plural = _('Deposits')
 
     def __unicode__(self):
-        return "%s %s" % (unicode(_('Deposit')), self.money_amount)
+        return "%s %s" % (unicode(_('Deposit')), self.money_amount_with_tax)

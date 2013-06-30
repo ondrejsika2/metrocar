@@ -12,6 +12,7 @@ from metrocar.cars.models import CarModelManufacturer, CarType, Fuel, \
     CarModel, Car, CarColor, Parking
 from metrocar.subsidiaries.models import Subsidiary
 from metrocar.user_management.models import MetrocarUser
+from metrocar.invoices.models import UserInvoiceAddress
 from metrocar.reservations.models import Reservation
 from metrocar.tarification.models import Pricelist, PricelistDay,\
     PricelistDayTime
@@ -35,8 +36,12 @@ class UserEnabledTestCase(DatabaseTestCase):
             self.user.save()
         except MetrocarUser.DoesNotExist:
             self.user = MetrocarUser.objects.create_user('some_username', 'test@test.cz',
-                'testpass', is_active=True)
+                'testpass', is_active=True)            
             self.user.account.balance = Decimal('100000.0')
+        if self.user.get_invoice_address() == None:
+            UserInvoiceAddress.objects.create(street='Testing alley',land_registry_number=4815,zip_code=78916,city='Portland',user=self.user)
+             
+                
 
 def get_cars(**kwargs):
     manufacturer, created = CarModelManufacturer.objects.get_or_create(slug='slug', name='title')

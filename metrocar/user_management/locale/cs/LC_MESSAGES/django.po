@@ -197,8 +197,8 @@ msgid "Secondary phone number"
 msgstr "Další telefonní číslo"
 
 #: models.py:53
-msgid "Variable symbol"
-msgstr "Variabilní symbol"
+msgid "Specific symbol"
+msgstr "Specifický symbol"
 
 #: models.py:55
 msgid "Invoice date"

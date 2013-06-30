@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-11 19:07+0100\n"
+"POT-Creation-Date: 2013-05-05 15:04+0200\n"
 "PO-Revision-Date: 2012-05-01 12:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>1 && n<5 ? 1 : 2;\n"
 
-#: urls.py:8
+#: urls.py:10
 msgid "cars"
 msgstr "automobily"
 
-#: urls.py:10
+#: urls.py:11
 msgid "reservations"
 msgstr "rezervace"
 
@@ -29,19 +29,15 @@ msgstr "rezervace"
 msgid "users"
 msgstr "uživatelé"
 
-#: cars/urls.py:13 cars/urls.py:14
+#: cars/urls.py:10 cars/urls.py:11
 msgid "car"
 msgstr "automobil"
 
-#: cars/urls.py:18
-msgid "find cars"
-msgstr "Vyhledat auta"
-
-#: cars/urls.py:22
+#: cars/urls.py:23
 msgid "parking list"
 msgstr "seznam pakrovišť"
 
-#: cars/urls.py:25
+#: cars/urls.py:26
 msgid "fares"
 msgstr "ceny"
 
@@ -81,18 +77,19 @@ msgstr "Pouze vyhrazená parkoviště"
 
 #: cars/templates/cars/car_detail.html:28
 #: cars/templates/cars/car_detail_ajax.html:16
-#: users/templates/users/invoices.html:97
+#: users/templates/users/invoices.html:98
 msgid "Yes"
 msgstr "Ano"
 
 #: cars/templates/cars/car_detail.html:28
 #: cars/templates/cars/car_detail_ajax.html:16
-#: users/templates/users/invoices.html:97
+#: users/templates/users/invoices.html:98
 msgid "No"
 msgstr "Ne"
 
 #: cars/templates/cars/car_detail.html:32
 #: cars/templates/cars/car_detail_ajax.html:20
+#: cars/templates/cars/car_popup.html:14
 msgid "Reserve this car now"
 msgstr "Zarezervovat nyní"
 
@@ -114,11 +111,12 @@ msgid "Nothing found"
 msgstr "Nenalezena žádná shoda"
 
 #: cars/templates/cars/car_list.html:218 cars/templates/cars/car_list.html:229
+#: cars/templates/cars/car_map.html:11 cars/templates/cars/car_map.html:21
 #: cars/templates/cars/right_col_menu.html:7 templates/base.html:102
 msgid "Find cars"
 msgstr "Vyhledat auta"
 
-#: cars/templates/cars/car_list.html:232
+#: cars/templates/cars/car_list.html:232 cars/templates/cars/car_map.html:24
 msgid ""
 "\n"
 "            <p>Below you can search for cars in your neighborhood. You can\n"
@@ -294,7 +292,7 @@ msgstr "potvrdit-zrušení"
 
 #: reservations/urls.py:20
 #: reservations/templates/reservations/pending_reservation_list.html:22
-#: users/templates/users/account_detail.html:62
+#: users/templates/users/account_detail.html:63
 msgid "cancel"
 msgstr "zrušit"
 
@@ -394,8 +392,8 @@ msgstr "Přidat jízdu"
 #: reservations/templates/reservations/finished_reservation_list.html:13
 #: reservations/templates/reservations/outstanding_loans.html:13
 #: reservations/templates/reservations/pending_reservation_list.html:13
-#: users/templates/users/account_detail.html:53
-#: users/templates/users/account_detail.html:72
+#: users/templates/users/account_detail.html:54
+#: users/templates/users/account_detail.html:73
 msgid "Car"
 msgstr "Automobil"
 
@@ -462,7 +460,7 @@ msgstr "Délka"
 #: reservations/templates/reservations/confirmation.html:29
 #: reservations/templates/reservations/edit_reservation.html:29
 #: reservations/templates/reservations/finished_reservation_list.html:16
-#: users/templates/users/account_detail.html:75
+#: users/templates/users/account_detail.html:76
 msgid "Price"
 msgstr "Cena"
 
@@ -545,16 +543,16 @@ msgstr "Evidujeme následující dokončené rezervace"
 #: reservations/templates/reservations/finished_reservation_list.html:14
 #: reservations/templates/reservations/outstanding_loans.html:14
 #: reservations/templates/reservations/pending_reservation_list.html:14
-#: users/templates/users/account_detail.html:54
-#: users/templates/users/account_detail.html:73
+#: users/templates/users/account_detail.html:55
+#: users/templates/users/account_detail.html:74
 msgid "Reservation start"
 msgstr "Začátek rezervace"
 
 #: reservations/templates/reservations/finished_reservation_list.html:15
 #: reservations/templates/reservations/outstanding_loans.html:15
 #: reservations/templates/reservations/pending_reservation_list.html:15
-#: users/templates/users/account_detail.html:55
-#: users/templates/users/account_detail.html:74
+#: users/templates/users/account_detail.html:56
+#: users/templates/users/account_detail.html:75
 msgid "Reservation end"
 msgstr "Konec rezervace"
 
@@ -744,7 +742,7 @@ msgstr "Přihlášen"
 
 #: templates/base.html:87 templates/registration/login_box.html:8
 #: users/templates/users/account_activities.html:28
-#: users/templates/users/account_detail.html:28
+#: users/templates/users/account_detail.html:29
 msgid "Account balance"
 msgstr "Stav účtu"
 
@@ -845,26 +843,46 @@ msgstr "Zapomenuté heslo"
 msgid "Our partners"
 msgstr "Naši partneři"
 
-#: users/forms.py:28
+#: users/forms.py:29
 msgid "Password confirmation"
 msgstr "Ověření hesla"
 
-#: users/forms.py:29
+#: users/forms.py:30
 msgid "Enter the same password as above, for verification."
 msgstr "Zadejte stejné heslo jako výše pro ověření."
 
-#: users/forms.py:36
+#: users/forms.py:37
 msgid "The two password fields didn't match."
 msgstr "Nezadali jste stejné heslo pro ověření."
 
-#: users/forms.py:67
+#: users/forms.py:68
 msgid "Date of claim must be in the past."
 msgstr "Datum žádosti musí být v minulosti."
 
-#: users/forms.py:77
+#: users/forms.py:78
 msgid "You were not supposed to use submitted car in the time you selected."
 msgstr ""
 "Ve vámi uvedenou dobu jste neměl(a) oprávnění používat zadaný automobil."
+
+#: users/forms.py:87
+msgid "Enter the money ammount for deposit."
+msgstr "Vložte částku kterou chcete vložit na konto."
+
+#: users/forms.py:97
+msgid "Deposit amount must be greater then zero."
+msgstr "Vklad musí být větší než nula."
+
+#: users/forms.py:99
+msgid "Please enter the money ammount of the deposit."
+msgstr "Vložte prosím částku kterou chcete vložit na konto."
+
+#: users/forms.py:103
+msgid ""
+"You have some unpaid invoices. You cannot create deposit only if all "
+"invoices are paid."
+msgstr ""
+"Všechny Vaše faktury nejsou uhrazeny. Nelze vytvořit vklad na konto. Prosím "
+"uhraďte nejdříve své závazky."
 
 #: users/urls.py:15 users/urls.py:16 users/urls.py:30 users/urls.py:33
 #: users/urls.py:36 users/urls.py:37 users/urls.py:38
@@ -935,22 +953,28 @@ msgstr ""
 "\temail.\n"
 "</p>"
 
-#: users/views.py:78 users/views.py:230
+#: users/views.py:78 users/views.py:198 users/views.py:244
 msgid "Remove errors below."
 msgstr "Odstraňte níže uvedené chyby."
 
-#: users/views.py:199
+#: users/views.py:196
+msgid "Deposit to your account successfully created."
+msgstr "Vklad na Váš účet byl úspěšně vytvořen."
+
+#: users/views.py:213
 #, python-format
 msgid "User \"%s\" does not exist."
 msgstr ""
 
-#: users/views.py:203
+#: users/views.py:217
 msgid ""
 "Information email was sent on your email address. To set up your new "
 "password follow sent instructions."
 msgstr ""
+"Informační email byl odeslín na Vaši adresu. Pro vytvoření nového "
+"hesla následujte zaslané instrukce."
 
-#: users/views.py:217
+#: users/views.py:231
 msgid ""
 "Your URL for password reset is not valid. Check it once more and try again. "
 "Remember that your URL is valid only for one day."
@@ -958,7 +982,7 @@ msgstr ""
 "Vaše URL adresa pro změnu hesla není správná. Proveďte kontrolu a zkuste to "
 "ještě jednou. Pamatujte, že vaše URL adresa má platnost pouze jeden den."
 
-#: users/views.py:227
+#: users/views.py:241
 #, python-format
 msgid "Password reset for user \"%s\" was successful. Now you can log in."
 msgstr "Změna hesla pro uživatele \"%s\" byla úspěšná. Nyní se může přihlásit."
@@ -995,8 +1019,8 @@ msgid "Description"
 msgstr "Popis"
 
 #: users/templates/users/account_activities.html:25
-#: users/templates/users/invoices.html:70
-#: users/templates/users/invoices.html:82
+#: users/templates/users/invoices.html:71
+#: users/templates/users/invoices.html:83
 msgid "Value"
 msgstr "Hodnota"
 
@@ -1028,39 +1052,44 @@ msgstr "Číslo řidičského průkazu"
 msgid "Invoice address"
 msgstr "Fakturační adresa"
 
-#: users/templates/users/account_detail.html:24
+#: users/templates/users/account_detail.html:20
+#, fuzzy
+msgid "Primary phone number"
+msgstr "Číslo řidičského průkazu"
+
+#: users/templates/users/account_detail.html:25
 msgid "Account details"
 msgstr "Detaily účtu"
 
-#: users/templates/users/account_detail.html:26
+#: users/templates/users/account_detail.html:27
 msgid "Last login"
 msgstr "Naposledy přihlášen"
 
-#: users/templates/users/account_detail.html:27
+#: users/templates/users/account_detail.html:28
 msgid "Home subsidiary"
 msgstr "Domácí pobočka"
 
-#: users/templates/users/account_detail.html:29
+#: users/templates/users/account_detail.html:30
 msgid "User card number"
 msgstr "Číslo karty"
 
-#: users/templates/users/account_detail.html:38
+#: users/templates/users/account_detail.html:39
 msgid "Change my details"
 msgstr "Změnit moje detaily"
 
-#: users/templates/users/account_detail.html:41
+#: users/templates/users/account_detail.html:42
 msgid "Change my invoice address"
 msgstr "Změnit mojí adresu"
 
-#: users/templates/users/account_detail.html:44
+#: users/templates/users/account_detail.html:45
 msgid "Change my password"
 msgstr "Změnit heslo"
 
-#: users/templates/users/account_detail.html:50
+#: users/templates/users/account_detail.html:51
 msgid "Upcoming reservations"
 msgstr "Čekající rezervace"
 
-#: users/templates/users/account_detail.html:69
+#: users/templates/users/account_detail.html:70
 msgid "Lately finished reservations"
 msgstr "Nedávno dokončené rezervace"
 
@@ -1242,45 +1271,53 @@ msgstr "Seznam vyúčtování"
 msgid "pdf"
 msgstr "pdf"
 
-#: users/templates/users/invoices.html:59
+#: users/templates/users/invoices.html:56
+msgid "Paid"
+msgstr "Uhrazena"
+
+#: users/templates/users/invoices.html:56
+msgid "Active"
+msgstr "Nezplacena"
+
+#: users/templates/users/invoices.html:60
 msgid "No invoices yet"
 msgstr "Zatím žádná vyúčtování"
 
-#: users/templates/users/invoices.html:62
+#: users/templates/users/invoices.html:63
 msgid "Claimed fuel bills"
 msgstr "Požadavky o proplacení paliva"
 
-#: users/templates/users/invoices.html:67
+#: users/templates/users/invoices.html:68
 msgid "Code"
 msgstr "Kód"
 
-#: users/templates/users/invoices.html:68
-#: users/templates/users/invoices.html:79
+#: users/templates/users/invoices.html:69
+#: users/templates/users/invoices.html:80
 msgid "Datetime"
 msgstr "Čas"
 
-#: users/templates/users/invoices.html:69
-#: users/templates/users/invoices.html:80
+#: users/templates/users/invoices.html:70
+#: users/templates/users/invoices.html:81
 msgid "Place"
 msgstr "Místo"
 
-#: users/templates/users/invoices.html:71
+#: users/templates/users/invoices.html:72
 msgid "Approved"
 msgstr "Schváleno"
 
-#: users/templates/users/invoices.html:81
+#: users/templates/users/invoices.html:82
 msgid "Liter count"
 msgstr "Počet litrů"
 
-#: users/templates/users/invoices.html:84
+#: users/templates/users/invoices.html:85
 msgid "Bill preview"
 msgstr "Náhled účtu"
 
-#: users/templates/users/invoices.html:90
+#: users/templates/users/invoices.html:91
 msgid "No bill preview submitted"
 msgstr "Žádný náhled nebyl poskytnut"
 
-#: users/templates/users/invoices.html:102
+#: users/templates/users/invoices.html:103
 msgid "No fuel bills yet"
 msgstr "Zatím žádné účty za palivo"
 
@@ -1289,10 +1326,11 @@ msgid "Login required"
 msgstr "Přihlášení je vyžadováno"
 
 #: users/templates/users/login_required.html:8
+#, fuzzy
 msgid ""
 "\n"
 "<p>The page you have chosen requires you to be logged in. Please, supply "
-"your \n"
+"your\n"
 "credentials to continue.</p>\n"
 msgstr ""
 "\n"
@@ -1320,7 +1358,7 @@ msgstr "Změnit heslo"
 
 #: users/templates/users/passwd_reset_confirm.html:11
 msgid "CHANGE PASSWORD"
-msgstr ""
+msgstr "ZMĚŇ HESLO"
 
 #: users/templates/users/password_change.html:5
 msgid "Password change"
@@ -1358,21 +1396,26 @@ msgid "Registration"
 msgstr "Registrace"
 
 #: users/templates/users/registration.html:8
+#, fuzzy
 msgid ""
 "\n"
-"<p><p>You can create your account on-line. If you are interested to join our\n"
-"community, please fill up required information below and confirm that you agree with terms of service by checking the\n" "checkbox. After you submit the\n" 
-"necessary data, our administrator will be notified. As soon as they validate\n"
-"your request, you will be sent an e-mail confirming the account activation.</p>\n"
+"<p>You can create your account on-line. If you are interested to join our\n"
+"community, please fill up required information below and confirm that you "
+"agree with terms of service by checking the checkbox. After you submit the "
+"necessary data, our administrator will be notified. As soon as they "
+"validate \n"
+"your request, you will be sent an e-mail confirming the account activation.</"
+"p>\n"
 msgstr ""
 "\n"
 "<p>Váš účet můžete vytvořit on-line. Pokud máte zájem se zapojit do naší\n"
-"komunity, prosíme vyplňte níže uvedené informace a potvrďte, že souhlasíte s podmínkami použití.\n" 
+"komunity, prosíme vyplňte níže uvedené informace a potvrďte, že souhlasíte s "
+"podmínkami použití.\n"
 "Po odeslání nezbytných údajů, budou informování naši administrátoři.\n"
-"Jakmile ověří váš požadavek, bude vám zaslán e-mail s potvrzením aktivace účtu.</p>\n"
+"Jakmile ověří váš požadavek, bude vám zaslán e-mail s potvrzením aktivace "
+"účtu.</p>\n"
 
-
-#: users/templates/users/registration.html:16
+#: users/templates/users/registration.html:15
 msgid ""
 "\n"
 "<p>\n"
@@ -1388,7 +1431,7 @@ msgstr ""
 "\temail.\n"
 "</p>\n"
 
-#: users/templates/users/registration.html:36
+#: users/templates/users/registration.html:43
 msgid "Register"
 msgstr "Zaregistrovat"
 
@@ -1397,17 +1440,30 @@ msgstr "Zaregistrovat"
 msgid "Tansfer money to your account"
 msgstr "Převést peníze na můj účet"
 
-#: users/templates/users/transfer_money.html:15
+#: users/templates/users/transfer_money.html:16
 msgid ""
 "\n"
-"<p>Easiest way for transfering money to your account is using bank transfer. "
-"Number of our account is xxx. As a variable symbol enter number of your id "
-"card</p>\n"
+"<p>You can create deposit to your account on this page. Just enter money "
+"amount into the input box. This deposit will be credited immediately but it "
+"will be invoiced as on of the items in the next \n"
+"invoice which will be drawn on your invoice date. Also there are certain "
+"limits. You can't create deposit to your account when you have some unpaid "
+"invoices. All your invoices must be PAID. There is also limit of how much "
+"money you can deposit. Limit is a amount of your insurance(it is based on "
+"your subsidiary). Your insurance(and maximal amount of money which you can "
+"have on your account) is . The tax will be automatically added to the money "
+"amount.</p>\n"
 msgstr ""
 
-#: users/templates/users/transfer_money.html:19
-msgid "Your variable symbol is"
-msgstr "Váš variabilní symbol je"
+
+#: users/templates/users/transfer_money.html:21
+#, fuzzy
+msgid "Your invoice date"
+msgstr "Zatím žádná vyúčtování"
+
+#: users/templates/users/transfer_money.html:26
+msgid "Create deposit"
+msgstr "Vložit vklad"
 
 #: utils/urls.py:15
 msgid "login"
@@ -1420,6 +1476,12 @@ msgstr "odhlášení"
 #: utils/urls.py:19
 msgid "registration"
 msgstr "registrace"
+
+#~ msgid "Your variable symbol is"
+#~ msgstr "Váš variabilní symbol je"
+
+#~ msgid "find cars"
+#~ msgstr "Vyhledat auta"
 
 #~ msgid ""
 #~ "\n"

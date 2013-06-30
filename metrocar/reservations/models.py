@@ -80,6 +80,7 @@ class Reservation(models.Model):
             - valid pricelist exists
             - account balance is sufficent
             - no conflicting reservation exists
+            - user has entered invoice address
         """
         from metrocar.cars.models import Car
 
@@ -129,6 +130,7 @@ class Reservation(models.Model):
         if car.model.get_pricelist() == False:
             errors.append(force_unicode(_('No valid pricelist for selected car model.')))
 
+        
         if not errors:
             # user account checks
             # if there already were some errors this might break
@@ -140,6 +142,13 @@ class Reservation(models.Model):
             if user.account.balance < required_money_amount:
                 errors.append(force_unicode(_('You don\'t have enough money to create reservation. Required account balance is %s.'))
                     % ('%d %s' % (Decimal(required_money_amount), u'Kč')))
+
+            #now check if user has entered invoice address
+            #withouit address it would be impossible to create valid invoice
+            if user.get_invoice_address() == None:
+                errors.append(force_unicode(_('You need to enter your address first at yout account settings. We need this information for creation of invoice.')))    
+                   
+
 
         # conflicts check
         conflicts = cls.find_conflicts(car, datetime_from, datetime_till)
@@ -222,7 +231,7 @@ class Reservation(models.Model):
             from metrocar.tarification.models import StornoFee
             from metrocar.utils.models import SiteSettings
             if SiteSettings.objects.get_current().reservation_use_storno_fees:
-                fee = StornoFee.objects.create_for_reservation(self)
+                fee = StornoFee.objects.create_for_reservation(self)                
                 self.price = fee.money_amount
             self.cancelled = True
             self.finished = True

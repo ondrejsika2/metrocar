@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+    from datetime import datetime, timedelta
 from decimal import Decimal
 
 from django.contrib.gis.geos import Point
@@ -60,7 +60,7 @@ class TestReservation(ReservationEnabledTestCase):
         val_res, val_errs = self.reservation.is_valid()
         self.assert_false(val_res)
         print val_errs
-        self.assert_true(len(val_errs) == 1)
+        self.assert_true(len(val_errs) == 2)
 
     def test_4_conflicting_time(self):
         self.reservation.save()

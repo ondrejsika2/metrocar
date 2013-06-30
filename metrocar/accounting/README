@@ -1,0 +1,2 @@
+This is accoutnitng application which is implementats communication between metrocar system and Flexibee accounting system.
+Other metocar application communicate with accoutning only through api.py which is generic and not tightly coupled with Flexibee. Therefore in the future you can create different implementation with the same api.py and everything should work just fine.

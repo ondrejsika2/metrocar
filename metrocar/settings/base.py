@@ -162,6 +162,16 @@ PASSWORD_HASHERS = (
 # Will this instance make use of geo-data from car units
 GEO_ENABLED = True
 
+# Set this to true if you want to use external accouting system
+ACCOUNTING_ENABLED = False
+
+# Accounting ##################################################################
+ACCOUNTING = {
+    'IMPLEMENTATION': 'accounting.flexibee_accounting',
+}
+###############################################################################
+
+
 INSTALLED_APPS_IF_GEO_ENABLED = (
     'django.contrib.gis',
     'geotrack.backends.geodjango',

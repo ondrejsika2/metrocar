@@ -26,10 +26,11 @@ class InvoiceEnabledTestCase(UserEnabledTestCase):
         self.acc_act_3.save()
 
         # magic done via post save signal
-        self.invoice = Invoice.objects.create(user=self.user)
+        self.invoice = Invoice.objects.create(user=self.user)        
 
     def tearDown(self):
         super(InvoiceEnabledTestCase, self).tearDown()
+        self.invoice.delete()
         self.acc_act_1.delete()
         self.acc_act_2.delete()
-        self.acc_act_3.delete()
+        self.acc_act_3.delete()        

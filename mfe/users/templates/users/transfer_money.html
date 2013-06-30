@@ -12,15 +12,22 @@
 {% block left_col_content %}
 
 
+
 {% blocktrans %}
-<p>Easiest way for transfering money to your account is using bank transfer. Our account number is xxx. As a variable symbol enter number of your id card</p>
+<p>You can create deposit to your account on this page. Just enter money amount into the input box. This deposit will be credited immediately but it will be invoiced as on of the items in the next 
+invoice which will be drawn on your invoice date. Also there are certain limits. You can't create deposit to your account when you have some unpaid invoices. All your invoices must be PAID.There is also limit of how much money you can deposit. Limit is a amount of your insurance(it is based on your subsidiary). The tax will be automatically added to the money amount.</p>
 {% endblocktrans %}
 
-<p>{% trans "Your variable symbol is" %}: {{ user.variable_symbol }}</p>
+<p>{% trans "Maximal possible account balance is" %}: {{ user.home_subsidiary.max_account_balance }}</p>
 
-<p>TODO: PAYPAL etc...</p>
-<div class="clear"></div>
-
-
+<p>{% trans "Your invoice date" %}: {{ user.invoice_date }}</p>
+<form action="{% url mfe.users.views.account_invoices_transfer_money %}" method="post">
+	{% include "includes/standard_form.html" %}
+	<p class="submit-row">
+		<span class="button button-green">
+			<span><button class="green" type="submit">{% trans "Create deposit" %}</button></span>
+		</span>
+	</p>
+</form>
 
 {% endblock %}

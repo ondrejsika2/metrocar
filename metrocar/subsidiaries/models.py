@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -22,7 +24,9 @@ class Subsidiary(models.Model):
     street = models.CharField(_('Street'), max_length=100)
     house_number = models.IntegerField(_('House number'), max_length=8)
     city = models.CharField(_('City'), max_length=80)
-    tax_rate = models.FloatField(_('Tax rate'), default=19)
+    tax_rate = models.FloatField(_('Tax rate'), default=21)
+    max_account_balance = models.DecimalField(decimal_places=2, max_digits=8, 
+        default=Decimal('15000'), blank=False, null=False, editable=False, verbose_name=_('Maximal account balance.'))
 
     site = models.OneToOneField(Site)
 
