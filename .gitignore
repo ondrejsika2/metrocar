@@ -5,3 +5,6 @@ requirements.installed
 *.egg-info
 settings_local.py
 *.pyc
+
+.idea
+.DS_Store
