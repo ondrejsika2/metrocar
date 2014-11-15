@@ -7,19 +7,17 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.utils import simplejson
+import json as simplejson
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import list_detail
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
 from metrocar.cars.models import CarType, Car, Parking
 from metrocar.cars.views import CarPositions
 from metrocar.reservations.models import Reservation
 
-
-def car_list(request, **kwargs):
-    cars = Car.objects.filter(active=True)
-    return list_detail.object_list(request, cars, **kwargs)
+class CarListView(ListView):
+    model = Car
 
 @login_required
 def load_car_list(request, start_date=None, start_time=None, end_date=None, end_time=None):

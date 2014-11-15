@@ -4,7 +4,7 @@ Created on 2.4.2010
 @author: xaralis
 '''
 
-import simplejson
+from django.utils.simplejson import *
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.gis.geos.geometry import GEOSGeometry

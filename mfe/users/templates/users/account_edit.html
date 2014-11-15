@@ -6,7 +6,7 @@
 
 {% block left_col_content %}
 
-<form id="account_edit_form" action="{% url mfe_users_account_edit %}" method="post">
+<form id="account_edit_form" action="{% url 'mfe_users_account_edit' %}" method="post">
 	{% include "includes/standard_form.html" %}
 	<p class="submit-row">
 		<span class="button button-green">

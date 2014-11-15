@@ -26,7 +26,7 @@
 <ul class="ul-01">
 	<li><strong>{% trans "Last login" %}:</strong> {{ user.last_login|date:"DATETIME_FORMAT" }}</li>
 	<li><strong>{% trans "Home subsidiary" %}:</strong> <a href="{{ user.home_subsidiary.get_absolute_url }}">{{ user.home_subsidiary }}</a></li>
-	<li><strong>{% trans "Account balance" %}:</strong> <a href="{% url mfe_users_account_activities %}">{{ user.account.balance|floatformat:"-2" }} Kč</a></li>
+	<li><strong>{% trans "Account balance" %}:</strong> <a href="{% url 'mfe_users_account_activities' %}">{{ user.account.balance|floatformat:"-2" }} Kč</a></li>
 	<li><strong>{% trans "User card number" %}:</strong> {{ user.user_card.code }}</li>
 </ul>
 </div>
@@ -36,13 +36,13 @@
 <div class="clear"></div>
 
 <span class="button button-green">
-	<span><a href="{% url mfe_users_account_edit %}" class="green">{% trans "Change my details" %}</a></span>
+	<span><a href="{% url 'mfe_users_account_edit' %}" class="green">{% trans "Change my details" %}</a></span>
 </span>
 <span class="button button-green">
-	<span><a href="{% url mfe_users_account_edit_address %}" class="green">{% trans "Change my invoice address" %}</a></span>
+	<span><a href="{% url 'mfe_users_account_edit_address' %}" class="green">{% trans "Change my invoice address" %}</a></span>
 </span>
 <span class="button button-grey">
-	<span><a href="{% url mfe_users_change_password %}" id='change_password' class="grey">{% trans "Change my password" %}</a></span>
+	<span><a href="{% url 'mfe_users_change_password' %}" id='change_password' class="grey">{% trans "Change my password" %}</a></span>
 </span>
 
 <div class="clear"></div>
@@ -60,7 +60,7 @@
 			<td>{{ reservation.car }}</td>
 			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
 			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
-			<td><a href="{% url mfe_reservations_submit_cancel_reservation reservation.pk %}">{% trans "cancel" %}</a></td>
+			<td><a href="{% url 'mfe_reservations_submit_cancel_reservation' reservation.pk %}">{% trans "cancel" %}</a></td>
 		</tr>
 		{% endfor %}
 	</table>

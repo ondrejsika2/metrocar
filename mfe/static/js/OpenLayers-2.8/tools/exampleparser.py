@@ -20,7 +20,7 @@ except ImportError:
 
 missing_deps = False
 try:
-    import simplejson
+    import json as simplejson
     from BeautifulSoup import BeautifulSoup
 except ImportError, E:
     missing_deps = E 

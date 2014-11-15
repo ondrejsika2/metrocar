@@ -4,15 +4,17 @@ Created on 11.3.2010
 @author: xaralis
 '''
 
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import TemplateView
+from mfe.reservations.views import OutstandingLoansList
 
 urlpatterns = patterns('',
     # reservation creation
     url('^$', 'mfe.reservations.views.reservation', name='mfe_reservations_reservation'),
     url('^%s/(?P<car_id>\d+)/$' % slugify(_('reserve car')), 'mfe.reservations.views.reservation', name='mfe_reservations_reserve_car'),
-    url('^%s/$' % slugify(_('success')), 'django.views.generic.simple.direct_to_template', { 'template': 'reservations/reservation/success.html' }, name='mfe_reservations_reservation_success'),
+    url('^%s/$' % slugify(_('success')), TemplateView.as_view(template_name='reservations/reservation/success.html'), name='mfe_reservations_reservation_success'),
     url(r'^recount_price_estimation/$','mfe.reservations.views.recount_price_estimation', name='mfe_reservations_recount_price_estimation'),
 
     # reservation cancel
@@ -24,11 +26,11 @@ urlpatterns = patterns('',
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('confirmation')), 'mfe.reservations.views.confirmation', name='mfe_reservations_confirmation'),
 
     # record journey
-    url('^%s/$' % slugify(_('oustanding loans')), 'mfe.reservations.views.outstanding_loans', name='mfe_reservations_outstanding_loans'),
+    url('^%s/$' % slugify(_('oustanding loans')), TemplateView.as_view(template_name='reservations/finish.html'), name='mfe_reservations_outstanding_loans'),
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('add journey')), 'mfe.reservations.views.add_journey', name='mfe_reservations_add_journey'),
     url('^%s/(?P<journey_id>\d+)/$' % slugify(_('delete journey')), 'mfe.reservations.views.delete_journey', name='mfe_reservations_delete_journey'),
     url('^(?P<reservation_id>\d+)/%s/$' % slugify(_('finish reservation')), 'mfe.reservations.views.finish_reservation', name='mfe_reservations_finish_reservation'),
 
     # reservation finish
-    url('^%s/$' % slugify(_('finish')), 'django.views.generic.simple.direct_to_template', { 'template': 'reservations/finish.html' }, name='mfe_reservations_finish'),
+    url('^%s/$' % slugify(_('finish')), TemplateView.as_view(template_name='reservations/finish.html'), name='mfe_reservations_finish'),
 )

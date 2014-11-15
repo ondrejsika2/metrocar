@@ -17,7 +17,7 @@ your account.</p>
 as it simplifies the bill validation from our staff.</p>
 {% endblocktrans %}
 
-<form action="{% url mfe_users_account_invoices_and_bills_claim_bill %}" method="post">
+<form action="{% url 'mfe_users_account_invoices_and_bills_claim_bill' %}" method="post">
 	{% include "includes/standard_form.html" %}
 	<p class="submit-row">
 		<span class="button button-green">

@@ -4,8 +4,8 @@
 <ul class="ul-01">
 	{% block local_menu %}
 	<li><a href="#TODO">{% trans "General info" %}</a></li>
-	<li><a href="{% url mfe_cars %}">{% trans "Find cars" %}</a></li>
-	<li><a href="{% url mfe_cars_parking_list %}">{% trans "Parkings" %}</a></li>
-	<li><a href="{% url mfe_cars_fares %}">{% trans "Fares" %}</a></li>
+	<li><a href="{% url 'mfe_cars' %}">{% trans "Find cars" %}</a></li>
+	<li><a href="{% url 'mfe_cars_parking_list' %}">{% trans "Parkings" %}</a></li>
+	<li><a href="{% url 'mfe_cars_fares' %}">{% trans "Fares" %}</a></li>
 	{% endblock %}
 </ul>

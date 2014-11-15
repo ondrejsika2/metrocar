@@ -15,6 +15,6 @@
 		<div class="clear"></div>
 		<p><strong>{% trans "Location" %}</strong>: {{ object.last_position_text }}</p>
 		<a class="j-show-car-profile" href="#id_{{ object.pk }}">{% trans "show profile" %}&raquo;</a>&nbsp;&nbsp;
-		<a href="{% url mfe_reservations_reserve_car object.pk %}">{% trans "fast reservation" %}&raquo;</a>
+		<a href="{% url 'mfe_reservations_reserve_car' object.pk %}">{% trans "fast reservation" %}&raquo;</a>
 	</div>
 </div>

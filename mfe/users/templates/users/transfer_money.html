@@ -21,7 +21,7 @@ invoice which will be drawn on your invoice date. Also there are certain limits.
 <p>{% trans "Maximal possible account balance is" %}: {{ user.home_subsidiary.max_account_balance }}</p>
 
 <p>{% trans "Your invoice date" %}: {{ user.invoice_date }}</p>
-<form action="{% url mfe.users.views.account_invoices_transfer_money %}" method="post">
+<form action="{% url 'mfe.users.views.account_invoices_transfer_money' %}" method="post">
 	{% include "includes/standard_form.html" %}
 	<p class="submit-row">
 		<span class="button button-green">

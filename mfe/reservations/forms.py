@@ -11,7 +11,7 @@ from django.conf import settings
 from datetime import datetime, timedelta
 
 #from IPython.Shell import IPShellEmbed; IPShellEmbed()()
-from metrocar.reservations.forms import CHOICES
+# from metrocar.reservations.forms import CHOICES
 
 from metrocar.user_management.models import MetrocarUser
 from metrocar.cars.models import Car, Journey

@@ -20,7 +20,7 @@
 			<td>{{ reservation.car }}</td>
 			<td>{{ reservation.reserved_from|date:"DATETIME_FORMAT" }}</td>
 			<td>{{ reservation.reserved_until|date:"DATETIME_FORMAT" }}</td>
-			<td><a href="{% url mfe_reservations_edit_reservation reservation.pk %}">{% trans "Edit" %}</a></td>
+			<td><a href="{% url 'mfe_reservations_edit_reservation' reservation.pk %}">{% trans "Edit" %}</a></td>
 		</tr>
 		{% endfor %}
 	</table>
