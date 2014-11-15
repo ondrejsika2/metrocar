@@ -36,7 +36,7 @@
             &lt;p id="btns"&gt;
 
 &lt;span class="button button-green"&gt;
-	&lt;span&gt;&lt;a href="{% url mfe_users_registration %}" class="green"&gt;{% trans "I want to take part" %}&lt;/a&gt;&lt;/span&gt;
+	&lt;span&gt;&lt;a href="{% url 'mfe_users_registration' %}" class="green"&gt;{% trans "I want to take part" %}&lt;/a&gt;&lt;/span&gt;
 &lt;/span&gt;
 
 &lt;span class="button button-grey"&gt;

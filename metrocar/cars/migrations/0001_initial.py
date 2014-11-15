@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("user_management", "0002_auto__del_field_metrocaruser_variable_symbol__add_field_metrocaruser_s"),
+    )
+
     def forwards(self, orm):
         # Adding model 'CarModelManufacturer'
         db.create_table('cars_carmodelmanufacturer', (
@@ -138,7 +142,6 @@ class Migration(SchemaMigration):
             ('path', self.gf('django.contrib.gis.db.models.fields.MultiLineStringField')(null=True, spatial_index=False, blank=True)),
             ('total_price', self.gf('django.db.models.fields.DecimalField')(default=0, null=True, max_digits=8, decimal_places=2, blank=True)),
             ('type', self.gf('django.db.models.fields.CharField')(default='T', max_length=2)),
-            ('reservation', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='journeys', null=True, to=orm['reservations.Reservation'])),
             ('car', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cars.Car'])),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['user_management.MetrocarUser'])),
             ('speedometer_start', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),

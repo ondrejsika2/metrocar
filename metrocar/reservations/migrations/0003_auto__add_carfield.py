@@ -12,35 +12,15 @@ class Migration(SchemaMigration):
     )
 
     def forwards(self, orm):
-        # Adding model 'CarUnit'
-        db.create_table('car_unit_api_carunit', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('unit_id', self.gf('django.db.models.fields.PositiveIntegerField')(unique=True)),
-            ('secret_key', self.gf('django.db.models.fields.CharField')(default='s^%0c-()4-qpt_4nm*4g767s3!t$n)73r)aw3si&4z(@sk$&&h', max_length=50)),
-            ('car', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cars.Car'], null=True, blank=True)),
-            ('enabled', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal('car_unit_api', ['CarUnit'])
-
-        # Adding model 'LogEntry'
-        db.create_table('car_unit_api_logentry', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('unit_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            ('timestamp', self.gf('django.db.models.fields.DateTimeField')(db_index=True)),
-            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')()),
-            ('added', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('event', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=30, null=True, blank=True)),
-        ))
-        db.send_create_signal('car_unit_api', ['LogEntry'])
-
+        # Adding field 'Car.last_echo'
+        db.add_column('reservations_reservation', 'car',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cars.Car'],
+                                                                            related_name='reservations'),
+                      keep_default=False)
 
     def backwards(self, orm):
-        # Deleting model 'CarUnit'
-        db.delete_table('car_unit_api_carunit')
-
-        # Deleting model 'LogEntry'
-        db.delete_table('car_unit_api_logentry')
-
+        # Deleting field 'Car.last_echo'
+        db.delete_column('reservations_reservation', 'car')
 
     models = {
         'auth.group': {
@@ -72,38 +52,18 @@ class Migration(SchemaMigration):
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
-        'car_unit_api.carunit': {
-            'Meta': {'object_name': 'CarUnit'},
-            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Car']", 'null': 'True', 'blank': 'True'}),
-            'enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'secret_key': ('django.db.models.fields.CharField', [], {'default': "'jwfhl8k^u8xy^_^*q0v7o5#+t!65bny!n8i__f0dk5-3m)!l)s'", 'max_length': '50'}),
-            'unit_id': ('django.db.models.fields.PositiveIntegerField', [], {'unique': 'True'})
-        },
-        'car_unit_api.logentry': {
-            'Meta': {'ordering': "('timestamp',)", 'object_name': 'LogEntry'},
-            'added': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'event': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '30', 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('django.contrib.gis.db.models.fields.PointField', [], {}),
-            'timestamp': ('django.db.models.fields.DateTimeField', [], {'db_index': 'True'}),
-            'unit_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
-        },
         'cars.car': {
             'Meta': {'object_name': 'Car'},
             'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'authorization_key': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             'color': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.CarColor']"}),
             'dedicated_parking_only': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'home_subsidiary': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['subsidiaries.Subsidiary']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'imei': ('django.db.models.fields.CharField', [], {'max_length': '18', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'last_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'last_echo': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'last_position': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'manufacture_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'mobile_number': ('metrocar.utils.fields.PhoneField', [], {'max_length': '14', 'null': 'True', 'blank': 'True'}),
             'model': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'cars'", 'to': "orm['cars.CarModel']"}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['user_management.MetrocarUser']", 'null': 'True', 'blank': 'True'}),
             'registration_number': ('django.db.models.fields.CharField', [], {'max_length': '20'})
@@ -143,12 +103,83 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
+        'cars.fuelbill': {
+            'Meta': {'object_name': 'FuelBill', '_ormbases': ['user_management.AccountActivity']},
+            'accountactivity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['user_management.AccountActivity']", 'unique': 'True', 'primary_key': 'True'}),
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Car']"}),
+            'code': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'fuel': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Fuel']"}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'liter_count': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '2'}),
+            'place': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        'cars.journey': {
+            'Meta': {'object_name': 'Journey'},
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Car']"}),
+            'comment': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'end_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'None', 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'length': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '3'}),
+            'reservation': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'journeys'", 'null': 'True', 'to': "orm['reservations.Reservation']"}),
+            'speedometer_end': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'speedometer_start': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'start_datetime': ('django.db.models.fields.DateTimeField', [], {}),
+            'total_price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'null': 'True', 'max_digits': '8', 'decimal_places': '2', 'blank': 'True'}),
+            'type': ('django.db.models.fields.CharField', [], {'default': "'T'", 'max_length': '2'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['user_management.MetrocarUser']"})
+        },
+        'cars.maintenancebill': {
+            'Meta': {'object_name': 'MaintenanceBill', '_ormbases': ['user_management.AccountActivity']},
+            'accountactivity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['user_management.AccountActivity']", 'unique': 'True', 'primary_key': 'True'}),
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Car']"}),
+            'code': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'place': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'purpose': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        'cars.parking': {
+            'Meta': {'object_name': 'Parking'},
+            'cars': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['cars.Car']", 'through': "orm['cars.ParkingDescription']", 'symmetrical': 'False'}),
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'land_registry_number': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'places_count': ('django.db.models.fields.IntegerField', [], {}),
+            'polygon': ('django.contrib.gis.db.models.fields.PolygonField', [], {}),
+            'street': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        'cars.parkingdescription': {
+            'Meta': {'object_name': 'ParkingDescription'},
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Car']"}),
+            'description': ('django.db.models.fields.TextField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'parking': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cars.Parking']"})
+        },
         'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        'reservations.reservation': {
+            'Meta': {'object_name': 'Reservation'},
+            'cancelled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reservations'", 'to': "orm['cars.Car']"}),
+            'comment': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'created': ('django.db.models.fields.DateTimeField', [], {}),
+            'ended': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'finished': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_service': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'modified': ('django.db.models.fields.DateTimeField', [], {}),
+            'price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '3'}),
+            'reserved_from': ('django.db.models.fields.DateTimeField', [], {}),
+            'reserved_until': ('django.db.models.fields.DateTimeField', [], {}),
+            'started': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reservations'", 'to': "orm['user_management.MetrocarUser']"})
         },
         'sites.site': {
             'Meta': {'ordering': "('domain',)", 'object_name': 'Site', 'db_table': "'django_site'"},
@@ -167,6 +198,23 @@ class Migration(SchemaMigration):
             'street': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'tax_rate': ('django.db.models.fields.FloatField', [], {'default': '19'}),
             'use_onboard_unit': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
+        },
+        'user_management.account': {
+            'Meta': {'object_name': 'Account'},
+            'balance': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '15', 'decimal_places': '3'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'account'", 'unique': 'True', 'to': "orm['user_management.MetrocarUser']"})
+        },
+        'user_management.accountactivity': {
+            'Meta': {'object_name': 'AccountActivity'},
+            'account': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'activities'", 'to': "orm['user_management.Account']"}),
+            'account_balance': ('django.db.models.fields.DecimalField', [], {'default': "'0'", 'max_digits': '8', 'decimal_places': '2'}),
+            'comment': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']", 'null': 'True'}),
+            'credited': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 12, 23, 0, 0)'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'money_amount': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'})
         },
         'user_management.company': {
             'Meta': {'object_name': 'Company'},
@@ -197,4 +245,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['car_unit_api']
+    complete_apps = ['reservations']

@@ -32,7 +32,6 @@ class Migration(SchemaMigration):
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'house_number': ('django.db.models.fields.IntegerField', [], {'max_length': '8'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'max_account_balance': ('django.db.models.fields.DecimalField', [], {'default': "'15000'", 'max_digits': '8', 'decimal_places': '2'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'site': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['sites.Site']", 'unique': 'True'}),
             'street': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
