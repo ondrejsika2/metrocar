@@ -3,7 +3,7 @@ Created on 10.3.2010
 
 @author: xaralis
 '''
-import simplejson
+import json as simplejson
 
 from django import shortcuts
 from django.http import HttpResponse, HttpResponseNotFound

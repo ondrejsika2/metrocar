@@ -54,7 +54,7 @@
         </div> <!-- /nav -->
 
         <div id="login-box" style="display: none;">
-            <form action="{% url mfe_users_login %}" method="post">
+            <form action="{% url 'mfe_users_login' %}" method="post">
                 <p>
                     <label>{% trans "Username" %}</label>
                     <input type="text" size="20" value="" id="id_login-username" name="username" />
@@ -83,7 +83,7 @@
                 </ul>
             </div>
             {% if user.is_authenticated %}
-                <strong>{% trans "Logged in" %}:</strong>&nbsp;<a href="{% url mfe_users_account %}">{{ user }}</a>&nbsp;(<a href="{% url mfe_users_logout %}">x</a>)&nbsp;
+                <strong>{% trans "Logged in" %}:</strong>&nbsp;<a href="{% url 'mfe_users_account' %}">{{ user }}</a>&nbsp;(<a href="{% url 'mfe_users_logout' %}">x</a>)&nbsp;
                 <strong>{% trans "Account balance" %}:</strong>&nbsp;{{ user.account.balance|floatformat:"-2" }}&nbsp;Kč
             {% endif %}
         </div>
@@ -95,19 +95,19 @@
         <ul>
             <li  {% in_active_pages "/" 'id="tray-active"' strict %}><a href="/">{% trans "Introduction" %}</a></li> <!-- Active page -->
             {% if user.is_authenticated %}
-                <li {% in_active_pages "/uzivatele/" 'id="tray-active"' %}><a href="{% url mfe_users_account %}" id='tray_users_account'>{% trans "My account" %}</a></li>
+                <li {% in_active_pages "/uzivatele/" 'id="tray-active"' %}><a href="{% url 'mfe_users_account' %}" id='tray_users_account'>{% trans "My account" %}</a></li>
             {% else %}
-                <li {% in_active_pages "/registrace/" 'id="tray-active"' %}><a href="{% url mfe_users_registration %}" id='tray_registration' >{% trans "Join us" %}</a></li>
+                <li {% in_active_pages "/registrace/" 'id="tray-active"' %}><a href="{% url 'mfe_users_registration' %}" id='tray_registration' >{% trans "Join us" %}</a></li>
             {% endif %}
-            <li {% in_active_pages "/automobily/" 'id="tray-active"' strict %}><a href="{% url mfe_cars %}">{% trans "Find cars" %}</a></li>
-            <li {% in_active_pages "/automobily/ceny/" 'id="tray-active"' %}><a href="{% url mfe_cars_fares %}">{% trans "Rates" %}</a></li>
+            <li {% in_active_pages "/automobily/" 'id="tray-active"' strict %}><a href="{% url 'mfe_cars' %}">{% trans "Find cars" %}</a></li>
+            <li {% in_active_pages "/automobily/ceny/" 'id="tray-active"' %}><a href="{% url 'mfe_cars_fares' %}">{% trans "Rates" %}</a></li>
             {% if user.is_authenticated %}
-                <li {% in_active_pages "/rezervace/" 'id="tray-active"' %}><a href="{% url mfe_reservations_reservation%}" id='tray_reservation'>{% trans "New reservation" %}</a></li>
+                <li {% in_active_pages "/rezervace/" 'id="tray-active"' %}><a href="{% url 'mfe_reservations_reservation'%}" id='tray_reservation'>{% trans "New reservation" %}</a></li>
             {% endif %}
         </ul>
 
         <!-- Search -->
-        <form id="page-search" action="{% url mfe_utils_search %}" method="post">
+        <form id="page-search" action="{% url 'mfe_utils_search' %}" method="post">
             <span class="search"><span><input type="text" style="width: 150px;" value="{% trans "Search" %}" name="search_query"></span></span>
             <input type="image" value="OK" src="{{ STATIC_URL }}img/search-box-submit.png" class="search-submit" />
         </form><!-- /search -->

@@ -10,7 +10,7 @@
 credentials to continue.</p>
 {% endblocktrans %}
 
-<form id="login_form" class="sidebar-login-form" action="{% url mfe_users_login %}" method="post">
+<form id="login_form" class="sidebar-login-form" action="{% url 'mfe_users_login' %}" method="post">
 	<p>
 		<label>{% trans "Username" %}</label>
 		<input type="text" size="20" value="" name="username" />

@@ -7,9 +7,8 @@ Created on 11.3.2010
 from django.core.exceptions import ValidationError
 
 from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
-from django.utils import simplejson
-from django.views.generic.simple import direct_to_template
-from django.views.generic.list_detail import object_list
+import json as simplejson
+from django.views.generic import ListView
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -121,24 +120,23 @@ def recount_price_estimation(request):
     return HttpResponse(data, 'application/javascript')
 
 @login_required
-def pending_list(request, page=None):
-    pending_reservations_dict = {
-        'queryset': Reservation.objects.pending().filter(user=request.user).order_by('reserved_from'),
-        'paginate_by': 20,
-        'page': page,
-        'template_name': 'reservations/pending_reservation_list.html'
-    }
-    return object_list(request, **pending_reservations_dict)
+class PendingList(ListView):
+    template_name = 'reservations/pending_reservation_list.html'
+    page = 'page'
+    paginate_by = 25
+
+    def get_queryset(self):
+        return Reservation.objects.pending().filter(user=self.request.user).order_by('reserved_from')
+
 
 @login_required
-def finished_list(request, page=None):
-    finished_reservations_dict = {
-        'queryset': Reservation.objects.finished().filter(user=request.user).order_by('-ended'),
-        'paginate_by': 20,
-        'page': page,
-        'template_name': 'reservations/finished_reservation_list.html'
-    }
-    return object_list(request, **finished_reservations_dict)
+class FinishedList(ListView):
+    template_name = 'reservations/finished_reservation_list.html'
+    page = 'page'
+    paginate_by = 25
+
+    def get_queryset(self):
+        return Reservation.objects.finished().filter(user=self.request.user).order_by('-ended')
 
 @login_required
 def cancel_reservation(request, reservation_id, confirmed=False):
@@ -172,17 +170,14 @@ def edit_reservation(request, reservation_id):
             'journeys': journeys
             }, context_instance=RequestContext(request))
 
-
 @login_required
-def outstanding_loans(request, page=None):
-    reservations = Reservation.objects.non_finished().filter(user=request.user)
-    non_finished_reservations_dict = {
-        'queryset': reservations,
-        'paginate_by': 20,
-        'page': page,
-        'template_name': 'reservations/outstanding_loans.html'
-    }
-    return object_list(request, **non_finished_reservations_dict)
+class OutstandingLoansList(ListView):
+    page='page'
+    paginate_by=20
+    template_name='reservations/outstanding_loans.html'
+
+    def get_queryset(self):
+        Reservation.objects.non_finished().filter(user=self.request.user),
 
 @login_required
 def add_journey(request, reservation_id):

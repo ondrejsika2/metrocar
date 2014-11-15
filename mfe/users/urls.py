@@ -39,10 +39,10 @@ urlpatterns = patterns('',
     
     # RESERVATIONS URLS
     # pending reservations list
-    url('^%s/$' % slugify(_('pending')), 'mfe.reservations.views.pending_list', name='mfe_reservations_pending_list'),
-    url('^%s/%s/(?P<page>\d+)/$' % (slugify(_('pending')), slugify(_('page'))), 'mfe.reservations.views.pending_list', name='mfe_reservations_pending_list'),
+    url('^%s/$' % slugify(_('pending')), 'mfe.reservations.views.PendingList', name='mfe_reservations_pending_list'),
+    url('^%s/%s/(?P<page>\d+)/$' % (slugify(_('pending')), slugify(_('page'))), 'mfe.reservations.views.PendingList', name='mfe_reservations_pending_list'),
     
     # finished reservations list
-    url('^%s/$' % slugify(_('finished')), 'mfe.reservations.views.finished_list', name='mfe_reservations_finished_list'),
-    url('^%s/%s/(?P<page>\d+)/$' % (slugify(_('pending')), slugify(_('page'))), 'mfe.reservations.views.finished_list', name='mfe_reservations_finished_list'),
+    url('^%s/$' % slugify(_('finished')), 'mfe.reservations.views.FinishedList', name='mfe_reservations_finished_list'),
+    url('^%s/%s/(?P<page>\d+)/$' % (slugify(_('pending')), slugify(_('page'))), 'mfe.reservations.views.FinishedList', name='mfe_reservations_finished_list'),
 )

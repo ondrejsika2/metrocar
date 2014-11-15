@@ -45,11 +45,11 @@
 
 {% if journeys %}
 <span class="button button-green">
-	<span><a href="{% url mfe_reservations_confirmation reservation.pk %}" class="green" title="{% trans "In the next step you will have an opportunity to check information about your loan and finish that." %}">{% trans "Finish loan" %}</a></span>
+	<span><a href="{% url 'mfe_reservations_confirmation' reservation.pk %}" class="green" title="{% trans "In the next step you will have an opportunity to check information about your loan and finish that." %}">{% trans "Finish loan" %}</a></span>
 </span>
 {% else %}
 <span class="button button-green">
-	<span><a href="{% url mfe_reservations_add_journey reservation.pk %}" class="green">{% trans "Add journey" %}</a></span>
+	<span><a href="{% url 'mfe_reservations_add_journey' reservation.pk %}" class="green">{% trans "Add journey" %}</a></span>
 </span>
 {% endif %}
 {% endblock %}

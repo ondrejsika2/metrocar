@@ -7,7 +7,7 @@ Created on 2.4.2010
 import decimal
 import inspect
 import re
-import simplejson
+import json as simplejson
 
 from django.db.models import permalink
 from django.utils.encoding import smart_unicode

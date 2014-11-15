@@ -5,7 +5,7 @@ Created on 14.3.2010
 '''
 
 import urllib
-import simplejson
+from django.utils.simplejson import *
 
 from django.conf import settings
 from django.utils.encoding import smart_str

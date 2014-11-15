@@ -20,7 +20,7 @@ your request, you will be sent an e-mail confirming the account activation.</p>
 </p>
 {% endblocktrans %}
 {% else %}
-<form id="registration_form" class="registration" action="{% url mfe_users_registration %}" method="post">
+<form id="registration_form" class="registration" action="{% url 'mfe_users_registration' %}" method="post">
     <table>
         {% for field in form %}
             {% if field.html_name == 'license_terms' %}

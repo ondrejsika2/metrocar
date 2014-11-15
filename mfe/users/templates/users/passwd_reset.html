@@ -8,7 +8,7 @@
     {% trans 'Insert your username and confirm to send email with further instructions.' %}
 </p>
 
-<form class="sidebar-login-form" action="{% url mfe_users_passwd_reset %}" method="post">
+<form class="sidebar-login-form" action="{% url 'mfe_users_passwd_reset' %}" method="post">
 	{{ form }}
 	<p class="submit-row">
 		<span class="button button-green">
