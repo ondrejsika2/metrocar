@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     (r'^tests/', include('metrocar.tests.urls')),
 
     (r'^', include(admin.site.urls)),
+
+    url(r'^api/v1/', include('metrocar.urls_api')),
 )
 
 

@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    needed_by = (
+        ("subsidiaries", "0001_initial"),
+    )
+
     def forwards(self, orm):
         # Adding model 'LogMessage'
         db.create_table('utils_logmessage', (

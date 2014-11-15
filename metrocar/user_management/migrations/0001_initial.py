@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ("subsidiaries", "0002_auto__add_field_subsidiary_max_account_balance"),
+    )
+
     def forwards(self, orm):
         # Adding model 'Company'
         db.create_table('user_management_company', (

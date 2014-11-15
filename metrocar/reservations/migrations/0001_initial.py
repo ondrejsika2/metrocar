@@ -24,7 +24,6 @@ class Migration(SchemaMigration):
             ('started', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('path', self.gf('django.contrib.gis.db.models.fields.MultiLineStringField')(default=None, null=True, spatial_index=False, blank=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='reservations', to=orm['user_management.MetrocarUser'])),
-            ('car', self.gf('django.db.models.fields.related.ForeignKey')(related_name='reservations', to=orm['cars.Car'])),
         ))
         db.send_create_signal('reservations', ['Reservation'])
 
