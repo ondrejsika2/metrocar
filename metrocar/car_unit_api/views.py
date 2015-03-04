@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.core import serializers
 from pipetools import pipe, X, foreach
 
 import geotrack
@@ -72,25 +73,23 @@ class Reservations(APICall):
 
 
 def get_upcoming_reservations(unit_id):
-    return (CarUnit.objects.get(unit_id=unit_id).car_id > pipe
-         | Reservation.objects.get_upcoming
-         | foreach(reservation_data_for_car_unit)
-         | tuple)
+    return serializers.serialize('json',(CarUnit.objects.get(unit_id=unit_id).car_id > pipe
+         | Reservation.objects.get_upcoming))
 
 
 def reservation_data_for_car_unit(reservation):
-    user = reservation.user
+    user = reservation['user']
     return {
         'user': reservation_user_data(user),
-        'start': reservation.reserved_from,
-        'end': reservation.reserved_until,
-        'reservationId' : reservation.id,
+        'start': reservation['reserved_from'],
+        'end': reservation['reserved_until'],
+        'reservationId': reservation['id'],
     }
 
 
 def reservation_user_data(user):
     return {
-        'id': user.id,
-        'username': user.username,
-        'password': user.password,
+        'id': user['id'],
+        'username': user['username'],
+        'password': user['password'],
     }

@@ -1,8 +1,8 @@
-    from datetime import datetime, timedelta
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 from django.contrib.gis.geos import Point
-from djangosanetesting.cases import DatabaseTestCase
+import django.test
 
 from nose.tools import raises
 
@@ -28,39 +28,39 @@ class TestReservation(ReservationEnabledTestCase):
     def test_0_validate_invalid_in_past(self):
         self.reservation.reserved_from = datetime.now() - timedelta(hours=1)
         val_res, val_errs = self.reservation.is_valid()
-        self.assert_false(val_res)
-        self.assert_true(len(val_errs) == 1)
+        self.assertFalse(val_res)
+        self.assertTrue(len(val_errs) == 1)
 
     def test_1_validate_invalid_where_reserved_until_sooner(self):
         tmp = self.reservation.reserved_until
         self.reservation.reserved_until = self.reservation.reserved_from
         val_res, val_errs = self.reservation.is_valid()
         self.reservation.reserved_from = tmp
-        self.assert_false(val_res)
-        self.assert_true(len(val_errs) == 1)
+        self.assertFalse(val_res)
+        self.assertTrue(len(val_errs) == 1)
 
     def test_2_validate_duration_limits(self):
         ss = SiteSettings.objects.get_current()
         self.reservation.reserved_until = self.reservation.reserved_from \
             + timedelta(seconds=(ss.reservation_min_duration - 1))
         val_res, val_errs = self.reservation.is_valid()
-        self.assert_false(val_res)
-        self.assert_true(len(val_errs) == 1)
+        self.assertFalse(val_res)
+        self.assertTrue(len(val_errs) == 1)
 
         self.reservation.reserved_until = self.reservation.reserved_from \
             + timedelta(seconds=(ss.reservation_max_duration + 1))
         val_res, val_errs = self.reservation.is_valid()
-        self.assert_false(val_res)
-        self.assert_true(len(val_errs) == 1)
+        self.assertFalse(val_res)
+        self.assertTrue(len(val_errs) == 1)
 
     def test_3_validate_account_limit(self):
         ss = SiteSettings.objects.get_current()
         pe = self.reservation.estimate_price()
         self.user.account.balance = ss.reservation_money_multiplier * pe - 100
         val_res, val_errs = self.reservation.is_valid()
-        self.assert_false(val_res)
+        self.assertFalse(val_res)
         print val_errs
-        self.assert_true(len(val_errs) == 2)
+        self.assertTrue(len(val_errs) == 2)
 
     def test_4_conflicting_time(self):
         self.reservation.save()
@@ -71,8 +71,8 @@ class TestReservation(ReservationEnabledTestCase):
             car=self.car
         )
         val_res, val_errs = reservation.is_valid()
-        self.assert_false(val_res)
-        self.assert_true(len(val_errs) == 1)
+        self.assertFalse(val_res)
+        self.assertTrue(len(val_errs) == 1)
 
     def test_5_find_conflicts(self):
         self.reservation.save()
@@ -83,24 +83,24 @@ class TestReservation(ReservationEnabledTestCase):
             car=self.car
         )
         conflicts = reservation.get_conflicts()
-        self.assert_equals(len(conflicts), 1)
-        self.assert_equals(conflicts[0].pk, self.reservation.pk)
+        self.assertEquals(len(conflicts), 1)
+        self.assertEquals(conflicts[0].pk, self.reservation.pk)
 
     def test_6_is_running(self):
         self.reservation.reserved_from = (datetime.now() + timedelta(hours=1))
-        self.assert_false(self.reservation.is_running())
+        self.assertFalse(self.reservation.is_running())
 
         self.reservation.reserved_from = (datetime.now() - timedelta(hours=1))
-        self.assert_true(self.reservation.is_running())
+        self.assertTrue(self.reservation.is_running())
 
         self.reservation.finished = True
-        self.assert_false(self.reservation.is_running())
+        self.assertFalse(self.reservation.is_running())
 
     def test_7_ready_to_finish_no_dedicated_parking(self):
         # these are collected by reservation daemon and should not be able to
         # finish
         self.car.dedicated_parking_only = False
-        self.assert_false(self.reservation.ready_to_finish())
+        self.assertFalse(self.reservation.ready_to_finish())
 
     @skipIfNotGeoEnabled
     def test_8_ready_to_finish_on_dedicated_parking(self):
@@ -117,7 +117,7 @@ class TestReservation(ReservationEnabledTestCase):
 
         self.reservation.started = datetime.now() + timedelta(hours=1)
         self.reservation.save()
-        self.assert_true(self.reservation.ready_to_finish())
+        self.assertTrue(self.reservation.ready_to_finish())
 
     @raises(ReservationError)
     def test_9_get_pricelist_fails_for_nonexistent(self):
@@ -140,7 +140,7 @@ class TestReservation(ReservationEnabledTestCase):
         self.pricelist.save()
         self.reservation.finished = True
         self.reservation.save()
-        self.assert_true(self.reservation.get_pricelist())
+        self.assertTrue(self.reservation.get_pricelist())
         self.pricelist.delete()
         self.reservation.delete()
 
@@ -206,26 +206,26 @@ class TestReservationManager(CarEnabledWithoutReservationTestCase):
 
     def test_0_to_be_finished(self):
         to_be_finished = Reservation.objects.to_be_finished()
-        self.assert_equals(len(to_be_finished), 1)
-        self.assert_equals(to_be_finished[0].pk, self.r4.pk)
+        self.assertEquals(len(to_be_finished), 1)
+        self.assertEquals(to_be_finished[0].pk, self.r4.pk)
 
     def test_1_running(self):
         running = Reservation.objects.running()
-        self.assert_equals(len(running), len(Reservation.objects.all())
+        self.assertEquals(len(running), len(Reservation.objects.all())
             - len(Reservation.objects.finished())
             - len(Reservation.objects.waiting_to_start()))
 
     def test_2_pending(self):
         pending = Reservation.objects.pending()
-        self.assert_equals(len(pending), len(Reservation.objects.all())
+        self.assertEquals(len(pending), len(Reservation.objects.all())
             - len(Reservation.objects.finished()))
-        self.assert_equals(pending[0].pk, self.r1.pk)
+        self.assertEquals(pending[0].pk, self.r1.pk)
 
     def test_3_finished(self):
         finished = Reservation.objects.finished()
-        self.assert_equals(len(finished), len(Reservation.objects.all())
+        self.assertEquals(len(finished), len(Reservation.objects.all())
             - len(Reservation.objects.pending()))
-        self.assert_equals(finished[0].pk, self.r3.pk)
+        self.assertEquals(finished[0].pk, self.r3.pk)
 
 
 class TestGeoEnabledReservationIntegration(DatabaseTestCase):
@@ -285,7 +285,7 @@ class TestGeoEnabledReservationIntegration(DatabaseTestCase):
 
         # appropriate amount of money is deducted from user's account
         account = Account.objects.get(user=user)
-        self.assert_equals(account.balance, -Decimal(str(sum((
+        self.assertEquals(account.balance, -Decimal(str(sum((
             prices['pickup_fee'],
             prices['reservation_fee'],
             30 * prices['price_per_km'],

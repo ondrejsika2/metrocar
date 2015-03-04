@@ -28,14 +28,14 @@ class TestPricelistDay(CarEnabledTestCase):
     def test_1_clone_succeeds_for_day_change(self):
         pd = self.pricelist.pricelistday_set.all()[0]
         pd2 = pd.clone(weekday_from=1)
-        self.assert_true(pd2)
+        self.assertTrue(pd2)
         
         pd3 = pd2.clone(weekday_from=None, date=date(year=2010, month=1, day=1))
-        self.assert_true(pd3)
+        self.assertTrue(pd3)
         
     def test_2_get_weekday_human(self):
         pd = self.pricelist.pricelistday_set.all()[0]
-        self.assert_true(isinstance(pd.get_weekday_human(1), unicode))
+        self.assertTrue(isinstance(pd.get_weekday_human(1), unicode))
         
     def test_3_get_pricing_timeline_whole_day(self):
         pd, created = PricelistDay.objects.get_or_create(
@@ -47,7 +47,7 @@ class TestPricelistDay(CarEnabledTestCase):
             late_return_ratio=Decimal('3'), time_from=time(hour=1),
             pricelist_day=pd                                                   
         )
-        self.assert_equals(pd.get_pricing_timeline(), [{
+        self.assertEquals(pd.get_pricing_timeline(), [{
             'from': time(hour=0),
             'till': time(hour=23, minute=59, second=59),
             'minutes': 24 * 60,
@@ -71,7 +71,7 @@ class TestPricelistDay(CarEnabledTestCase):
             pricelist_day=pd                                                   
         )
         dt2 = dt.clone(time_from=time(hour=11), car_unused_ratio=Decimal('10'))
-        self.assert_equals(pd.get_pricing_timeline(), [
+        self.assertEquals(pd.get_pricing_timeline(), [
             {
                 'from': time(hour=0),
                 'till': time(hour=0, minute=59, second=59),

@@ -39,16 +39,16 @@ class TestJourney(CarEnabledTestCase):
         j.is_valid()
 
     def test_get_pricing_info_no_reservation(self):
-        self.assert_equals(self.journey.get_pricing_info(), None)
+        self.assertEquals(self.journey.get_pricing_info(), None)
 
     def test_is_finished(self):
-        self.assert_equals(self.journey.is_finished(), False)
+        self.assertEquals(self.journey.is_finished(), False)
         self.journey.end_datetime = datetime.now()
         self.journey.save()
-        self.assert_equals(self.journey.is_finished(), True)
+        self.assertEquals(self.journey.is_finished(), True)
 
     def test_get_current_for_car_user_card(self):
-        self.assert_equals(
+        self.assertEquals(
             self.journey,
             Journey.objects.get_current_for_car_user_card(
                 self.car, self.user.user_card, datetime.now())
@@ -57,6 +57,7 @@ class TestJourney(CarEnabledTestCase):
 
 class TestJourneyManager(CarEnabledTestCase):
     def setUp(self):
+        Reservation.objects.all().delete()
         super(TestJourneyManager, self).setUp()
         self.journey = None
 
@@ -84,7 +85,7 @@ class TestJourneyManager(CarEnabledTestCase):
         self.user.user_card.active = True
         self.user.user_card.save()
         self.start_journey()
-        self.assert_true(isinstance(self.journey, Journey))
+        self.assertTrue(isinstance(self.journey, Journey))
 
     def test_start_journey_with_reservation(self):
         if self.car.get_current_journey() is not None:
@@ -101,8 +102,8 @@ class TestJourneyManager(CarEnabledTestCase):
             user=self.user
         )
         self.start_journey()
-        self.assert_true(isinstance(self.journey, Journey))
-        self.assert_true(self.journey.reservation.started != None)
+        self.assertTrue(isinstance(self.journey, Journey))
+        self.assertTrue(self.journey.reservation.started != None)
 
 
 class TestJourneyManagerNormalization(CarEnabledTestCase):
@@ -137,8 +138,8 @@ class TestJourneyManagerNormalization(CarEnabledTestCase):
             reservation=r,
         )
         Journey.objects.normalize_for_reservation(r)
-        self.assert_equals(len(r.journeys.all()), 2)
-        self.assert_equals(r.journeys.order_by('-end_datetime')[0].type,
+        self.assertEquals(len(r.journeys.all()), 2)
+        self.assertEquals(r.journeys.order_by('-end_datetime')[0].type,
             Journey.TYPE_WAITING)
 
     def test_inactive_inside(self):
@@ -165,8 +166,8 @@ class TestJourneyManagerNormalization(CarEnabledTestCase):
             reservation=r,
         )
         Journey.objects.normalize_for_reservation(r)
-        self.assert_equals(len(r.journeys.all()), 3)
-        self.assert_equals(r.journeys.order_by('-end_datetime')[1].type,
+        self.assertEquals(len(r.journeys.all()), 3)
+        self.assertEquals(r.journeys.order_by('-end_datetime')[1].type,
             Journey.TYPE_WAITING)
 
     def test_late_return(self):
@@ -185,6 +186,6 @@ class TestJourneyManagerNormalization(CarEnabledTestCase):
             reservation=r,
         )
         Journey.objects.normalize_for_reservation(r)
-        self.assert_equals(len(r.journeys.all()), 2)
-        self.assert_equals(r.journeys.order_by('-end_datetime')[0].type,
+        self.assertEquals(len(r.journeys.all()), 2)
+        self.assertEquals(r.journeys.order_by('-end_datetime')[0].type,
             Journey.TYPE_LATE_RETURN)

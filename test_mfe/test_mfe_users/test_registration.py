@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 from django.test import LiveServerTestCase
-from django.utils.unittest import SkipTest
+from django.utils.django.test import SkipTest
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException

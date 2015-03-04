@@ -40,8 +40,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    join( dirname( mfe.__file__ ), 'templates' ),
-    join( dirname( metrocar.__file__ ), 'templates' ),
+    # join( dirname( mfe.__file__ ), 'templates' ),
+    # join( dirname( metrocar.__file__ ), 'templates' ),
 )
 
 
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
 INSTALLED_APPS = [x for x in INSTALLED_APPS if x != 'south'] + [
@@ -69,8 +69,8 @@ DATETIME_FORMAT = 'D, d.m.Y H:i'
 CALENDAR_DATE_FORMAT = '%d.%m.%Y'
 CALENDAR_TIME_FORMAT = '%H:%M'
 
-EMAIL_ROBOT_FROM_ADDR = 'robot@metrocar.cz'
-EMAIL_NOMINATIM = 'xaralis@centrum.cz'
+# EMAIL_ROBOT_FROM_ADDR = 'robot@metrocar.cz'
+# EMAIL_NOMINATIM = 'xaralis@centrum.cz'
 
 COMM_TIME_FORMAT = '%y-%m-%d %H:%M'
 COMM_OUTPUT_ENCODING = 'windows-1252'
@@ -110,4 +110,4 @@ VERSION = "1"
 
 SITE_ID = 1
 
-TEST_RUNNER = 'djangosanetesting.testrunner.DstNoseTestSuiteRunner'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

@@ -1,6 +1,7 @@
 from pipetools import sort_by, X
 
-from djangosanetesting.cases import DatabaseTestCase
+import django.test
+from metrocar.car_unit_api.models import CarUnit
 
 from metrocar.utils.apis import InvalidRequest
 from metrocar.car_unit_api.utils import authenticate, _current_position_data
@@ -10,18 +11,19 @@ from metrocar.cars import testing_data as cars_testing_data
 from test_metrocar.helpers import skipIfNotGeoEnabled
 
 
-class TestAuthenticate(DatabaseTestCase):
+class TestAuthenticate(django.test.TestCase):
 
     @skipIfNotGeoEnabled
     def setUp(self):
+        CarUnit.objects.all().delete()
+
         self.secret_key = 'asdf8s6f7asdf7ad7f6a'
         self.disabled_unit_key = 'sdfafafa'
         self.unit = unit(123, secret_key=self.secret_key)
-        self.disabled_unit = unit(456, secret_key=self.disabled_unit_key,
-            enabled=False)
+        self.disabled_unit = unit(456, secret_key=self.disabled_unit_key, enabled=False)
 
     def tearDown(self):
-        self.unit.delete()
+        pass
 
     def test_valid(self):
         data = {
@@ -108,7 +110,7 @@ class TestAuthenticate(DatabaseTestCase):
             '("unit_id" should be an integer, not "asdf").')
 
 
-class TestCurrentPositionData(DatabaseTestCase):
+class TestCurrentPositionData(django.test.TestCase):
 
     def test_empty(self):
         geotrack_data = {}

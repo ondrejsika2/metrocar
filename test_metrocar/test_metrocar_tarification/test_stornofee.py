@@ -41,7 +41,7 @@ class TestStornoFee(CarEnabledTestCase):
         StornoFee.objects.get_record_for_reservation(self.reservation,
             datetime(year=2010, month=1, day=1, hour=0, minute=55))
         
-        self.assert_true(False)
+        self.assertTrue(False)
         
         raise ValueError()
         
@@ -56,11 +56,11 @@ class TestStornoFee(CarEnabledTestCase):
     def test_2_get_record_for_reservation(self):
         r = StornoFee.objects.get_record_for_reservation(self.reservation,
             datetime(year=2010, month=1, day=1, hour=0, minute=35))
-        self.assert_equals(r.pk, self.sft1.pk)
+        self.assertEquals(r.pk, self.sft1.pk)
         
         r = StornoFee.objects.get_record_for_reservation(self.reservation,
             datetime(year=2009, month=12, day=31, hour=20, minute=30))
-        self.assert_equals(r.pk, self.sft3.pk)
+        self.assertEquals(r.pk, self.sft3.pk)
         
     @raises(AssertionError)
     def test_3_create_for_reservation(self):

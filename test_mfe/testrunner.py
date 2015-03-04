@@ -1,7 +1,7 @@
 """
 https://gist.github.com/1450104
 
-An alternative Django ``TEST_RUNNER`` which uses unittest2 test discovery from
+An alternative Django ``TEST_RUNNER`` which uses django.test2 test discovery from
 a base path specified in settings, rather than requiring all tests to be in
 ``tests`` module of an app.
 
@@ -14,7 +14,7 @@ And (new in this updated version), if you give it a single dotted path to a
 package, and that package does not itself directly contain any tests, it'll do
 test discovery in all sub-modules of that package.
 
-This code doesn't modify the default unittest2 test discovery behavior, which
+This code doesn't modify the default django.test2 test discovery behavior, which
 only searches for tests in files named "test*.py".
 
 """
@@ -22,11 +22,11 @@ from django.conf import settings
 from django.test import TestCase
 from django.test.simple import DjangoTestSuiteRunner, reorder_suite
 from django.utils.importlib import import_module
-from django.utils.unittest.loader import defaultTestLoader
+from django.utils.django.test.loader import defaultTestLoader
 
 
 class DiscoveryDjangoTestSuiteRunner(DjangoTestSuiteRunner):
-    """A test suite runner that uses unittest2 test discovery."""
+    """A test suite runner that uses django.test2 test discovery."""
     def build_suite(self, test_labels, extra_tests=None, **kwargs):
         suite = None
         discovery_root = settings.TEST_DISCOVERY_ROOT

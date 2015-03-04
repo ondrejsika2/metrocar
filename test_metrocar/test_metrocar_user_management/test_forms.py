@@ -26,25 +26,24 @@ class TestForms(UserEnabledTestCase):
         
     def test_0_creation_success_for_defaults(self):
         cf = MetrocarUserCreationForm(self.data)
-        self.assert_false(cf.is_valid())
+        self.assertFalse(cf.is_valid())
     
     def test_1_creation_fail_for_existing_username(self):
         self.data['username'] = self.user.username
         cf = MetrocarUserCreationForm(self.data)
-        self.assert_false(cf.is_valid())
+        self.assertFalse(cf.is_valid())
         
     def test_3_creation_fail_for_invalid_phone(self):
         self.data['primary_phone'] = '12313123'
         cf = MetrocarUserCreationForm(self.data)
-        self.assert_false(cf.is_valid())
+        self.assertFalse(cf.is_valid())
         
     def test_4_creation_fail_for_invalid_date(self):
         self.data['date_of_birth'] = '1.5.1986'
         cf = MetrocarUserCreationForm(self.data)
-        self.assert_false(cf.is_valid())
+        self.assertFalse(cf.is_valid())
         
     def test_duplicate_username(self):
-        user = User.objects.create_user(username='username')
         data = {
             'username': 'username',
             'password': 'somepass',
@@ -60,4 +59,4 @@ class TestForms(UserEnabledTestCase):
         }
         form = MetrocarUserCreationForm(data)
         
-        self.assert_false(form.is_valid())
+        self.assertFalse(form.is_valid())

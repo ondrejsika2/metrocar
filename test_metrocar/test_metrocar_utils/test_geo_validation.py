@@ -1,9 +1,9 @@
-from djangosanetesting.cases import UnitTestCase
+import django.test
 
 from metrocar.utils.geo.validation import is_valid_location, is_valid_polygon
 
 
-class TestValidLocation(UnitTestCase):
+class TestValidLocation(django.test.TestCase):
 
     def test_valid(self):
         self.assertTrue(is_valid_location([10, -20.123]))
@@ -12,7 +12,7 @@ class TestValidLocation(UnitTestCase):
         self.assertFalse(is_valid_location(['asdf', 123]))
 
 
-class TestValidPolygon(UnitTestCase):
+class TestValidPolygon(django.test.TestCase):
 
     def test_valid(self):
         self.assertTrue(is_valid_polygon([

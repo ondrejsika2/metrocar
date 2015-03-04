@@ -4,9 +4,9 @@ from datetime import datetime, date, time
 from django.conf import settings
 from django.contrib.gis.geos.polygon import Polygon
 from django.contrib.sites.models import Site
-from django.utils.unittest import TestCase
+from django.test import TestCase
 
-from djangosanetesting.cases import DatabaseTestCase
+import django.test
 
 from metrocar.cars.models import CarModelManufacturer, CarType, Fuel, \
     CarModel, Car, CarColor, Parking
@@ -21,12 +21,12 @@ from metrocar.tarification.models import Pricelist, PricelistDay,\
 def get_subsidiary():
     return Subsidiary.objects.get_current()
 
-class SubsidiaryEnabledTestCase(DatabaseTestCase):
+class SubsidiaryEnabledTestCase(django.test.TestCase):
     def setUp(self):
         super(SubsidiaryEnabledTestCase, self).setUp()
         self.subsidiary = get_subsidiary()
 
-class UserEnabledTestCase(DatabaseTestCase):
+class UserEnabledTestCase(django.test.TestCase):
     def setUp(self):
         super(UserEnabledTestCase, self).setUp()
         try:
@@ -136,8 +136,8 @@ def skip(reason):
                 raise SkipTest(reason)
             test_item = skip_wrapper
 
-        test_item.__unittest_skip__ = True
-        test_item.__unittest_skip_why__ = reason
+        test_item.__django.test_skip__ = True
+        test_item.__django.test_skip_why__ = reason
         return test_item
     return decorator
 
