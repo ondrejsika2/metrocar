@@ -33,18 +33,18 @@ class TestInvoicesManagement(UserEnabledTestCase):
         self.bank = flexipy.Banka(testing_conf)
         self.flexManager = flexibee_accounting.FlexibeeManager(faktura)
 
-    def test_0_create_inv(self):
-        #create invoice in accounting system
-        self.flexManager.create_invoice(self.invoice)
-        #get created invoice from accounting system
-        inv = self.flexManager.get_invoice(self.invoice)
-        assert inv != None
-        assert Decimal(str(inv['sumCelkem'])) == self.invoice.total_price_with_tax()
-        #flexibee adds zeors to the varSym
-        varSym = str(inv['varSym'])
-        #remove leading zeros
-        varSym = re.sub("^0+","",varSym)
-        #assert varSym == str(self.invoice.variable_symbol)
+    # def test_0_create_inv(self):
+    #     #create invoice in accounting system
+    #     self.flexManager.create_invoice(self.invoice)
+    #     #get created invoice from accounting system
+    #     inv = self.flexManager.get_invoice(self.invoice)
+    #     assert inv != None
+    #     assert Decimal(str(inv['sumCelkem'])) == self.invoice.total_price_with_tax()
+    #     #flexibee adds zeors to the varSym
+    #     varSym = str(inv['varSym'])
+    #     #remove leading zeros
+    #     varSym = re.sub("^0+","",varSym)
+    #     #assert varSym == str(self.invoice.variable_symbol)
 
     # def test_1_pair_payments(self):
     #     TODO: there is problem in FLexibee with deleting invoices that are paid

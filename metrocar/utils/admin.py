@@ -47,5 +47,4 @@ def FauxAdminModel(app_label, module_name, verbose_name=None, **kwargs):
         app_label=app_label,
         module_name=module_name,
         **kwargs)
-    return [Bunch(_meta=Bunch(
-        verbose_name_plural=attrs['verbose_name'], **attrs))]
+    return []

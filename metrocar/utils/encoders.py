@@ -3,8 +3,7 @@ Created on 2.4.2010
 
 @author: xaralis
 '''
-
-from django.utils.simplejson import *
+import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.gis.geos.geometry import GEOSGeometry
@@ -23,7 +22,7 @@ class GeoJSONEncoder(DjangoJSONEncoder):
             The purpose of this is that we need encodable structure for
             the JSON encoder, otherwise, it's all escaped and unreadable.
             """
-            python_rep = simplejson.loads(o.geojson)
+            python_rep = json.loads(o.geojson)
             return python_rep
         else:
             return super(GeoJSONEncoder, self).default(o) 

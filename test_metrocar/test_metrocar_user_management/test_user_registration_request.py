@@ -24,16 +24,16 @@ class TestUserRegistrationRequest(UserEnabledTestCase):
         self.user.save()
 
         req = UserRegistrationRequest.objects.create_for_user(self.user)
-        self.assert_equals(req.approved, False)
-        self.assert_equals(req.resolved, False)
+        self.assertEquals(req.approved, False)
+        self.assertEquals(req.resolved, False)
 
         req.approve()
 
-        self.assert_equals(req.approved, True)
-        self.assert_equals(req.resolved, True)
+        self.assertEquals(req.approved, True)
+        self.assertEquals(req.resolved, True)
 
         u = MetrocarUser.objects.get(pk=self.user.pk)
-        self.assert_equals(u.is_active, True)
+        self.assertEquals(u.is_active, True)
         req.delete()
 
     def test_1_reject(self):
@@ -41,19 +41,19 @@ class TestUserRegistrationRequest(UserEnabledTestCase):
         self.user.save()
 
         req = UserRegistrationRequest.objects.create_for_user(self.user)
-        self.assert_equals(req.approved, False)
-        self.assert_equals(req.resolved, False)
+        self.assertEquals(req.approved, False)
+        self.assertEquals(req.resolved, False)
 
         req.reject()
 
-        self.assert_equals(req.approved, False)
-        self.assert_equals(req.resolved, True)
+        self.assertEquals(req.approved, False)
+        self.assertEquals(req.resolved, True)
 
         u = MetrocarUser.objects.with_inactive().get(pk=self.user.pk)
-        self.assert_equals(u.is_active, False)
+        self.assertEquals(u.is_active, False)
         req.delete()
 
     def test_3_unique(self):
         UserRegistrationRequest.objects.create_for_user(self.user)
-        with self.assert_raises(Exception):
+        with self.assertRaises(Exception):
             UserRegistrationRequest.objects.create_for_user(self.user)

@@ -1,13 +1,13 @@
+import django.test
 from pipetools import X
 
-from djangosanetesting.cases import UnitTestCase
 
 from metrocar.utils.validation import validate, check, validate_each
 from metrocar.utils.validation import valid_int, optional
 from metrocar.utils.validation import required, OK
 
 
-class TestValidation(UnitTestCase):
+class TestValidation(django.test.TestCase):
 
     def test_validate_valid(self):
         d = 42
@@ -45,7 +45,7 @@ class TestValidation(UnitTestCase):
         self.assertEqual(f(d), (False, '"123" is not iterable'))
 
 
-class TestRequired(UnitTestCase):
+class TestRequired(django.test.TestCase):
 
     def test_valid(self):
         data = {'some_field': 3}
@@ -66,7 +66,7 @@ class TestRequired(UnitTestCase):
         )(data), (False, '"some_field" should be an integer, not "[]"'))
 
 
-class TestOptional(UnitTestCase):
+class TestOptional(django.test.TestCase):
 
     def test_valid(self):
         data = {'some_field': 3}

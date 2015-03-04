@@ -15,10 +15,10 @@ class TestPricelist(CarEnabledTestCase):
         pdays = self.pricelist.pricelistday_set.all()
         p2 = self.pricelist.clone()
         p2days = p2.pricelistday_set.all()
-        self.assert_equals(len(pdays), len(p2days))
+        self.assertEquals(len(pdays), len(p2days))
 
     def test_1_get_basic_price_dict(self):
-        self.assert_equals(self.pricelist.get_basic_price_dict(), {
+        self.assertEquals(self.pricelist.get_basic_price_dict(), {
             'pickup_fee': 100,
             'price_per_km': 50,
             'price_per_hour_from': Decimal('1.6') * 10,
@@ -29,7 +29,7 @@ class TestPricelist(CarEnabledTestCase):
         pdt.clone(time_from=time(hour=4), car_used_ratio=Decimal('5'))
         pdt.clone(time_from=time(hour=6), car_used_ratio=Decimal('0.1'))
 
-        self.assert_equals(self.pricelist.get_basic_price_dict(), {
+        self.assertEquals(self.pricelist.get_basic_price_dict(), {
             'pickup_fee': 100,
             'price_per_km': 50,
             'price_per_hour_from': Decimal('0.1') * 10,
@@ -45,17 +45,17 @@ class TestPricelist(CarEnabledTestCase):
         # We have records from monday (pd1), friday (pd2) and 01/01/2010 (pd3)
         #=======================================================================
         # test for date
-        self.assert_equals(
+        self.assertEquals(
             self.pricelist.get_pricelistday_for_date(date(year=2010, month=1, day=1)).pk,
             pd3.pk
         )
         # test for tuesday
-        self.assert_equals(
+        self.assertEquals(
             self.pricelist.get_pricelistday_for_date(date(year=2010, month=4, day=20)).pk,
             pd1.pk
         )
         # test for sunday
-        self.assert_equals(
+        self.assertEquals(
             self.pricelist.get_pricelistday_for_date(date(year=2010, month=4, day=25)).pk,
             pd2.pk
         )
@@ -65,7 +65,7 @@ class TestPricelist(CarEnabledTestCase):
         # Now we only have record for friday
         #=======================================================================
         # test for monday
-        self.assert_equals(
+        self.assertEquals(
             self.pricelist.get_pricelistday_for_date(date(year=2010, month=4, day=19)).pk,
             pd2.pk
         )
@@ -75,7 +75,7 @@ class TestPricelist(CarEnabledTestCase):
         pd2 = pd1.clone(weekday_from=4)
         pd3 = pd1.clone(date=date(year=2010, month=1, day=1), weekday_from=None)
 
-        self.assert_equals(self.pricelist.get_pricing_summary(), {
+        self.assertEquals(self.pricelist.get_pricing_summary(), {
             'rates': {
                 'pickup_fee': self.pricelist.pickup_fee,
                 'reservation_fee': self.pricelist.reservation_fee,
@@ -98,7 +98,7 @@ class TestPricelist(CarEnabledTestCase):
         #=======================================================================
         pd1.delete()
 
-        self.assert_equals(self.pricelist.get_pricing_summary(), {
+        self.assertEquals(self.pricelist.get_pricing_summary(), {
             'rates': {
                 'pickup_fee': self.pricelist.pickup_fee,
                 'reservation_fee': self.pricelist.reservation_fee,
@@ -128,7 +128,7 @@ class TestPricelist(CarEnabledTestCase):
             length = 100
         )
         pdt = self.pricelist.pricelistday_set.all()[0].pricelistdaytime_set.all()[0]
-        self.assert_equals(self.pricelist.count_journey_price(j), {
+        self.assertEquals(self.pricelist.count_journey_price(j), {
             'total_price': pdt.car_used_ratio * self.pricelist.price_per_hour + 100 * self.pricelist.price_per_km,
             'km_price': 100 * self.pricelist.price_per_km,
             'time_price': pdt.car_used_ratio * self.pricelist.price_per_hour,
@@ -156,7 +156,7 @@ class TestPricelist(CarEnabledTestCase):
         )
         pdt = self.pricelist.pricelistday_set.all()[0].pricelistdaytime_set.all()[0]
         pdt2 = pdt.clone(time_from=time(hour=6), car_used_ratio=Decimal('4.0'))
-        self.assert_equals(self.pricelist.count_journey_price(j), {
+        self.assertEquals(self.pricelist.count_journey_price(j), {
             'total_price': (5 * pdt.car_used_ratio + 4 * pdt2.car_used_ratio) * self.pricelist.price_per_hour + 100 * self.pricelist.price_per_km,
             'km_price': 100 * self.pricelist.price_per_km,
             'time_price': (5 * pdt.car_used_ratio + 4 * pdt2.car_used_ratio) * self.pricelist.price_per_hour,
@@ -219,5 +219,5 @@ class TestPricelist(CarEnabledTestCase):
                 }
             ]
         }
-        self.assert_equals(result, expected)
+        self.assertEquals(result, expected)
 

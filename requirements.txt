@@ -41,7 +41,6 @@ pyquery==1.2.2
 # the latest release of djangosanetesting (0.5.11) doesn't work with the new-
 # style DATABASES settings, so we'll just use this until there is a compatible
 # version released
--e git://github.com/Almad/django-sane-testing.git@99dc7200593a7a59ffa33edb906d52acc7d8f577#egg=djangosanetesting
 
 
 # Documentation system
@@ -57,7 +56,7 @@ clint==0.3.1
 
 
 # DB schema migrations
-South==0.7.6
+South==1.0
 
 
 # some useful utils :-)
@@ -74,3 +73,5 @@ flexipy
 djangorestframework==2.4.4
 markdown==2.5.1
 django-filter==0.8
+django-nose==1.3
+

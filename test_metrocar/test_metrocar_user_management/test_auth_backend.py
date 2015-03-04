@@ -12,10 +12,10 @@ class TestAuthBackend(UserEnabledTestCase):
         self.auth_bck = MetrocarBackend()
     
     def test_0_authenticate_success(self):
-        self.assert_true(self.auth_bck.authenticate(self.user.username, 'testpass'))
+        self.assertTrue(self.auth_bck.authenticate(self.user.username, 'testpass'))
         
     def test_1_authenticated_bad_pass(self):
-        self.assert_false(self.auth_bck.authenticate(self.user.username, 'badpass'))
+        self.assertFalse(self.auth_bck.authenticate(self.user.username, 'badpass'))
         
     def test_2_authenticated_bad_username(self):
-        self.assert_false(self.auth_bck.authenticate('badusername', 'testpass'))
+        self.assertFalse(self.auth_bck.authenticate('badusername', 'testpass'))
