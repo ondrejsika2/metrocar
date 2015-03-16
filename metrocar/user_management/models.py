@@ -69,10 +69,6 @@ class MetrocarUser(User):
     def __unicode__(self):
         return self.full_name()
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('mfe_users_detail', (), {'id': self.pk})
-
     def get_language(self):
         return dict(list(settings.LANG_CHOICES))[self.language]
 

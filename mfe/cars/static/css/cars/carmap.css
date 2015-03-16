@@ -1,8 +1,0 @@
-.map {width: 100%; height: 600px;}
-.map-wrapper {height: 600px; border-radius: 5px; overflow: hidden; border: 1px solid #CCCCCC; border-radius: 5px;}
-.map .car-popup {max-width: 550px;}
-.map .car-popup .car {display: inline-block; padding: 5px; margin: 5px; width: 245px; text-align:  center;}
-.map .car-popup .car .photo {max-width: 175px; max-height: 150px;}
-.map .car-popup .sep {}
-.map .car-popup .button {float: none; display: inline-block;}
-.map .olAlphaImg {cursor: pointer;}
