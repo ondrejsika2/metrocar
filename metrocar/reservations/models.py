@@ -8,9 +8,11 @@ from django.contrib.gis.geos import MultiLineString
 from django.db import models
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _, ngettext
+from rest_framework.exceptions import APIException
 
-from metrocar.reservations import managers
+from metrocar.reservations.business import managers
 from metrocar.user_management.models import MetrocarUser, AccountActivity
+from metrocar.utils.exceptions import CustomAPIException
 from metrocar.utils.models import SiteSettings
 from metrocar.utils.geo import get_car_last_position, create_journeys
 
@@ -25,11 +27,9 @@ class ReservationError(Exception):
 class Reservation(models.Model):
     cancelled = models.BooleanField(_('Cancelled'), default=False)
     comment = models.TextField(_('Comment'), blank=True, default='')
-    created = models.DateTimeField(_('Created'), editable=False)
     ended = models.DateTimeField(_('Ended'), blank=True, null=True)
     finished = models.BooleanField(_('Finished'), default=False)
     is_service = models.BooleanField(_('Is service'), default=False)
-    modified = models.DateTimeField(_('Modified'), editable=False)
     price = models.DecimalField(_('Price'), decimal_places=3, max_digits=8,
         default=0)
     reserved_from = models.DateTimeField(_('Reserved from'))
@@ -40,6 +40,9 @@ class Reservation(models.Model):
     car = models.ForeignKey('cars.Car', verbose_name=_('Car'),
         related_name='reservations')
 
+    created = models.DateTimeField(_('Created'), auto_now_add=True)
+    modified = models.DateTimeField(_('Modified'), auto_now=True)
+
     objects = managers.ReservationManager()
 
     class Meta:
@@ -47,26 +50,21 @@ class Reservation(models.Model):
         verbose_name_plural = _('Reservations')
 
     def __unicode__(self):
-        return "%s - %s" % (datetime.strftime(self.reserved_from,
+        return unicode("%s - %s" % (datetime.strftime(self.reserved_from,
             '%H:%M:%S %A, %d.%m.%Y'), datetime.strftime(self.reserved_until,
-            '%H:%M:%S %A, %d.%m.%Y'))
+            '%H:%M:%S %A, %d.%m.%Y')))
 
     def save(self, *args, **kwargs):
-        """
-        Overload save method for settings created and modified params.
-        """
-        now = datetime.now()
-        if not self.pk:
-            self.created = now
-        self.modified = now
+        errors = Reservation.validate(self.user, self.car, self.reserved_from, self.reserved_until)
+        if errors[0] and len(errors[1]):
+            raise CustomAPIException(errors[1])
         super(Reservation, self).save(*args, **kwargs)
 
     def is_valid(self):
         """
         Proxy to validate method
         """
-        return Reservation.validate(self.user, self.car, self.reserved_from,
-            self.reserved_until)
+        return Reservation.validate(self.user, self.car, self.reserved_from, self.reserved_until)
 
     @classmethod
     def validate(cls, user, car, datetime_from, datetime_till):
@@ -82,13 +80,6 @@ class Reservation(models.Model):
             - no conflicting reservation exists
             - user has entered invoice address
         """
-        from metrocar.cars.models import Car
-
-        assert isinstance(user, MetrocarUser)
-        assert isinstance(car, Car)
-        assert isinstance(datetime_from, datetime)
-        assert isinstance(datetime_till, datetime)
-
         site_settings = SiteSettings.objects.get_current()
         errors = []
 
@@ -130,7 +121,7 @@ class Reservation(models.Model):
         if car.model.get_pricelist() == False:
             errors.append(force_unicode(_('No valid pricelist for selected car model.')))
 
-        
+
         if not errors:
             # user account checks
             # if there already were some errors this might break
@@ -146,8 +137,8 @@ class Reservation(models.Model):
             #now check if user has entered invoice address
             #withouit address it would be impossible to create valid invoice
             if user.get_invoice_address() == None:
-                errors.append(force_unicode(_('You need to enter your address first at yout account settings. We need this information for creation of invoice.')))    
-                   
+                errors.append(force_unicode(_('You need to enter your address first at yout account settings. We need this information for creation of invoice.')))
+
 
 
         # conflicts check
@@ -231,7 +222,7 @@ class Reservation(models.Model):
             from metrocar.tarification.models import StornoFee
             from metrocar.utils.models import SiteSettings
             if SiteSettings.objects.get_current().reservation_use_storno_fees:
-                fee = StornoFee.objects.create_for_reservation(self)                
+                fee = StornoFee.objects.create_for_reservation(self)
                 self.price = fee.money_amount
             self.cancelled = True
             self.finished = True
@@ -418,7 +409,7 @@ class ReservationReminder(models.Model):
 
     def send(self):
         """
-        Sends reminder by e-mail service.
+        Sends reminnder by e-mail service.
         """
         EmailSender.send_mail( [ self.reservation.user.email ], 'RES_REM', self.reservation.user.language, self.reservation )
 

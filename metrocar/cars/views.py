@@ -102,3 +102,16 @@ class CarPositions(APICall):
 
     # POST with JSON content is easier to do in jQuery than GET
     post = get
+
+from rest_framework import viewsets
+from metrocar.cars.models import Car
+from metrocar.cars.serializers import CarSerializer
+from metrocar.user_management.permissions import IsAdminOrReadOnly
+
+
+class CarViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        IsAdminOrReadOnly,
+    )
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer

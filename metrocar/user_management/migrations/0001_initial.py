@@ -11,6 +11,10 @@ class Migration(SchemaMigration):
         ("subsidiaries", "0002_auto__add_field_subsidiary_max_account_balance"),
     )
 
+    needed_by = (
+        ('authtoken', '0001_initial'),
+    )
+
     def forwards(self, orm):
         # Adding model 'Company'
         db.create_table('user_management_company', (

@@ -10,8 +10,6 @@ from metrocar.reservations.models import Reservation
 from metrocar.cars.models import Journey, Car
 
 class TestCar(CarEnabledTestCase):
-    def test_get_absolute_url(self):
-        self.assertTrue(isinstance(self.car.get_absolute_url(), str))
 
     def test_is_user_allowed(self):
         self.assertTrue(self.car.is_user_allowed(self.user, datetime(year=2010, month=1, day=1, hour=10, minute=30)))

@@ -16,7 +16,7 @@ from metrocar.reservations.models import Reservation
 from metrocar.user_management.models import MetrocarUser
 from metrocar.utils import Bunch
 from metrocar.cars import testing_data as cars_testing_data
-from metrocar.user_management.testing_data import create_user
+from test_metrocar.test_metrocar_user_management.fixtures import create_user_1
 
 from test_metrocar.helpers import skipIfNotGeoEnabled
 
@@ -155,7 +155,7 @@ class TestReservationsView(django.test.TestCase):
         MetrocarUser.objects.all().delete()
         self.car = cars_testing_data.create()['cars'][0]
         self.unit = unit(123, car=self.car)
-        self.user = create_user('asdf', 'asdf', 'First', 'Last')
+        self.user = create_user_1()
         self.reservation = Reservation.objects.create(
             reserved_from=datetime.now() + timedelta(days=1),
             reserved_until=datetime.now() + timedelta(days=1, hours=4),

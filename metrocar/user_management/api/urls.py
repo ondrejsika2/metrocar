@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     # companies
     url(r'^companies/$', company_handler, name='api_user_management_company_handler'),
     url(r'^companies/(?P<id>\d+)/$', user_handler, name='api_user_management_company_handler'),
-    
+
     # users
     url(r'^$', user_handler, name='api_user_management_user_handler'),
     url(r'^(?P<username>[^/]+)/$', user_handler, name='api_user_management_user_handler'),

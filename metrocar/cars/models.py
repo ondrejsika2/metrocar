@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal, DivisionByZero
+from django.core.urlresolvers import reverse
 from pipetools import maybe, unless, X
 
 from django.db import models

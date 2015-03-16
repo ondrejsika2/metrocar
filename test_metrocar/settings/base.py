@@ -34,14 +34,14 @@ if not GEO_ENABLED:
 
 
 #deactivate accounting for tests
-ACCOUNTING_ENABLED = False    
+ACCOUNTING_ENABLED = False
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    # join( dirname( mfe.__file__ ), 'templates' ),
-    # join( dirname( metrocar.__file__ ), 'templates' ),
+    join( dirname( mfe.__file__ ), 'templates' ),
+    join( dirname( metrocar.__file__ ), 'templates' ),
 )
 
 
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
 INSTALLED_APPS = [x for x in INSTALLED_APPS if x != 'south'] + [
@@ -62,7 +62,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 AUTHENTICATION_BACKENDS = ('metrocar.user_management.auth_backend.MetrocarBackend',)
 
-ROOT_URLCONF = 'mfe.urls'
+ROOT_URLCONF = 'metrocar.urls'
 
 DATE_FORMAT = 'd.m.Y'
 DATETIME_FORMAT = 'D, d.m.Y H:i'
@@ -110,4 +110,24 @@ VERSION = "1"
 
 SITE_ID = 1
 
+ALLOWED_HOSTS = (
+    'localhost',
+    'testserver'
+)
+
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ],
+
+    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
+}

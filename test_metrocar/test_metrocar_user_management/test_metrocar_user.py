@@ -28,12 +28,9 @@ class TestMetrocarUser(UserEnabledTestCase):
             money_amount=300, credited=True)
         self.acc_act2.save()
     
-    def test_0_test_post_save_events(self):
+    def test_1_test_post_save_events(self):
         self.assertTrue(isinstance(self.user.account, Account))
         self.assertTrue(isinstance(self.user.user_card, UserCard))
-        
-    def test_1_get_absolute_url(self):
-        self.assertTrue(isinstance(self.user.get_absolute_url(), str))
         
     def test_2_get_invoice_address(self):
         pass # don't have business model to apply

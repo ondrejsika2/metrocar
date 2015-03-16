@@ -14,7 +14,7 @@ from metrocar.reservations.models import Reservation, ReservationError
 from metrocar.tarification.models import Pricelist
 from metrocar.tarification.testing_data import create_pricelist
 from metrocar.user_management.models import Account
-from metrocar.user_management.testing_data import create_user
+from test_metrocar.test_metrocar_user_management.fixtures import create_user_1
 from metrocar.utils import Bunch
 from metrocar.utils.models import SiteSettings
 
@@ -233,7 +233,7 @@ class TestGeoEnabledReservationIntegration(DatabaseTestCase):
     def test_complete_process(self):
 
         # there is a user
-        user = create_user('some_user', 'some_password', 'Some', 'Name')
+        user = create_user_1()
 
         # there is a car with a car unit
         car = cars_testing_data.create()['cars'][0]

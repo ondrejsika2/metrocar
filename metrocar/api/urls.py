@@ -19,7 +19,8 @@ urlpatterns = patterns('',
     url(r'api/users/', include('metrocar.user_management.api.urls')),
     url(r'api/subsidiaries/', include('metrocar.subsidiaries.api.urls')),
     url(r'api/pricelists/', include('metrocar.tarification.api.urls')),
-    url(r'api/reservations/', include('metrocar.reservations.api.urls')),
+    #TODO-Vojta delete
+    # url(r'api/reservations/', include('metrocar.reservations.api.urls')),
     url(r'api/help/$', 'metrocar.api.views.documentation'),
     url(r'api/doc/$', 'metrocar.api.views.documentation'),
 )

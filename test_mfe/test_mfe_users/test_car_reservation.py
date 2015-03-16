@@ -5,7 +5,7 @@ from django_webtest import WebTest
 from pyquery import PyQuery
 
 import datetime
-from metrocar.user_management import testing_data
+from test_metrocar.test_metrocar_user_management.fixtures import create_user_1
 from metrocar.cars import testing_data as cartest
 from metrocar.user_management.models import MetrocarUser
 from metrocar.cars.models import Car,CarModel
@@ -22,7 +22,7 @@ class TestReservation(WebTest):
         # Nastaveni a ulozeni noveho uzivatele
         username = 'test'
         password = 'password'
-        user = testing_data.create_user(username, password, 'Pokusny', 'Uzivatel', 'pokusny@fel.cvut.cz')
+        user = create_user_1()
 
         # Naplenni databaze auty
         cars = cartest.create()

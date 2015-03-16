@@ -20,7 +20,7 @@
              "OpenLayers.View.Map.Dynamic instantiation with no container "
              + "must throw.");
 
-  This was inspired by the `assertRaises` method of Python's unittest
+  This was inspired by the `assertRaises` method of Python's django.test
   library.
 
   Possible future enhancements:
