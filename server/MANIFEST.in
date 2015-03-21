@@ -1,0 +1,2 @@
+recursive-include metrocar *
+recursive-exclude metrocar *.pyc

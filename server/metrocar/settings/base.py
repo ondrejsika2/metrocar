@@ -151,6 +151,8 @@ INSTALLED_APPS = (
     'metrocar.utils.flatpagesmeta',
 
     'metrocar.tests',
+
+    'autofixture'
 )
 
 #password hassher set to SHA1 because of communication with car_units

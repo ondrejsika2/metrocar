@@ -1,10 +1,13 @@
-/metrocar/log/*
-/metrocar/settings/local.py
+server/metrocar/log/*
+server/metrocar/settings/local.py
+server/dist/
 /docs/_build/*
 requirements.installed
 *.egg-info
 settings_local.py
 *.pyc
+
+geotrack/dist
 
 .idea
 .DS_Store
