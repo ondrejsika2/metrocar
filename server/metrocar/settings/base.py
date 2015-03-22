@@ -107,6 +107,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -135,6 +136,7 @@ INSTALLED_APPS = (
     'olwidget',
     'sorl.thumbnail',
     'south',
+    'corsheaders',
 
     'metrocar.api',
     'metrocar.audit',
@@ -271,3 +273,9 @@ REST_FRAMEWORK = {
 
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_REGEX_WHITELIST = ('.*')
+
+CORS_ALLOW_CREDENTIALS = True
