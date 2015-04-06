@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.flatpages',
+    'django.contrib.gis',
     'django.contrib.markup',
     'django.contrib.messages',
     'django.contrib.sessions',
@@ -275,7 +276,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ORIGIN_REGEX_WHITELIST = ('.*')
 
 CORS_ALLOW_CREDENTIALS = True

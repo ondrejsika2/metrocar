@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext_lazy as _
 
-from metrocar.cars.models import CarModelManufacturer, Car, CarColor, CarType, Fuel, FuelBill, ParkingDescription, MaintenanceBill, CarModel, Journey, Parking
+from metrocar.cars.models import CarModelManufacturer, Car, CarColor, CarType, Fuel, FuelBill, MaintenanceBill, CarModel, Journey, Parking
 from metrocar.utils.permissions import PermissionsNameConst as PermName
 
 if settings.GEO_ENABLED:
@@ -19,7 +19,6 @@ admin.site.register(CarModelManufacturer)
 admin.site.register(CarType)
 admin.site.register(CarColor)
 admin.site.register(Fuel)
-admin.site.register(ParkingDescription)
 
 
 class FuelBillAdmin(admin.ModelAdmin):
@@ -39,10 +38,10 @@ admin.site.register(CarModel, CarModelAdmin)
 
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('registration_number', 'model', 'color', 'last_address', 'active', 'state',)
+    list_display = ('registration_number', 'model', 'color', 'last_address', 'active', 'state', 'parking')
     list_filter = ('model', 'color', 'active',)
     fieldsets = (
-                 (_('Basic information'), {'fields': ('model', 'registration_number', 'active', 'owner', 'color', 'image', 'home_subsidiary', 'manufacture_date', 'dedicated_parking_only', )}),
+                 (_('Basic information'), {'fields': ('model', 'registration_number', 'active', 'owner', 'color', 'image', 'home_subsidiary', 'manufacture_date', 'dedicated_parking_only', 'parking')}),
                  )
 
     def has_delete_permission(self, request, obj=None):

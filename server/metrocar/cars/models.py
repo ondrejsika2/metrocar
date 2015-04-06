@@ -123,6 +123,8 @@ class Car(models.Model):
         db_column='last_position', null=True, blank=True)
     _last_address = models.CharField(_('Last address'),
         db_column='last_address', max_length=255, null=True, blank=True)
+    parking = models.ForeignKey('cars.Parking', verbose_name=_('Parking'),
+        related_name='parking', null=True, blank=True)
 
     class Meta:
         verbose_name = _('Car')
@@ -310,7 +312,8 @@ class Car(models.Model):
 
 class FuelBill(AccountActivity):
     code = models.CharField(max_length=20,
-                            verbose_name=_('Code'))
+                            verbose_name=_('Code'),
+                            null=True)
     approved = models.BooleanField(default=False,
                                    verbose_name=_('Approved'))
     car = models.ForeignKey(Car, verbose_name=_('Car'))
@@ -383,8 +386,6 @@ class Parking(models.Model):
                             verbose_name=_('City'))
     polygon = PolygonField(verbose_name=_('Area'))
 
-    cars = models.ManyToManyField(Car, through='ParkingDescription')
-
     objects = GeoManager()
 
     class Meta:
@@ -393,22 +394,6 @@ class Parking(models.Model):
 
     def __unicode__(self):
         return self.city + ' ' + self.street
-
-
-class ParkingDescription(models.Model):
-    description = models.TextField(
-                                   verbose_name=_('Description'))
-
-    parking = models.ForeignKey(Parking,
-                                verbose_name=_('Parking'))
-    car = models.ForeignKey(Car, verbose_name=_('Car'))
-
-    class Meta:
-        verbose_name = _('Parking description')
-        verbose_name_plural = _('Parking descriptions')
-
-    def __unicode__(self):
-        return self.description
 
 
 class Journey(models.Model):

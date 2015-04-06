@@ -1,9 +1,12 @@
 from datetime import datetime, timedelta
+import logging
 
 import django.test
+from django.utils import timezone
 from rest_framework.test import APIClient
 from rest_framework.reverse import reverse
 from rest_framework import status
+import sys
 from metrocar import settings
 
 from metrocar.user_management.models import MetrocarUser
@@ -58,7 +61,6 @@ class TestReservationsApi(django.test.TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-
     def test_detail_admin_success(self):
         client = APIClient()
         client.force_authenticate(user=self.user_admin_1)
@@ -84,7 +86,7 @@ class TestReservationsApi(django.test.TestCase):
         response = client.patch(
             reverse('user-detail', kwargs={"pk": self.user_1.id}),
             data={
-                "date_of_birth": datetime.now(),
+                "gender": "F",
             })
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -96,7 +98,7 @@ class TestReservationsApi(django.test.TestCase):
         response = client.patch(
             reverse('user-detail', kwargs={"pk": self.user_admin_1.id}),
             data={
-                "date_of_birth": datetime.now(),
+                "gender": "F",
             })
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -108,7 +110,7 @@ class TestReservationsApi(django.test.TestCase):
         response = client.patch(
             reverse('user-detail', kwargs={"pk": self.user_1.id}),
             data={
-                "date_of_birth": datetime.now(),
+                "gender": "F",
             })
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -120,10 +122,8 @@ class TestReservationsApi(django.test.TestCase):
         response = client.patch(
             reverse('user-detail', kwargs={"pk": self.user_admin_1.id}),
             data={
-                "date_of_birth": datetime.now(),
+                "gender": "F",
             })
-
-        print response.data
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -179,6 +179,8 @@ class TestReservationsApi(django.test.TestCase):
             "gender": 'M',
             "identity_card_number": '123123123',
             "primary_phone": '000 000000000',
+            "home_subsidiary": 1,
+            "invoice_date": datetime.now().strftime('%Y-%m-%d'),
             "language": settings.LANG_CHOICES[0][0],
         })
 
@@ -201,6 +203,8 @@ class TestReservationsApi(django.test.TestCase):
             "gender": 'M',
             "identity_card_number": '123123123',
             "primary_phone": '000 000000000',
+            "home_subsidiary": 1,
+            "invoice_date": datetime.now().strftime('%Y-%m-%d'),
             "language": settings.LANG_CHOICES[0][0],
         })
 
@@ -222,4 +226,43 @@ class TestReservationsApi(django.test.TestCase):
 
         # make sure if it is saved
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_user_balance_user(self):
+        client = APIClient()
+        client.force_authenticate(user=self.user_1)
+
+        response = client.get(reverse('userbalance-list'))
+
+        # make sure if it is saved
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # user should have one account balance
+        self.assertEqual(len(response.data), 1)
+
+    def test_user_balance_admin(self):
+        client = APIClient()
+        client.force_authenticate(user=self.user_admin_1)
+
+        response = client.get(reverse('userbalance-list'))
+
+        # make sure if it is saved
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # admin should also have one account balance
+        self.assertEqual(len(response.data), 1)
+
+    def test_user_account_history(self):
+        client = APIClient()
+        client.force_authenticate(user=self.user_admin_1)
+
+        response = client.get(reverse('userbalance-list'))
+
+        # make sure if it is saved
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # admin should also have one account balance
+        self.assertEqual(len(response.data), 1)
+
+
+
 

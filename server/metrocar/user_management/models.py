@@ -223,7 +223,7 @@ class UserRegistrationRequest(models.Model):
 
 
 class UserCard(models.Model):
-    active = models.BooleanField(blank=False, null=False, default=False,
+    active = models.BooleanField(blank=False, null=False, default=True,
                                  verbose_name=_('Active'))
     code = models.IntegerField(max_length=8, blank=False, null=False,
                                verbose_name=_('User card'))
