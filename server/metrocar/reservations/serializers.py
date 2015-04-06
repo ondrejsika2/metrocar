@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from metrocar.reservations.models import Reservation, ReservationBill
-from metrocar.user_management.serializers import AccountActivitySerializer
 
 
 class ReservationSerializer(serializers.ModelSerializer):

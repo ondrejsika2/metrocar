@@ -1,0 +1,45 @@
+div.col-xs-2.mc-left-panel
+
+	div.list-group
+
+		a.list-group-item
+		  span.mc-icon
+		    i.fa.fa-dashboard.fa-2x
+		  span.mc-text
+		    | Dashboard
+
+
+		link-to .list-group-item 'reservations.list'
+		  span.mc-icon
+		    i.fa.fa-calendar.fa-2x
+		  span.mc-text
+		    | Rezervace
+
+		link-to .list-group-item 'fuelbill.list'
+		  span.mc-icon
+		    i.fa.fa-car.fa-2x
+		  span.mc-text
+		    | Účty za palivo
+
+		link-to .list-group-item 'accountactivity.timeline'
+		  span.mc-icon
+		    i.fa.fa-money.fa-2x
+		  span.mc-text
+		    | Historie účtu
+
+		link-to .list-group-item 'profile'
+		  span.mc-icon
+		    i.fa.fa-user.fa-2x
+		  span.mc-text
+		    | Profil
+
+		a.list-group-item
+		  span.mc-icon
+		    i.fa.fa-cog.fa-2x
+		  span.mc-text
+		    | Nastavení
+
+
+
+
+

@@ -3,9 +3,10 @@ import django.test
 from rest_framework.test import APIClient
 from rest_framework.reverse import reverse
 from rest_framework import status
-from metrocar.cars.models import Reservation, Car
-from metrocar.user_management.models import MetrocarUser
-from test_metrocar.test_metrocar_cars.fixtures import create_car_1, create_car_model_1, create_car_color_1
+from metrocar.cars.models import Reservation, Car, FuelBill
+from metrocar.user_management.models import MetrocarUser, Account
+from test_metrocar.test_metrocar_cars.fixtures import create_car_1, create_car_model_1, create_car_color_1, \
+    create_fuel_bill_1, create_fuel_bill_2, create_fuel_bill_3
 from test_metrocar.test_metrocar_subsidiaries.fixtures import get_subsidiary
 from test_metrocar.test_metrocar_user_management.fixtures import create_user_1, create_user_admin_1
 
@@ -15,6 +16,8 @@ class TestCarApi(django.test.TestCase):
     def setUpClass(cls):
         Car.objects.all().delete()
         MetrocarUser.objects.all().delete()
+        Account.objects.all().delete()
+        FuelBill.objects.all().delete()
 
     @classmethod
     def tearDownClass(cls):
@@ -27,7 +30,7 @@ class TestCarApi(django.test.TestCase):
         self.user_admin_1 = create_user_admin_1()
 
     def tearDown(self):
-        pass
+        MetrocarUser.objects.all().delete()
 
     def test_list(self):
         client = APIClient()
@@ -169,3 +172,59 @@ class TestCarApi(django.test.TestCase):
 
         # make sure if it is saved
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_car_fuel_bill_user_list(self):
+        car_fuel_bill_1 = create_fuel_bill_1()
+        car_fuel_bill_2 = create_fuel_bill_2()
+        car_fuel_bill_3 = create_fuel_bill_3()
+
+        client = APIClient()
+        client.force_authenticate(user=car_fuel_bill_1.account.user)
+
+        response = client.get(reverse('fuelbill-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # user gets just his fuel bills
+        self.assertEqual(len(response.data), 2)
+
+    def test_car_fuel_bill_user_create(self):
+        car_fuel_bill_1 = create_fuel_bill_1(False)
+
+        client = APIClient()
+        client.force_authenticate(user=car_fuel_bill_1.account.user)
+
+        response = client.post(reverse('fuelbill-list'), data = {
+            "account": car_fuel_bill_1.account.id,
+            "datetime": car_fuel_bill_1.datetime,
+            "money_amount": car_fuel_bill_1.money_amount,
+            "car": car_fuel_bill_1.car.id,
+            "fuel": car_fuel_bill_1.fuel.id,
+            "liter_count": car_fuel_bill_1.liter_count,
+            "place": car_fuel_bill_1.place,
+        })
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_car_fuel_bill_user_changes_of_approved_failed(self):
+        car_fuel_bill_1 = create_fuel_bill_1(False)
+
+        client = APIClient()
+        client.force_authenticate(user=car_fuel_bill_1.account.user)
+
+        response = client.post(reverse('fuelbill-list'), data = {
+            "account": car_fuel_bill_1.account.id,
+            "datetime": car_fuel_bill_1.datetime,
+            "money_amount": car_fuel_bill_1.money_amount,
+            "car": car_fuel_bill_1.car.id,
+            "fuel": car_fuel_bill_1.fuel.id,
+            "liter_count": car_fuel_bill_1.liter_count,
+            "place": car_fuel_bill_1.place,
+            "approved": True,
+        })
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+
+
+

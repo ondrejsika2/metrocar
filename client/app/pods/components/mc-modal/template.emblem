@@ -1,0 +1,16 @@
+div.modal
+  div.modal-dialog
+   div.modal-content
+
+    div.modal-header
+      button.close type="button" data-dismiss="modal" aria-hidden="true"
+        | &times;
+      h4.modal-title = title
+
+    div.modal-body = yield
+
+    div.modal-footer
+      a.btn.btn-green.btn-large data-dismiss="modal" Zrušit
+      a.btn.btn-green-filled.btn-large{action 'ok' model} Ok
+
+

@@ -1,0 +1,9 @@
+div.row.mc-header
+
+	h1 Seznam žádostí o proplacení paliva
+
+div.mc-content
+
+  link-to .btn.btn-green.btn-large 'fuelbill.create'
+    | Vytvořit žádost
+

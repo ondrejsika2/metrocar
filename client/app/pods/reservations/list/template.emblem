@@ -1,0 +1,54 @@
+div.row.mc-header
+
+	h1 Rezervace
+
+	div.mc-action-bar
+	  link-to .btn.btn-green.btn-large 'reservations.create'
+	    i.fa.fa-plus
+	    | Vytvořit rezervaci
+
+	  link-to .btn.btn-green.btn-large 'reservations.browse-cars'
+	    i.fa.fa-search
+	    | Najít nejbližší auto
+
+div.mc-content
+  table.table.table-striped
+    thead
+      tr
+        th Stav
+        th Auto
+        th Začátek rezervace
+        th Konec rezervace
+        th Cena
+        th Akce
+    tbody
+      each reservation in reservations
+        tr
+          td #{reservation-state reservation.state}
+          td #{reservation.car.car_name}
+          td #{time-format reservation.reserved_from 'DD.M.YYYY HH:mm'}
+          td #{time-format reservation.reserved_until 'DD.M.YYYY HH:mm'}
+          td #{currency-format reservation.price}
+          td
+            a.btn.btn-green
+              | Poloha auta
+            a.btn.btn-green
+              | Detail
+            if reservation.is_pending
+              a.btn.btn-red{action 'showModal' 'reservations/delete-confirm-modal' reservation}
+                | Zrušit
+
+  div.pull-right
+
+    a.btn.btn-green-filled
+      i.fa.fa-angle-left
+      | Předchozí
+
+    a.btn.btn-green-filled
+      | Další
+      i.fa.fa-angle-right
+
+
+
+
+

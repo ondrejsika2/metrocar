@@ -1,0 +1,33 @@
+div.row.mc-header
+
+  h1 Nová rezervace
+
+  div.mc-action-bar
+    button.btn.btn-green-filled.btn-large{action "submit"} type="submit"
+      i.fa.fa-plus
+      | Vytvořit
+
+    link-to .btn.btn-green.btn-large 'reservations.list'
+      | Zpět
+
+div.mc-content
+
+  div.col-xs-8
+
+    div.form-group
+      label Začátek rezervace
+      bs-datetimepicker date=reserved_from format='DD.MM.YYYY HH:mm'
+
+    div.form-group
+      label Konec rezervace
+      bs-datetimepicker date=reserved_until format='DD.MM.YYYY HH:mm'
+
+    div.form-group
+      label Auto
+      select-2 content=cars value=carId placeholder="Vyber auto" allowClear=true
+
+
+    div.form-group
+      if carId
+        label Aktuální poloha auta
+      mc-map polygon=polygon

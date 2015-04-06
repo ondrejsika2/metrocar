@@ -1,0 +1,5 @@
+partial "layout/left-panel"
+
+div.col-xs-10.mc-outlet
+  div.col-xs-11
+    yield

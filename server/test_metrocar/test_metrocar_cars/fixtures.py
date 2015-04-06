@@ -2,9 +2,9 @@ from datetime import datetime
 from django.contrib.gis.geos.polygon import Polygon
 
 from metrocar.cars.models import CarModelManufacturer, CarType, Fuel, \
-    CarModel, Car, CarColor, Parking
+    CarModel, Car, CarColor, Parking, FuelBill
 from test_metrocar.test_metrocar_subsidiaries.fixtures import get_subsidiary
-from test_metrocar.test_metrocar_user_management.fixtures import create_user_1
+from test_metrocar.test_metrocar_user_management.fixtures import create_user_1, create_account, create_user_admin_1
 
 
 def create_car_manufacturer_1(save=True):
@@ -87,3 +87,47 @@ def create_parking_1(save=True):
     if save:
         parking.save()
     return parking
+
+
+def create_fuel_bill_1(save=True):
+    fuel_bill = FuelBill(
+        account=create_user_1().account,
+        datetime=datetime.now(),
+        money_amount=1000,
+        car=create_car_1(),
+        fuel=create_fuel_1(),
+        liter_count=10,
+        place="Praha",
+    )
+    if save:
+        fuel_bill.save()
+    return fuel_bill
+
+def create_fuel_bill_2(save=True):
+    fuel_bill = FuelBill(
+        account=create_user_1().account,
+        datetime=datetime.now(),
+        money_amount=1500,
+        car=create_car_1(),
+        fuel=create_fuel_1(),
+        liter_count=10,
+        place="Praha",
+        approved=True,
+    )
+    if save:
+        fuel_bill.save()
+    return fuel_bill
+
+def create_fuel_bill_3(save=True):
+    fuel_bill = FuelBill(
+        account=create_user_admin_1().account,
+        datetime=datetime.now(),
+        money_amount=2000,
+        car=create_car_1(),
+        fuel=create_fuel_1(),
+        liter_count=10,
+        place="Praha",
+    )
+    if save:
+        fuel_bill.save()
+    return fuel_bill

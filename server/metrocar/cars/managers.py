@@ -3,7 +3,6 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.transaction import commit_on_success
-
 from metrocar.reservations.models import Reservation
 from metrocar.user_management.models import UserCard
 
@@ -15,7 +14,7 @@ class JourneyManager(models.Manager):
         Starts new Journey and eventually marks reservation as started if
         there is a reservation for car, time and user active.
         """
-        from metrocar.cars.models import Car
+        from metrocar.cars.models import Car, Journey
         assert isinstance(car, Car)
         assert isinstance(user, User)
         assert isinstance(time, datetime)
@@ -30,6 +29,8 @@ class JourneyManager(models.Manager):
         if not user_card.active:
             raise AssertionError("Inactive user card, possible account abuse.")
 
+        reservation = None
+
         if not user_card.is_service_card:
             # try to find suitable reservation
             try :
@@ -37,12 +38,21 @@ class JourneyManager(models.Manager):
                     reserved_from__lte=time, reserved_until__gte=time)
                 if reservation.started is None:
                     reservation.started = time
+                    reservation.ended = time
                     reservation.save()
                     j_params['reservation'] = reservation
             except Reservation.DoesNotExist:
                 raise AssertionError("Reservation expected, but not found. "
                     "Possible car abuse.")
-        journey = self.model(**j_params)
+        journey = Journey(
+            start_datetime=time,
+            car=car,
+            user=user,
+            reservation=reservation,
+            speedometer_start=123,
+            speedometer_end=321,
+            total_price=120
+        )
         journey.save() # validation happens in save method automatically
         return journey
 

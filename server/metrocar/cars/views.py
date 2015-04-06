@@ -1,14 +1,18 @@
+from datetime import datetime
+from django.shortcuts import _get_queryset
+from django.utils.dateparse import parse_datetime
 from pipetools import as_kwargs, foreach, where, X, maybe, group_by
-
 from django.conf import settings
 
+from metrocar.cars.models import FuelBill, Journey, Parking
 from metrocar.car_unit_api.utils import get_current_car_position_data
-from metrocar.cars.models import Car
+from metrocar.cars.models import CarColor, CarModel
 from metrocar.cars.utils import grouping_precision
 from metrocar.cars.validation import valid_car_id
 from metrocar.utils.apis import APICall, process_request, parse_json_optional, validate_request
 from metrocar.utils.geo.validation import valid_polygon
 from metrocar.utils.validation import optional
+from metrocar.user_management.models import Account
 
 
 def get_car_position_data(in_polygon=None, car_id=None):
@@ -103,10 +107,11 @@ class CarPositions(APICall):
     # POST with JSON content is easier to do in jQuery than GET
     post = get
 
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from metrocar.cars.models import Car
-from metrocar.cars.serializers import CarSerializer
-from metrocar.user_management.permissions import IsAdminOrReadOnly
+from metrocar.cars.serializers import CarSerializer, CarModelSerializer, CarColorSerializer, FuelBillSerializer, \
+    JourneySerializer, ParkingSerializer
+from metrocar.user_management.permissions import IsAdminOrReadOnly, IsAdminUserOrOwner, IsAccountOwner
 
 
 class CarViewSet(viewsets.ModelViewSet):
@@ -115,3 +120,59 @@ class CarViewSet(viewsets.ModelViewSet):
     )
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+
+    def get_queryset(self):
+
+        reserved_from = self.request.QUERY_PARAMS.get('reserved_from', None)
+        reserved_until = self.request.QUERY_PARAMS.get('reserved_until', None)
+
+        print reserved_from
+        print reserved_until
+
+        if reserved_from is not None and reserved_until is not None:
+            reserved_from = (datetime.strptime(reserved_from,'%Y-%m-%d, %X'))
+            reserved_until = (datetime.strptime(reserved_until,'%Y-%m-%d, %X'))
+            print reserved_from
+            print reserved_until
+            return Car.list_of_available_cars(datetime_start=reserved_from,datetime_end=reserved_until)
+
+        return Car.objects.all()
+
+class CarModelViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        IsAdminOrReadOnly,
+    )
+    queryset = CarModel.objects.all()
+    serializer_class = CarModelSerializer
+
+class CarColorViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        IsAdminOrReadOnly,
+    )
+    queryset = CarColor.objects.all()
+    serializer_class = CarColorSerializer
+
+class FuelBillViewSet(viewsets.ModelViewSet):
+    permission_classes = (
+        IsAccountOwner,
+    )
+    queryset = FuelBill.objects.all()
+    serializer_class = FuelBillSerializer
+
+    def get_queryset(self):
+        account = Account.objects.get(user=self.request.user)
+        return FuelBill.objects.filter(account=account)
+
+class JourneyListView(generics.ListAPIView):
+    permission_classes = (
+        IsAdminOrReadOnly,
+        IsAdminUserOrOwner
+    )
+    serializer_class = JourneySerializer
+    def get_queryset(self):
+        return Journey.objects.filter(user=self.request.user)
+
+
+class ParkingViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ParkingSerializer
+    queryset = Parking.objects.all()

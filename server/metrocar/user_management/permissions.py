@@ -18,6 +18,8 @@ from rest_framework.permissions import SAFE_METHODS
 #         Instance must have an attribute named `owner`.
 #         return request.user and obj.user.id == request.user.id
 #         """
+from metrocar.user_management.models import Account
+
 
 class IsAdminOrReadOnly(permissions.BasePermission):
     """
@@ -49,6 +51,30 @@ class IsAdminUserOrOwner(permissions.BasePermission):
                 or request.method == 'PUT'\
                 or request.method == 'DELETE':
             return True
+        return (
+            request.method in SAFE_METHODS or
+            request.user and
+            request.user.is_staff
+        )
+
+class IsAccountOwner(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        if request.user:
+            account = Account.objects.filter(user=request.user)
+            if account.id == obj.account.id:
+                return True
+        return False
+
+    def has_permission(self, request, view):
+        if request.method == 'PATCH' \
+                or request.method == 'PUT'\
+                or request.method == 'DELETE':
+            return False
+
+        if request.method == 'POST':
+            return True
+
         return (
             request.method in SAFE_METHODS or
             request.user and

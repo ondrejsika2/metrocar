@@ -9,7 +9,7 @@ from metrocar.reservations.models import Reservation
 from metrocar.user_management.models import MetrocarUser
 from test_metrocar.test_metrocar_cars.fixtures import create_car_1
 from test_metrocar.test_metrocar_reservation.fixtures import create_reservation_1
-from test_metrocar.test_metrocar_user_management.fixtures import create_user_1
+from test_metrocar.test_metrocar_user_management.fixtures import create_user_1, create_user_admin_1
 
 
 class TestReservationsApi(django.test.TestCase):
@@ -38,7 +38,7 @@ class TestReservationsApi(django.test.TestCase):
 
     def test_perm_2(self):
         client = APIClient()
-        client.force_authenticate(create_user_1())
+        client.force_authenticate(create_user_admin_1())
         response = client.get(reverse('reservation-list'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -72,7 +72,7 @@ class TestReservationsApi(django.test.TestCase):
 
     def test_update_not_permitted(self):
         client = APIClient()
-        client.force_authenticate(user=create_user_1())
+        client.force_authenticate(user=create_user_admin_1())
 
         response = client.patch(
             reverse('reservation-detail', kwargs={"pk": self.reservation_1.id}),
@@ -156,4 +156,14 @@ class TestReservationsApi(django.test.TestCase):
 
         # make sure if it is saved
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_journey_list(self):
+        client = APIClient()
+        client.force_authenticate(user=self.reservation_1.user)
+
+        response = client.get(reverse('journey-list'))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(len(response.data), 1)
 

@@ -1,0 +1,18 @@
+div.row.mc-header
+
+	h1 Historie účtu
+
+div.mc-content
+
+  ul.timeline
+    each acountactivity in accountactivities
+
+      if (is-even _view.contentIndex)
+        li
+          component acountactivity.componentName activity=acountactivity
+      else
+        li.timeline-inverted
+          component acountactivity.componentName activity=acountactivity
+
+
+

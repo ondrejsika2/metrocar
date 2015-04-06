@@ -1,4 +1,5 @@
 # encoding: utf-8
+from django.utils import timezone
 from datetime import datetime, timedelta
 from decimal import Decimal
 from pipetools import maybe, X, xcurry
@@ -83,10 +84,13 @@ class Reservation(models.Model):
         site_settings = SiteSettings.objects.get_current()
         errors = []
 
+        datetime_from = timezone.make_aware(datetime_from, timezone.now().tzinfo)
+        datetime_till = timezone.make_aware(datetime_till, timezone.now().tzinfo)
+
         # datetime checks
         if datetime_from > datetime_till:
             errors.append(force_unicode(_('From datetime must be before till.')))
-        now = datetime.now()
+        now = timezone.now()
         # lze udelat rezervaci nazpet v case o 1x RESERVATION_TIME_SHIFT
         if (now - timedelta(minutes=RESERVATION_TIME_SHIFT)) >= datetime_from:
             errors.append(force_unicode(_('Cannot create reservation in the past.')))
@@ -212,7 +216,7 @@ class Reservation(models.Model):
         """
         Returns true if reservation is currently running
         """
-        return self.reserved_from <= datetime.now() and not self.finished
+        return self.reserved_from <= timezone.now() and not self.finished
 
     def cancel(self):
         """
@@ -355,7 +359,7 @@ class Reservation(models.Model):
         else:
             raise ReservationError('No suitable pricelist found.')
 
-    def finish(self, finish_datetime=datetime.now(), by_daemon=False, normalize_journeys=True):
+    def finish(self, finish_datetime=timezone.now(), by_daemon=False, normalize_journeys=True):
         """
         Marks reservation as finished, starts normalization of Journeys
         and finally creates ReservationBill for current reservation.

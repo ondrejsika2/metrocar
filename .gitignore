@@ -1,6 +1,7 @@
-server/metrocar/log/*
-server/metrocar/settings/local.py
-server/dist/
+
+.idea
+.DS_Store
+
 /docs/_build/*
 requirements.installed
 *.egg-info
@@ -9,5 +10,11 @@ settings_local.py
 
 geotrack/dist
 
-.idea
-.DS_Store
+server/metrocar/log/*
+server/metrocar/settings/local.py
+server/dist/
+
+client/bower_components/
+client/dist/
+client/node_modules/
+client/tmp/
