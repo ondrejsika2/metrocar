@@ -43,7 +43,9 @@ def create_reservation_3(save=True):
         datetime_till=reservation.reserved_until,
     )
 
-    ReservationBill.objects.create_for_reservation(reservation)
+    reservation_bill = ReservationBill.objects.create_for_reservation(reservation)
+    reservation_bill.datetime = datetime.now() + timedelta(days=-3, hours=22)
+    reservation_bill.save()
 
     reservation.finished = True
     reservation.save()
@@ -68,7 +70,9 @@ def create_reservation_4(save=True):
         datetime_till=reservation.reserved_until,
     )
 
-    ReservationBill.objects.create_for_reservation(reservation)
+    reservation_bill = ReservationBill.objects.create_for_reservation(reservation)
+    reservation_bill.datetime = datetime.now() + timedelta(days=-10, hours=3, minutes=40)
+    reservation_bill.save()
 
     reservation.finished = True
     reservation.save()
@@ -103,7 +107,9 @@ def create_reservation_6(save=True):
         datetime_till=reservation.reserved_until,
     )
 
-    ReservationBill.objects.create_for_reservation(reservation)
+    reservation_bill = ReservationBill.objects.create_for_reservation(reservation)
+    reservation_bill.datetime = datetime.now() + timedelta(days=-45, hours=7, minutes=30)
+    reservation_bill.save()
 
     reservation.finished = True
     reservation.save()
