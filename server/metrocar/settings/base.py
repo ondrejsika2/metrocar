@@ -6,6 +6,11 @@ from os.path import abspath, dirname, join
 
 PROJECT_PATH = abspath(join(dirname(__file__), '..'))
 
+# ------------------- Helpdesk
+# path to folder with "helpdesk" application, folder "django-helpdesk" is directly from Github
+import sys, os
+sys.path.insert(0, os.path.join(PROJECT_PATH, "django-helpdesk"))
+# ------------------- end of Helpdesk
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -155,7 +160,14 @@ INSTALLED_APPS = (
 
     'metrocar.tests',
 
-    'autofixture'
+    'autofixture',
+    
+    # ---------------------- Helpdesk
+    'django.contrib.humanize',  # Required for elapsed time formatting
+    'markdown_deux',  # Required for Knowledgebase item formatting
+    'bootstrapform', # Required for nicer formatting of forms with the default templates
+    'helpdesk', # Helpdesk itself
+    # ---------------------- end of Helpdesk
 )
 
 #password hassher set to SHA1 because of communication with car_units

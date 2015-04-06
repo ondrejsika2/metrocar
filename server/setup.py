@@ -25,7 +25,9 @@ setup(
         'pisa==3.0.33',
         'django-webtest==1.5.2',
         'reportlab==2.5',
-        'sorl-thumbnail==11.09.1'
+        'sorl-thumbnail==11.09.1',
+        'django-markdown-deux==1.0.5', # Django Helpdesk
+        'django-bootstrap-form==0.2', # Django Helpdesk
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
