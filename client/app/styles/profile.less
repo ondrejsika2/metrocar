@@ -1,0 +1,84 @@
+@import "variables";
+
+/*****************************
+ Boxes
+*****************************/
+
+.mc-profile .mc-boxes .mc-box {
+  position: relative;
+  height: 132px;
+}
+
+.mc-profile .mc-boxes .mc-box .mc-box-icon {
+  float: left;
+  background: @mc-green-dark;
+  width: 90px;
+  padding: 40px 0;
+  color: @mc-white
+}
+
+.mc-profile .mc-boxes .mc-box .mc-box-icon .fa {
+  display: block;
+  font-size: 320%;
+  text-align: center;
+}
+
+.mc-profile .mc-boxes .mc-box .mc-box-text {
+  float: left;
+  margin-left: 90px;
+  background: @mc-green;
+  position: absolute;
+  font-size: 180%;
+  padding: 45px 2px;
+  text-align: center;
+  color: @mc-white;
+  width: ~"calc(100% - 90px)";
+}
+
+@media (max-width: 1366px) {
+
+  .mc-profile .mc-boxes .mc-box .mc-box-icon {
+    width: 60px;
+  }
+
+  .mc-profile .mc-boxes .mc-box .mc-box-icon .fa {
+    font-size: 250%;
+  }
+
+  .mc-profile .mc-boxes .mc-box .mc-box-text {
+    font-size: 125%;
+    margin-left: 60px;
+    width: ~"calc(100% - 60px)";
+  }
+}
+
+/*****************************
+ Boxes
+*****************************/
+
+.mc-profile-box {
+  height: 100%;
+  overflow: hidden;
+  background: @mc-white;
+  border: 1px solid @mc-gray-light;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+.mc-profile-box .mc-profile-box-header {
+  margin: 15px 20px;
+  border-bottom: 1px solid @mc-gray-light;
+  padding-bottom: 10px;
+}
+
+.mc-profile-box .mc-profile-box-header h3 {
+  display: inline-block;
+  margin-top: 0;
+}
+
+.mc-profile-box .mc-profile-box-header a {
+  float: right;
+  position: relative;
+  top: -3px;
+}
+

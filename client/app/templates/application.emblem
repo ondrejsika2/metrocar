@@ -1,0 +1,5 @@
+outlet "modal"
+
+partial "layout/navbar"
+
+outlet

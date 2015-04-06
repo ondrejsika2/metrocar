@@ -1,0 +1,2 @@
+mc-modal title='Zrušit rezervaci' ok='cancelReservation' close='removeModal'
+  | Jste si jistí, že chce zrušit rezervaci?

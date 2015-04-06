@@ -1,0 +1,14 @@
+div.timeline-badge.danger
+  i.fa.fa-road
+div.timeline-panel
+  div.row.timeline-heading
+    div.timeline-detail
+      h4.timeline-title
+        | Jízda
+      p
+        small.text-muted
+          i.fa.fa-clock-o
+          | #{time-ago-in-words activity.datetime}
+    div.timeline-money
+      h4.text-danger
+        | #{currency-format activity.money_amount}

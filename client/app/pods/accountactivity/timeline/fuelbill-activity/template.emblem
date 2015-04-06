@@ -1,0 +1,14 @@
+div.timeline-badge.info
+  i.fa.fa-car
+div.timeline-panel
+  div.row.timeline-heading
+    div.timeline-detail
+      h4.timeline-title
+        | Proplacení účtu za tankování
+      p
+        small.text-muted
+          i.fa.fa-clock-o
+          | #{time-ago-in-words activity.datetime}
+    div.timeline-money
+      h4.text-success
+        | +#{currency-format activity.money_amount}

@@ -1,0 +1,52 @@
+@import "variables";
+
+.mc-left-panel {
+  background: @mc-gray-light;
+  padding: 0;
+}
+
+.mc-left-panel .list-group a {
+  background: @mc-gray-light;
+  border: 0;
+  border-left: 4px solid @mc-gray-light;
+  color: #000000;
+  text-shadow: none;
+  font-weight: bold;
+  padding: 10px 7px 10px 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.mc-left-panel .list-group a:hover,
+.mc-left-panel .list-group a:focus {
+  background: @mc-gray;
+  border-left: 4px solid @mc-green;
+}
+
+.mc-left-panel .list-group a.active {
+  background: @mc-gray;
+  text-shadow: none;
+  color: #000000;
+  border: 0;
+  border-radius: 0;
+  border-left: 4px solid @mc-green;
+}
+
+.mc-left-panel .list-group a i {
+  color: @mc-gray-dark;
+  font-size: 200%;
+}
+
+.mc-left-panel .list-group a .mc-icon {
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+}
+
+.mc-left-panel .list-group a .mc-text {
+  display: inline-block;
+  height: 30px;
+  vertical-align: middle;
+}
+
