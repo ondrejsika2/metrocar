@@ -1,4 +1,5 @@
 from itertools import chain
+from operator import attrgetter
 from rest_framework import status
 from rest_framework import viewsets,generics
 from rest_framework.authtoken import views
@@ -68,7 +69,10 @@ class AccountActivityListView(generics.ListAPIView):
 
         # Build the list with items based on the FeedItemSerializer fields
         results = list()
-        for entry in results_list:
+
+        sorted_list = sorted(results_list, key=attrgetter('datetime') , reverse=True)
+
+        for entry in sorted_list:
             item_type = entry.__class__.__name__.lower()
             if isinstance(entry, ReservationBill):
                 serializer = ReservationBillSerializer(entry)

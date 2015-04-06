@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta, date
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -36,7 +36,7 @@ def create_user(username, password, first_name, last_name, email=None, **kwargs)
         identity_card_number='200453854',
         primary_phone='723341678',
         language=settings.LANG_CHOICES[0][0],
-        date_of_birth=datetime.date(
+        date_of_birth=date(
             year=1990,
             month=3,
             day=12
@@ -67,11 +67,14 @@ def get_account(username):
     return Account.objects.get(user__username=username)
 
 def create_deposit(username, amount, comment='Testing deposit', **kwargs):
-    return Deposit.objects.get_or_create(
+    deposit, created = Deposit.objects.get_or_create(
         account=get_account(username),
         money_amount=amount,
         comment=comment,
-        defaults=kwargs)[0]
+        defaults=kwargs)
+    if created:
+        deposit.datetime = datetime.now() + timedelta(days=-100)
+        deposit.save()
 
 
 def create():
