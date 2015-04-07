@@ -9,7 +9,7 @@ PROJECT_PATH = abspath(join(dirname(__file__), '..'))
 # ------------------- Helpdesk
 # path to folder with "helpdesk" application, folder "django-helpdesk" is directly from Github
 import sys, os
-sys.path.insert(0, os.path.join(PROJECT_PATH, "django-helpdesk"))
+sys.path.insert(0, os.path.join(PROJECT_PATH, "django-help"))
 # ------------------- end of Helpdesk
 
 DEBUG = True

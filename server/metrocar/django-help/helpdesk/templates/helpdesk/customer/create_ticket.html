@@ -1,0 +1,87 @@
+{% extends "helpdesk/base.html" %}{% load i18n bootstrap humanize %}
+
+{% block helpdesk_title %}{% trans "Customer Helpdesk Overview" %}{% endblock %}
+
+{% block helpdesk_body %}
+{%if customer_reports %}
+<div>
+<table class="table table-hover table-bordered table-striped">
+<caption>{% trans "All Tickets submitted by you" %}</caption>
+<thead>
+<tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th></tr>
+</thead>
+<tbody>
+{% for ticket in customer_reports %}
+<tr>
+<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.ticket }}</a></th>
+<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.title }}</a></th>
+<td>{{ ticket.queue }}</td>
+<td>{{ ticket.get_status }}</td>
+<td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
+</tr>
+{% empty %}{% if ticket_list_empty_message %}
+<tr><td colspan='6'>{{ ticket_list_empty_message }}</td></tr>
+{% endif %}{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{%if customer_reports_supplement_needed %}
+<div>
+<table class="table table-hover table-bordered table-striped">
+<caption>{% trans "All Tickets submitted by you" %}</caption>
+<thead>
+<tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th><th>{% trans "Supplement" %}</th></tr>
+</thead>
+<tbody>
+{% for ticket in customer_reports %}
+<tr>
+<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.ticket }}</a></th>
+<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.title }}</a></th>
+<td>{{ ticket.queue }}</td>
+<td>{{ ticket.get_status }}</td>
+<td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
+<td><a href="{% url 'helpdesk_customer_ticket_supplement' ticket.id %}">{% trans "Supplement" %}</a></td>
+</tr>
+{% empty %}{% if ticket_list_empty_message %}
+<tr><td colspan='6'>{{ ticket_list_empty_message }}</td></tr>
+{% endif %}{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+{% endif %}
+
+<div class="col-xs-6">
+<div class="panel panel-default">
+
+<div class="panel-body">
+<h2>{% trans "Submit a Ticket" %}</h2>
+<p>{% trans "Unless otherwise stated, all fields are required." %} {% trans "Please provide as descriptive a title and description as possible." %}</p>
+
+<form method='post' action='./' enctype='multipart/form-data'>
+<fieldset>
+    {{ form|bootstrap }}
+        {% comment %}{% for field in form %}
+            {% if field.is_hidden %}
+                {{ field }}
+            {% else %}
+                <dt><label for='id_{{ field.name }}'>{% trans field.label %}</label>{% if not field.field.required %} <span class='form_optional'>{% trans "(Optional)" %}</span>{% endif %}</dt>
+                <dd>{{ field }}</dd>
+                {% if field.errors %}<dd class='error'>{{ field.errors }}</dd>{% endif %}
+                {% if field.help_text %}<dd class='form_help_text'>{% trans field.help_text %}</dd>{% endif %}
+            {% endif %}
+        {% endfor %}
+        {% endcomment %}
+
+    <div class='buttons form-group'>
+        <input type='submit' class="btn btn-primary" value='{% trans "Submit Ticket" %}' />
+    </div>
+</fieldset>
+
+{% csrf_token %}</form>
+</div>
+</div>
+</div>
+{% endblock %}

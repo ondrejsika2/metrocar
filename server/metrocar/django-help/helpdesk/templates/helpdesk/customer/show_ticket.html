@@ -1,0 +1,43 @@
+{% extends "helpdesk/base.html" %}{% load i18n bootstrap humanize %}
+
+{% block helpdesk_title %}{% trans "Ticket Overview" %}{% endblock %}
+
+{% block helpdesk_body %}
+{% if ticket %}
+<table class="table table-hover table-bordered table-striped">
+	<caption>{% trans "Ticket Overview" %}</caption>
+	<tr>
+		<td>#</td><td>{{ ticket.ticket }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Title" %}</td><td>{{ ticket.title }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Queue" %}</td><td>{{ ticket.queue }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Status" %}</td><td>{{ ticket.get_status }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Last Update" %}</td><td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
+	</tr>
+	<tr>
+		<td>{% trans "Description" %}</td><td>{{ ticket.description }}</td>
+	</tr>
+</table>
+{% endif %}
+
+{% if public_comments %}
+{% for comment in public_comments %}
+	<div class='followup well'>
+		<div class='title'>
+			{{ comment.title }} <span class='byline text-info'>{% if comment.user %}by {{ comment.user }}{% endif %} <span title='{{ comment.date|date:"r" }}'>{{ comment.date|naturaltime }}</span></span>
+		</div>
+		<span class='followup-desc'>{% if comment.comment %}{{ comment.comment|force_escape|urlizetrunc:50|linebreaksbr }}{% endif %}</span>
+	</div>
+{% endfor %}
+{% endif %}
+
+<p><a href="{% url 'helpdesk_customer_index' %}">{% trans "Back to overview" %}</a></p>
+
+{% endblock %}
