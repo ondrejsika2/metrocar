@@ -20,14 +20,14 @@ setup(
         'WebTest==1.3.3',
         'python-dateutil==2.1',
         'django-piston==0.2.2.1',
-        'selenium==2.25.0',
+        'selenium==2.45.0', # changed from 'selenium==2.25.0'
         'South==1.0',
         'pisa==3.0.33',
         'django-webtest==1.5.2',
         'reportlab==2.5',
         'sorl-thumbnail==11.09.1',
-        'django-markdown-deux==1.0.5', # Django Helpdesk
-        'django-bootstrap-form==0.2', # Django Helpdesk
+        'django-markdown-deux==1.0.5', # Helpdesk
+        'django-bootstrap-form==0.2', # Helpdesk
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
