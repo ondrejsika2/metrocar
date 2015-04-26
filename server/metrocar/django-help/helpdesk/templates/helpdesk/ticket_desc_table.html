@@ -2,9 +2,7 @@
 <table class="table table-hover table-bordered table-striped">
 <thead>
     <tr class='row_tablehead'><td colspan='2'><h3>{{ ticket.id }}. {{ ticket.title }} [{{ ticket.get_status }}]</h3> <span class='ticket_toolbar'>
-        <a href='{% url 'helpdesk_edit' ticket.id %}' class="ticket-edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-    | <a href='{% url 'helpdesk_delete' ticket.id %}' class="ticket-delete"><span class="glyphicon glyphicon-remove"></span> Delete</a>
-    {% if ticket.on_hold %} | <a href='{% url 'helpdesk_unhold' ticket.id %}' class="ticket-hold">{% trans "Unhold" %}</a>{% else %} | <a href='{% url 'helpdesk_hold' ticket.id %}' class="ticket-hold">{% trans "Hold" %}</a>{% endif %}
+        {% if user.is_superuser %}<a href='{% url 'helpdesk_edit' ticket.id %}' class="ticket-edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>{% endif %}
     </span></td></tr>
 <tr><th colspan='2'>{% blocktrans with ticket.queue as queue %}Queue: {{ queue }}{% endblocktrans %}</th></tr>
 </thead>
@@ -28,19 +26,21 @@
 <tr>
     <td colspan='2'>{{ ticket.resolution|force_escape|urlizetrunc:50|linebreaksbr }}</td>
 </tr>{% endif %}
+
 <tr>
     <th>{% trans "Submitted On" %}</th>
     <td>{{ ticket.created|date:"r" }} ({{ ticket.created|naturaltime }})</td>
 </tr>
 
+{% if ticket.status == 13 or ticket.status == 14 %}
 <tr>
     <th>{% trans "Assigned To" %}</th>
-    <td>{{ ticket.get_assigned_to }}{% ifequal ticket.get_assigned_to _('Unassigned') %} <strong><a href='?take'><span class='button button_take'>{% trans "Take" %}</span></a></strong>{% endifequal %}</td>
+    <td>{% if not ticket.assigned_to %} <strong><a href='?take'><span class='button button_take'>{% trans "Take" %}</span></a></strong>{% else %}{{ ticket.assigned_to.firstname }} {{ ticket.assigned_to.lastname }} (<strong>{% trans "Username" %}: </strong>{{ ticket.assigned_to }}, <strong>{% trans "E-mail" %}: </strong>{{ ticket.assigned_to.email }}){% endif %}</td>
 </tr>
-
+{% endif %}
 <tr>
-    <th>{% trans "Submitter E-Mail" %}</th>
-    <td>{{ ticket.submitter_email }}{% if user.is_superuser %} <strong><a href='{% url 'helpdesk_email_ignore_add' %}?email={{ ticket.submitter_email }}'>{% trans "Ignore" %}</a></strong>{% endif %}</td>
+    <th>{% trans "Reported by" %}</th>
+    <td>{{ ticket.who_reported.firstname }} {{ ticket.who_reported.lastname }} (<strong>{% trans "Username" %}: </strong>{{ ticket.who_reported }}, <strong>{% trans "E-mail" %}: </strong>{{ ticket.who_reported.email }})</td>
 </tr>
 
 <tr>

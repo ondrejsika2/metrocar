@@ -21,12 +21,11 @@ if type(DEFAULT_USER_SETTINGS) != type(dict()):
             'tickets_per_page': 25
             }
 
-
 HAS_TAG_SUPPORT = False
 
 ''' generic options - visible on all pages '''
 # redirect to login page instead of the default homepage when users visits "/"?
-HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT = getattr(settings, 'HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT', False)
+HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT = getattr(settings, 'HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT', True)
 
 # show knowledgebase links?
 HELPDESK_KB_ENABLED = getattr(settings, 'HELPDESK_KB_ENABLED', True)
@@ -52,10 +51,10 @@ HELPDESK_AUTO_SUBSCRIBE_ON_TICKET_RESPONSE = getattr(settings, 'HELPDESK_AUTO_SU
 
 ''' options for public pages '''
 # show 'view a ticket' section on public page?
-HELPDESK_VIEW_A_TICKET_PUBLIC = getattr(settings, 'HELPDESK_VIEW_A_TICKET_PUBLIC', True)
+HELPDESK_VIEW_A_TICKET_PUBLIC = getattr(settings, 'HELPDESK_VIEW_A_TICKET_PUBLIC', False)
 
 # show 'submit a ticket' section on public page?
-HELPDESK_SUBMIT_A_TICKET_PUBLIC = getattr(settings, 'HELPDESK_SUBMIT_A_TICKET_PUBLIC', True)
+HELPDESK_SUBMIT_A_TICKET_PUBLIC = getattr(settings, 'HELPDESK_SUBMIT_A_TICKET_PUBLIC', False)
 
 
 
@@ -74,7 +73,7 @@ HELPDESK_SHOW_DELETE_BUTTON_SUPERUSER_FOLLOW_UP = getattr(settings, 'HELPDESK_SH
 HELPDESK_UPDATE_PUBLIC_DEFAULT = getattr(settings, 'HELPDESK_UPDATE_PUBLIC_DEFAULT', False)
 
 # only show staff users in ticket owner drop-downs 
-HELPDESK_STAFF_ONLY_TICKET_OWNERS = getattr(settings, 'HELPDESK_STAFF_ONLY_TICKET_OWNERS', False)
+HELPDESK_STAFF_ONLY_TICKET_OWNERS = getattr(settings, 'HELPDESK_STAFF_ONLY_TICKET_OWNERS', True)
 
 # only show staff users in ticket cc drop-down 
 HELPDESK_STAFF_ONLY_TICKET_CC = getattr(settings, 'HELPDESK_STAFF_ONLY_TICKET_CC', False)

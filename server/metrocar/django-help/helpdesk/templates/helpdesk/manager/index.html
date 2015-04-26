@@ -1,0 +1,60 @@
+{% extends "helpdesk/base.html" %}{% load i18n bootstrap humanize %}
+
+{% block helpdesk_title %}{% trans "Manager Helpdesk Overview" %}{% endblock %}
+
+{% block helpdesk_body %}
+{% if new_tickets %}
+<div>
+<table class="table table-hover table-bordered table-striped">
+<caption>{% trans "All New Tickets" %}</caption>
+<thead>
+<tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th></tr>
+</thead>
+<tbody>
+{% for ticket in new_tickets %}
+<tr>
+<th><a href='{% url 'helpdesk_manager_show_ticket' ticket.id %}'>{{ ticket.ticket }}</a></th>
+<th><a href='{% url 'helpdesk_manager_show_ticket' ticket.id %}'>{{ ticket.title }}</a></th>
+<td>{{ ticket.queue }}</td>
+<td>{{ ticket.get_status }}</td>
+<td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
+</tr>
+{% empty %}{% if ticket_list_empty_message %}
+<tr><td colspan='6'>{{ ticket_list_empty_message }}</td></tr>
+{% endif %}{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{%if checking_tickets %}
+<div>
+<table class="table table-hover table-bordered table-striped">
+<caption>{% trans "All Ticket with solution waiting for validation" %}</caption>
+<thead>
+<tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th></tr>
+</thead>
+<tbody>
+{% for ticket in checking_tickets %}
+<tr>
+<th><a href='{% url 'helpdesk_manager_show_ticket' ticket.id %}'>{{ ticket.ticket }}</a></th>
+<th><a href='{% url 'helpdesk_manager_show_ticket' ticket.id %}'>{{ ticket.title }}</a></th>
+<td>{{ ticket.queue }}</td>
+<td>{{ ticket.get_status }}</td>
+<td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
+</tr>
+{% empty %}{% if ticket_list_empty_message %}
+<tr><td colspan='6'>{{ ticket_list_empty_message }}</td></tr>
+{% endif %}{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+{% endif %}
+
+
+<div class="col-xs-6">
+<div class="panel panel-default">
+
+
+{% endblock %}

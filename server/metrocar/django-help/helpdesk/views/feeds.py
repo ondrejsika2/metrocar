@@ -76,13 +76,13 @@ class OpenTicketsByUser(Feed):
                 ).filter(
                     queue=obj['queue']
                 ).filter(
-                    Q(status=Ticket.OPEN_STATUS) | Q(status=Ticket.REOPENED_STATUS)
+                    Q(status=Ticket.OPEN_STATUS)
                 )
         else:
             return Ticket.objects.filter(
                     assigned_to=obj['user']
                 ).filter(
-                    Q(status=Ticket.OPEN_STATUS) | Q(status=Ticket.REOPENED_STATUS)
+                    Q(status=Ticket.OPEN_STATUS)
                 )
 
     def item_pubdate(self, item):
@@ -107,7 +107,7 @@ class UnassignedTickets(Feed):
         return Ticket.objects.filter(
                 assigned_to__isnull=True
             ).filter(
-                Q(status=Ticket.OPEN_STATUS) | Q(status=Ticket.REOPENED_STATUS)
+                Q(status=Ticket.OPEN_STATUS)
             )
 
     def item_pubdate(self, item):
@@ -160,7 +160,7 @@ class OpenTicketsByQueue(Feed):
         return Ticket.objects.filter(
                 queue=obj
             ).filter(
-                Q(status=Ticket.OPEN_STATUS) | Q(status=Ticket.REOPENED_STATUS)
+                Q(status=Ticket.OPEN_STATUS)
             )
 
     def item_pubdate(self, item):

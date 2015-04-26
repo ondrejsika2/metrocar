@@ -50,6 +50,9 @@ else:
 
 superuser_required = user_passes_test(lambda u: u.is_authenticated() and u.is_active and u.is_superuser)
 
+# --------------------------- ADDED
+from helpdesk.forms import TechnicianTicketForm, CustomerTicketForm
+# --------------------------- END
 
 def dashboard(request):
     """
@@ -57,32 +60,31 @@ def dashboard(request):
     showing ticket counts by queue/status, and a list of unassigned tickets
     with options for them to 'Take' ownership of said tickets.
     """
+    
+    if request.user.is_superuser:
+		# redirect to superuser dashboard
+		return dashboard_manager(request)
 
     # open & reopened tickets, assigned to current user
     tickets = Ticket.objects.select_related('queue').filter(
-            assigned_to=request.user,
-        ).exclude(
-            status__in = [Ticket.CLOSED_STATUS, Ticket.RESOLVED_STATUS],
+            assigned_to=request.user, status=Ticket.RESOLVING_STATUS
         )
 
     # closed & resolved tickets, assigned to current user
     tickets_closed_resolved =  Ticket.objects.select_related('queue').filter(
             assigned_to=request.user,
-            status__in = [Ticket.CLOSED_STATUS, Ticket.RESOLVED_STATUS])
+            status__in = [Ticket.CLOSED_STATUS])
 
     unassigned_tickets = Ticket.objects.select_related('queue').filter(
-            assigned_to__isnull=True,
-        ).exclude(
-            status=Ticket.CLOSED_STATUS,
-        )
+            assigned_to__isnull=True,status=Ticket.TO_RESOLVE_STATUS)
 
     # all tickets, reported by current user
-    all_tickets_reported_by_current_user = ''
-    email_current_user = request.user.email
-    if email_current_user:
-        all_tickets_reported_by_current_user = Ticket.objects.select_related('queue').filter(
-            submitter_email=email_current_user,
-        ).order_by('status')
+    all_tickets_reported_by_current_user = Ticket.objects.filter(who_reported=request.user)
+    #email_current_user = request.user.email
+    #if email_current_user:
+    #    all_tickets_reported_by_current_user = Ticket.objects.select_related('queue').filter(
+    #        submitter_email=email_current_user,
+    #    ).order_by('status')
 
     basic_ticket_stats = calc_basic_ticket_stats(Ticket)
 
@@ -119,6 +121,58 @@ def dashboard(request):
         }))
 dashboard = staff_member_required(dashboard)
 
+
+def dashboard_manager(request):
+    # new tickets
+    tickets_new = Ticket.objects.select_related('queue').filter(status=Ticket.NEW_STATUS)
+        
+    # unassigned tickets
+    unassigned_tickets = Ticket.objects.select_related('queue').filter(
+            assigned_to__isnull=True,status=Ticket.TO_RESOLVE_STATUS)
+            
+    # tickets that needs verification
+    tickets_checking = Ticket.objects.select_related('queue').filter(status=Ticket.CHECKING_STATUS)
+       
+
+    #email_current_user = request.user.email
+    #if email_current_user:
+    #    all_tickets_reported_by_current_user = Ticket.objects.select_related('queue').filter(
+    #        submitter_email=email_current_user,
+    #    ).order_by('status')
+
+    basic_ticket_stats = calc_basic_ticket_stats(Ticket)
+
+    # The following query builds a grid of queues & ticket statuses,
+    # to be displayed to the user. EG:
+    #          Open  Resolved
+    # Queue 1    10     4
+    # Queue 2     4    12
+
+    cursor = connection.cursor()
+    cursor.execute("""
+        SELECT      q.id as queue,
+                    q.title AS name,
+                    COUNT(CASE t.status WHEN '1' THEN t.id WHEN '2' THEN t.id END) AS open,
+                    COUNT(CASE t.status WHEN '3' THEN t.id END) AS resolved,
+                    COUNT(CASE t.status WHEN '4' THEN t.id END) AS closed
+            FROM    helpdesk_ticket t,
+                    helpdesk_queue q
+            WHERE   q.id = t.queue_id
+            GROUP BY queue, name
+            ORDER BY q.id;
+    """)
+
+    dash_tickets = query_to_dict(cursor.fetchall(), cursor.description)
+
+    return render_to_response('helpdesk/dashboard_manager.html',
+        RequestContext(request, {
+            'tickets_new': tickets_new,
+            'tickets_checking': tickets_checking,
+            'unassigned_tickets': unassigned_tickets,
+        }))
+        
+        
+        
 
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -194,7 +248,7 @@ followup_delete = staff_member_required(followup_delete)
 
 
 def view_ticket(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
+    ticket = get_object_or_404(Ticket, id=ticket_id)	# get current ticket	
 
     if request.GET.has_key('take'):
         # Allow the user to assign the ticket to themselves whilst viewing it.
@@ -205,9 +259,38 @@ def view_ticket(request, ticket_id):
             'owner': request.user.id,
             'public': 1,
             'title': ticket.title,
-            'comment': ''
+            'comment': '',
+            'new_status' : Ticket.RESOLVING_STATUS,
         }
         return update_ticket(request, ticket_id)
+        
+    if not request.user.is_superuser:
+        if request.user.is_staff and (not ticket.assigned_to or (ticket.assigned_to and (ticket.assigned_to.id != request.user.id))):
+        # The ticket is being viewed by staff member that is not solving this problem.
+            return render_to_response('helpdesk/ticket_show_only.html',RequestContext(request, {'ticket': ticket,}))
+        
+    if request.GET.has_key('giveup'):
+        # Allow the user to give up.
+
+        if not (ticket.assigned_to.id == request.user.id):
+			raise Http404
+        
+        ticket.assigned_to = None
+        ticket.status = Ticket.TO_RESOLVE_STATUS
+        ticket.save()
+        
+        u = User.objects.get(pk=request.user.id)
+        
+        f = FollowUp(
+            ticket = ticket,
+            title = ticket.title,
+            date = timezone.now(),
+            public = False,
+            comment = u.username + " gave up.",
+            new_status = Ticket.TO_RESOLVE_STATUS,
+            )
+
+        f.save() 
 
     if request.GET.has_key('subscribe'):
         # Allow the user to subscribe him/herself to the ticket whilst viewing it.
@@ -281,7 +364,7 @@ def return_ticketccstring_and_show_subscribe(user, ticket):
 
     # check whether current user is a submitter or assigned to ticket
     assignedto_username = str(ticket.assigned_to).upper()
-    submitter_email = ticket.submitter_email.upper()
+    submitter_email = ticket.submitter_email.upper() if ticket.submitter_email else ''
     strings_to_check = list()
     strings_to_check.append(assignedto_username)
     strings_to_check.append(submitter_email)
@@ -316,6 +399,16 @@ def update_ticket(request, ticket_id, public=False):
     due_date_year = int(request.POST.get('due_date_year', 0))
     due_date_month = int(request.POST.get('due_date_month', 0))
     due_date_day = int(request.POST.get('due_date_day', 0))
+    
+    if owner != -1 and ticket.status == Ticket.TO_RESOLVE_STATUS:
+		new_status = Ticket.RESOLVING_STATUS
+		
+    if title == '':
+        title = ticket.title
+    
+    # ----- ADDED
+    logged_hours = float(request.POST.get('logged_hours', 0))
+    # ----- END
 
     if not (due_date_year and due_date_month and due_date_day):
         due_date = ticket.due_date
@@ -388,6 +481,9 @@ def update_ticket(request, ticket_id, public=False):
         else:
             f.title = _('Updated')
 
+	# ------ ADDED
+	f.logged_hours = logged_hours
+	# ------ END
     f.save()
 
     files = []
@@ -644,6 +740,14 @@ def mass_update(request):
 mass_update = staff_member_required(mass_update)
 
 def ticket_list(request):
+	
+	# ensure that usersettings exists, because they are not properly initialized during user creation (viz. models.py, function create_usersettings)
+    try:
+        s = UserSettings.objects.get(user_id=request.user.id)
+    except:
+		create_usersettings(sender=None, instance=request.user, created=True)
+		s = UserSettings.objects.get(user_id=request.user.id)
+	
     context = {}
 
     # Query_params will hold a dictionary of parameters relating to
@@ -848,34 +952,60 @@ def edit_ticket(request, ticket_id):
 edit_ticket = staff_member_required(edit_ticket)
 
 def create_ticket(request):
-    if helpdesk_settings.HELPDESK_STAFF_ONLY_TICKET_OWNERS:
-        assignable_users = User.objects.filter(is_active=True, is_staff=True).order_by(User.USERNAME_FIELD)
-    else:
-        assignable_users = User.objects.filter(is_active=True).order_by(User.USERNAME_FIELD)
+	
+	# ensure that usersettings DO exist, their initialization is not working correctly
+    try:
+        s = UserSettings.objects.get(user_id=request.user.id)
+    except:
+		create_usersettings(sender=None, instance=request.user, created=True)
+		s = UserSettings.objects.get(user_id=request.user.id)
 
-    if request.method == 'POST':
-        form = TicketForm(request.POST, request.FILES)
-        form.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.all()]
-        form.fields['assigned_to'].choices = [('', '--------')] + [[u.id, u.get_username()] for u in assignable_users]
-        if form.is_valid():
-            ticket = form.save(user=request.user)
-            return HttpResponseRedirect(ticket.get_absolute_url())
+	# If the user if not logged in, redirect him to login page
+    if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('login'))
+		
+    if request.method == 'POST': # If the form has been submitted...
+		form = CustomerTicketForm(request.POST) # A form bound to the POST data
+		if form.is_valid(): # All validation rules pass
+			# Process the data in form.cleaned_data
+			form.who_created_r = User.objects.get(pk=request.user.id)
+			form.save()
+			return HttpResponseRedirect(reverse('helpdesk_dashboard'))
     else:
-        initial_data = {}
-        if request.user.usersettings.settings.get('use_email_as_submitter', False) and request.user.email:
-            initial_data['submitter_email'] = request.user.email
-        if request.GET.has_key('queue'):
-            initial_data['queue'] = request.GET['queue']
-
-        form = TicketForm(initial=initial_data)
-        form.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.all()]
-        form.fields['assigned_to'].choices = [('', '--------')] + [[u.id, u.get_username()] for u in assignable_users]
-        if helpdesk_settings.HELPDESK_CREATE_TICKET_HIDE_ASSIGNED_TO:
-            form.fields['assigned_to'].widget = forms.HiddenInput()
+		form =  CustomerTicketForm()
 
     return render_to_response('helpdesk/create_ticket.html',
         RequestContext(request, {
-            'form': form,
+            'form': form, 'for_customer' : False,
+        }))
+#create_ticket = staff_member_required(create_ticket)
+
+def create_ticket_for_customer(request):
+	
+	# ensure that usersettings DO exist, their initialization is not working correctly
+    try:
+        s = UserSettings.objects.get(user_id=request.user.id)
+    except:
+		create_usersettings(sender=None, instance=request.user, created=True)
+		s = UserSettings.objects.get(user_id=request.user.id)
+
+	# If the user if not logged in, redirect him to login page
+    if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('login'))
+		
+    if request.method == 'POST': # If the form has been submitted...
+		form = TechnicianTicketForm(request.POST) # A form bound to the POST data
+		if form.is_valid(): # All validation rules pass
+			# Process the data in form.cleaned_data
+			form.who_created_r = User.objects.get(pk=request.user.id)
+			form.save()
+			return HttpResponseRedirect(reverse('helpdesk_dashboard'))
+    else:
+		form =  TechnicianTicketForm()
+
+    return render_to_response('helpdesk/create_ticket.html',
+        RequestContext(request, {
+            'form': form, 'for_customer' : True,
         }))
 create_ticket = staff_member_required(create_ticket)
 
@@ -1149,9 +1279,14 @@ def delete_saved_query(request, id):
                 }))
 delete_saved_query = staff_member_required(delete_saved_query)
 
-
+from helpdesk.models import UserSettings, create_usersettings
 def user_settings(request):
-    s = request.user.usersettings
+    try:
+        s = UserSettings.objects.get(user_id=request.user.id)
+    except:
+		create_usersettings(sender=None, instance=request.user, created=True)
+		s = UserSettings.objects.get(user_id=request.user.id)
+    #s = request.user.usersettings
     if request.POST:
         form = UserSettingsForm(request.POST)
         if form.is_valid():

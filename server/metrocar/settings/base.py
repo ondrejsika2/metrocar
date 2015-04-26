@@ -6,11 +6,9 @@ from os.path import abspath, dirname, join
 
 PROJECT_PATH = abspath(join(dirname(__file__), '..'))
 
-# ------------------- Helpdesk
 # path to folder with "helpdesk" application, folder "django-helpdesk" is directly from Github
 import sys, os
-sys.path.insert(0, os.path.join(PROJECT_PATH, "django-help"))
-# ------------------- end of Helpdesk
+sys.path.insert(0, os.path.join(PROJECT_PATH, "django-helpdesk"))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -34,6 +32,7 @@ TIME_ZONE = 'Europe/Prague'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'cs'
 LANG_CHOICES = (('CS', u'Česky'), ('EN', 'English'),)
+LANGUAGES = (('cs', u'Česky'), ('en', 'English'),)
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -112,12 +111,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.middleware.locale.LocaleMiddleware', # lang support
 )
 
 
@@ -127,7 +126,6 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.flatpages',
-    'django.contrib.gis',
     'django.contrib.markup',
     'django.contrib.messages',
     'django.contrib.sessions',
@@ -142,7 +140,6 @@ INSTALLED_APPS = (
     'olwidget',
     'sorl.thumbnail',
     'south',
-    'corsheaders',
 
     'metrocar.api',
     'metrocar.audit',
@@ -162,12 +159,13 @@ INSTALLED_APPS = (
 
     'autofixture',
     
-    # ---------------------- Helpdesk
+    
+    # ---------------------- HELPDESK
     'django.contrib.humanize',  # Required for elapsed time formatting
     'markdown_deux',  # Required for Knowledgebase item formatting
     'bootstrapform', # Required for nicer formatting of forms with the default templates
-    'helpdesk', # Helpdesk itself
-    # ---------------------- end of Helpdesk
+    'helpdesk',
+    # ----------------------
 )
 
 #password hassher set to SHA1 because of communication with car_units
@@ -287,6 +285,4 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_CREDENTIALS = True
+LOGIN_URL = '/bugrep/login/'

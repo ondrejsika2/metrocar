@@ -27,6 +27,15 @@ class Queue(models.Model):
     a queue for each of Accounts, Pre-Sales, and Support.
 
     """
+    # ---------------- ADDED
+    active = models.BooleanField(
+		_('Active'),
+		default=True,
+		blank=False,
+		null=False,
+		help_text=_('Can be any report added to this queue?'),
+    )
+    # ------------------ ADDED
 
     title = models.CharField(
         _('Title'),
@@ -273,21 +282,29 @@ class Ticket(models.Model):
     CLOSED_STATUS = 4
     DUPLICATE_STATUS = 5
     
-    # ---------
-    INVALID = 6
-    SUPPLEMENT_NEEDED = 7
-    # ---------
+    # --------- ADDED
+    NEW_STATUS = 10
+    INVALID_STATUS = 11
+    SUPPLEMENT_NEEDED_STATUS = 12
+    TO_RESOLVE_STATUS = 13
+    RESOLVING_STATUS = 14
+    CHECKING_STATUS = 15
+    CLOSED_STATUS = 16
+    # --------- END
 
     STATUS_CHOICES = (
-        (OPEN_STATUS, _('Open')),
-        (REOPENED_STATUS, _('Reopened')),
-        (RESOLVED_STATUS, _('Resolved')),
-        (CLOSED_STATUS, _('Closed')),
-        (DUPLICATE_STATUS, _('Duplicate')),
-        # -----------
-        (INVALID, _('Invalid')),
-        (SUPPLEMENT_NEEDED, _('Supplement needed')),
-        # -------------
+        #(OPEN_STATUS, _('Open')),
+        #(RESOLVED_STATUS, _('Resolved')),
+        #(CLOSED_STATUS, _('Closed')),
+        # ----------- ADDED
+        (NEW_STATUS, _('New')), # reported defect, waiting for validation
+        (INVALID_STATUS, _('Invalid')), # reported defect is not possible/valid/etc.
+        (SUPPLEMENT_NEEDED_STATUS, _('Supplement needed')), # description of issue is not 
+        (TO_RESOLVE_STATUS, _('To resolve')), # accepted issue, waiting for someone to take it
+        (RESOLVING_STATUS, _('Resolving')), # issue is being solved, someone took it
+        (CHECKING_STATUS, _('Checking')), # resolution is waiting for control
+        (CLOSED_STATUS, _('Closed')), # issue was checked and resolved
+        # ------------- END
     )
 
     PRIORITY_CHOICES = (
@@ -297,13 +314,13 @@ class Ticket(models.Model):
         (4, _('4. Low')),
         (5, _('5. Very Low')),
     )
-    # ------------------
+    # ------------------ ADDED
     which_car = models.ForeignKey(Car,default=None,null=True) # which car has defect
     
     who_created = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True,related_name="+") # who created report
     
     who_reported = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True,related_name="+"); # who reported defect
-    # ------------------
+    # ------------------ END
     
     title = models.CharField(
         _('Title'),
@@ -346,7 +363,7 @@ class Ticket(models.Model):
     status = models.IntegerField(
         _('Status'),
         choices=STATUS_CHOICES,
-        default=OPEN_STATUS,
+        default=NEW_STATUS,
         )
 
     on_hold = models.BooleanField(
@@ -441,10 +458,14 @@ class Ticket(models.Model):
         Displays the ticket status, with an "On Hold" message if needed.
         """
         held_msg = ''
-        if self.on_hold: held_msg = _(' - On Hold')
+        #if self.on_hold: held_msg = _(' - On Hold')
         dep_msg = ''
-        if self.can_be_resolved == False: dep_msg = _(' - Open dependencies')
-        return u'%s%s%s' % (self.get_status_display(), held_msg, dep_msg)
+        #if self.can_be_resolved == False: dep_msg = _(' - Open dependencies')
+        status_str = "BIATCH"
+        for s in Ticket.STATUS_CHOICES:
+			if s[0] == self.status:
+				status_str = s[1]
+        return u'%s%s%s' % (status_str, held_msg, dep_msg)
     get_status = property(_get_status)
 
     def _get_ticket_url(self):
@@ -490,7 +511,7 @@ class Ticket(models.Model):
         True = any dependencies are resolved
         False = There are non-resolved dependencies
         """
-        OPEN_STATUSES = (Ticket.OPEN_STATUS, Ticket.REOPENED_STATUS)
+        OPEN_STATUSES = (Ticket.NEW_STATUS)
         return TicketDependency.objects.filter(ticket=self).filter(depends_on__status__in=OPEN_STATUSES).count() == 0
     can_be_resolved = property(_can_be_resolved)
 
@@ -586,7 +607,16 @@ class FollowUp(models.Model):
         null=True,
         help_text=_('If the status was changed, what was it changed to?'),
         )
-
+        
+    # ------------------ ADDED
+    logged_hours = models.FloatField(
+		_('Hours spent:'),
+		default=0,
+		null=False,
+		blank=True,
+		help_text=_('How many hours have you worked on this task?'),
+		)
+    # ------------------ END
     objects = FollowUpManager()
 
     class Meta:
@@ -1060,6 +1090,7 @@ def create_usersettings(sender, instance, created, **kwargs):
     if created:
         UserSettings.objects.create(user=instance, settings=DEFAULT_USER_SETTINGS)
 
+# NOT WORKING IN DJANG0 1.5 AT ALL
 try:
     # Connecting via settings.AUTH_USER_MODEL (string) fails in Django < 1.7. We need the actual model there.
     # https://docs.djangoproject.com/en/1.7/topics/auth/customizing/#referencing-the-user-model

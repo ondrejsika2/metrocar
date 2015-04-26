@@ -47,6 +47,10 @@ urlpatterns = patterns('helpdesk.views.staff',
     url(r'^tickets/submit/$',
         'create_ticket',
         name='helpdesk_submit'),
+        
+    url(r'^tickets/submit_for_customer/$',
+        'create_ticket_for_customer',
+        name='helpdesk_submit_for_customer'),
 
     url(r'^tickets/(?P<ticket_id>[0-9]+)/$',
         'view_ticket',
@@ -56,9 +60,9 @@ urlpatterns = patterns('helpdesk.views.staff',
         'followup_edit',
         name='helpdesk_followup_edit'),
 
-    url(r'^tickets/(?P<ticket_id>[0-9]+)/followup_delete/(?P<followup_id>[0-9]+)/$',
-        'followup_delete',
-        name='helpdesk_followup_delete'),
+    #url(r'^tickets/(?P<ticket_id>[0-9]+)/followup_delete/(?P<followup_id>[0-9]+)/$',
+    #    'followup_delete',
+    #    name='helpdesk_followup_delete'),
 
     url(r'^tickets/(?P<ticket_id>[0-9]+)/edit/$',
         'edit_ticket',
@@ -68,17 +72,17 @@ urlpatterns = patterns('helpdesk.views.staff',
         'update_ticket',
         name='helpdesk_update'),
 
-    url(r'^tickets/(?P<ticket_id>[0-9]+)/delete/$',
-        'delete_ticket',
-        name='helpdesk_delete'),
+    #url(r'^tickets/(?P<ticket_id>[0-9]+)/delete/$',
+    #    'delete_ticket',
+    #    name='helpdesk_delete'),
 
-    url(r'^tickets/(?P<ticket_id>[0-9]+)/hold/$',
-        'hold_ticket',
-        name='helpdesk_hold'),
+    #url(r'^tickets/(?P<ticket_id>[0-9]+)/hold/$',
+    #    'hold_ticket',
+    #    name='helpdesk_hold'),
 
-    url(r'^tickets/(?P<ticket_id>[0-9]+)/unhold/$',
-        'unhold_ticket',
-        name='helpdesk_unhold'),
+    #url(r'^tickets/(?P<ticket_id>[0-9]+)/unhold/$',
+    #    'unhold_ticket',
+    #    name='helpdesk_unhold'),
 
     url(r'^tickets/(?P<ticket_id>[0-9]+)/cc/$',
         'ticket_cc',
@@ -108,9 +112,9 @@ urlpatterns = patterns('helpdesk.views.staff',
         'raw_details',
         name='helpdesk_raw'),
 
-    url(r'^rss/$',
-        'rss_list',
-        name='helpdesk_rss_index'),
+    #url(r'^rss/$',
+    #    'rss_list',
+    #    name='helpdesk_rss_index'),
 
     url(r'^reports/$',
         'report_index',
@@ -157,6 +161,10 @@ urlpatterns += patterns('helpdesk.views.public',
     url(r'^change_language/$',
         'change_language',
         name='helpdesk_public_change_language'),
+        
+    url(r'^change_language/i18n/', # added for lang support
+        include('django.conf.urls.i18n')),        
+       
 )
 
 urlpatterns += patterns('',
@@ -227,6 +235,20 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns('helpdesk.views.customer',
 	url(r'^customer/$', 'index', name='helpdesk_customer_index'),
+	url(r'^customer/report$', 'report_defect', name='helpdesk_customer_report_defect'),
 	url(r'^customer/show/(?P<ticket_id>[0-9]+)', 'show_ticket', name='helpdesk_customer_show_ticket'),
 	url(r'^customer/supplement/(?P<ticket_id>[0-9]+)', 'ticket_supplement', name='helpdesk_customer_ticket_supplement'),
 )
+
+urlpatterns += patterns('helpdesk.views.technician',
+	url(r'^technician/$', 'index', name='helpdesk_technician_index'),
+	url(r'^technician/show/(?P<ticket_id>[0-9]+)', 'show_ticket', name='helpdesk_technician_show_ticket'),
+	url(r'^technician/take/(?P<ticket_id>[0-9]+)', 'take_ticket', name='helpdesk_technician_take_ticket'),
+)
+
+urlpatterns += patterns('helpdesk.views.manager',
+	url(r'^manager/$', 'index', name='helpdesk_manager_index'),
+	url(r'^manager/show/(?P<ticket_id>[0-9]+)', 'show_ticket', name='helpdesk_manager_show_ticket'),
+)
+
+

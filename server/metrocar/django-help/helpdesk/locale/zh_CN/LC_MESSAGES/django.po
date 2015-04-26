@@ -1,31 +1,50 @@
 # django-helpdesk English language translation
 # Copyright (C) 2011 Ross Poulton
 # This file is distributed under the same license as the django-helpdesk package.
-# 
+#
 # Translators:
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: django-helpdesk\n"
-"Report-Msgid-Bugs-To: http://github.com/RossP/django-helpdesk/issues\n"
-"POT-Creation-Date: 2014-07-26 14:14+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-25 14:48+0200\n"
 "PO-Revision-Date: 2014-08-01 09:58+0000\n"
 "Last-Translator: Ross Poulton <ross@rossp.org>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/django-helpdesk/language/zh_CN/)\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/django-"
+"helpdesk/language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: forms.py:128 forms.py:328 models.py:190 models.py:267
-#: templates/helpdesk/dashboard.html:15 templates/helpdesk/dashboard.html:58
-#: templates/helpdesk/dashboard.html:78 templates/helpdesk/dashboard.html:100
-#: templates/helpdesk/dashboard.html:124 templates/helpdesk/rss_list.html:24
-#: templates/helpdesk/ticket_list.html:69
-#: templates/helpdesk/ticket_list.html:88
-#: templates/helpdesk/ticket_list.html:225 views/staff.py:1032
-#: views/staff.py:1038 views/staff.py:1044 views/staff.py:1050
+#: forms.py:128 forms.py:328 forms.py:555 forms.py:670 models.py:219
+#: models.py:332 templates/helpdesk/rss_list.html:24
+#: templates/helpdesk/ticket_list.html:68
+#: templates/helpdesk/ticket_list.html:87
+#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk/customer/index.html:11
+#: templates/helpdesk/customer/index.html:33
+#: templates/helpdesk/customer/show_ticket.html:16
+#: templates/helpdesk/customer/ticket_supplement.html:16
+#: templates/helpdesk/include/summary.html:5
+#: templates/helpdesk/include/tickets.html:5
+#: templates/helpdesk/include/unassigned.html:5
+#: templates/helpdesk/manager/index.html:11
+#: templates/helpdesk/manager/index.html:35
+#: templates/helpdesk/manager/show_ticket.html:58
+#: templates/helpdesk/technician/index.html:11
+#: templates/helpdesk/technician/index.html:35
+#: templates/helpdesk/technician/show_ticket.html:16
+#: templates/helpdesk_original/rss_list.html:24
+#: templates/helpdesk_original/ticket_list.html:68
+#: templates/helpdesk_original/ticket_list.html:87
+#: templates/helpdesk_original/ticket_list.html:224
+#: templates/helpdesk_original/include/summary.html:5
+#: templates/helpdesk_original/include/tickets.html:5
+#: templates/helpdesk_original/include/unassigned.html:5 views/staff.py:1153
+#: views/staff.py:1159 views/staff.py:1165 views/staff.py:1171
 msgid "Queue"
 msgstr ""
 
@@ -39,8 +58,7 @@ msgstr ""
 
 #: forms.py:144
 msgid ""
-"This e-mail address will receive copies of all public updates to this "
-"ticket."
+"This e-mail address will receive copies of all public updates to this ticket."
 msgstr ""
 
 #: forms.py:150
@@ -57,11 +75,16 @@ msgid ""
 "this ticket immediately."
 msgstr ""
 
-#: forms.py:166 models.py:327 management/commands/escalate_tickets.py:154
+#: forms.py:166 models.py:392 management/commands/escalate_tickets.py:154
 #: templates/helpdesk/public_view_ticket.html:23
-#: templates/helpdesk/ticket.html:184
-#: templates/helpdesk/ticket_desc_table.html:47
-#: templates/helpdesk/ticket_list.html:94 views/staff.py:429
+#: templates/helpdesk/ticket.html:197
+#: templates/helpdesk/ticket_desc_table.html:46
+#: templates/helpdesk/ticket_list.html:93
+#: templates/helpdesk/ticket_show_only.html:43
+#: templates/helpdesk_original/public_view_ticket.html:23
+#: templates/helpdesk_original/ticket.html:186
+#: templates/helpdesk_original/ticket_desc_table.html:47
+#: templates/helpdesk_original/ticket_list.html:93 views/staff.py:516
 msgid "Priority"
 msgstr ""
 
@@ -69,8 +92,8 @@ msgstr ""
 msgid "Please select a priority carefully. If unsure, leave it as '3'."
 msgstr ""
 
-#: forms.py:174 forms.py:365 models.py:335 templates/helpdesk/ticket.html:186
-#: views/staff.py:439
+#: forms.py:174 forms.py:365 models.py:400 templates/helpdesk/ticket.html:199
+#: templates/helpdesk_original/ticket.html:188 views/staff.py:526
 msgid "Due on"
 msgstr ""
 
@@ -91,7 +114,7 @@ msgstr ""
 msgid "Ticket Opened & Assigned to %(name)s"
 msgstr ""
 
-#: forms.py:337
+#: forms.py:337 forms.py:564 forms.py:679
 msgid "Summary of your query"
 msgstr ""
 
@@ -103,11 +126,11 @@ msgstr ""
 msgid "We will e-mail you when your ticket is updated."
 msgstr ""
 
-#: forms.py:348
+#: forms.py:348 forms.py:569 forms.py:631 forms.py:684
 msgid "Description of your issue"
 msgstr ""
 
-#: forms.py:350
+#: forms.py:350 forms.py:571 forms.py:633 forms.py:686
 msgid ""
 "Please be as descriptive as possible, including any details we may need to "
 "address your query."
@@ -121,918 +144,1073 @@ msgstr ""
 msgid "Please select a priority carefully."
 msgstr ""
 
-#: forms.py:419
+#: forms.py:420 forms.py:612 forms.py:734
 msgid "Ticket Opened Via Web"
 msgstr ""
 
-#: forms.py:486
+#: forms.py:487
 msgid "Show Ticket List on Login?"
 msgstr ""
 
-#: forms.py:487
+#: forms.py:488
 msgid "Display the ticket list upon login? Otherwise, the dashboard is shown."
 msgstr ""
 
-#: forms.py:492
+#: forms.py:493
 msgid "E-mail me on ticket change?"
 msgstr ""
 
-#: forms.py:493
+#: forms.py:494
 msgid ""
-"If you're the ticket owner and the ticket is changed via the web by somebody"
-" else, do you want to receive an e-mail?"
-msgstr ""
-
-#: forms.py:498
-msgid "E-mail me when assigned a ticket?"
+"If you're the ticket owner and the ticket is changed via the web by somebody "
+"else, do you want to receive an e-mail?"
 msgstr ""
 
 #: forms.py:499
+msgid "E-mail me when assigned a ticket?"
+msgstr ""
+
+#: forms.py:500
 msgid ""
 "If you are assigned a ticket via the web, do you want to receive an e-mail?"
 msgstr ""
 
-#: forms.py:504
+#: forms.py:505
 msgid "E-mail me when a ticket is changed via the API?"
 msgstr ""
 
-#: forms.py:505
+#: forms.py:506
 msgid "If a ticket is altered by the API, do you want to receive an e-mail?"
 msgstr ""
 
-#: forms.py:510
+#: forms.py:511
 msgid "Number of tickets to show per page"
 msgstr ""
 
-#: forms.py:511
+#: forms.py:512
 msgid "How many tickets do you want to see on the Ticket List page?"
 msgstr ""
 
-#: forms.py:518
+#: forms.py:519
 msgid "Use my e-mail address when submitting tickets?"
 msgstr ""
 
-#: forms.py:519
+#: forms.py:520
 msgid ""
 "When you submit a ticket, do you want to automatically use your e-mail "
 "address as the submitter address? You can type a different e-mail address "
 "when entering the ticket if needed, this option only changes the default."
 msgstr ""
 
-#: models.py:35 models.py:261 models.py:503 models.py:817 models.py:853
-#: templates/helpdesk/dashboard.html:58 templates/helpdesk/dashboard.html:78
-#: templates/helpdesk/dashboard.html:100 templates/helpdesk/dashboard.html:124
-#: templates/helpdesk/ticket.html:178 templates/helpdesk/ticket_list.html:85
-#: templates/helpdesk/ticket_list.html:225 views/staff.py:419
+#: forms.py:651
+msgid "Ticket Supplement"
+msgstr ""
+
+#: models.py:32
+msgid "Active"
+msgstr ""
+
+#: models.py:36
+msgid "Can be any report added to this queue?"
+msgstr ""
+
+#: models.py:41 models.py:326 models.py:576 models.py:900 models.py:936
+#: templates/helpdesk/ticket.html:191 templates/helpdesk/ticket_list.html:84
+#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk/customer/index.html:11
+#: templates/helpdesk/customer/index.html:33
+#: templates/helpdesk/customer/show_ticket.html:13
+#: templates/helpdesk/customer/ticket_supplement.html:13
+#: templates/helpdesk/include/tickets.html:5
+#: templates/helpdesk/include/unassigned.html:5
+#: templates/helpdesk/manager/index.html:11
+#: templates/helpdesk/manager/index.html:35
+#: templates/helpdesk/manager/show_ticket.html:55
+#: templates/helpdesk/technician/index.html:11
+#: templates/helpdesk/technician/index.html:35
+#: templates/helpdesk/technician/show_ticket.html:13
+#: templates/helpdesk_original/ticket.html:180
+#: templates/helpdesk_original/ticket_list.html:84
+#: templates/helpdesk_original/ticket_list.html:224
+#: templates/helpdesk_original/include/tickets.html:5
+#: templates/helpdesk_original/include/unassigned.html:5 views/staff.py:506
 msgid "Title"
 msgstr ""
 
-#: models.py:40 models.py:822 models.py:1206
+#: models.py:46 models.py:905 models.py:1287
 msgid "Slug"
 msgstr ""
 
-#: models.py:41
+#: models.py:47
 msgid ""
 "This slug is used when building ticket ID's. Once set, try not to change it "
 "or e-mailing may get messy."
 msgstr ""
 
-#: models.py:46 models.py:1054 models.py:1129 models.py:1203
+#: models.py:52 models.py:1133 models.py:1208 models.py:1284
 #: templates/helpdesk/email_ignore_list.html:13
 #: templates/helpdesk/ticket_cc_list.html:15
+#: templates/helpdesk_original/email_ignore_list.html:13
+#: templates/helpdesk_original/ticket_cc_list.html:15
 msgid "E-Mail Address"
 msgstr ""
 
-#: models.py:49
+#: models.py:55
 msgid ""
-"All outgoing e-mails for this queue will use this e-mail address. If you use"
-" IMAP or POP3, this should be the e-mail address for that mailbox."
+"All outgoing e-mails for this queue will use this e-mail address. If you use "
+"IMAP or POP3, this should be the e-mail address for that mailbox."
 msgstr ""
 
-#: models.py:55 models.py:794
+#: models.py:61 models.py:877
 msgid "Locale"
 msgstr ""
 
-#: models.py:59
+#: models.py:65
 msgid ""
 "Locale of this queue. All correspondence in this queue will be in this "
 "language."
 msgstr ""
 
-#: models.py:63
+#: models.py:69
 msgid "Allow Public Submission?"
 msgstr ""
 
-#: models.py:66
+#: models.py:72
 msgid "Should this queue be listed on the public submission form?"
 msgstr ""
 
-#: models.py:71
+#: models.py:77
 msgid "Allow E-Mail Submission?"
 msgstr ""
 
-#: models.py:74
+#: models.py:80
 msgid "Do you want to poll the e-mail box below for new tickets?"
 msgstr ""
 
-#: models.py:79
+#: models.py:85
 msgid "Escalation Days"
 msgstr ""
 
-#: models.py:82
+#: models.py:88
 msgid ""
 "For tickets which are not held, how often do you wish to increase their "
 "priority? Set to 0 for no escalation."
 msgstr ""
 
-#: models.py:87
+#: models.py:93
 msgid "New Ticket CC Address"
 msgstr ""
 
-#: models.py:91
+#: models.py:97
 msgid ""
 "If an e-mail address is entered here, then it will receive notification of "
-"all new tickets created for this queue. Enter a comma between multiple "
-"e-mail addresses."
+"all new tickets created for this queue. Enter a comma between multiple e-"
+"mail addresses."
 msgstr ""
 
-#: models.py:97
+#: models.py:103
 msgid "Updated Ticket CC Address"
 msgstr ""
 
-#: models.py:101
+#: models.py:107
 msgid ""
 "If an e-mail address is entered here, then it will receive notification of "
 "all activity (new tickets, closed tickets, updates, reassignments, etc) for "
 "this queue. Separate multiple addresses with a comma."
 msgstr ""
 
-#: models.py:108
+#: models.py:114
 msgid "E-Mail Box Type"
 msgstr ""
 
-#: models.py:110
+#: models.py:116
 msgid "POP 3"
 msgstr ""
 
-#: models.py:110
+#: models.py:116
 msgid "IMAP"
 msgstr ""
 
-#: models.py:113
+#: models.py:119
 msgid ""
 "E-Mail server type for creating tickets automatically from a mailbox - both "
 "POP3 and IMAP are supported."
 msgstr ""
 
-#: models.py:118
+#: models.py:124
 msgid "E-Mail Hostname"
 msgstr ""
 
-#: models.py:122
+#: models.py:128
 msgid ""
 "Your e-mail server address - either the domain name or IP address. May be "
 "\"localhost\"."
 msgstr ""
 
-#: models.py:127
+#: models.py:133
 msgid "E-Mail Port"
 msgstr ""
 
-#: models.py:130
+#: models.py:136
 msgid ""
 "Port number to use for accessing e-mail. Default for POP3 is \"110\", and "
 "for IMAP is \"143\". This may differ on some servers. Leave it blank to use "
 "the defaults."
 msgstr ""
 
-#: models.py:136
+#: models.py:142
 msgid "Use SSL for E-Mail?"
 msgstr ""
 
-#: models.py:139
+#: models.py:145
 msgid ""
 "Whether to use SSL for IMAP or POP3 - the default ports when using SSL are "
 "993 for IMAP and 995 for POP3."
 msgstr ""
 
-#: models.py:144
+#: models.py:150
 msgid "E-Mail Username"
 msgstr ""
 
-#: models.py:148
+#: models.py:154
 msgid "Username for accessing this mailbox."
 msgstr ""
 
-#: models.py:152
+#: models.py:158
 msgid "E-Mail Password"
 msgstr ""
 
-#: models.py:156
+#: models.py:162
 msgid "Password for the above username"
 msgstr ""
 
-#: models.py:160
+#: models.py:166
 msgid "IMAP Folder"
 msgstr ""
 
-#: models.py:164
+#: models.py:170
 msgid ""
 "If using IMAP, what folder do you wish to fetch messages from? This allows "
 "you to use one IMAP account for multiple queues, by filtering messages on "
 "your IMAP server into separate folders. Default: INBOX."
 msgstr ""
 
-#: models.py:171
+#: models.py:177
 msgid "E-Mail Check Interval"
 msgstr ""
 
-#: models.py:172
+#: models.py:178
 msgid "How often do you wish to check this mailbox? (in Minutes)"
 msgstr ""
 
-#: models.py:191 templates/helpdesk/email_ignore_list.html:13
+#: models.py:192
+msgid "Socks Proxy Type"
+msgstr ""
+
+#: models.py:194
+msgid "SOCKS4"
+msgstr ""
+
+#: models.py:194
+msgid "SOCKS5"
+msgstr ""
+
+#: models.py:197
+msgid ""
+"SOCKS4 or SOCKS5 allows you to proxy your connections through a SOCKS server."
+msgstr ""
+
+#: models.py:201
+msgid "Socks Proxy Host"
+msgstr ""
+
+#: models.py:204
+msgid "Socks proxy IP address. Default: 127.0.0.1"
+msgstr ""
+
+#: models.py:208
+msgid "Socks Proxy Port"
+msgstr ""
+
+#: models.py:211
+msgid "Socks proxy port number. Default: 9150 (default TOR port)"
+msgstr ""
+
+#: models.py:220 templates/helpdesk/email_ignore_list.html:13
+#: templates/helpdesk_original/email_ignore_list.html:13
 msgid "Queues"
 msgstr ""
 
-#: models.py:245 templates/helpdesk/dashboard.html:15
-#: templates/helpdesk/ticket.html:138
+#: models.py:296 templates/helpdesk/include/summary.html:5
+#: templates/helpdesk_original/ticket.html:140
+#: templates/helpdesk_original/include/summary.html:5
 msgid "Open"
 msgstr ""
 
-#: models.py:246 templates/helpdesk/ticket.html:144
-#: templates/helpdesk/ticket.html.py:150 templates/helpdesk/ticket.html:155
-#: templates/helpdesk/ticket.html.py:159
-msgid "Reopened"
-msgstr ""
-
-#: models.py:247 templates/helpdesk/dashboard.html:15
-#: templates/helpdesk/ticket.html:139 templates/helpdesk/ticket.html.py:145
-#: templates/helpdesk/ticket.html:151
+#: models.py:297 templates/helpdesk/include/summary.html:5
+#: templates/helpdesk_original/ticket.html:141
+#: templates/helpdesk_original/ticket.html:147
+#: templates/helpdesk_original/ticket.html:153
+#: templates/helpdesk_original/include/summary.html:5
 msgid "Resolved"
 msgstr ""
 
-#: models.py:248 templates/helpdesk/dashboard.html:15
-#: templates/helpdesk/ticket.html:140 templates/helpdesk/ticket.html.py:146
-#: templates/helpdesk/ticket.html:152 templates/helpdesk/ticket.html.py:156
+#: models.py:298 models.py:306 templates/helpdesk/ticket.html:165
+#: templates/helpdesk/ticket.html.py:168
+#: templates/helpdesk/include/summary.html:5
+#: templates/helpdesk/manager/show_ticket.html:128
+#: templates/helpdesk/manager/show_ticket.html:131
+#: templates/helpdesk_original/ticket.html:142
+#: templates/helpdesk_original/ticket.html:148
+#: templates/helpdesk_original/ticket.html:154
+#: templates/helpdesk_original/ticket.html:158
+#: templates/helpdesk_original/include/summary.html:5
 msgid "Closed"
 msgstr ""
 
-#: models.py:249 templates/helpdesk/ticket.html:141
-#: templates/helpdesk/ticket.html.py:147 templates/helpdesk/ticket.html:160
-msgid "Duplicate"
+#: models.py:300 templates/helpdesk/ticket.html:140
+#: templates/helpdesk/ticket.html.py:148 templates/helpdesk/ticket.html:152
+#: templates/helpdesk/ticket.html.py:169
+#: templates/helpdesk/manager/show_ticket.html:104
+#: templates/helpdesk/manager/show_ticket.html:112
+#: templates/helpdesk/manager/show_ticket.html:116
+#: templates/helpdesk/manager/show_ticket.html:132
+msgid "New"
 msgstr ""
 
-#: models.py:253
+#: models.py:301 templates/helpdesk/ticket.html:141
+#: templates/helpdesk/ticket.html.py:147
+#: templates/helpdesk/manager/show_ticket.html:105
+#: templates/helpdesk/manager/show_ticket.html:111
+msgid "Invalid"
+msgstr ""
+
+#: models.py:302 templates/helpdesk/ticket.html:142
+#: templates/helpdesk/ticket.html.py:151
+#: templates/helpdesk/manager/show_ticket.html:106
+#: templates/helpdesk/manager/show_ticket.html:115
+msgid "Supplement needed"
+msgstr ""
+
+#: models.py:303 templates/helpdesk/ticket.html:143
+#: templates/helpdesk/ticket.html.py:155 templates/helpdesk/ticket.html:159
+#: templates/helpdesk/manager/show_ticket.html:107
+#: templates/helpdesk/manager/show_ticket.html:122
+msgid "To resolve"
+msgstr ""
+
+#: models.py:304 templates/helpdesk/ticket.html:156
+#: templates/helpdesk/ticket.html.py:160
+#: templates/helpdesk/manager/show_ticket.html:123
+msgid "Resolving"
+msgstr ""
+
+#: models.py:305 templates/helpdesk/ticket.html:161
+#: templates/helpdesk/ticket.html.py:164
+#: templates/helpdesk/manager/show_ticket.html:124
+#: templates/helpdesk/manager/show_ticket.html:127
+msgid "Checking"
+msgstr ""
+
+#: models.py:311
 msgid "1. Critical"
 msgstr ""
 
-#: models.py:254
+#: models.py:312
 msgid "2. High"
 msgstr ""
 
-#: models.py:255
+#: models.py:313
 msgid "3. Normal"
 msgstr ""
 
-#: models.py:256
+#: models.py:314
 msgid "4. Low"
 msgstr ""
 
-#: models.py:257
+#: models.py:315
 msgid "5. Very Low"
 msgstr ""
 
-#: models.py:271 templates/helpdesk/dashboard.html:100
-#: templates/helpdesk/ticket_list.html:82
-#: templates/helpdesk/ticket_list.html:225
+#: models.py:336 templates/helpdesk/ticket_list.html:81
+#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk/include/unassigned.html:5
+#: templates/helpdesk_original/ticket_list.html:81
+#: templates/helpdesk_original/ticket_list.html:224
+#: templates/helpdesk_original/include/unassigned.html:5
 msgid "Created"
 msgstr ""
 
-#: models.py:273
+#: models.py:338
 msgid "Date this ticket was first created"
 msgstr ""
 
-#: models.py:277
+#: models.py:342
 msgid "Modified"
 msgstr ""
 
-#: models.py:279
+#: models.py:344
 msgid "Date this ticket was most recently changed."
 msgstr ""
 
-#: models.py:283 templates/helpdesk/public_view_ticket.html:18
-#: templates/helpdesk/ticket_desc_table.html:42
+#: models.py:348 templates/helpdesk/public_view_ticket.html:18
+#: templates/helpdesk/ticket_show_only.html:38
+#: templates/helpdesk_original/public_view_ticket.html:18
+#: templates/helpdesk_original/ticket_desc_table.html:42
 msgid "Submitter E-Mail"
 msgstr ""
 
-#: models.py:286
+#: models.py:351
 msgid ""
 "The submitter will receive an email for all public follow-ups left for this "
 "task."
 msgstr ""
 
-#: models.py:295
+#: models.py:360
 msgid "Assigned to"
 msgstr ""
 
-#: models.py:299 templates/helpdesk/dashboard.html:58
-#: templates/helpdesk/dashboard.html:78 templates/helpdesk/dashboard.html:124
-#: templates/helpdesk/ticket_list.html:70
-#: templates/helpdesk/ticket_list.html:91
-#: templates/helpdesk/ticket_list.html:225
+#: models.py:364 templates/helpdesk/ticket_list.html:69
+#: templates/helpdesk/ticket_list.html:90
+#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk/customer/index.html:11
+#: templates/helpdesk/customer/index.html:33
+#: templates/helpdesk/customer/show_ticket.html:19
+#: templates/helpdesk/customer/ticket_supplement.html:19
+#: templates/helpdesk/include/tickets.html:5
+#: templates/helpdesk/manager/index.html:11
+#: templates/helpdesk/manager/index.html:35
+#: templates/helpdesk/manager/show_ticket.html:61
+#: templates/helpdesk/technician/index.html:11
+#: templates/helpdesk/technician/index.html:35
+#: templates/helpdesk/technician/show_ticket.html:19
+#: templates/helpdesk_original/ticket_list.html:69
+#: templates/helpdesk_original/ticket_list.html:90
+#: templates/helpdesk_original/ticket_list.html:224
+#: templates/helpdesk_original/include/tickets.html:5
 msgid "Status"
 msgstr ""
 
-#: models.py:305
+#: models.py:370
 msgid "On Hold"
 msgstr ""
 
-#: models.py:308
+#: models.py:373
 msgid "If a ticket is on hold, it will not automatically be escalated."
 msgstr ""
 
-#: models.py:313 models.py:826 templates/helpdesk/public_view_ticket.html:41
-#: templates/helpdesk/ticket_desc_table.html:19
+#: models.py:378 models.py:909 templates/helpdesk/public_view_ticket.html:41
+#: templates/helpdesk/ticket_desc_table.html:17
+#: templates/helpdesk/ticket_show_only.html:21
+#: templates/helpdesk/customer/show_ticket.html:25
+#: templates/helpdesk/customer/ticket_supplement.html:25
+#: templates/helpdesk/manager/show_ticket.html:67
+#: templates/helpdesk/technician/show_ticket.html:25
+#: templates/helpdesk_original/public_view_ticket.html:41
+#: templates/helpdesk_original/ticket_desc_table.html:19
 msgid "Description"
 msgstr ""
 
-#: models.py:316
+#: models.py:381
 msgid "The content of the customers query."
 msgstr ""
 
-#: models.py:320 templates/helpdesk/public_view_ticket.html:48
-#: templates/helpdesk/ticket_desc_table.html:26
+#: models.py:385 templates/helpdesk/public_view_ticket.html:48
+#: templates/helpdesk/ticket_desc_table.html:24
+#: templates/helpdesk_original/public_view_ticket.html:48
+#: templates/helpdesk_original/ticket_desc_table.html:26
 msgid "Resolution"
 msgstr ""
 
-#: models.py:323
+#: models.py:388
 msgid "The resolution provided to the customer by our staff."
 msgstr ""
 
-#: models.py:331
+#: models.py:396
 msgid "1 = Highest Priority, 5 = Low Priority"
 msgstr ""
 
-#: models.py:344
+#: models.py:409
 msgid ""
 "The date this ticket was last escalated - updated automatically by "
 "management/commands/escalate_tickets.py."
 msgstr ""
 
-#: models.py:353 templates/helpdesk/ticket_desc_table.html:38
-#: views/feeds.py:95 views/feeds.py:121 views/feeds.py:173 views/staff.py:376
+#: models.py:418 templates/helpdesk/ticket_show_only.html:34
+#: templates/helpdesk_original/ticket_desc_table.html:38 views/feeds.py:95
+#: views/feeds.py:121 views/feeds.py:173 views/staff.py:460
 msgid "Unassigned"
 msgstr ""
 
-#: models.py:392
+#: models.py:461
 msgid " - On Hold"
 msgstr ""
 
-#: models.py:394
+#: models.py:463
 msgid " - Open dependencies"
 msgstr ""
 
-#: models.py:448 models.py:494 models.py:1117 models.py:1280 models.py:1309
+#: models.py:521 models.py:567 models.py:1196 models.py:1363 models.py:1392
 #: templates/helpdesk/public_homepage.html:78
 #: templates/helpdesk/public_view_form.html:12
+#: templates/helpdesk_original/public_homepage.html:78
+#: templates/helpdesk_original/public_view_form.html:12
 msgid "Ticket"
 msgstr ""
 
-#: models.py:449 templates/helpdesk/navigation.html:17
+#: models.py:522 templates/helpdesk/navigation.html:17
 #: templates/helpdesk/ticket_list.html:2
-#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk/ticket_list.html:222
+#: templates/helpdesk_original/navigation.html:17
+#: templates/helpdesk_original/ticket_list.html:2
+#: templates/helpdesk_original/ticket_list.html:222
 msgid "Tickets"
 msgstr ""
 
-#: models.py:498 models.py:738 models.py:1047 models.py:1200
+#: models.py:571 models.py:821 models.py:1126 models.py:1281
 msgid "Date"
 msgstr ""
 
-#: models.py:510 views/staff.py:390
+#: models.py:583 views/staff.py:474
 msgid "Comment"
 msgstr ""
 
-#: models.py:516
+#: models.py:589
 msgid "Public"
 msgstr ""
 
-#: models.py:519
+#: models.py:592
 msgid ""
 "Public tickets are viewable by the submitter and all staff, but non-public "
 "tickets can only be seen by staff."
 msgstr ""
 
-#: models.py:527 models.py:922 models.py:1125 views/staff.py:1008
-#: views/staff.py:1014 views/staff.py:1020 views/staff.py:1026
+#: models.py:600 models.py:1005 models.py:1204 views/staff.py:1129
+#: views/staff.py:1135 views/staff.py:1141 views/staff.py:1147
 msgid "User"
 msgstr ""
 
-#: models.py:531 templates/helpdesk/ticket.html:135
+#: models.py:604 templates/helpdesk/ticket.html:137
+#: templates/helpdesk/manager/show_ticket.html:101
+#: templates/helpdesk_original/ticket.html:137
 msgid "New Status"
 msgstr ""
 
-#: models.py:535
+#: models.py:608
 msgid "If the status was changed, what was it changed to?"
 msgstr ""
 
-#: models.py:542 models.py:566 models.py:628
+#: models.py:613
+msgid "Hours spent:"
+msgstr ""
+
+#: models.py:617
+msgid "How many hours have you worked on this task?"
+msgstr ""
+
+#: models.py:624 models.py:648 models.py:710
 msgid "Follow-up"
 msgstr ""
 
-#: models.py:543
+#: models.py:625
 msgid "Follow-ups"
 msgstr ""
 
-#: models.py:570 models.py:1285
+#: models.py:652 models.py:1368
 msgid "Field"
 msgstr ""
 
-#: models.py:575
+#: models.py:657
 msgid "Old Value"
 msgstr ""
 
-#: models.py:581
+#: models.py:663
 msgid "New Value"
 msgstr ""
 
-#: models.py:589
+#: models.py:671
 msgid "removed"
 msgstr ""
 
-#: models.py:591
+#: models.py:673
 #, python-format
 msgid "set to %s"
 msgstr ""
 
-#: models.py:593
+#: models.py:675
 #, python-format
 msgid "changed from \"%(old_value)s\" to \"%(new_value)s\""
 msgstr ""
 
-#: models.py:600
+#: models.py:682
 msgid "Ticket change"
 msgstr ""
 
-#: models.py:601
+#: models.py:683
 msgid "Ticket changes"
 msgstr ""
 
-#: models.py:632
+#: models.py:714
 msgid "File"
 msgstr ""
 
-#: models.py:637
+#: models.py:720
 msgid "Filename"
 msgstr ""
 
-#: models.py:642
+#: models.py:725
 msgid "MIME Type"
 msgstr ""
 
-#: models.py:647
+#: models.py:730
 msgid "Size"
 msgstr ""
 
-#: models.py:648
+#: models.py:731
 msgid "Size of this file in bytes"
 msgstr ""
 
-#: models.py:665
+#: models.py:748
 msgid "Attachment"
 msgstr ""
 
-#: models.py:666
+#: models.py:749
 msgid "Attachments"
 msgstr ""
 
-#: models.py:685
+#: models.py:768
 msgid ""
 "Leave blank to allow this reply to be used for all queues, or select those "
 "queues you wish to limit this reply to."
 msgstr ""
 
-#: models.py:690 models.py:733 models.py:1042
+#: models.py:773 models.py:816 models.py:1121
 #: templates/helpdesk/email_ignore_list.html:13
+#: templates/helpdesk_original/email_ignore_list.html:13
 msgid "Name"
 msgstr ""
 
-#: models.py:692
+#: models.py:775
 msgid ""
 "Only used to assist users with selecting a reply - not shown to the user."
 msgstr ""
 
-#: models.py:697
+#: models.py:780
 msgid "Body"
 msgstr ""
 
-#: models.py:698
+#: models.py:781
 msgid ""
-"Context available: {{ ticket }} - ticket object (eg {{ ticket.title }}); {{ "
-"queue }} - The queue; and {{ user }} - the current user."
+"Context available: {{ ticket }} - ticket object (eg {{ ticket.title }}); "
+"{{ queue }} - The queue; and {{ user }} - the current user."
 msgstr ""
 
-#: models.py:705
+#: models.py:788
 msgid "Pre-set reply"
 msgstr ""
 
-#: models.py:706
+#: models.py:789
 msgid "Pre-set replies"
 msgstr ""
 
-#: models.py:727
+#: models.py:810
 msgid ""
 "Leave blank for this exclusion to be applied to all queues, or select those "
 "queues you wish to exclude with this entry."
 msgstr ""
 
-#: models.py:739
+#: models.py:822
 msgid "Date on which escalation should not happen"
 msgstr ""
 
-#: models.py:746
+#: models.py:829
 msgid "Escalation exclusion"
 msgstr ""
 
-#: models.py:747
+#: models.py:830
 msgid "Escalation exclusions"
 msgstr ""
 
-#: models.py:760
+#: models.py:843
 msgid "Template Name"
 msgstr ""
 
-#: models.py:765
+#: models.py:848
 msgid "Subject"
 msgstr ""
 
-#: models.py:767
+#: models.py:850
 msgid ""
 "This will be prefixed with \"[ticket.ticket] ticket.title\". We recommend "
-"something simple such as \"(Updated\") or \"(Closed)\" - the same context is"
-" available as in plain_text, below."
+"something simple such as \"(Updated\") or \"(Closed)\" - the same context is "
+"available as in plain_text, below."
 msgstr ""
 
-#: models.py:773
+#: models.py:856
 msgid "Heading"
 msgstr ""
 
-#: models.py:775
+#: models.py:858
 msgid ""
-"In HTML e-mails, this will be the heading at the top of the email - the same"
-" context is available as in plain_text, below."
+"In HTML e-mails, this will be the heading at the top of the email - the same "
+"context is available as in plain_text, below."
 msgstr ""
 
-#: models.py:781
+#: models.py:864
 msgid "Plain Text"
 msgstr ""
 
-#: models.py:782
+#: models.py:865
 msgid ""
 "The context available to you includes {{ ticket }}, {{ queue }}, and "
 "depending on the time of the call: {{ resolution }} or {{ comment }}."
 msgstr ""
 
-#: models.py:788
+#: models.py:871
 msgid "HTML"
 msgstr ""
 
-#: models.py:789
+#: models.py:872
 msgid "The same context is available here as in plain_text, above."
 msgstr ""
 
-#: models.py:798
+#: models.py:881
 msgid "Locale of this template."
 msgstr ""
 
-#: models.py:806
+#: models.py:889
 msgid "e-mail template"
 msgstr ""
 
-#: models.py:807
+#: models.py:890
 msgid "e-mail templates"
 msgstr ""
 
-#: models.py:834
+#: models.py:917
 msgid "Knowledge base category"
 msgstr ""
 
-#: models.py:835
+#: models.py:918
 msgid "Knowledge base categories"
 msgstr ""
 
-#: models.py:849 templates/helpdesk/kb_index.html:11
+#: models.py:932 templates/helpdesk/kb_index.html:11
 #: templates/helpdesk/public_homepage.html:11
+#: templates/helpdesk_original/kb_index.html:11
+#: templates/helpdesk_original/public_homepage.html:11
 msgid "Category"
 msgstr ""
 
-#: models.py:858
+#: models.py:941
 msgid "Question"
 msgstr ""
 
-#: models.py:862
+#: models.py:945
 msgid "Answer"
 msgstr ""
 
-#: models.py:866
+#: models.py:949
 msgid "Votes"
 msgstr ""
 
-#: models.py:867
+#: models.py:950
 msgid "Total number of votes cast for this item"
 msgstr ""
 
-#: models.py:872
+#: models.py:955
 msgid "Positive Votes"
 msgstr ""
 
-#: models.py:873
+#: models.py:956
 msgid "Number of votes for this item which were POSITIVE."
 msgstr ""
 
-#: models.py:878
+#: models.py:961
 msgid "Last Updated"
 msgstr ""
 
-#: models.py:879
+#: models.py:962
 msgid "The date on which this question was most recently changed."
 msgstr ""
 
-#: models.py:893
+#: models.py:976
 msgid "Unrated"
 msgstr ""
 
-#: models.py:901
+#: models.py:984
 msgid "Knowledge base item"
 msgstr ""
 
-#: models.py:902
+#: models.py:985
 msgid "Knowledge base items"
 msgstr ""
 
-#: models.py:926 templates/helpdesk/ticket_list.html:170
+#: models.py:1009 templates/helpdesk/ticket_list.html:169
+#: templates/helpdesk_original/ticket_list.html:169
 msgid "Query Name"
 msgstr ""
 
-#: models.py:928
+#: models.py:1011
 msgid "User-provided name for this query"
 msgstr ""
 
-#: models.py:932
+#: models.py:1015
 msgid "Shared With Other Users?"
 msgstr ""
 
-#: models.py:935
+#: models.py:1018
 msgid "Should other users see this query?"
 msgstr ""
 
-#: models.py:939
+#: models.py:1022
 msgid "Search Query"
 msgstr ""
 
-#: models.py:940
+#: models.py:1023
 msgid "Pickled query object. Be wary changing this."
 msgstr ""
 
-#: models.py:950
+#: models.py:1033
 msgid "Saved search"
 msgstr ""
 
-#: models.py:951
+#: models.py:1034
 msgid "Saved searches"
 msgstr ""
 
-#: models.py:966
+#: models.py:1049
 msgid "Settings Dictionary"
 msgstr ""
 
-#: models.py:967
+#: models.py:1050
 msgid ""
 "This is a base64-encoded representation of a pickled Python dictionary. Do "
 "not change this field via the admin."
 msgstr ""
 
-#: models.py:993
+#: models.py:1076
 msgid "User Setting"
 msgstr ""
 
-#: models.py:994 templates/helpdesk/navigation.html:37
+#: models.py:1077 templates/helpdesk/navigation.html:38
 #: templates/helpdesk/user_settings.html:6
+#: templates/helpdesk_original/navigation.html:37
+#: templates/helpdesk_original/user_settings.html:6
 msgid "User Settings"
 msgstr ""
 
-#: models.py:1036
+#: models.py:1115
 msgid ""
 "Leave blank for this e-mail to be ignored on all queues, or select those "
 "queues you wish to ignore this e-mail for."
 msgstr ""
 
-#: models.py:1048
+#: models.py:1127
 msgid "Date on which this e-mail address was added"
 msgstr ""
 
-#: models.py:1056
+#: models.py:1135
 msgid ""
 "Enter a full e-mail address, or portions with wildcards, eg *@domain.com or "
 "postmaster@*."
 msgstr ""
 
-#: models.py:1061
+#: models.py:1140
 msgid "Save Emails in Mailbox?"
 msgstr ""
 
-#: models.py:1064
+#: models.py:1143
 msgid ""
 "Do you want to save emails from this address in the mailbox? If this is "
 "unticked, emails from this address will be deleted."
 msgstr ""
 
-#: models.py:1101
+#: models.py:1180
 msgid "Ignored e-mail address"
 msgstr ""
 
-#: models.py:1102
+#: models.py:1181
 msgid "Ignored e-mail addresses"
 msgstr ""
 
-#: models.py:1124
+#: models.py:1203
 msgid "User who wishes to receive updates for this ticket."
 msgstr ""
 
-#: models.py:1132
+#: models.py:1211
 msgid "For non-user followers, enter their e-mail address"
 msgstr ""
 
-#: models.py:1136
+#: models.py:1215
 msgid "Can View Ticket?"
 msgstr ""
 
-#: models.py:1138
+#: models.py:1218
 msgid "Can this CC login to view the ticket details?"
 msgstr ""
 
-#: models.py:1142
+#: models.py:1222
 msgid "Can Update Ticket?"
 msgstr ""
 
-#: models.py:1144
+#: models.py:1225
 msgid "Can this CC login and update the ticket?"
 msgstr ""
 
-#: models.py:1175
+#: models.py:1256
 msgid "Field Name"
 msgstr ""
 
-#: models.py:1176
+#: models.py:1257
 msgid ""
-"As used in the database and behind the scenes. Must be unique and consist of"
-" only lowercase letters with no punctuation."
+"As used in the database and behind the scenes. Must be unique and consist of "
+"only lowercase letters with no punctuation."
 msgstr ""
 
-#: models.py:1181
+#: models.py:1262
 msgid "Label"
 msgstr ""
 
-#: models.py:1183
+#: models.py:1264
 msgid "The display label for this field"
 msgstr ""
 
-#: models.py:1187
+#: models.py:1268
 msgid "Help Text"
 msgstr ""
 
-#: models.py:1188
+#: models.py:1269
 msgid "Shown to the user when editing the ticket"
 msgstr ""
 
-#: models.py:1194
+#: models.py:1275
 msgid "Character (single line)"
 msgstr ""
 
-#: models.py:1195
+#: models.py:1276
 msgid "Text (multi-line)"
 msgstr ""
 
-#: models.py:1196
+#: models.py:1277
 msgid "Integer"
 msgstr ""
 
-#: models.py:1197
+#: models.py:1278
 msgid "Decimal"
 msgstr ""
 
-#: models.py:1198
+#: models.py:1279
 msgid "List"
 msgstr ""
 
-#: models.py:1199
+#: models.py:1280
 msgid "Boolean (checkbox yes/no)"
 msgstr ""
 
-#: models.py:1201
+#: models.py:1282
 msgid "Time"
 msgstr ""
 
-#: models.py:1202
+#: models.py:1283
 msgid "Date & Time"
 msgstr ""
 
-#: models.py:1204
+#: models.py:1285
 msgid "URL"
 msgstr ""
 
-#: models.py:1205
+#: models.py:1286
 msgid "IP Address"
 msgstr ""
 
-#: models.py:1210
+#: models.py:1291
 msgid "Data Type"
 msgstr ""
 
-#: models.py:1212
+#: models.py:1293
 msgid "Allows you to restrict the data entered into this field"
 msgstr ""
 
-#: models.py:1217
+#: models.py:1298
 msgid "Maximum Length (characters)"
 msgstr ""
 
-#: models.py:1223
+#: models.py:1304
 msgid "Decimal Places"
 msgstr ""
 
-#: models.py:1224
+#: models.py:1305
 msgid "Only used for decimal fields"
 msgstr ""
 
-#: models.py:1230
+#: models.py:1311
 msgid "Add empty first choice to List?"
 msgstr ""
 
-#: models.py:1232
+#: models.py:1313
 msgid ""
-"Only for List: adds an empty first entry to the choices list, which enforces"
-" that the user makes an active choice."
+"Only for List: adds an empty first entry to the choices list, which enforces "
+"that the user makes an active choice."
 msgstr ""
 
-#: models.py:1236
+#: models.py:1317
 msgid "List Values"
 msgstr ""
 
-#: models.py:1237
+#: models.py:1318
 msgid "For list fields only. Enter one option per line."
 msgstr ""
 
-#: models.py:1243
+#: models.py:1324
 msgid "Ordering"
 msgstr ""
 
-#: models.py:1244
+#: models.py:1325
 msgid "Lower numbers are displayed first; higher numbers are listed later"
 msgstr ""
 
-#: models.py:1258
+#: models.py:1339
 msgid "Required?"
 msgstr ""
 
-#: models.py:1259
+#: models.py:1340
 msgid "Does the user have to enter a value for this field?"
 msgstr ""
 
-#: models.py:1263
+#: models.py:1345
 msgid "Staff Only?"
 msgstr ""
 
-#: models.py:1264
+#: models.py:1346
 msgid ""
 "If this is ticked, then the public submission form will NOT show this field"
 msgstr ""
 
-#: models.py:1273
+#: models.py:1356
 msgid "Custom field"
 msgstr ""
 
-#: models.py:1274
+#: models.py:1357
 msgid "Custom fields"
 msgstr ""
 
-#: models.py:1297
+#: models.py:1380
 msgid "Ticket custom field value"
 msgstr ""
 
-#: models.py:1298
+#: models.py:1381
 msgid "Ticket custom field values"
 msgstr ""
 
-#: models.py:1315
+#: models.py:1398
 msgid "Depends On Ticket"
 msgstr ""
 
-#: models.py:1324
+#: models.py:1407
 msgid "Ticket dependency"
 msgstr ""
 
-#: models.py:1325
+#: models.py:1408
 msgid "Ticket dependencies"
 msgstr ""
 
@@ -1048,107 +1226,105 @@ msgstr ""
 msgid "Ticket escalated after %s days"
 msgstr ""
 
-#: management/commands/get_email.py:158
+#: management/commands/get_email.py:175
 msgid "Created from e-mail"
 msgstr ""
 
-#: management/commands/get_email.py:162
+#: management/commands/get_email.py:179
 msgid "Unknown Sender"
 msgstr ""
 
-#: management/commands/get_email.py:216
+#: management/commands/get_email.py:233
 msgid ""
-"No plain-text email body available. Please see attachment "
-"email_html_body.html."
+"No plain-text email body available. Please see attachment email_html_body."
+"html."
 msgstr ""
 
-#: management/commands/get_email.py:220
+#: management/commands/get_email.py:237
 msgid "email_html_body.html"
 msgstr ""
 
-#: management/commands/get_email.py:263
+#: management/commands/get_email.py:280
 #, python-format
 msgid "E-Mail Received from %(sender_email)s"
 msgstr ""
 
-#: management/commands/get_email.py:271
+#: management/commands/get_email.py:288
 #, python-format
 msgid "Ticket Re-Opened by E-Mail Received from %(sender_email)s"
 msgstr ""
 
-#: management/commands/get_email.py:329
+#: management/commands/get_email.py:346
 msgid " (Reopened)"
 msgstr ""
 
-#: management/commands/get_email.py:331
+#: management/commands/get_email.py:348
 msgid " (Updated)"
 msgstr ""
 
 #: templates/helpdesk/attribution.html:2
-msgid ""
-"<a href='https://github.com/rossp/django-helpdesk'>django-helpdesk</a>."
-msgstr ""
-
-#: templates/helpdesk/base.html:10
-msgid "Powered by django-helpdesk"
+#: templates/helpdesk_original/attribution.html:2
+msgid "<a href='https://github.com/rossp/django-helpdesk'>django-helpdesk</a>."
 msgstr ""
 
 #: templates/helpdesk/base.html:20 templates/helpdesk/rss_list.html:9
 #: templates/helpdesk/rss_list.html:24 templates/helpdesk/rss_list.html:31
+#: templates/helpdesk_original/base.html:20
+#: templates/helpdesk_original/rss_list.html:9
+#: templates/helpdesk_original/rss_list.html:24
+#: templates/helpdesk_original/rss_list.html:31
 msgid "My Open Tickets"
 msgstr ""
 
-#: templates/helpdesk/base.html:21
+#: templates/helpdesk/base.html:21 templates/helpdesk_original/base.html:21
 msgid "All Recent Activity"
 msgstr ""
 
-#: templates/helpdesk/base.html:22 templates/helpdesk/dashboard.html:99
-#: templates/helpdesk/rss_list.html:15
+#: templates/helpdesk/base.html:22 templates/helpdesk/rss_list.html:15
+#: templates/helpdesk/include/unassigned.html:3
+#: templates/helpdesk_original/base.html:22
+#: templates/helpdesk_original/rss_list.html:15
+#: templates/helpdesk_original/include/unassigned.html:3
 msgid "Unassigned Tickets"
 msgstr ""
 
-#: templates/helpdesk/base.html:52 templates/helpdesk/public_base.html:6
-#: templates/helpdesk/public_base.html:18
-msgid "Helpdesk"
+#: templates/helpdesk/base.html:52
+msgid "Metrocar Helpdesk"
 msgstr ""
 
-#: templates/helpdesk/base.html:62 templates/helpdesk/rss_list.html:9
-#: templates/helpdesk/rss_list.html:12 templates/helpdesk/rss_list.html:15
-#: templates/helpdesk/rss_list.html:30 templates/helpdesk/rss_list.html:31
-msgid "RSS Icon"
-msgstr ""
-
-#: templates/helpdesk/base.html:62 templates/helpdesk/rss_list.html:2
-#: templates/helpdesk/rss_list.html.py:4
-msgid "RSS Feeds"
-msgstr ""
-
-#: templates/helpdesk/base.html:63
+#: templates/helpdesk/base.html:62 templates/helpdesk_original/base.html:63
 msgid "API"
 msgstr ""
 
-#: templates/helpdesk/base.html:64 templates/helpdesk/system_settings.html:6
+#: templates/helpdesk/base.html:63 templates/helpdesk/system_settings.html:6
+#: templates/helpdesk_original/base.html:64
+#: templates/helpdesk_original/system_settings.html:6
 msgid "System Settings"
 msgstr ""
 
 #: templates/helpdesk/confirm_delete_saved_query.html:3
-#: templates/helpdesk/ticket_list.html:146
+#: templates/helpdesk/ticket_list.html:145
+#: templates/helpdesk_original/confirm_delete_saved_query.html:3
+#: templates/helpdesk_original/ticket_list.html:145
 msgid "Delete Saved Query"
 msgstr ""
 
 #: templates/helpdesk/confirm_delete_saved_query.html:6
+#: templates/helpdesk_original/confirm_delete_saved_query.html:6
 msgid "Delete Query"
 msgstr ""
 
 #: templates/helpdesk/confirm_delete_saved_query.html:8
+#: templates/helpdesk_original/confirm_delete_saved_query.html:8
 #, python-format
 msgid ""
-"Are you sure you want to delete this saved filter "
-"(<em>%(query_title)s</em>)? To re-create it, you will need to manually re-"
-"filter your ticket listing."
+"Are you sure you want to delete this saved filter (<em>%(query_title)s</"
+"em>)? To re-create it, you will need to manually re-filter your ticket "
+"listing."
 msgstr ""
 
 #: templates/helpdesk/confirm_delete_saved_query.html:11
+#: templates/helpdesk_original/confirm_delete_saved_query.html:11
 msgid ""
 "You have shared this query, so other users may be using it. If you delete "
 "it, they will have to manually create their own query."
@@ -1156,164 +1332,165 @@ msgstr ""
 
 #: templates/helpdesk/confirm_delete_saved_query.html:14
 #: templates/helpdesk/delete_ticket.html:10
+#: templates/helpdesk_original/confirm_delete_saved_query.html:14
+#: templates/helpdesk_original/delete_ticket.html:10
 msgid "No, Don't Delete It"
 msgstr ""
 
 #: templates/helpdesk/confirm_delete_saved_query.html:16
 #: templates/helpdesk/delete_ticket.html:12
+#: templates/helpdesk_original/confirm_delete_saved_query.html:16
+#: templates/helpdesk_original/delete_ticket.html:12
 msgid "Yes - Delete It"
 msgstr ""
 
 #: templates/helpdesk/create_ticket.html:3
+#: templates/helpdesk_original/create_ticket.html:3
 msgid "Create Ticket"
 msgstr ""
 
-#: templates/helpdesk/create_ticket.html:10
-#: templates/helpdesk/navigation.html:65 templates/helpdesk/navigation.html:68
+#: templates/helpdesk/create_ticket.html:7
+#: templates/helpdesk/create_ticket.html:17
+msgid "Submit a Ticket instead of customer"
+msgstr ""
+
+#: templates/helpdesk/create_ticket.html:9
+#: templates/helpdesk/create_ticket.html:19
+#: templates/helpdesk/customer_create_ticket.html:25
+#: templates/helpdesk/navigation.html:66 templates/helpdesk/navigation.html:69
 #: templates/helpdesk/public_homepage.html:27
+#: templates/helpdesk/customer/report_defect.html:10
+#: templates/helpdesk/technician/index.html:60
+#: templates/helpdesk_original/create_ticket.html:10
+#: templates/helpdesk_original/navigation.html:65
+#: templates/helpdesk_original/navigation.html:68
+#: templates/helpdesk_original/public_homepage.html:27
 msgid "Submit a Ticket"
 msgstr ""
 
-#: templates/helpdesk/create_ticket.html:11
+#: templates/helpdesk/create_ticket.html:21
+#: templates/helpdesk/customer_create_ticket.html:26
 #: templates/helpdesk/edit_ticket.html:11
+#: templates/helpdesk/customer/report_defect.html:11
+#: templates/helpdesk/technician/index.html:61
+#: templates/helpdesk_original/create_ticket.html:11
+#: templates/helpdesk_original/edit_ticket.html:11
 msgid "Unless otherwise stated, all fields are required."
 msgstr ""
 
-#: templates/helpdesk/create_ticket.html:11
+#: templates/helpdesk/create_ticket.html:21
+#: templates/helpdesk/customer_create_ticket.html:26
 #: templates/helpdesk/edit_ticket.html:11
 #: templates/helpdesk/public_homepage.html:28
+#: templates/helpdesk/customer/report_defect.html:11
+#: templates/helpdesk/technician/index.html:61
+#: templates/helpdesk_original/create_ticket.html:11
+#: templates/helpdesk_original/edit_ticket.html:11
+#: templates/helpdesk_original/public_homepage.html:28
 msgid "Please provide as descriptive a title and description as possible."
 msgstr ""
 
-#: templates/helpdesk/create_ticket.html:30
+#: templates/helpdesk/create_ticket.html:40
+#: templates/helpdesk/customer_create_ticket.html:45
 #: templates/helpdesk/public_homepage.html:55
+#: templates/helpdesk/customer/report_defect.html:30
+#: templates/helpdesk/technician/index.html:80
+#: templates/helpdesk_original/create_ticket.html:30
+#: templates/helpdesk_original/public_homepage.html:55
 msgid "Submit Ticket"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:2
-msgid "Helpdesk Dashboard"
+#: templates/helpdesk/customer_create_ticket.html:3
+#: templates/helpdesk/customer/index.html:3
+#: templates/helpdesk/customer/report_defect.html:3
+msgid "Customer Helpdesk Overview"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:9
-msgid ""
-"Welcome to your Helpdesk Dashboard! From here you can quickly see tickets "
-"submitted by you, tickets you are working on, and those tickets that have no"
-" owner."
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:14
-msgid "Helpdesk Summary"
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:36
-msgid "Current Ticket Stats"
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:37
-msgid "Average number of days until ticket is closed (all tickets): "
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:38
-msgid ""
-"Average number of days until ticket is closed (tickets opened in last 60 "
-"days): "
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:39
-msgid "Click"
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:39
-msgid "for detailed average by month."
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:40
-msgid "Distribution of open tickets, grouped by time period:"
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:41
-msgid "Days since opened"
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:41
-msgid "Number of open tickets"
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:57
+#: templates/helpdesk/customer_create_ticket.html:9
+#: templates/helpdesk/dashboard.html:11
+#: templates/helpdesk/customer/index.html:9
+#: templates/helpdesk_original/dashboard.html:15
 msgid "All Tickets submitted by you"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:58 templates/helpdesk/dashboard.html:78
-#: templates/helpdesk/dashboard.html:100 templates/helpdesk/dashboard.html:124
-#: templates/helpdesk/ticket_list.html:225
-msgid "Pr"
+#: templates/helpdesk/customer_create_ticket.html:16
+msgid "Your tickets that need supplement"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:58 templates/helpdesk/dashboard.html:78
-#: templates/helpdesk/dashboard.html:124
-msgid "Last Update"
+#: templates/helpdesk/dashboard.html:2
+#: templates/helpdesk/dashboard_manager.html:2
+#: templates/helpdesk_original/dashboard.html:2
+msgid "Helpdesk Dashboard"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:77
+#: templates/helpdesk/dashboard.html:7
+#: templates/helpdesk_original/dashboard.html:7
+msgid ""
+"Welcome to your Helpdesk Dashboard! From here you can quickly see tickets "
+"submitted by you, tickets you are working on, and those tickets that have no "
+"owner."
+msgstr ""
+
+#: templates/helpdesk/dashboard.html:15
+#: templates/helpdesk_original/dashboard.html:19
 msgid "Open Tickets assigned to you (you are working on this ticket)"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:92
+#: templates/helpdesk/dashboard.html:16
+#: templates/helpdesk_original/dashboard.html:20
 msgid "You have no tickets assigned to you."
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:99
-msgid "(pick up a ticket if you start to work on it)"
+#: templates/helpdesk/dashboard_manager.html:7
+msgid "Welcome to your Helpdesk Dashboard!"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:110
-#: templates/helpdesk/ticket_desc_table.html:38
-msgid "Take"
+#: templates/helpdesk/dashboard_manager.html:11
+#: templates/helpdesk/manager/index.html:9
+msgid "All New Tickets"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:110
-#: templates/helpdesk/email_ignore_list.html:13
-#: templates/helpdesk/email_ignore_list.html:23
-#: templates/helpdesk/ticket_cc_list.html:15
-#: templates/helpdesk/ticket_cc_list.html:23
-#: templates/helpdesk/ticket_list.html:262
-msgid "Delete"
+#: templates/helpdesk/dashboard_manager.html:15
+msgid "Resolved tickets to be checked"
 msgstr ""
 
-#: templates/helpdesk/dashboard.html:114
-msgid "There are no unassigned tickets."
-msgstr ""
-
-#: templates/helpdesk/dashboard.html:123
-msgid "Closed & resolved Tickets you used to work on"
+#: templates/helpdesk/dashboard_manager.html:16
+msgid "There are no tickets to be checked."
 msgstr ""
 
 #: templates/helpdesk/delete_ticket.html:3
 #: templates/helpdesk/delete_ticket.html:6
+#: templates/helpdesk_original/delete_ticket.html:3
+#: templates/helpdesk_original/delete_ticket.html:6
 msgid "Delete Ticket"
 msgstr ""
 
 #: templates/helpdesk/delete_ticket.html:8
+#: templates/helpdesk_original/delete_ticket.html:8
 #, python-format
 msgid ""
-"Are you sure you want to delete this ticket (<em>%(ticket_title)s</em>)? All"
-" traces of the ticket, including followups, attachments, and updates will be"
-" irreversibly removed."
+"Are you sure you want to delete this ticket (<em>%(ticket_title)s</em>)? All "
+"traces of the ticket, including followups, attachments, and updates will be "
+"irreversibly removed."
 msgstr ""
 
 #: templates/helpdesk/edit_ticket.html:3
+#: templates/helpdesk_original/edit_ticket.html:3
 msgid "Edit Ticket"
 msgstr ""
 
 #: templates/helpdesk/edit_ticket.html:9
+#: templates/helpdesk_original/edit_ticket.html:9
 msgid "Edit a Ticket"
 msgstr ""
 
 #: templates/helpdesk/edit_ticket.html:13
+#: templates/helpdesk_original/edit_ticket.html:13
 msgid "Note"
 msgstr ""
 
 #: templates/helpdesk/edit_ticket.html:13
+#: templates/helpdesk_original/edit_ticket.html:13
 msgid ""
 "Editing a ticket does <em>not</em> send an e-mail to the ticket owner or "
 "submitter. No new details should be entered, this form should only be used "
@@ -1321,269 +1498,375 @@ msgid ""
 msgstr ""
 
 #: templates/helpdesk/edit_ticket.html:33
+#: templates/helpdesk/customer/ticket_supplement.html:59
+#: templates/helpdesk_original/edit_ticket.html:33
 msgid "Save Changes"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_add.html:3
 #: templates/helpdesk/email_ignore_add.html:6
 #: templates/helpdesk/email_ignore_add.html:23
+#: templates/helpdesk_original/email_ignore_add.html:3
+#: templates/helpdesk_original/email_ignore_add.html:6
+#: templates/helpdesk_original/email_ignore_add.html:23
 msgid "Ignore E-Mail Address"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_add.html:8
+#: templates/helpdesk_original/email_ignore_add.html:8
 msgid ""
 "To ignore an e-mail address and prevent any emails from that address "
 "creating tickets automatically, enter the e-mail address below."
 msgstr ""
 
 #: templates/helpdesk/email_ignore_add.html:10
+#: templates/helpdesk_original/email_ignore_add.html:10
 msgid ""
-"You can either enter a whole e-mail address such as "
-"<em>email@domain.com</em> or a portion of an e-mail address with a wildcard,"
-" such as <em>*@domain.com</em> or <em>user@*</em>."
+"You can either enter a whole e-mail address such as <em>email@domain.com</"
+"em> or a portion of an e-mail address with a wildcard, such as <em>*@domain."
+"com</em> or <em>user@*</em>."
 msgstr ""
 
 #: templates/helpdesk/email_ignore_del.html:3
+#: templates/helpdesk_original/email_ignore_del.html:3
 msgid "Delete Ignored E-Mail Address"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_del.html:6
+#: templates/helpdesk_original/email_ignore_del.html:6
 msgid "Un-Ignore E-Mail Address"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_del.html:8
+#: templates/helpdesk_original/email_ignore_del.html:8
 #, python-format
 msgid ""
-"Are you sure you wish to stop removing this email address "
-"(<em>%(email_address)s</em>) and allow their e-mails to automatically create"
-" tickets in your system? You can re-add this e-mail address at any time."
+"Are you sure you wish to stop removing this email address (<em>"
+"%(email_address)s</em>) and allow their e-mails to automatically create "
+"tickets in your system? You can re-add this e-mail address at any time."
 msgstr ""
 
 #: templates/helpdesk/email_ignore_del.html:10
+#: templates/helpdesk_original/email_ignore_del.html:10
 msgid "Keep Ignoring It"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_del.html:12
+#: templates/helpdesk_original/email_ignore_del.html:12
 msgid "Stop Ignoring It"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_list.html:3
-#: templates/helpdesk/email_ignore_list.html:12
+#: templates/helpdesk/email_ignore_list.html:11
+#: templates/helpdesk_original/email_ignore_list.html:3
+#: templates/helpdesk_original/email_ignore_list.html:11
 msgid "Ignored E-Mail Addresses"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_list.html:5
+#: templates/helpdesk_original/email_ignore_list.html:5
 msgid ""
 "\n"
 "<h2>Ignored E-Mail Addresses</h2>\n"
 "\n"
-"<p>The following e-mail addresses are currently being ignored by the incoming e-mail processor. You can <a href='add/'>add a new e-mail address to the list</a> or delete any of the items below as required.</p>"
+"<p>The following e-mail addresses are currently being ignored by the "
+"incoming e-mail processor. You can <a href='add/'>add a new e-mail address "
+"to the list</a> or delete any of the items below as required.</p>"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_list.html:13
+#: templates/helpdesk_original/email_ignore_list.html:13
 msgid "Date Added"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_list.html:13
+#: templates/helpdesk_original/email_ignore_list.html:13
 msgid "Keep in mailbox?"
 msgstr ""
 
+#: templates/helpdesk/email_ignore_list.html:13
+#: templates/helpdesk/email_ignore_list.html:23
+#: templates/helpdesk/ticket_cc_list.html:15
+#: templates/helpdesk/ticket_cc_list.html:23
+#: templates/helpdesk_original/email_ignore_list.html:13
+#: templates/helpdesk_original/email_ignore_list.html:23
+#: templates/helpdesk_original/ticket_cc_list.html:15
+#: templates/helpdesk_original/ticket_cc_list.html:23
+#: templates/helpdesk_original/ticket_list.html:261
+#: templates/helpdesk_original/include/unassigned.html:15
+msgid "Delete"
+msgstr ""
+
 #: templates/helpdesk/email_ignore_list.html:21
-#: templates/helpdesk/ticket_list.html:260
+#: templates/helpdesk_original/email_ignore_list.html:21
+#: templates/helpdesk_original/ticket_list.html:259
 msgid "All"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_list.html:22
+#: templates/helpdesk_original/email_ignore_list.html:22
 msgid "Keep"
 msgstr ""
 
 #: templates/helpdesk/email_ignore_list.html:29
+#: templates/helpdesk_original/email_ignore_list.html:29
 msgid ""
 "<strong>Note:</strong> If the 'Keep' option is not selected, emails sent "
 "from that address will be deleted permanently."
 msgstr ""
 
 #: templates/helpdesk/followup_edit.html:2
+#: templates/helpdesk_original/followup_edit.html:2
 msgid "Edit followup"
 msgstr ""
 
-#: templates/helpdesk/followup_edit.html:9
+#: templates/helpdesk/followup_edit.html:16
+#: templates/helpdesk_original/followup_edit.html:16
 msgid "Edit FollowUp"
 msgstr ""
 
-#: templates/helpdesk/followup_edit.html:14
+#: templates/helpdesk/followup_edit.html:21
+#: templates/helpdesk_original/followup_edit.html:21
 msgid "Reassign ticket:"
 msgstr ""
 
-#: templates/helpdesk/followup_edit.html:16
+#: templates/helpdesk/followup_edit.html:23
+#: templates/helpdesk_original/followup_edit.html:23
 msgid "Title:"
 msgstr ""
 
-#: templates/helpdesk/followup_edit.html:18
+#: templates/helpdesk/followup_edit.html:25
+#: templates/helpdesk_original/followup_edit.html:25
 msgid "Comment:"
 msgstr ""
 
 #: templates/helpdesk/kb_category.html:4
-#: templates/helpdesk/kb_category.html:12
+#: templates/helpdesk/kb_category.html:11
+#: templates/helpdesk_original/kb_category.html:4
+#: templates/helpdesk_original/kb_category.html:11
 #, python-format
 msgid "Knowledgebase Category: %(kbcat)s"
 msgstr ""
 
 #: templates/helpdesk/kb_category.html:6
+#: templates/helpdesk_original/kb_category.html:6
 #, python-format
 msgid "You are viewing all items in the %(kbcat)s category."
 msgstr ""
 
 #: templates/helpdesk/kb_category.html:13
+#: templates/helpdesk_original/kb_category.html:13
 msgid "Article"
 msgstr ""
 
 #: templates/helpdesk/kb_index.html:4 templates/helpdesk/navigation.html:21
-#: templates/helpdesk/navigation.html:71
+#: templates/helpdesk/navigation.html:76
+#: templates/helpdesk_original/kb_index.html:4
+#: templates/helpdesk_original/navigation.html:21
+#: templates/helpdesk_original/navigation.html:71
 msgid "Knowledgebase"
 msgstr ""
 
 #: templates/helpdesk/kb_index.html:6
+#: templates/helpdesk_original/kb_index.html:6
 msgid ""
 "We have listed a number of knowledgebase articles for your perusal in the "
 "following categories. Please check to see if any of these articles address "
 "your problem prior to opening a support ticket."
 msgstr ""
 
-#: templates/helpdesk/kb_index.html:10
-#: templates/helpdesk/public_homepage.html:10
+#: templates/helpdesk/kb_index.html:9
+#: templates/helpdesk/public_homepage.html:9
+#: templates/helpdesk_original/kb_index.html:9
+#: templates/helpdesk_original/public_homepage.html:9
 msgid "Knowledgebase Categories"
 msgstr ""
 
 #: templates/helpdesk/kb_item.html:4
+#: templates/helpdesk_original/kb_item.html:4
 #, python-format
 msgid "Knowledgebase: %(item)s"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:16
+#: templates/helpdesk/kb_item.html:14
+#: templates/helpdesk_original/kb_item.html:14
 #, python-format
 msgid ""
-"View <a href='%(category_url)s'>other <em>%(category_title)s</em> "
-"articles</a>, or continue <a href='../'>viewing other knowledgebase "
-"articles</a>."
+"View <a href='%(category_url)s'>other <em>%(category_title)s</em> articles</"
+"a>, or continue <a href='../'>viewing other knowledgebase articles</a>."
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:18
+#: templates/helpdesk/kb_item.html:16
+#: templates/helpdesk_original/kb_item.html:16
 msgid "Feedback"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:20
+#: templates/helpdesk/kb_item.html:18
+#: templates/helpdesk_original/kb_item.html:18
 msgid ""
 "We give our users an opportunity to vote for items that they believe have "
 "helped them out, in order for us to better serve future customers. We would "
 "appreciate your feedback on this article. Did you find it useful?"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:23
+#: templates/helpdesk/kb_item.html:21
+#: templates/helpdesk_original/kb_item.html:21
 msgid "This article was useful to me"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:24
+#: templates/helpdesk/kb_item.html:22
+#: templates/helpdesk_original/kb_item.html:22
 msgid "This article was <strong>not</strong> useful to me"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:27
+#: templates/helpdesk/kb_item.html:25
+#: templates/helpdesk_original/kb_item.html:25
 msgid "The results of voting by other readers of this article are below:"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:30
+#: templates/helpdesk/kb_item.html:28
+#: templates/helpdesk_original/kb_item.html:28
 #, python-format
 msgid "Recommendations: %(recommendations)s"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:31
+#: templates/helpdesk/kb_item.html:29
+#: templates/helpdesk_original/kb_item.html:29
 #, python-format
 msgid "Votes: %(votes)s"
 msgstr ""
 
-#: templates/helpdesk/kb_item.html:32
+#: templates/helpdesk/kb_item.html:30
+#: templates/helpdesk_original/kb_item.html:30
 #, python-format
 msgid "Overall Rating: %(score)s"
 msgstr ""
 
-#: templates/helpdesk/navigation.html:16 templates/helpdesk/navigation.html:64
+#: templates/helpdesk/navigation.html:16 templates/helpdesk/navigation.html:65
+#: templates/helpdesk_original/navigation.html:16
+#: templates/helpdesk_original/navigation.html:64
 msgid "Dashboard"
 msgstr ""
 
 #: templates/helpdesk/navigation.html:18
+#: templates/helpdesk_original/navigation.html:18
 msgid "New Ticket"
 msgstr ""
 
 #: templates/helpdesk/navigation.html:19
+#: templates/helpdesk_original/navigation.html:19
 msgid "Stats"
 msgstr ""
 
 #: templates/helpdesk/navigation.html:24
+#: templates/helpdesk_original/navigation.html:24
 msgid "Saved Query"
 msgstr ""
 
-#: templates/helpdesk/navigation.html:39
+#: templates/helpdesk/navigation.html:35 templates/helpdesk/navigation.html:80
+msgid "Change language"
+msgstr ""
+
+#: templates/helpdesk/navigation.html:40
+#: templates/helpdesk_original/navigation.html:39
 msgid "Change password"
 msgstr ""
 
-#: templates/helpdesk/navigation.html:50
+#: templates/helpdesk/navigation.html:51
+#: templates/helpdesk_original/navigation.html:50
 msgid "Search..."
 msgstr ""
 
-#: templates/helpdesk/navigation.html:50
+#: templates/helpdesk/navigation.html:51
+#: templates/helpdesk_original/navigation.html:50
 msgid "Enter a keyword, or a ticket number to jump straight to that ticket."
 msgstr ""
 
 #: templates/helpdesk/navigation.html:73
+msgid "Customer index"
+msgstr ""
+
+#: templates/helpdesk/navigation.html:74
+msgid "Report a car defect"
+msgstr ""
+
+#: templates/helpdesk/navigation.html:78
+#: templates/helpdesk_original/navigation.html:73
 msgid "Logout"
 msgstr ""
 
-#: templates/helpdesk/navigation.html:73
+#: templates/helpdesk/navigation.html:78
+#: templates/helpdesk_original/navigation.html:73
 msgid "Log In"
+msgstr ""
+
+#: templates/helpdesk/public_base.html:6
+#: templates/helpdesk/public_base.html:18
+#: templates/helpdesk/public_base_original.html:6
+#: templates/helpdesk/public_base_original.html:18
+#: templates/helpdesk_original/base.html:52
+#: templates/helpdesk_original/public_base.html:6
+#: templates/helpdesk_original/public_base.html:18
+msgid "Helpdesk"
 msgstr ""
 
 #: templates/helpdesk/public_change_language.html:2
 #: templates/helpdesk/public_homepage.html:73
 #: templates/helpdesk/public_view_form.html:4
 #: templates/helpdesk/public_view_ticket.html:2
+#: templates/helpdesk_original/public_change_language.html:2
+#: templates/helpdesk_original/public_homepage.html:73
+#: templates/helpdesk_original/public_view_form.html:4
+#: templates/helpdesk_original/public_view_ticket.html:2
 msgid "View a Ticket"
 msgstr ""
 
 #: templates/helpdesk/public_change_language.html:5
+#: templates/helpdesk_original/public_change_language.html:5
 msgid "Change the display language"
 msgstr ""
 
 #: templates/helpdesk/public_homepage.html:6
+#: templates/helpdesk_original/public_homepage.html:6
 msgid "Knowledgebase Articles"
 msgstr ""
 
 #: templates/helpdesk/public_homepage.html:28
+#: templates/helpdesk_original/public_homepage.html:28
 msgid "All fields are required."
 msgstr ""
 
 #: templates/helpdesk/public_homepage.html:66
+#: templates/helpdesk_original/public_homepage.html:66
 msgid "Please use button at upper right to login first."
 msgstr ""
 
 #: templates/helpdesk/public_homepage.html:82
 #: templates/helpdesk/public_view_form.html:15
+#: templates/helpdesk_original/public_homepage.html:82
+#: templates/helpdesk_original/public_view_form.html:15
 msgid "Your E-mail Address"
 msgstr ""
 
 #: templates/helpdesk/public_homepage.html:86
 #: templates/helpdesk/public_view_form.html:19
+#: templates/helpdesk_original/public_homepage.html:86
+#: templates/helpdesk_original/public_view_form.html:19
 msgid "View Ticket"
 msgstr ""
 
 #: templates/helpdesk/public_spam.html:4
+#: templates/helpdesk_original/public_spam.html:4
 msgid "Unable To Open Ticket"
 msgstr ""
 
 #: templates/helpdesk/public_spam.html:5
+#: templates/helpdesk_original/public_spam.html:5
 msgid "Sorry, but there has been an error trying to submit your ticket."
 msgstr ""
 
 #: templates/helpdesk/public_spam.html:6
+#: templates/helpdesk_original/public_spam.html:6
 msgid ""
 "Our system has marked your submission as <strong>spam</strong>, so we are "
 "unable to save it. If this is not spam, please press back and re-type your "
@@ -1592,46 +1875,61 @@ msgid ""
 msgstr ""
 
 #: templates/helpdesk/public_spam.html:7
+#: templates/helpdesk_original/public_spam.html:7
 msgid ""
 "We are sorry for any inconvenience, however this check is required to avoid "
 "our helpdesk resources being overloaded by spammers."
 msgstr ""
 
 #: templates/helpdesk/public_view_form.html:8
+#: templates/helpdesk_original/public_view_form.html:8
 msgid "Error:"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:9
+#: templates/helpdesk_original/public_view_ticket.html:9
 #, python-format
 msgid "Queue: %(queue_name)s"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:13
-#: templates/helpdesk/ticket_desc_table.html:32
+#: templates/helpdesk/ticket_desc_table.html:31
+#: templates/helpdesk/ticket_show_only.html:28
+#: templates/helpdesk_original/public_view_ticket.html:13
+#: templates/helpdesk_original/ticket_desc_table.html:32
 msgid "Submitted On"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:35
+#: templates/helpdesk_original/public_view_ticket.html:35
 msgid "Tags"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:48
-#: templates/helpdesk/ticket_desc_table.html:26
+#: templates/helpdesk/ticket_desc_table.html:24
+#: templates/helpdesk_original/public_view_ticket.html:48
+#: templates/helpdesk_original/ticket_desc_table.html:26
 msgid "Accept"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:48
-#: templates/helpdesk/ticket_desc_table.html:26
+#: templates/helpdesk/ticket_desc_table.html:24
+#: templates/helpdesk_original/public_view_ticket.html:48
+#: templates/helpdesk_original/ticket_desc_table.html:26
 msgid "Accept and Close"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:57
-#: templates/helpdesk/ticket.html:66
+#: templates/helpdesk/ticket.html:68
+#: templates/helpdesk_original/public_view_ticket.html:57
+#: templates/helpdesk_original/ticket.html:68
 msgid "Follow-Ups"
 msgstr ""
 
 #: templates/helpdesk/public_view_ticket.html:65
-#: templates/helpdesk/ticket.html:100
+#: templates/helpdesk/ticket.html:102
+#: templates/helpdesk_original/public_view_ticket.html:65
+#: templates/helpdesk_original/ticket.html:102
 #, python-format
 msgid "Changed %(field)s from %(old_value)s to %(new_value)s."
 msgstr ""
@@ -1640,64 +1938,91 @@ msgstr ""
 #: templates/helpdesk/report_index.html:6
 #: templates/helpdesk/report_output.html:3
 #: templates/helpdesk/report_output.html:16
+#: templates/helpdesk_original/report_index.html:3
+#: templates/helpdesk_original/report_index.html:6
+#: templates/helpdesk_original/report_output.html:3
+#: templates/helpdesk_original/report_output.html:16
 msgid "Reports &amp; Statistics"
 msgstr ""
 
 #: templates/helpdesk/report_index.html:9
+#: templates/helpdesk_original/report_index.html:9
 msgid "You haven't created any tickets yet, so you cannot run any reports."
 msgstr ""
 
 #: templates/helpdesk/report_index.html:13
+#: templates/helpdesk_original/report_index.html:13
 msgid "Reports By User"
 msgstr ""
 
 #: templates/helpdesk/report_index.html:15
 #: templates/helpdesk/report_index.html:24
+#: templates/helpdesk_original/report_index.html:15
+#: templates/helpdesk_original/report_index.html:24
 msgid "by Priority"
 msgstr ""
 
 #: templates/helpdesk/report_index.html:16
+#: templates/helpdesk_original/report_index.html:16
 msgid "by Queue"
 msgstr ""
 
 #: templates/helpdesk/report_index.html:17
 #: templates/helpdesk/report_index.html:25
+#: templates/helpdesk_original/report_index.html:17
+#: templates/helpdesk_original/report_index.html:25
 msgid "by Status"
 msgstr ""
 
 #: templates/helpdesk/report_index.html:18
 #: templates/helpdesk/report_index.html:26
+#: templates/helpdesk_original/report_index.html:18
+#: templates/helpdesk_original/report_index.html:26
 msgid "by Month"
 msgstr ""
 
 #: templates/helpdesk/report_index.html:22
+#: templates/helpdesk_original/report_index.html:22
 msgid "Reports By Queue"
 msgstr ""
 
-#: templates/helpdesk/report_index.html:27 views/staff.py:1049
+#: templates/helpdesk/report_index.html:27
+#: templates/helpdesk_original/report_index.html:27 views/staff.py:1170
 msgid "Days until ticket closed by Month"
 msgstr ""
 
 #: templates/helpdesk/report_output.html:19
+#: templates/helpdesk_original/report_output.html:19
 msgid ""
 "You can run this query on filtered data by using one of your saved queries."
 msgstr ""
 
 #: templates/helpdesk/report_output.html:21
+#: templates/helpdesk_original/report_output.html:21
 msgid "Select Query:"
 msgstr ""
 
 #: templates/helpdesk/report_output.html:26
+#: templates/helpdesk_original/report_output.html:26
 msgid "Filter Report"
 msgstr ""
 
 #: templates/helpdesk/report_output.html:29
+#: templates/helpdesk_original/report_output.html:29
 msgid ""
 "Want to filter this report to just show a subset of data? Go to the Ticket "
 "List, filter your query, and save your query."
 msgstr ""
 
+#: templates/helpdesk/rss_list.html:2 templates/helpdesk/rss_list.html.py:4
+#: templates/helpdesk_original/base.html:62
+#: templates/helpdesk_original/rss_list.html:2
+#: templates/helpdesk_original/rss_list.html:4
+msgid "RSS Feeds"
+msgstr ""
+
 #: templates/helpdesk/rss_list.html:6
+#: templates/helpdesk_original/rss_list.html:6
 msgid ""
 "The following RSS feeds are available for you to monitor using your "
 "preferred RSS software. With the exception of the 'Latest Activity' feed, "
@@ -1705,29 +2030,46 @@ msgid ""
 "your RSS reader isn't full of information about closed or historical tasks."
 msgstr ""
 
+#: templates/helpdesk/rss_list.html:9 templates/helpdesk/rss_list.html:12
+#: templates/helpdesk/rss_list.html:15 templates/helpdesk/rss_list.html:30
+#: templates/helpdesk/rss_list.html:31
+#: templates/helpdesk_original/base.html:62
+#: templates/helpdesk_original/rss_list.html:9
+#: templates/helpdesk_original/rss_list.html:12
+#: templates/helpdesk_original/rss_list.html:15
+#: templates/helpdesk_original/rss_list.html:30
+#: templates/helpdesk_original/rss_list.html:31
+msgid "RSS Icon"
+msgstr ""
+
 #: templates/helpdesk/rss_list.html:10
+#: templates/helpdesk_original/rss_list.html:10
 msgid ""
 "A summary of your open tickets - useful for getting alerted to new tickets "
 "opened for you"
 msgstr ""
 
 #: templates/helpdesk/rss_list.html:12
+#: templates/helpdesk_original/rss_list.html:12
 msgid "Latest Activity"
 msgstr ""
 
 #: templates/helpdesk/rss_list.html:13
+#: templates/helpdesk_original/rss_list.html:13
 msgid ""
 "A summary of all helpdesk activity - including comments, emails, "
 "attachments, and more"
 msgstr ""
 
 #: templates/helpdesk/rss_list.html:16
+#: templates/helpdesk_original/rss_list.html:16
 msgid ""
 "All unassigned tickets - useful for being alerted to new tickets opened by "
 "the public via the web or via e-mail"
 msgstr ""
 
 #: templates/helpdesk/rss_list.html:19
+#: templates/helpdesk_original/rss_list.html:19
 msgid ""
 "These RSS feeds allow you to view a summary of either your own tickets, or "
 "all tickets, for each of the queues in your helpdesk. For example, if you "
@@ -1735,232 +2077,297 @@ msgid ""
 "new tickets coming into that queue."
 msgstr ""
 
-#: templates/helpdesk/rss_list.html:23
+#: templates/helpdesk/rss_list.html:22
+#: templates/helpdesk_original/rss_list.html:22
 msgid "Per-Queue Feeds"
 msgstr ""
 
 #: templates/helpdesk/rss_list.html:24
+#: templates/helpdesk_original/rss_list.html:24
 msgid "All Open Tickets"
 msgstr ""
 
 #: templates/helpdesk/rss_list.html:30
+#: templates/helpdesk_original/rss_list.html:30
 msgid "Open Tickets"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:3
+#: templates/helpdesk_original/system_settings.html:3
 msgid "Change System Settings"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:8
+#: templates/helpdesk_original/system_settings.html:8
 msgid "The following items can be maintained by you or other superusers:"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:11
+#: templates/helpdesk_original/system_settings.html:11
 msgid "E-Mail Ignore list"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:12
+#: templates/helpdesk_original/system_settings.html:12
 msgid "Maintain Queues"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:13
+#: templates/helpdesk_original/system_settings.html:13
 msgid "Maintain Pre-Set Replies"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:14
+#: templates/helpdesk_original/system_settings.html:14
 msgid "Maintain Knowledgebase Categories"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:15
+#: templates/helpdesk_original/system_settings.html:15
 msgid "Maintain Knowledgebase Items"
 msgstr ""
 
 #: templates/helpdesk/system_settings.html:16
+#: templates/helpdesk_original/system_settings.html:16
 msgid "Maintain E-Mail Templates"
 msgstr ""
 
-#: templates/helpdesk/system_settings.html:17
-msgid "Maintain Users"
-msgstr ""
-
-#: templates/helpdesk/ticket.html:2
+#: templates/helpdesk/ticket.html:2 templates/helpdesk/ticket_show_only.html:2
+#: templates/helpdesk_original/ticket.html:2
 msgid "View Ticket Details"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:34
+#: templates/helpdesk/ticket.html:36
+#: templates/helpdesk/manager/show_ticket.html:38
+#: templates/helpdesk_original/ticket.html:36
 msgid "Attach another File"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:34 templates/helpdesk/ticket.html.py:200
+#: templates/helpdesk/ticket.html:36
+#: templates/helpdesk/manager/show_ticket.html:38
+#: templates/helpdesk_original/ticket.html:36
+#: templates/helpdesk_original/ticket.html:202
 msgid "Add Another File"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:73 templates/helpdesk/ticket.html.py:86
+#: templates/helpdesk/ticket.html:75 templates/helpdesk/ticket.html.py:88
+#: templates/helpdesk_original/ticket.html:75
+#: templates/helpdesk_original/ticket.html:88
 msgid "Private"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:119
+#: templates/helpdesk/ticket.html:121
+#: templates/helpdesk/manager/show_ticket.html:85
+#: templates/helpdesk_original/ticket.html:121
 msgid "Respond to this ticket"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:126
+#: templates/helpdesk/ticket.html:128
+#: templates/helpdesk/manager/show_ticket.html:92
+#: templates/helpdesk_original/ticket.html:128
 msgid "Use a Pre-set Reply"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:126 templates/helpdesk/ticket.html.py:166
+#: templates/helpdesk/ticket.html:128 templates/helpdesk/ticket.html.py:175
+#: templates/helpdesk/manager/show_ticket.html:92
+#: templates/helpdesk/manager/show_ticket.html:138
+#: templates/helpdesk_original/ticket.html:128
+#: templates/helpdesk_original/ticket.html:168
 msgid "(Optional)"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:128
+#: templates/helpdesk/ticket.html:130
+#: templates/helpdesk/manager/show_ticket.html:94
+#: templates/helpdesk_original/ticket.html:130
 msgid ""
 "Selecting a pre-set reply will over-write your comment below. You can then "
 "modify the pre-set reply to your liking before saving this update."
 msgstr ""
 
-#: templates/helpdesk/ticket.html:131
+#: templates/helpdesk/ticket.html:133
+#: templates/helpdesk/manager/show_ticket.html:97
+#: templates/helpdesk_original/ticket.html:133
 msgid "Comment / Resolution"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:133
+#: templates/helpdesk/ticket.html:135
+#: templates/helpdesk/manager/show_ticket.html:99
+#: templates/helpdesk_original/ticket.html:135
 msgid ""
 "You can insert ticket and queue details in your message. For more "
 "information, see the <a href='../../help/context/'>context help page</a>."
 msgstr ""
 
-#: templates/helpdesk/ticket.html:136
+#: templates/helpdesk/ticket.html:138
+#: templates/helpdesk/manager/show_ticket.html:102
+#: templates/helpdesk_original/ticket.html:138
 msgid ""
-"This ticket cannot be resolved or closed until the tickets it depends on are"
-" resolved."
+"This ticket cannot be resolved or closed until the tickets it depends on are "
+"resolved."
 msgstr ""
 
-#: templates/helpdesk/ticket.html:166
+#: templates/helpdesk/ticket.html:175
+#: templates/helpdesk/manager/show_ticket.html:138
+#: templates/helpdesk_original/ticket.html:168
 msgid "Is this update public?"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:168
+#: templates/helpdesk/ticket.html:177
+#: templates/helpdesk/manager/show_ticket.html:140
+#: templates/helpdesk_original/ticket.html:170
 msgid ""
-"If this is public, the submitter will be e-mailed your comment or "
-"resolution."
+"If this is public, the submitter will be e-mailed your comment or resolution."
 msgstr ""
 
-#: templates/helpdesk/ticket.html:172
+#: templates/helpdesk/ticket.html:181
+msgid "Logged hours:"
+msgstr ""
+
+#: templates/helpdesk/ticket.html:185
+#: templates/helpdesk_original/ticket.html:174
 msgid "Change Further Details &raquo;"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:181 templates/helpdesk/ticket_list.html:68
-#: templates/helpdesk/ticket_list.html:97
-#: templates/helpdesk/ticket_list.html:225
+#: templates/helpdesk/ticket.html:194 templates/helpdesk/ticket_list.html:67
+#: templates/helpdesk/ticket_list.html:96
+#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk_original/ticket.html:183
+#: templates/helpdesk_original/ticket_list.html:67
+#: templates/helpdesk_original/ticket_list.html:96
+#: templates/helpdesk_original/ticket_list.html:224
 msgid "Owner"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:182
+#: templates/helpdesk/ticket.html:195
+#: templates/helpdesk_original/ticket.html:184
 msgid "Unassign"
 msgstr ""
 
-#: templates/helpdesk/ticket.html:193
-msgid "Attach File(s) &raquo;"
-msgstr ""
-
-#: templates/helpdesk/ticket.html:199
-msgid "Attach a File"
-msgstr ""
-
-#: templates/helpdesk/ticket.html:207
+#: templates/helpdesk/ticket.html:208
+#: templates/helpdesk/manager/show_ticket.html:145
+#: templates/helpdesk_original/ticket.html:209
 msgid "Update This Ticket"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_add.html:3
+#: templates/helpdesk_original/ticket_cc_add.html:3
 msgid "Add Ticket CC"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_add.html:5
+#: templates/helpdesk_original/ticket_cc_add.html:5
 msgid ""
 "\n"
 "<h2>Add Ticket CC</h2>\n"
 "\n"
-"<p>To automatically send an email to a user or e-mail address when this ticket is updated, select the user or enter an e-mail address below.</p>"
+"<p>To automatically send an email to a user or e-mail address when this "
+"ticket is updated, select the user or enter an e-mail address below.</p>"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_add.html:21
+#: templates/helpdesk_original/ticket_cc_add.html:21
 msgid "Save Ticket CC"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_del.html:3
+#: templates/helpdesk_original/ticket_cc_del.html:3
 msgid "Delete Ticket CC"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_del.html:5
+#: templates/helpdesk_original/ticket_cc_del.html:5
 #, python-format
 msgid ""
 "\n"
 "<h2>Delete Ticket CC</h2>\n"
 "\n"
-"<p>Are you sure you wish to delete this email address (<em>%(email_address)s</em>) from the CC list for this ticket? They will stop receiving updates.</p>\n"
+"<p>Are you sure you wish to delete this email address (<em>"
+"%(email_address)s</em>) from the CC list for this ticket? They will stop "
+"receiving updates.</p>\n"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_del.html:11
 #: templates/helpdesk/ticket_dependency_del.html:11
+#: templates/helpdesk_original/ticket_cc_del.html:11
+#: templates/helpdesk_original/ticket_dependency_del.html:11
 msgid "Don't Delete"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_del.html:13
 #: templates/helpdesk/ticket_dependency_del.html:13
+#: templates/helpdesk_original/ticket_cc_del.html:13
+#: templates/helpdesk_original/ticket_dependency_del.html:13
 msgid "Yes, Delete"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_list.html:3
+#: templates/helpdesk_original/ticket_cc_list.html:3
 msgid "Ticket CC Settings"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_list.html:5
+#: templates/helpdesk_original/ticket_cc_list.html:5
 #, python-format
 msgid ""
 "\n"
 "<h2>Ticket CC Settings</h2>\n"
 "\n"
-"<p>The following people will receive an e-mail whenever <em><a href='../'>%(ticket_title)s</a></em> is updated. Some people can also view or edit the ticket via the public ticket views.</p>\n"
+"<p>The following people will receive an e-mail whenever <em><a href='../'>"
+"%(ticket_title)s</a></em> is updated. Some people can also view or edit the "
+"ticket via the public ticket views.</p>\n"
 "\n"
-"<p>You can <a href='add/'>add a new e-mail address to the list</a> or delete any of the items below as required.</p>"
+"<p>You can <a href='add/'>add a new e-mail address to the list</a> or delete "
+"any of the items below as required.</p>"
 msgstr ""
 
-#: templates/helpdesk/ticket_cc_list.html:14
+#: templates/helpdesk/ticket_cc_list.html:13
+#: templates/helpdesk_original/ticket_cc_list.html:13
 msgid "Ticket CC List"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_list.html:15
+#: templates/helpdesk_original/ticket_cc_list.html:15
 msgid "View?"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_list.html:15
+#: templates/helpdesk_original/ticket_cc_list.html:15
 msgid "Update?"
 msgstr ""
 
 #: templates/helpdesk/ticket_cc_list.html:29
+#: templates/helpdesk_original/ticket_cc_list.html:29
 #, python-format
 msgid "Return to <em>%(ticket_title)s</em>"
 msgstr ""
 
 #: templates/helpdesk/ticket_dependency_add.html:3
+#: templates/helpdesk_original/ticket_dependency_add.html:3
 msgid "Add Ticket Dependency"
 msgstr ""
 
 #: templates/helpdesk/ticket_dependency_add.html:5
+#: templates/helpdesk_original/ticket_dependency_add.html:5
 msgid ""
 "\n"
 "<h2>Add Ticket Dependency</h2>\n"
 "\n"
-"<p>Adding a dependency will stop you resolving this ticket until the dependent ticket has been resolved or closed.</p>"
+"<p>Adding a dependency will stop you resolving this ticket until the "
+"dependent ticket has been resolved or closed.</p>"
 msgstr ""
 
 #: templates/helpdesk/ticket_dependency_add.html:21
+#: templates/helpdesk_original/ticket_dependency_add.html:21
 msgid "Save Ticket Dependency"
 msgstr ""
 
 #: templates/helpdesk/ticket_dependency_del.html:3
+#: templates/helpdesk_original/ticket_dependency_del.html:3
 msgid "Delete Ticket Dependency"
 msgstr ""
 
 #: templates/helpdesk/ticket_dependency_del.html:5
+#: templates/helpdesk_original/ticket_dependency_del.html:5
 msgid ""
 "\n"
 "<h2>Delete Ticket Dependency</h2>\n"
@@ -1969,299 +2376,555 @@ msgid ""
 msgstr ""
 
 #: templates/helpdesk/ticket_desc_table.html:7
-msgid "Unhold"
-msgstr ""
-
-#: templates/helpdesk/ticket_desc_table.html:7
-msgid "Hold"
-msgstr ""
-
-#: templates/helpdesk/ticket_desc_table.html:9
+#: templates/helpdesk/ticket_show_only.html:11
+#: templates/helpdesk_original/ticket_desc_table.html:9
 #, python-format
 msgid "Queue: %(queue)s"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:37
+#: templates/helpdesk/ticket_desc_table.html:36
+#: templates/helpdesk/ticket_show_only.html:33
+#: templates/helpdesk_original/ticket_desc_table.html:37
 msgid "Assigned To"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:43
-msgid "Ignore"
+#: templates/helpdesk/ticket_desc_table.html:37
+#: templates/helpdesk/ticket_show_only.html:34
+#: templates/helpdesk/include/unassigned.html:15
+#: templates/helpdesk/technician/index.html:35
+#: templates/helpdesk/technician/index.html:45
+#: templates/helpdesk_original/ticket_desc_table.html:38
+#: templates/helpdesk_original/include/unassigned.html:15
+msgid "Take"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:52
+#: templates/helpdesk/ticket_desc_table.html:37
+#: templates/helpdesk/ticket_desc_table.html:42
+msgid "Username"
+msgstr ""
+
+#: templates/helpdesk/ticket_desc_table.html:37
+#: templates/helpdesk/ticket_desc_table.html:42
+msgid "E-mail"
+msgstr ""
+
+#: templates/helpdesk/ticket_desc_table.html:41
+msgid "Reported by"
+msgstr ""
+
+#: templates/helpdesk/ticket_desc_table.html:51
+#: templates/helpdesk_original/ticket_desc_table.html:52
 msgid "Copies To"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:53
+#: templates/helpdesk/ticket_desc_table.html:52
+#: templates/helpdesk_original/ticket_desc_table.html:53
+msgid ""
+"Click here to add / remove people who should receive an e-mail whenever this "
+"ticket is updated."
+msgstr ""
+
+#: templates/helpdesk/ticket_desc_table.html:52
+#: templates/helpdesk_original/ticket_desc_table.html:53
 msgid "Manage"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:53
+#: templates/helpdesk/ticket_desc_table.html:52
+#: templates/helpdesk_original/ticket_desc_table.html:53
 msgid ""
-"Click here to add / remove people who should receive an e-mail whenever this"
-" ticket is updated."
+"Click here to subscribe yourself to this ticket, if you want to receive an e-"
+"mail whenever this ticket is updated."
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:53
+#: templates/helpdesk/ticket_desc_table.html:52
+#: templates/helpdesk_original/ticket_desc_table.html:53
 msgid "Subscribe"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:53
-msgid ""
-"Click here to subscribe yourself to this ticket, if you want to receive an "
-"e-mail whenever this ticket is updated."
-msgstr ""
-
-#: templates/helpdesk/ticket_desc_table.html:57
+#: templates/helpdesk/ticket_desc_table.html:56
+#: templates/helpdesk/ticket_show_only.html:48
+#: templates/helpdesk_original/ticket_desc_table.html:57
 msgid "Dependencies"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:59
+#: templates/helpdesk/ticket_desc_table.html:58
+#: templates/helpdesk/ticket_show_only.html:50
+#: templates/helpdesk_original/ticket_desc_table.html:59
 msgid ""
 "This ticket cannot be resolved until the following ticket(s) are resolved"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:60
+#: templates/helpdesk/ticket_desc_table.html:59
+#: templates/helpdesk/ticket_show_only.html:51
+#: templates/helpdesk_original/ticket_desc_table.html:60
 msgid "Remove Dependency"
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:63
+#: templates/helpdesk/ticket_desc_table.html:62
+#: templates/helpdesk/ticket_show_only.html:54
+#: templates/helpdesk_original/ticket_desc_table.html:63
 msgid "This ticket has no dependencies."
 msgstr ""
 
-#: templates/helpdesk/ticket_desc_table.html:65
-msgid "Add Dependency"
-msgstr ""
-
-#: templates/helpdesk/ticket_desc_table.html:65
+#: templates/helpdesk/ticket_desc_table.html:64
+#: templates/helpdesk_original/ticket_desc_table.html:65
 msgid ""
 "Click on 'Add Dependency', if you want to make this ticket dependent on "
 "another ticket. A ticket may not be closed until all tickets it depends on "
 "are closed."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:59
+#: templates/helpdesk/ticket_desc_table.html:64
+#: templates/helpdesk_original/ticket_desc_table.html:65
+msgid "Add Dependency"
+msgstr ""
+
+#: templates/helpdesk/ticket_list.html:58
+#: templates/helpdesk_original/ticket_list.html:58
 msgid "Change Query"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:67
-#: templates/helpdesk/ticket_list.html:79
+#: templates/helpdesk/ticket_list.html:66
+#: templates/helpdesk/ticket_list.html:78
+#: templates/helpdesk_original/ticket_list.html:66
+#: templates/helpdesk_original/ticket_list.html:78
 msgid "Sorting"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:71
-#: templates/helpdesk/ticket_list.html:139
+#: templates/helpdesk/ticket_list.html:70
+#: templates/helpdesk/ticket_list.html:138
+#: templates/helpdesk_original/ticket_list.html:70
+#: templates/helpdesk_original/ticket_list.html:138
 msgid "Keywords"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:72
+#: templates/helpdesk/ticket_list.html:71
+#: templates/helpdesk_original/ticket_list.html:71
 msgid "Date Range"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:100
+#: templates/helpdesk/ticket_list.html:99
+#: templates/helpdesk_original/ticket_list.html:99
 msgid "Reverse"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:102
+#: templates/helpdesk/ticket_list.html:101
+#: templates/helpdesk_original/ticket_list.html:101
 msgid "Ordering applied to tickets"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:107
+#: templates/helpdesk/ticket_list.html:106
+#: templates/helpdesk_original/ticket_list.html:106
 msgid "Owner(s)"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:111
+#: templates/helpdesk/ticket_list.html:110
+#: templates/helpdesk_original/ticket_list.html:110
 msgid "(ME)"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:115
+#: templates/helpdesk/ticket_list.html:114
+#: templates/helpdesk_original/ticket_list.html:114
 msgid "Ctrl-Click to select multiple options"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:120
+#: templates/helpdesk/ticket_list.html:119
+#: templates/helpdesk_original/ticket_list.html:119
 msgid "Queue(s)"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:121
-#: templates/helpdesk/ticket_list.html:127
+#: templates/helpdesk/ticket_list.html:120
+#: templates/helpdesk/ticket_list.html:126
+#: templates/helpdesk_original/ticket_list.html:120
+#: templates/helpdesk_original/ticket_list.html:126
 msgid "Ctrl-click to select multiple options"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:126
+#: templates/helpdesk/ticket_list.html:125
+#: templates/helpdesk_original/ticket_list.html:125
 msgid "Status(es)"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:132
+#: templates/helpdesk/ticket_list.html:131
+#: templates/helpdesk_original/ticket_list.html:131
 msgid "Date (From)"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:133
+#: templates/helpdesk/ticket_list.html:132
+#: templates/helpdesk_original/ticket_list.html:132
 msgid "Date (To)"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:134
+#: templates/helpdesk/ticket_list.html:133
+#: templates/helpdesk_original/ticket_list.html:133
 msgid "Use YYYY-MM-DD date format, eg 2011-05-29"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:140
+#: templates/helpdesk/ticket_list.html:139
+#: templates/helpdesk_original/ticket_list.html:139
 msgid ""
-"Keywords are case-insensitive, and will be looked for in the title, body and"
-" submitter fields."
+"Keywords are case-insensitive, and will be looked for in the title, body and "
+"submitter fields."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:144
+#: templates/helpdesk/ticket_list.html:143
+#: templates/helpdesk_original/ticket_list.html:143
 msgid "Apply Filter"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:146
+#: templates/helpdesk/ticket_list.html:145
+#: templates/helpdesk_original/ticket_list.html:145
 #, python-format
-msgid "You are currently viewing saved query <strong>\"%(query_name)s\"</strong>."
+msgid ""
+"You are currently viewing saved query <strong>\"%(query_name)s\"</strong>."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:149
+#: templates/helpdesk/ticket_list.html:148
+#: templates/helpdesk_original/ticket_list.html:148
 #, python-format
 msgid ""
 "<a href='../reports/?saved_query=%(query_id)s'>Run a report</a> on this "
 "query to see stats and charts for the data listed below."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:162
-#: templates/helpdesk/ticket_list.html:181
+#: templates/helpdesk/ticket_list.html:161
+#: templates/helpdesk/ticket_list.html:180
+#: templates/helpdesk_original/ticket_list.html:161
+#: templates/helpdesk_original/ticket_list.html:180
 msgid "Save Query"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:172
+#: templates/helpdesk/ticket_list.html:171
+#: templates/helpdesk_original/ticket_list.html:171
 msgid ""
 "This name appears in the drop-down list of saved queries. If you share your "
 "query, other users will see this name, so choose something clear and "
 "descriptive!"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:174
+#: templates/helpdesk/ticket_list.html:173
+#: templates/helpdesk_original/ticket_list.html:173
 msgid "Shared?"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:175
+#: templates/helpdesk/ticket_list.html:174
+#: templates/helpdesk_original/ticket_list.html:174
 msgid "Yes, share this query with other users."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:176
+#: templates/helpdesk/ticket_list.html:175
+#: templates/helpdesk_original/ticket_list.html:175
 msgid ""
 "If you share this query, it will be visible by <em>all</em> other logged-in "
 "users."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:195
+#: templates/helpdesk/ticket_list.html:194
+#: templates/helpdesk_original/ticket_list.html:194
 msgid "Use Saved Query"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:202
+#: templates/helpdesk/ticket_list.html:201
+#: templates/helpdesk_original/ticket_list.html:201
 msgid "Query"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:207
+#: templates/helpdesk/ticket_list.html:206
+#: templates/helpdesk_original/ticket_list.html:206
 msgid "Run Query"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:240
+#: templates/helpdesk/ticket_list.html:224
+#: templates/helpdesk/include/tickets.html:5
+#: templates/helpdesk/include/unassigned.html:5
+#: templates/helpdesk_original/ticket_list.html:224
+#: templates/helpdesk_original/include/tickets.html:5
+#: templates/helpdesk_original/include/unassigned.html:5
+msgid "Pr"
+msgstr ""
+
+#: templates/helpdesk/ticket_list.html:238
+#: templates/helpdesk_original/ticket_list.html:239
 msgid "No Tickets Match Your Selection"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:247
+#: templates/helpdesk/ticket_list.html:245
+#: templates/helpdesk_original/ticket_list.html:246
 msgid "Previous"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:251
+#: templates/helpdesk/ticket_list.html:249
+#: templates/helpdesk_original/ticket_list.html:250
 #, python-format
 msgid "Page %(ticket_num)s of %(num_pages)s."
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:255
+#: templates/helpdesk/ticket_list.html:253
+#: templates/helpdesk_original/ticket_list.html:254
 msgid "Next"
 msgstr ""
 
-#: templates/helpdesk/ticket_list.html:260
-msgid "Select:"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:260
-msgid "None"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:260
-msgid "Inverse"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "With Selected Tickets:"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "Take (Assign to me)"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "Close"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "Close (Don't Send E-Mail)"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "Close (Send E-Mail)"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "Assign To"
-msgstr ""
-
-#: templates/helpdesk/ticket_list.html:262
-msgid "Nobody (Unassign)"
+#: templates/helpdesk/ticket_show_only.html:39
+#: templates/helpdesk_original/ticket_desc_table.html:43
+msgid "Ignore"
 msgstr ""
 
 #: templates/helpdesk/user_settings.html:3
+#: templates/helpdesk_original/user_settings.html:3
 msgid "Change User Settings"
 msgstr ""
 
 #: templates/helpdesk/user_settings.html:8
+#: templates/helpdesk_original/user_settings.html:8
 msgid ""
 "Use the following options to change the way your helpdesk system works for "
 "you. These settings do not impact any other user."
 msgstr ""
 
 #: templates/helpdesk/user_settings.html:14
+#: templates/helpdesk_original/user_settings.html:14
 msgid "Save Options"
 msgstr ""
 
+#: templates/helpdesk/customer/index.html:11
+#: templates/helpdesk/customer/index.html:33
+#: templates/helpdesk/customer/show_ticket.html:22
+#: templates/helpdesk/customer/ticket_supplement.html:22
+#: templates/helpdesk/include/tickets.html:5
+#: templates/helpdesk/manager/index.html:11
+#: templates/helpdesk/manager/index.html:35
+#: templates/helpdesk/manager/show_ticket.html:64
+#: templates/helpdesk/technician/index.html:11
+#: templates/helpdesk/technician/index.html:35
+#: templates/helpdesk/technician/show_ticket.html:22
+#: templates/helpdesk_original/include/tickets.html:5
+msgid "Last Update"
+msgstr ""
+
+#: templates/helpdesk/customer/index.html:23
+#: templates/helpdesk/customer/index.html:46
+msgid "There are no tickets."
+msgstr ""
+
+#: templates/helpdesk/customer/index.html:31
+msgid "All Tickets submitted by you that need more specific information"
+msgstr ""
+
+#: templates/helpdesk/customer/index.html:33
+#: templates/helpdesk/customer/index.html:43
+msgid "Supplement"
+msgstr ""
+
+#: templates/helpdesk/customer/show_ticket.html:3
+#: templates/helpdesk/customer/show_ticket.html:8
+#: templates/helpdesk/customer/ticket_supplement.html:3
+#: templates/helpdesk/customer/ticket_supplement.html:8
+#: templates/helpdesk/manager/show_ticket.html:3
+#: templates/helpdesk/manager/show_ticket.html:50
+#: templates/helpdesk/technician/show_ticket.html:3
+#: templates/helpdesk/technician/show_ticket.html:8
+msgid "Ticket Overview"
+msgstr ""
+
+#: templates/helpdesk/customer/show_ticket.html:41
+#: templates/helpdesk/customer/ticket_supplement.html:62
+#: templates/helpdesk/manager/show_ticket.html:152
+#: templates/helpdesk/technician/show_ticket.html:41
+msgid "Back to overview"
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:3
+#: templates/helpdesk_original/include/stats.html:3
+msgid "Current Ticket Stats"
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:5
+#: templates/helpdesk_original/include/stats.html:5
+msgid "Average number of days until ticket is closed (all tickets): "
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:6
+#: templates/helpdesk_original/include/stats.html:6
+msgid ""
+"Average number of days until ticket is closed (tickets opened in last 60 "
+"days): "
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:7
+#: templates/helpdesk_original/include/stats.html:7
+msgid "Click"
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:7
+#: templates/helpdesk_original/include/stats.html:7
+msgid "for detailed average by month."
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:8
+#: templates/helpdesk_original/include/stats.html:8
+msgid "Distribution of open tickets, grouped by time period:"
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:9
+#: templates/helpdesk_original/include/stats.html:9
+msgid "Days since opened"
+msgstr ""
+
+#: templates/helpdesk/include/stats.html:9
+#: templates/helpdesk_original/include/stats.html:9
+msgid "Number of open tickets"
+msgstr ""
+
+#: templates/helpdesk/include/summary.html:3
+#: templates/helpdesk_original/include/summary.html:3
+msgid "Helpdesk Summary"
+msgstr ""
+
+#: templates/helpdesk/include/unassigned.html:3
+#: templates/helpdesk_original/include/unassigned.html:3
+msgid "(pick up a ticket if you start to work on it)"
+msgstr ""
+
+#: templates/helpdesk/include/unassigned.html:18
+#: templates/helpdesk_original/include/unassigned.html:18
+msgid "There are no unassigned tickets."
+msgstr ""
+
+#: templates/helpdesk/manager/index.html:3
+msgid "Manager Helpdesk Overview"
+msgstr ""
+
+#: templates/helpdesk/manager/index.html:33
+msgid "All Ticket with solution waiting for validation"
+msgstr ""
+
+#: templates/helpdesk/manager/show_ticket.html:119
+msgid "Ticket is available to be taken and solved, click 'Take' to take it."
+msgstr ""
+
 #: templates/helpdesk/registration/logged_out.html:2
+#: templates/helpdesk_original/registration/logged_out.html:2
 msgid "Logged Out"
 msgstr ""
 
 #: templates/helpdesk/registration/logged_out.html:4
+#: templates/helpdesk_original/registration/logged_out.html:4
 msgid ""
 "\n"
 "<h2>Logged Out</h2>\n"
 "\n"
-"<p>Thanks for being here. Hopefully you've helped resolve a few tickets and make the world a better place.</p>\n"
+"<p>Thanks for being here. Hopefully you've helped resolve a few tickets and "
+"make the world a better place.</p>\n"
 "\n"
 msgstr ""
 
 #: templates/helpdesk/registration/login.html:2
+#: templates/helpdesk_original/registration/login.html:2
 msgid "Helpdesk Login"
 msgstr ""
 
 #: templates/helpdesk/registration/login.html:14
+#: templates/helpdesk_original/registration/login.html:14
 msgid "To log in simply enter your username and password below."
 msgstr ""
 
 #: templates/helpdesk/registration/login.html:17
+#: templates/helpdesk_original/registration/login.html:17
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
 #: templates/helpdesk/registration/login.html:20
+#: templates/helpdesk_original/registration/login.html:20
 msgid "Login"
+msgstr ""
+
+#: templates/helpdesk/technician/index.html:3
+msgid "Technician Helpdesk Overview"
+msgstr ""
+
+#: templates/helpdesk/technician/index.html:9
+msgid "All Tickets being resolved by you"
+msgstr ""
+
+#: templates/helpdesk/technician/index.html:33
+msgid "All Tickets without solver"
+msgstr ""
+
+#: templates/helpdesk_original/base.html:10
+msgid "Powered by django-helpdesk"
+msgstr ""
+
+#: templates/helpdesk_original/dashboard.html:26
+msgid "Closed & resolved Tickets you used to work on"
+msgstr ""
+
+#: templates/helpdesk_original/ticket.html:143
+#: templates/helpdesk_original/ticket.html:149
+#: templates/helpdesk_original/ticket.html:162
+msgid "Duplicate"
+msgstr ""
+
+#: templates/helpdesk_original/ticket.html:146
+#: templates/helpdesk_original/ticket.html:152
+#: templates/helpdesk_original/ticket.html:157
+#: templates/helpdesk_original/ticket.html:161
+msgid "Reopened"
+msgstr ""
+
+#: templates/helpdesk_original/ticket.html:195
+msgid "Attach File(s) &raquo;"
+msgstr ""
+
+#: templates/helpdesk_original/ticket.html:201
+msgid "Attach a File"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_desc_table.html:7
+msgid "Unhold"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_desc_table.html:7
+msgid "Hold"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:259
+msgid "Select:"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:259
+msgid "None"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:259
+msgid "Inverse"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "With Selected Tickets:"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "Take (Assign to me)"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "Close"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "Close (Don't Send E-Mail)"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "Close (Send E-Mail)"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "Assign To"
+msgstr ""
+
+#: templates/helpdesk_original/ticket_list.html:261
+msgid "Nobody (Unassign)"
 msgstr ""
 
 #: views/feeds.py:39
@@ -2312,82 +2975,82 @@ msgstr ""
 msgid "Open and Reopened Tickets in queue %(queue)s"
 msgstr ""
 
-#: views/public.py:89
+#: views/public.py:100
 msgid "Invalid ticket ID or e-mail address. Please try again."
 msgstr ""
 
-#: views/public.py:107
+#: views/public.py:118
 msgid "Submitter accepted resolution and closed ticket"
 msgstr ""
 
-#: views/staff.py:235
+#: views/staff.py:315
 msgid "Accepted resolution and closed ticket"
 msgstr ""
 
-#: views/staff.py:369
+#: views/staff.py:453
 #, python-format
 msgid "Assigned to %(username)s"
 msgstr ""
 
-#: views/staff.py:392
+#: views/staff.py:476
 msgid "Updated"
 msgstr ""
 
-#: views/staff.py:577
+#: views/staff.py:664
 #, python-format
 msgid "Assigned to %(username)s in bulk update"
 msgstr ""
 
-#: views/staff.py:582
+#: views/staff.py:669
 msgid "Unassigned in bulk update"
 msgstr ""
 
-#: views/staff.py:587 views/staff.py:592
+#: views/staff.py:674 views/staff.py:679
 msgid "Closed in bulk update"
 msgstr ""
 
-#: views/staff.py:806
+#: views/staff.py:901
 msgid ""
 "<p><strong>Note:</strong> Your keyword search is case sensitive because of "
 "your database. This means the search will <strong>not</strong> be accurate. "
 "By switching to a different database system you will gain better searching! "
-"For more information, read the <a "
-"href=\"http://docs.djangoproject.com/en/dev/ref/databases/#sqlite-string-"
-"matching\">Django Documentation on string matching in SQLite</a>."
-msgstr ""
-
-#: views/staff.py:910
-msgid "Ticket taken off hold"
-msgstr ""
-
-#: views/staff.py:913
-msgid "Ticket placed on hold"
-msgstr ""
-
-#: views/staff.py:1007
-msgid "User by Priority"
-msgstr ""
-
-#: views/staff.py:1013
-msgid "User by Queue"
-msgstr ""
-
-#: views/staff.py:1019
-msgid "User by Status"
-msgstr ""
-
-#: views/staff.py:1025
-msgid "User by Month"
+"For more information, read the <a href=\"http://docs.djangoproject.com/en/"
+"dev/ref/databases/#sqlite-string-matching\">Django Documentation on string "
+"matching in SQLite</a>."
 msgstr ""
 
 #: views/staff.py:1031
+msgid "Ticket taken off hold"
+msgstr ""
+
+#: views/staff.py:1034
+msgid "Ticket placed on hold"
+msgstr ""
+
+#: views/staff.py:1128
+msgid "User by Priority"
+msgstr ""
+
+#: views/staff.py:1134
+msgid "User by Queue"
+msgstr ""
+
+#: views/staff.py:1140
+msgid "User by Status"
+msgstr ""
+
+#: views/staff.py:1146
+msgid "User by Month"
+msgstr ""
+
+#: views/staff.py:1152
 msgid "Queue by Priority"
 msgstr ""
 
-#: views/staff.py:1037
+#: views/staff.py:1158
 msgid "Queue by Status"
 msgstr ""
 
-#: views/staff.py:1043
+#: views/staff.py:1164
 msgid "Queue by Month"
 msgstr ""

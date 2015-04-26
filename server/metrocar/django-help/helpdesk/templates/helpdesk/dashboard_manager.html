@@ -1,0 +1,21 @@
+{% extends "helpdesk/base.html" %}{% load i18n %}
+{% block helpdesk_title %}{% trans "Helpdesk Dashboard" %}{% endblock %}
+
+{% block helpdesk_body %}
+
+<div class="alert alert-warning">
+<p>{% trans "Welcome to your Helpdesk Dashboard!" %}</p>
+</div>
+
+{% if tickets_new %}
+{% trans "All New Tickets" as ticket_list_caption %}
+{% include 'helpdesk/include/tickets.html' with ticket_list=tickets_new ticket_list_empty_message="" %}
+{% endif %}
+
+{% trans "Resolved tickets to be checked" as ticket_list_caption %}
+{% trans "There are no tickets to be checked." as no_tickets_checking %}
+{% include 'helpdesk/include/tickets.html' with ticket_list=tickets_checking ticket_list_empty_message=no_tickets_checking %}
+
+{% include 'helpdesk/include/unassigned.html' %}
+
+{% endblock %}

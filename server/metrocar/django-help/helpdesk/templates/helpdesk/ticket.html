@@ -110,6 +110,11 @@ function googleTranslateElementInit() {
 </li>
 {% if forloop.last %}</ul></div>{% endif %}
 {% endfor %}
+{% if followup.logged_hours %}
+{% ifnotequal followup.logged_hours 0 %}
+<li><strong>{% trans "Logged hours" %}:</strong> {{ followup.logged_hours }}</li>
+{% endifnotequal %}
+{% endif %}
 </div>
 {% endfor %}
 {% endif %}
@@ -135,32 +140,46 @@ function googleTranslateElementInit() {
         <dd class='form_help_text'>{% trans "You can insert ticket and queue details in your message. For more information, see the <a href='../../help/context/'>context help page</a>." %}</dd>
 
         <dt><label>{% trans "New Status" %}</label></dt>
-        {% if not ticket.can_be_resolved %}<dd>{% trans "This ticket cannot be resolved or closed until the tickets it depends on are resolved." %}</dd>{% endif %}
-        {% ifequal ticket.status 1 %}
-        <dd><input type='radio' name='new_status' value='1' id='st_open' checked='checked'><label for='st_open' class='active'>{% trans "Open" %}</label> &raquo;
-        <input type='radio' name='new_status' value='3' id='st_resolved'{% if not ticket.can_be_resolved %} disabled='disabled'{% endif %}><label for='st_resolved'>{% trans "Resolved" %}</label> &raquo;
-        <input type='radio' name='new_status' value='4' id='st_closed'{% if not ticket.can_be_resolved %} disabled='disabled'{% endif %}><label for='st_closed'>{% trans "Closed" %}</label> &raquo;
-        <input type='radio' name='new_status' value='5' id='st_duplicate'><label for='st_duplicate'>{% trans "Duplicate" %}</label></dd>
+        
+        {% if user.is_superuser %}
+        {% ifequal ticket.status 10 %}
+        <dd><input type='radio' name='new_status' value='10' id='st_new' checked='checked'><label for='st_new' class='active'>{% trans "New" %}</label> &raquo;
+        <input type='radio' name='new_status' value='11' id='st_invalid'><label for='st_invalid'>{% trans "Invalid" %}</label> &raquo;
+        <input type='radio' name='new_status' value='12' id='st_supplement_needed'><label for='st_supplement_needed'>{% trans "Supplement needed" %}</label> &raquo;
+        <input type='radio' name='new_status' value='13' id='st_to_resolve'><label for='st_to_resolve'>{% trans "To resolve" %}</label>
+        </dd>
         {% endifequal %}
-        {% ifequal ticket.status 2 %}
-        <dd><input type='radio' name='new_status' value='2' id='st_reopened' checked='checked'><label for='st_reopened' class='active'>{% trans "Reopened" %}</label> &raquo;
-        <input type='radio' name='new_status' value='3' id='st_resolved'{% if not ticket.can_be_resolved %} disabled='disabled'{% endif %}><label for='st_resolved'>{% trans "Resolved" %}</label> &raquo;
-        <input type='radio' name='new_status' value='4' id='st_closed'{% if not ticket.can_be_resolved %} disabled='disabled'{% endif %}><label for='st_closed'>{% trans "Closed" %}</label> &raquo;
-        <input type='radio' name='new_status' value='5' id='st_duplicate'><label for='st_duplicate'>{% trans "Duplicate" %}</label></dd>
+        
+        {% ifequal ticket.status 11 %}
+        <dd><input type='radio' name='new_status' value='11' id='st_invalid' checked='checked'><label for='st_invalid' class='active'>{% trans "Invalid" %}</label> &raquo;
+        <input type='radio' name='new_status' value='10' id='st_new'><label for='st_new'>{% trans "New" %}</label></dd>
         {% endifequal %}
-        {% ifequal ticket.status 3 %}
-        <dd><input type='radio' name='new_status' value='2' id='st_reopened'><label for='st_reopened'>{% trans "Reopened" %}</label> &laquo;
-        <input type='radio' name='new_status' value='3' id='st_resolved' checked='checked'><label for='st_resolved' class='active'>{% trans "Resolved" %}</label> &raquo;
-        <input type='radio' name='new_status' value='4' id='st_closed'><label for='st_closed'>{% trans "Closed" %}</label></dd>
+        
+        {% ifequal ticket.status 12 %}
+        <dd><input type='radio' name='new_status' value='12' id='st_supplement_needed' checked='checked'><label for='st_supplement_needed'>{% trans "Supplement needed" %}</label> &raquo;
+        <input type='radio' name='new_status' value='10' id='st_new'><label for='st_new'>{% trans "New" %}</label></dd>
         {% endifequal %}
-        {% ifequal ticket.status 4 %}
-        <dd><input type='radio' name='new_status' value='2' id='st_reopened'><label for='st_reopened'>{% trans "Reopened" %}</label> &laquo;
-        <input type='radio' name='new_status' value='4' id='st_closed' checked='checked'><label for='st_closed'>{% trans "Closed" %}</label></dd>
+        {% endif %}
+
+
+		{% if ticket.assigned_to.id == user.id %}
+        {% ifequal ticket.status 14 %}
+		<input type='radio' name='new_status' value='14' id='st_resolving' checked='checked'><label for='st_resolving'>{% trans "Resolving" %}</label> &raquo;
+        <input type='radio' name='new_status' value='15' id='st_checking'><label for='st_checking'>{% trans "Checking" %}</label></dd>
         {% endifequal %}
-        {% ifequal ticket.status 5 %}
-        <dd><input type='radio' name='new_status' value='2' id='st_reopened'><label for='st_reopened'>{% trans "Reopened" %}</label> &laquo;
-        <input type='radio' name='new_status' value='5' id='st_duplicate' checked='checked'><label for='st_duplicate'>{% trans "Duplicate" %}</label></dd>
+		{% endif %}
+        
+        {% if user.is_superuser %}
+        {% ifequal ticket.status 15 %}
+        <dd><input type='radio' name='new_status' value='15' id='st_checking' checked='checked'><label for='st_checking'>{% trans "Checking" %}</label> &raquo;
+        <input type='radio' name='new_status' value='16' id='st_closed'><label for='st_closed'>{% trans "Closed" %}</label></dd>
         {% endifequal %}
+        {% ifequal ticket.status 16 %}
+        <dd><input type='radio' name='new_status' value='16' id='st_closed' checked='checked'><label for='st_closed'>{% trans "Closed" %}</label> &raquo;
+        <input type='radio' name='new_status' value='10' id='st_new'><label for='st_new'>{% trans "New" %}</label></dd>
+        {% endifequal %}
+        {% endif %}
+        
 
         {% if helpdesk_settings.HELPDESK_UPDATE_PUBLIC_DEFAULT %}
         <input type='hidden' name='public' value='1'>
@@ -169,8 +188,15 @@ function googleTranslateElementInit() {
         <dd><input type='checkbox' name='public' value='1' checked='checked' /></dd>
         <dd class='form_help_text'>{% trans "If this is public, the submitter will be e-mailed your comment or resolution." %}</dd>
         {% endif %}
+        
+        {% ifequal ticket.assigned_to.id user.id %}
+        {% ifequal ticket.status 14 %}
+        <dd><label for='logged_hours_id'>{% trans "Logged hours:" %}</label><input type='text' name='logged_hours' value='0' id='logged_hours_id'></dd>
+        {% endifequal %}
+        {% endifequal %}
     </dl>
 
+{% if not ticket.assigned_to and user.is_superuser or ticket.assigned_to.id == user.id %}
 <p id='ShowFurtherOptPara'><a href='#' id='ShowFurtherEditOptions'>{% trans "Change Further Details &raquo;" %}</a></p>
 
 <div id='FurtherEditOptions' style='display: none;'>
@@ -179,31 +205,18 @@ function googleTranslateElementInit() {
 
         <dt><label for='id_title'>{% trans "Title" %}</label></dt>
         <dd><input type='text' name='title' value='{{ ticket.title|escape }}' /></dd>
-
+		{% if ticket.status == 13 and user.is_superuser %}
         <dt><label for='id_owner'>{% trans "Owner" %}</label></dt>
         <dd><select id='id_owner' name='owner'><option value='0'>{% trans "Unassign" %}</option>{% for u in active_users %}<option value='{{ u.id }}' {% ifequal u.id ticket.assigned_to.id %}selected{% endifequal %}>{{ u }}</option>{% endfor %}</select></dd>
+		{% endif %}
 
         <dt><label for='id_priority'>{% trans "Priority" %}</label></dt>
         <dd><select id='id_priority' name='priority'>{% for p in priorities %}<option value='{{ p.0 }}'{% ifequal p.0 ticket.priority %} selected='selected'{% endifequal %}>{{ p.1 }}</option>{% endfor %}</select></dd>
-        <dt><label for='id_due_date'>{% trans "Due on" %}</label></dt>
-        <dd>{{ form.due_date }}</dd>
 
     </dl>
 
 </div>
-
-<p id='ShowFileUploadPara'><a href='#' id='ShowFileUpload'>{% trans "Attach File(s) &raquo;" %}</a></p>
-
-<div id='FileUpload' style='display: none;'>
-
-    <dl>
-
-        <dt><label for='id_file'>{% trans "Attach a File" %}</label></dt>
-        <dd><input type='file' name='attachment' id='file' multiple/> <span class='AddAnotherFile'>(<a href='#'>{% trans "Add Another File" %}</a>)</span></dd>
-    </dl>
-
-</div>
-
+{% endif %}
 </fieldset>
 
 <input class="btn btn-primary" type='submit' value='{% trans "Update This Ticket" %}' />

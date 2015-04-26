@@ -3,11 +3,21 @@
 {% block helpdesk_title %}{% trans "Create Ticket" %}{% endblock %}
 
 {% block helpdesk_body %}
+	{% if not for_customer %}
+<p><a href='{% url 'helpdesk_submit_for_customer' %}'>{% trans "Submit a Ticket instead of customer" %}</a></p>
+	{% else %}
+<p><a href='{% url 'helpdesk_submit' %}'>{% trans "Submit a Ticket" %}</a></p>
+	{% endif %}
+
 <div class="col-xs-6">
 <div class="panel panel-default">
 
 <div class="panel-body">
+	{% if for_customer %}
+<h2>{% trans "Submit a Ticket instead of customer" %}</h2>
+	{% else %}
 <h2>{% trans "Submit a Ticket" %}</h2>
+	{% endif %}
 <p>{% trans "Unless otherwise stated, all fields are required." %} {% trans "Please provide as descriptive a title and description as possible." %}</p>
 
 <form method='post' action='./' enctype='multipart/form-data'>

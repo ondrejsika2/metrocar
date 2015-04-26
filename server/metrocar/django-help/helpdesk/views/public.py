@@ -20,8 +20,19 @@ from helpdesk.models import Ticket, Queue, UserSettings, KBCategory
 
 
 def homepage(request):
+	# not autenticated -> needs to be logged in
     if not request.user.is_authenticated() and helpdesk_settings.HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT:
         return HttpResponseRedirect(reverse('login'))
+        
+    # car defect manager
+    if request.user.is_superuser:
+		return HttpResponseRedirect(reverse('helpdesk_dashboard'))
+		
+    if request.user.is_staff:
+		return HttpResponseRedirect(reverse('helpdesk_dashboard'))
+		
+    if request.user.is_active:
+		return HttpResponseRedirect(reverse('helpdesk_customer_index'))
 
     if (request.user.is_staff or (request.user.is_authenticated() and helpdesk_settings.HELPDESK_ALLOW_NON_STAFF_TICKET_UPDATE)):
         try:
@@ -133,7 +144,7 @@ def view_ticket(request):
         }))
 
 def change_language(request):
-    return_to = ''
+    return_to = request.get_full_path()
     if request.GET.has_key('return_to'):
         return_to = request.GET['return_to']
 

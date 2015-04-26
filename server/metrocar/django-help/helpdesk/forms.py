@@ -74,7 +74,7 @@ class CustomFieldMixin(object):
 class EditTicketForm(CustomFieldMixin, forms.ModelForm):
     class Meta:
         model = Ticket
-        exclude = ('created', 'modified', 'status', 'on_hold', 'resolution', 'last_escalation', 'assigned_to')
+        exclude = ('created', 'modified', 'status', 'on_hold', 'resolution', 'last_escalation', 'assigned_to', 'due_date', 'submitter_email', 'who_created')
     
     def __init__(self, *args, **kwargs):
         """
@@ -548,6 +548,9 @@ class TicketDependencyForm(forms.ModelForm):
 from metrocar.cars.models import Car
 
 class CustomerTicketForm(forms.Form):
+    """
+    Form for customer, to report new defect.
+    """
     queue = forms.ChoiceField(
         label=_('Queue'),
         required=True,
@@ -569,37 +572,36 @@ class CustomerTicketForm(forms.Form):
             'details we may need to address your query.'),
         )
         
-    who_created_r = None
+    who_created_r = None # needs to be filled in view
         
     def __init__(self, *args, **kwargs):
 		super(CustomerTicketForm, self).__init__(*args, **kwargs)
 		cars = [(c.id, c.__unicode__()) for c in Car.objects.all()] # add cars to SELECT in form
 		self.fields.insert(2,'which_car', forms.ChoiceField(label="Which car has defect?", choices=cars))
-		self.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.all()]
+		self.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.filter(active=True)] # only active queues
 		
 
     def save(self):
         """
         Writes and returns a Ticket() object.
         """
+        
+        if self.who_created_r is None:
+			raise Exception("Http500")
 
         q = Queue.objects.get(id=int(self.cleaned_data['queue'])) # get queue
         car_r = Car.objects.get(pk=int(self.cleaned_data['which_car'])) # get car with defect
-        #who_created_r = User.objetcs.get(pk=) # User.objects.get(pk=1) # user that reported this ticket
-        #who_reported_r = who_created_r # in this type of form, reported is the same person as creator
-        
         
         t = Ticket(
             title = self.cleaned_data['title'],
-            submitter_email = '',
+            submitter_email = User.objects.get(pk=self.who_created_r.id).email,
             created = timezone.now(),
-            status = Ticket.OPEN_STATUS,
+            status = Ticket.NEW_STATUS,
             queue = q,
             description = self.cleaned_data['body'],
             priority = 3, # normal priority
-            #due_date = self.cleaned_data['due_date'],
             which_car = car_r,
-            who_reported = self.who_created_r,
+            who_reported = self.who_created_r,# in this type of form, reported is the same person as creator
             who_created = self.who_created_r,
             )
 
@@ -617,40 +619,53 @@ class CustomerTicketForm(forms.Form):
 
         context = safe_template_context(t)
 
-        messages_sent_to = []
-
-        send_templated_mail(
-            'newticket_submitter',
-            context,
-            recipients=t.submitter_email,
-            sender=q.from_address,
-            fail_silently=True,
-            )
-        messages_sent_to.append(t.submitter_email)
-
-        if q.new_ticket_cc and q.new_ticket_cc not in messages_sent_to:
-            send_templated_mail(
-                'newticket_cc',
-                context,
-                recipients=q.new_ticket_cc,
-                sender=q.from_address,
-                fail_silently=True,
-                )
-            messages_sent_to.append(q.new_ticket_cc)
-
-        if q.updated_ticket_cc and q.updated_ticket_cc != q.new_ticket_cc and q.updated_ticket_cc not in messages_sent_to:
-            send_templated_mail(
-                'newticket_cc',
-                context,
-                recipients=q.updated_ticket_cc,
-                sender=q.from_address,
-                fail_silently=True,
-                )
-
         return t
+	
+class CustomerTicketSupplementForm(forms.Form):
+	"""
+	Form for customers that were asked to supply a defect report.
+	"""
+	
+	description = forms.CharField(
+        widget=forms.Textarea(),
+        label=_('Description of your issue'),
+        required=True,
+        help_text=_('Please be as descriptive as possible, including any '
+            'details we may need to address your query.'),
+        )
+        
+	ticket_id = None
+	user_id = None
+	
+	def save(self):
+		"""
+		Updates affected ticket, creates new FollowUp with new customer's description and return the new FollowUp.
+		"""
+		# take ticket, change its status, save it
+		t = Ticket.objects.get(pk=self.ticket_id)
+		t.status = Ticket.NEW_STATUS
+		t.save()
+		# new followUp with added description
+		f = FollowUp(
+            ticket = t,
+            title = _('Ticket Supplement'),
+            date = timezone.now(),
+            public = True,
+            comment = self.cleaned_data['description'],
+            user = User.objects.get(pk=self.user_id),
+            new_status = Ticket.NEW_STATUS,
+            )
+		
+		f.save()
+		
+		return f
+		
 
-
-class TechnicTicketForm(forms.Form):
+class TechnicianTicketForm(forms.Form):
+    """
+    Form for reporting defect for someone else, e.g. technician fills this form according to customer's information.
+    Should be accessible only to staff (Technician) and Administrator.
+    """
     queue = forms.ChoiceField(
         label=_('Queue'),
         required=True,
@@ -673,45 +688,48 @@ class TechnicTicketForm(forms.Form):
         )
     
     who_reported = forms.ChoiceField(
-        choices=User.objects.all(),
         required=True,
         label="Who_reported",
         help_text="Who reported this defect?",
         )
         
+    who_created_r = None # needs to be filled in view
         
     def __init__(self, *args, **kwargs):
-		super(DefectReportCreateForm, self).__init__(*args, **kwargs)
+		super(TechnicianTicketForm, self).__init__(*args, **kwargs)
 		cars = [(c.id, c.__unicode__()) for c in Car.objects.all()] # add cars to SELECT in form
-		self.fields.append('which_car', forms.ChoiceField(label="Which car has defect:", choices=cars))
+		self.fields.insert(2,'which_car', forms.ChoiceField(label="Which car has defect?", choices=cars))
+		self.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.filter(active=True)]
+		self.fields['who_reported'].choices = [(u.id, (u.last_name + ' ' + u.first_name)) for u in User.objects.filter(is_active=True).order_by('last_name','first_name')]
 
     def save(self):
         """
         Writes and returns a Ticket() object.
         """
+        
+        if self.who_created_r is None:
+            raise Exception("Http500")
 
         q = Queue.objects.get(id=int(self.cleaned_data['queue'])) # get queue
         car_r = Car.objects.get(pk=int(self.cleaned_data['which_car'])) # get car with defect
-        who_reported_r = User.objects.get(pk=int(self.cleaned_data['who_reported']))
-        who_created_r = None # User.objects.get(pk=this.user.id))
+        who_reported_r = User.objects.get(pk=int(self.cleaned_data['who_reported'])) # get reporter
 
-        t = Ticket(
+        t = Ticket( # create Ticket
             title = self.cleaned_data['title'],
-            #submitter_email = self.cleaned_data['submitter_email'],
+            submitter_email = User.objects.get(pk=who_reported_r.id).email,
             created = timezone.now(),
-            status = Ticket.OPEN_STATUS,
+            status = Ticket.NEW_STATUS,
             queue = q,
             description = self.cleaned_data['body'],
             priority = 3,
-            #due_date = self.cleaned_data['due_date'],
             which_car = car_r,
             who_reported = who_reported_r,
-            who_created = who_created_r,
+            who_created = self.who_created_r, # initialized in view
             )
 
         t.save()
 
-        f = FollowUp(
+        f = FollowUp( # create FollowUp
             ticket = t,
             title = _('Ticket Opened Via Web'),
             date = timezone.now(),
@@ -723,64 +741,5 @@ class TechnicTicketForm(forms.Form):
 
         context = safe_template_context(t)
 
-        messages_sent_to = []
-
-        send_templated_mail(
-            'newticket_submitter',
-            context,
-            recipients=t.submitter_email,
-            sender=q.from_address,
-            fail_silently=True,
-            )
-        messages_sent_to.append(t.submitter_email)
-
-        if q.new_ticket_cc and q.new_ticket_cc not in messages_sent_to:
-            send_templated_mail(
-                'newticket_cc',
-                context,
-                recipients=q.new_ticket_cc,
-                sender=q.from_address,
-                fail_silently=True,
-                )
-            messages_sent_to.append(q.new_ticket_cc)
-
-        if q.updated_ticket_cc and q.updated_ticket_cc != q.new_ticket_cc and q.updated_ticket_cc not in messages_sent_to:
-            send_templated_mail(
-                'newticket_cc',
-                context,
-                recipients=q.updated_ticket_cc,
-                sender=q.from_address,
-                fail_silently=True,
-                )
-
         return t
-	
-class CustomerTicketSupplementForm(forms.Form):
-	
-	description = forms.CharField(
-        widget=forms.Textarea(),
-        label=_('Description of your issue'),
-        required=True,
-        help_text=_('Please be as descriptive as possible, including any '
-            'details we may need to address your query.'),
-        )
-        
-	ticket_id = None
-	user_id = None
-	
-	def save(self):
-		t = Ticket.objects.get(pk=self.ticket_id)
-		
-		f = FollowUp(
-            ticket = t,
-            title = _('Ticket Supplement'),
-            date = timezone.now(),
-            public = True,
-            comment = self.cleaned_data['description'],
-            user = User.objects.get(pk=self.user_id),
-            )
-		
-		f.save()
-		
-		return f
-		
+

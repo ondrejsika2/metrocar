@@ -21,33 +21,14 @@ def index(request):
 	""" 
 	Show customer index. 
 	Contains list of tickets reported by this customer, 
-	list of tickets reported by this customer that need supplement, 
-	and a form for creating new ticket. 
+	list of tickets reported by this customer that need supplement.
 	"""
-	# If the user if not logged in, redirect him to login page
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('login'))
-		
-	if request.method == 'POST': # If the form has been submitted...
-		form = CustomerTicketForm(request.POST) # A form bound to the POST data
-		if form.is_valid(): # All validation rules pass
-			# Process the data in form.cleaned_data
-			form.who_created_r = User.objects.get(pk=request.user.id)
-			form.save()
-			return HttpResponseRedirect(reverse('helpdesk_customer_index'))
-	else:
-		if not request.user.is_active:
-			# Inactive user can't report any new defects.
-			form = None
-		else:
-			# Active user, allowed to report defects.
-			form =  CustomerTicketForm()
 			
 	customer_reports = Ticket.objects.filter(who_reported=request.user.id)
-	customer_reports_supplement_needed = customer_reports.filter(status=Ticket.SUPPLEMENT_NEEDED)
+	customer_reports_supplement_needed = customer_reports.filter(status=Ticket.SUPPLEMENT_NEEDED_STATUS)
 			
-	return render(request, 'helpdesk/customer/create_ticket.html', 
-		{'form': form, 'customer_reports' : customer_reports, 'customer_reports_supplement_needed' : customer_reports_supplement_needed})
+	return render(request, 'helpdesk/customer/index.html', 
+		{'customer_reports' : customer_reports, 'customer_reports_supplement_needed' : customer_reports_supplement_needed})
 				
 def show_ticket(request, ticket_id):
 	"""" Show one ticket, customer view. Allows to view only tickets reported by this customer. """
@@ -90,3 +71,27 @@ def ticket_supplement(request, ticket_id):
 		
 	return render(request, 'helpdesk/customer/ticket_supplement.html', {'form':form, 'ticket' : ticket, 'public_comments': comments })
 	
+def report_defect(request):
+	"""
+	Page for customer with form for reporting car defects.
+	"""
+	# If the user if not logged in, redirect him to login page
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect(reverse('login'))
+		
+	if request.method == 'POST': # If the form has been submitted...
+		form = CustomerTicketForm(request.POST) # A form bound to the POST data
+		if form.is_valid(): # All validation rules pass
+			# Process the data in form.cleaned_data
+			form.who_created_r = User.objects.get(pk=request.user.id)
+			form.save()
+			return HttpResponseRedirect(reverse('helpdesk_customer_index'))
+	else:
+		if not request.user.is_active:
+			# Inactive user can't report any new defects.
+			form = None
+		else:
+			# Active user, allowed to report defects.
+			form =  CustomerTicketForm()
+			
+	return render(request, 'helpdesk/customer/report_defect.html', {'form':form,}) 
