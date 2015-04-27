@@ -5,20 +5,20 @@ from metrocar.reservations.views import ReservationViewSet
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
-from metrocar.user_management.views import UserViewSet, obtain_auth_token, AccountActivityListView
+from metrocar.user_management.views import UserViewSet, obtain_auth_token, AccountActivityListView, \
+    RegistrationViewSet
 from user_management.views import AccountViewSet
 
 router = DefaultRouter()
 router.register(r'reservations', ReservationViewSet)
-# router.register(r'reservationbills', ReservationBillViewSet)
 router.register(r'cars', CarViewSet)
 router.register(r'carmodels', CarModelViewSet)
 router.register(r'carcolors', CarColorViewSet)
-router.register(r'fuelbill', FuelBillViewSet, base_name="fuelbill")
+router.register(r'fuelbills', FuelBillViewSet, base_name="fuelbill")
 router.register(r'users', UserViewSet, base_name="user")
 router.register(r'userbalances', AccountViewSet, base_name="userbalance")
 router.register(r'parkings', ParkingViewSet, base_name="parking")
-
+router.register(r'registrations', RegistrationViewSet)
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browseable API.

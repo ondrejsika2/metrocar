@@ -11,7 +11,6 @@ AccountactivityRoute = Ember.Route.extend
 
 
   setupController: (ctrl, model) ->
-    console.log model
     ctrl.set('user', model['user'])
     ctrl.set('user_balance', model['user_balance'].get('content')[0])
 

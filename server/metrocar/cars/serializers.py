@@ -14,17 +14,13 @@ class CarSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'active',
-            'dedicated_parking_only',
             'manufacture_date',
             'registration_number',
-            'image',
             'model',
             'color',
             'owner',
             'home_subsidiary',
             'last_echo',
-            '_last_position',
-            '_last_address',
             'parking',
             'car_name'
         )
@@ -35,7 +31,14 @@ class CarModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
         fields = (
-            'id', 'name', 'manufacturer', 'type', 'engine', 'seats_count', 'storage_capacity', 'main_fuel', 'alternative_fuel','notes', 'image'
+            'id',
+            'name',
+            'manufacturer',
+            'type',
+            'engine',
+            'seats_count',
+            'storage_capacity',
+            'main_fuel',
         )
 
 
@@ -60,6 +63,7 @@ class FuelBillSerializer(serializers.ModelSerializer):
         model = FuelBill
         fields = (
             'id',
+            'datetime',
             'account',
             'money_amount',
             'car',

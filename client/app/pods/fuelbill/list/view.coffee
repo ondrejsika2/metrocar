@@ -2,7 +2,7 @@
 
 View = Ember.View.extend
 
-  classNames: ['mc-profile']
+  classNames: ['mc-fuelbill']
 
   layoutName: 'layout/standard'
 

@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
+`import EmberValidations from 'ember-validations'`
 
-
-Controller = Ember.Controller.extend
+Controller = Ember.Controller.extend EmberValidations.Mixin,
 
   actions:
 
@@ -9,8 +9,15 @@ Controller = Ember.Controller.extend
       @set('isEditable', true)
 
     finishEditing: ->
-      @get('user').save()
-      @set('isEditable', false)
+
+      user = @get('user')
+
+      user.validate()
+        .then((->
+          user.save()
+          @set('isEditable', false)
+        ).bind(this))
+
 
 
 `export default Controller`

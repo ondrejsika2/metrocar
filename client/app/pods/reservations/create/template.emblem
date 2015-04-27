@@ -14,18 +14,32 @@ div.mc-content
 
   div.col-xs-8
 
-    div.form-group
-      label Začátek rezervace
-      bs-datetimepicker date=reserved_from format='DD.MM.YYYY HH:mm'
+    div.form-group class={ reservation.errors.reserved_from:has-error reservation.errors.reserved_from:has-feedback }
+      label.control-label
+        | Začátek rezervace
+      bs-datetimepicker date=reservation.reserved_from format='DD.MM.YYYY HH:mm'
+      if reservation.errors.reserved_from
+        each error in reservation.errors.reserved_from
+          p.text-danger
+            = error
 
-    div.form-group
-      label Konec rezervace
-      bs-datetimepicker date=reserved_until format='DD.MM.YYYY HH:mm'
+    div.form-group class={ reservation.errors.reserved_until:has-error reservation.errors.reserved_until:has-feedback }
+      label.control-label
+        | Konec rezervace
+      bs-datetimepicker date=reservation.reserved_until format='DD.MM.YYYY HH:mm'
+      if reservation.errors.reserved_until
+        each error in reservation.errors.reserved_until
+          p.text-danger
+            = error
 
-    div.form-group
-      label Auto
+    div.form-group class={ reservation.errors.car:has-error reservation.errors.car:has-feedback }
+      label.control-label
+        | Auto
       select-2 content=cars value=carId placeholder="Vyber auto" allowClear=true
-
+      if reservation.errors.car
+        each error in reservation.errors.car
+          p.text-danger
+            = error
 
     div.form-group
       if carId

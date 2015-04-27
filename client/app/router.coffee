@@ -10,6 +10,7 @@ Router.map ->
   @route 'credentials', ->
     @route 'login'
     @route 'signup'
+    @route 'success'
 
   @route 'reservations', ->
     @route 'list'

@@ -6,8 +6,18 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = (
-            'id', 'cancelled', 'comment', 'created', 'ended', 'finished', 'is_service',
-            'modified', 'price', 'reserved_from', 'reserved_until', 'started', 'user',
+            'id',
+            'cancelled',
+            'comment',
+            'created',
+            'ended',
+            'finished',
+            'modified',
+            'price',
+            'reserved_from',
+            'reserved_until',
+            'started',
+            'user',
             'car'
         )
 

@@ -3,7 +3,6 @@
 McMapComponent = Ember.Component.extend
 
   polygonChanged: (->
-    console.log @get('polygon')
 
     first_lat = null
     first_lng = null

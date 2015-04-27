@@ -2,8 +2,28 @@ div.row.mc-header
 
 	h1 Seznam žádostí o proplacení paliva
 
-div.mc-content
+	div.mc-action-bar
+	  link-to .btn.btn-green.btn-large 'fuelbill.create'
+	    i.fa.fa-plus
+	    | Vytvořit žádost
 
-  link-to .btn.btn-green.btn-large 'fuelbill.create'
-    | Vytvořit žádost
+div.mc-content
+  table.table.table-striped
+    thead
+      tr
+        th.col-xs-1: div.text-center Schváleno
+        th.col-xs-2 Datum podání
+        th.col-xs-7 Částka
+        th.col-xs-2 Fotka účtenky
+    tbody
+      each fuelbill in fuelbills
+        tr
+          td #{fuelbill-approved fuelbill.approved}
+          td #{time-format fuelbill.datetime 'DD.M.YYYY HH:mm'}
+          td #{currency-format fuelbill.money_amount}
+          td
+            a.btn.btn-green{action 'showModal' 'fuelbill/detail-bill-modal' fuelbill.image}
+              | Zobrazit účtenku
+
+
 

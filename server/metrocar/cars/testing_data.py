@@ -17,7 +17,7 @@ def create():
     octavia = car_model(manufacturer('skoda'), 'Škoda Octavia',
         type=car_type('Sedan'),
         engine='1.4 59 kW',
-        main_fuel=fuel('diesel'))
+        main_fuel=fuel('Diesel'))
 
     focus = car_model(manufacturer('ford'), 'Ford Focus',
         type=car_type('Combi'),
@@ -53,17 +53,17 @@ def create():
             fuel_bill_1(
                 account=get_account(users[1].username),
                 car=car_octavia_1,
-                fuel=fuel('diesel')
+                fuel=fuel('Diesel')
             ),
             fuel_bill_2(
                 account=get_account(users[1].username),
                 car=car_octavia_1,
-                fuel=fuel('diesel')
+                fuel=fuel('Diesel')
             ),
             fuel_bill_3(
                 account=get_account(users[1].username),
                 car=car_octavia_1,
-                fuel=fuel('diesel')
+                fuel=fuel('Diesel')
             ),
         ],
         'parking': [

@@ -69,8 +69,8 @@ flexipy
 
 #django rest framework
 djangorestframework==2.4.4
+django-rest-swagger==0.2.9
 django-cors-headers==1.0.0
 markdown==2.5.1
 django-filter==0.8
 django-nose==1.3
-

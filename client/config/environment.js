@@ -22,6 +22,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      defaultLocale: 'cs'
     },
 
     contentSecurityPolicy : {
@@ -33,16 +34,9 @@ module.exports = function(environment) {
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com"
     },
 
-    'simple-auth': {
-      serverTokenEndpoint: 'http://local.server.metrocar.dev/api/v1/auth-token/',
-      crossOriginWhitelist: ['local.server.metrocar.dev'],
-      store: 'simple-auth-session-store:local-storage'
-    }
+
 
   };
-
-  ENV.APP.API_HOST = 'local.server.metrocar.dev';
-
 
   if (environment === 'development') {
     //ENV.APP.LOG_RESOLVER = true;
@@ -50,6 +44,13 @@ module.exports = function(environment) {
     //ENV.APP.LOG_TRANSITIONS = true;
     //ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     //ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    ENV['metrocarServer'] = 'http://local.server.metrocar.dev';
+    ENV['simple-auth'] = {
+      serverTokenEndpoint: 'http://local.server.metrocar.dev/api/v1/auth-token/',
+        crossOriginWhitelist: ['local.server.metrocar.dev'],
+        store: 'simple-auth-session-store:local-storage'
+    };
 
   }
 
@@ -66,6 +67,13 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+
+    ENV['metrocarServer'] = 'http://server.metrocar.knaisl.cz';
+    ENV['simple-auth'] = {
+      serverTokenEndpoint: 'http://server.metrocar.knaisl.cz/api/v1/auth-token/',
+      crossOriginWhitelist: ['server.metrocar.knaisl.cz'],
+      store: 'simple-auth-session-store:local-storage'
+    };
 
   }
 

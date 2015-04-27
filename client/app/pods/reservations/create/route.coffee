@@ -4,7 +4,6 @@
 Route = Ember.Route.extend AuthenticatedRouteMixin,
 
   model: ->
-    console.log @get('session.token')
     return @store.findAll 'car'
 
   afterModel: (cars) ->
@@ -29,6 +28,8 @@ Route = Ember.Route.extend AuthenticatedRouteMixin,
       lat: 50.036262,
       lng: 14.518328
     ])
+
+    controller.set('reservation', @store.createRecord('reservation'))
 
 `export default Route`
 

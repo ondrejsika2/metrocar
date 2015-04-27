@@ -24,56 +24,116 @@ div.mc-content
     form.form
 
       div.col-xs-6
-        div.form-group
-          label Jméno
+
+        div.form-group class={ user.errors.first_name:has-error user.errors.first_name:has-feedback }
+          label.control-label
+            | Jméno
           if isEditable
-            = input .form-control valueBinding="user.first_name"
+            = input .form-control value=user.first_name
+            if user.errors.first_name
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.first_name
+                p.text-danger
+                  = error
           else
             p = user.first_name
 
-        div.form-group
-          label Přijmení
+        div.form-group class={ user.errors.last_name:has-error user.errors.last_name:has-feedback }
+          label.control-label
+            | Přijmení
           if isEditable
-            = input .form-control valueBinding="user.last_name"
+            = input .form-control value=user.last_name
+            if user.errors.last_name
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.last_name
+                p.text-danger
+                  = error
           else
-            p = user.last_name
+              p = user.last_name
 
 
-        div.form-group
-          label Číslo občanského průkazu
+        div.form-group class={ user.errors.identity_card_number:has-error user.errors.identity_card_number:has-feedback }
+          label.control-label
+            | Číslo občanského průkazu
           if isEditable
-            = input .form-control valueBinding="user.identity_card_number"
+            = input .form-control value=user.identity_card_number
+            if user.errors.identity_card_number
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.identity_card_number
+                p.text-danger
+                  = error
           else
-            p = user.identity_card_number
+              p = user.identity_card_number
 
-        div.form-group
-          label Číslo řidičského průkazu
+        div.form-group class={ user.errors.drivers_licence_number:has-error user.errors.drivers_licence_number:has-feedback }
+          label.control-label
+            | Číslo řidičského průkazu
           if isEditable
-            = input .form-control valueBinding="user.drivers_licence_number"
+            = input .form-control value=user.drivers_licence_number
+            if user.errors.drivers_licence_number
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.drivers_licence_number
+                p.text-danger
+                  = error
           else
             p = user.drivers_licence_number
 
       div.col-xs-6
-        div.form-group
-          label Datum narození
+        div.form-group class={ user.errors.username:has-error user.errors.username:has-feedback }
+          label.control-label
+            | Uživatelské jméno
+          if isEditable
+            = input .form-control value=user.username
+            if user.errors.username
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.username
+                p.text-danger
+                  = error
+          else
+            p = user.username
+
+        div.form-group class={ user.errors.date_of_birth:has-error user.errors.date_of_birth:has-feedback }
+          label.control-label
+            | Datum narození
           if isEditable
             bs-datetimepicker date=user.date_of_birth format='D.M.YYYY'
+            if user.errors.date_of_birth
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.date_of_birth
+                p.text-danger
+                  = error
           else
             td #{time-format user.date_of_birth 'D.M.YYYY'}
 
-        div.form-group
-          label Email
+        div.form-group class={ user.errors.email:has-error user.errors.email:has-feedback }
+          label.control-label
+            | Email
           if isEditable
-            = input .form-control valueBinding="user.email"
+            = input .form-control value=user.email
+            if user.errors.email
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.email
+                p.text-danger
+                  = error
           else
             p = user.email
 
-        div.form-group
-          label Telefonní číslo
+        div.form-group class={ user.errors.primary_phone:has-error user.errors.primary_phone:has-feedback }
+          label.control-label
+            | Telefonní číslo
           if isEditable
-            = input .form-control valueBinding="user.primary_phone"
+            = input .form-control value=user.primary_phone
+            if user.errors.primary_phone
+              span.glyphicon.glyphicon-remove.form-control-feedback
+              each error in user.errors.primary_phone
+                p.text-danger
+                  = error
           else
             p = user.primary_phone
+
+
+
+
 
   div.row.mc-boxes
     div.col-xs-4: .mc-box
@@ -81,8 +141,6 @@ div.mc-content
         i.fa.fa-money
       div.mc-box-text
         | Kredit: #{currency-format user_balance.balance}
-
-      log user_balance
 
     div.col-xs-4: .mc-box
       div.mc-box-icon

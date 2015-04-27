@@ -1,10 +1,21 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from metrocar.reservations.models import ReservationBill
-from metrocar.user_management.models import AccountActivity, MetrocarUser, Account, Deposit
+from metrocar.user_management.models import AccountActivity, MetrocarUser, Account, Deposit, UserRegistrationRequest
 
 
 class MetrocarUserSerializer(serializers.ModelSerializer):
+
+    active = serializers.SerializerMethodField(method_name="get_active")
+
+    def get_active(self, obj):
+        user_registration_request = UserRegistrationRequest.objects.filter(
+            user=obj.id
+        )
+        if (user_registration_request.__len__()):
+            return user_registration_request[0].approved
+        else:
+            return False
 
     class Meta:
         model = MetrocarUser
@@ -14,14 +25,13 @@ class MetrocarUserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
-            'is_active',
-            'gender',
+            'active',
             'date_of_birth',
             'drivers_licence_number',
-            'gender',
             'identity_card_number',
             'primary_phone',
-            'language'
+            'drivers_licence_image',
+            'identity_card_image',
         )
 
 

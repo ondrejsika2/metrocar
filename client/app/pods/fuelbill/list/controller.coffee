@@ -1,15 +1,7 @@
 `import Ember from 'ember'`
 
 
-Controller = Ember.Controller.extend
-
-  actions:
-
-    makeEditable: ->
-      @set('isEditable', true)
-
-    finishEditing: ->
-      @set('isEditable', false)
+Controller = Ember.Controller.extend()
 
 
 `export default Controller`

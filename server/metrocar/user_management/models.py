@@ -9,6 +9,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.db.transaction import commit_on_success
 from django.utils.translation import ugettext_lazy as _
+from rest_framework.authtoken.models import Token
 import managers
 from metrocar.subsidiaries.models import Subsidiary
 from metrocar.utils.fields import *
@@ -37,7 +38,7 @@ class MetrocarUser(User):
     GENDER_CHOICES = (('M', _('Male')), ('F', _('Female')),)
 
     user = models.OneToOneField(User, parent_link=True)
-    date_of_birth = models.DateField(blank=True, null=True,
+    date_of_birth = models.DateField(blank=False, null=True,
                                      verbose_name=_('Date of birth'))
     drivers_licence_number = models.CharField(max_length=10, blank=False,
                                               null=False, verbose_name=_('Drivers licence number'))
@@ -45,20 +46,27 @@ class MetrocarUser(User):
                               choices=GENDER_CHOICES, verbose_name=_('Gender'))
     identity_card_number = IdentityCardNumberField(blank=False, null=False,
                                                    verbose_name=_('Identity card number'))
-    primary_phone = PhoneField(blank=True, null=True,
+    primary_phone = PhoneField(blank=False, null=True,
                                verbose_name=_('Primary phone number'))
-    secondary_phone = PhoneField(blank=True, null=True,
+    secondary_phone = PhoneField(blank=False, null=True,
                                  verbose_name=_('Secondary phone number'))
     specific_symbol = models.IntegerField(max_length=12, blank=False,
         null=True, editable=False, verbose_name=_('Specific symbol'))
     invoice_date = models.DateField(blank=False, null=False,
         verbose_name=_('Invoice date'))
-    company = models.ForeignKey(Company, null=True, blank=True,
+    company = models.ForeignKey(Company, null=True, blank=False,
                                 verbose_name=_('Company'))
     home_subsidiary = models.ForeignKey(Subsidiary,
                                         verbose_name=_('Home subsidiary'))
 
     language = models.CharField(max_length=2, choices=settings.LANG_CHOICES)
+
+    drivers_licence_image = models.ImageField(upload_to='user-management/%Y/%m', blank=True,
+                              null=True, verbose_name=_('Drive licence image'), max_length=100000)
+
+    identity_card_image = models.ImageField(upload_to='fuel_bills/%Y/%m',
+                              null=True, verbose_name=_('Identity car image'), max_length=100000)
+
 
     objects = managers.MetrocarUserManager()
 

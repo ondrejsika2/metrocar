@@ -126,14 +126,9 @@ class CarViewSet(viewsets.ModelViewSet):
         reserved_from = self.request.QUERY_PARAMS.get('reserved_from', None)
         reserved_until = self.request.QUERY_PARAMS.get('reserved_until', None)
 
-        print reserved_from
-        print reserved_until
-
         if reserved_from is not None and reserved_until is not None:
             reserved_from = (datetime.strptime(reserved_from,'%Y-%m-%d, %X'))
             reserved_until = (datetime.strptime(reserved_until,'%Y-%m-%d, %X'))
-            print reserved_from
-            print reserved_until
             return Car.list_of_available_cars(datetime_start=reserved_from,datetime_end=reserved_until)
 
         return Car.objects.all()

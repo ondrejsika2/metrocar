@@ -12,7 +12,9 @@ geotrack/dist
 
 server/metrocar/log/*
 server/metrocar/settings/local.py
+server/test_metrocar/settings/local.py
 server/dist/
+server/files/
 
 client/bower_components/
 client/dist/

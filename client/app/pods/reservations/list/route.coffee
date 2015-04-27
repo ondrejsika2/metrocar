@@ -5,7 +5,6 @@
 Route = Ember.Route.extend AuthenticatedRouteMixin,
 
   model: ->
-    console.log @get('session.user')
     return @store.findAll('reservation');
 
   afterModel: (model) ->

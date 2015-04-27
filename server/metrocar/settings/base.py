@@ -131,6 +131,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
 
     'django_nose',
     'piston',
@@ -161,7 +162,7 @@ INSTALLED_APPS = (
 #password hassher set to SHA1 because of communication with car_units
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',    
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
