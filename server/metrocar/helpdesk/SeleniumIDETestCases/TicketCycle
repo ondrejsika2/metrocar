@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://127.0.0.1:8000/" />
+<title>TicketCycle</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TicketCycle</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/bugrep/login/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>zakaznik</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Report a car defect</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=id_queue</td>
+	<td>label=Název typu</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_title</td>
+	<td>Poškozené přední sklo</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_body</td>
+	<td>Přední sklo je v pravém dolním rohu (z pohledu řidiče) prasklé.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id_username</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(text(),'Poškozené přední sklo')][last()]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=commentBox</td>
+	<td>Závada potrvzena.</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=st_to_resolve</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=ShowFurtherEditOptions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=id_owner</td>
+	<td>label=technik</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle &gt; span.nav-text</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>technik</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(text(),'Poškozené přední sklo')][last()]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=commentBox</td>
+	<td>Opraveno</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=st_checking</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=commentBox</td>
+	<td>Zaznamenáno, opraveno.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=logged_hours_id</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle &gt; span.nav-text</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id_username</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(text(),'Poškozené přední sklo')][last()]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=st_closed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=commentBox</td>
+	<td>Oprava zkontrolována, OK.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle &gt; span.nav-text</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

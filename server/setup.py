@@ -27,7 +27,9 @@ setup(
         'reportlab==2.5',
         'sorl-thumbnail==11.09.1',
         'django-markdown-deux==1.0.5', # Helpdesk
-        'django-bootstrap-form==0.2', # Helpdesk
+        'django-bootstrap-form==3.1', # Helpdesk
+        'simplejson==2.3.3', # Helpdesk
+        'email-reply-parser==0.3.0', # Helpdesk
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
