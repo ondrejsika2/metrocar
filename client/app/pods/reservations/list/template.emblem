@@ -1,52 +1,60 @@
 div.row.mc-header
 
-	h1 Rezervace
-
-	div.mc-action-bar
-	  link-to .btn.btn-green.btn-large 'reservations.create'
-	    i.fa.fa-plus
-	    | Vytvořit rezervaci
-
-	  link-to .btn.btn-green.btn-large 'reservations.browse-cars'
-	    i.fa.fa-search
-	    | Najít nejbližší auto
+	h1 Seznam rezervací
 
 div.mc-content
-  table.table.table-striped
-    thead
-      tr
-        th Stav
-        th Auto
-        th Začátek rezervace
-        th Konec rezervace
-        th Cena
-        th Akce
-    tbody
-      each reservation in reservations
+
+  if reservationsSorted
+    table.table.table-striped
+      thead
         tr
-          td #{reservation-state reservation.state}
-          td #{reservation.car.car_name}
-          td #{time-format reservation.reserved_from 'DD.M.YYYY HH:mm'}
-          td #{time-format reservation.reserved_until 'DD.M.YYYY HH:mm'}
-          td #{currency-format reservation.price}
-          td
-            a.btn.btn-green
-              | Poloha auta
-            a.btn.btn-green
-              | Detail
-            if reservation.is_pending
-              a.btn.btn-red{action 'showModal' 'reservations/delete-confirm-modal' reservation}
-                | Zrušit
+          th Stav
+          th Auto
+          th Začátek rezervace
+          th Konec rezervace
+          th Cena
+          th Akce
+      tbody
+        each reservation in reservationsSorted
+          tr
+            td #{reservation-state reservation.state}
+            td #{reservation.car.car_name}
+            td #{time-format reservation.reserved_from 'DD.M.YYYY HH:mm'}
+            td #{time-format reservation.reserved_until 'DD.M.YYYY HH:mm'}
+            td #{currency-format reservation.price}
+            td
+              a.btn.btn-green{action 'showModal' 'reservations/parking-modal' reservation.car.parking}
+                | Zobrazit parkoviště na mapě
+              if session.active
+                if reservation.is_pending
+                  a.btn.btn-red{action 'showModal' 'reservations/delete-confirm-modal' reservation}
+                    | Zrušit
 
-  div.pull-right
+    div.pull-right
 
-    a.btn.btn-green-filled
-      i.fa.fa-angle-left
-      | Předchozí
+      nav
+        ul.pagination
+          unless isFirstPage
+            li
+              link-to (query-params page=prevPage) class="btn btn-green-filled"
+                span aria-hidden="true"
+                  | &laquo;
 
-    a.btn.btn-green-filled
-      | Další
-      i.fa.fa-angle-right
+
+          each num in pageRange
+            li
+              link-to (query-params page=num) class="btn btn-green-filled"
+                = num
+
+          unless isLastPage
+            li
+              link-to (query-params page=nextPage) class="btn btn-green-filled"
+                span aria-hidden="true"
+                  | &raquo;
+
+  else
+    p.no-content
+      | Zatím žádné rezervace
 
 
 

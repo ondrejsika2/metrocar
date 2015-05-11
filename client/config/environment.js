@@ -27,10 +27,10 @@ module.exports = function(environment) {
 
     contentSecurityPolicy : {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com",
+      'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com http://maps.google.com/maps/api/js?sensor=false",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' maps.gstatic.com server.metrocar.knaisl.cz local.server.metrocar.dev",
-      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com www.gravatar.com",
+      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com www.gravatar.com https://local.server.metrocar.dev",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com"
     },
 
@@ -45,11 +45,14 @@ module.exports = function(environment) {
     //ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     //ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV['metrocarServer'] = 'http://local.server.metrocar.dev';
+    ENV['metrocarServer'] = 'https://local.server.metrocar.dev';
     ENV['simple-auth'] = {
-      serverTokenEndpoint: 'http://local.server.metrocar.dev/api/v1/auth-token/',
-        crossOriginWhitelist: ['local.server.metrocar.dev'],
-        store: 'simple-auth-session-store:local-storage'
+      serverTokenEndpoint: 'https://local.server.metrocar.dev/api/v1/auth-token/',
+      crossOriginWhitelist: ['local.server.metrocar.dev'],
+      store: 'simple-auth-session-store:local-storage',
+      authenticationRoute: 'credentials.login',
+      routeAfterAuthentication: 'reservations.list'
+
     };
 
   }
@@ -68,9 +71,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
 
-    ENV['metrocarServer'] = 'http://server.metrocar.knaisl.cz';
+    ENV['metrocarServer'] = 'https://server.metrocar.knaisl.cz';
     ENV['simple-auth'] = {
-      serverTokenEndpoint: 'http://server.metrocar.knaisl.cz/api/v1/auth-token/',
+      serverTokenEndpoint: 'https://server.metrocar.knaisl.cz/api/v1/auth-token/',
       crossOriginWhitelist: ['server.metrocar.knaisl.cz'],
       store: 'simple-auth-session-store:local-storage'
     };

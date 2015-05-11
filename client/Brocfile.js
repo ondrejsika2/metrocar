@@ -34,6 +34,9 @@ app.import('bower_components/select2-bootstrap-css/select2-bootstrap.css');
 
 app.import('bower_components/moment/locale/cs.js');
 
+app.import('bower_components/cryptojslib/rollups/md5.js');
+app.import('bower_components/cryptojslib/components/enc-base64.js');
+
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //

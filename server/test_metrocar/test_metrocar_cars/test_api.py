@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import os
 import django.test
 from rest_framework.test import APIClient
 from rest_framework.reverse import reverse
@@ -193,17 +194,20 @@ class TestCarApi(django.test.TestCase):
         client = APIClient()
         client.force_authenticate(user=car_fuel_bill_1.account.user)
 
-        response = client.post(reverse('fuelbill-list'), data = {
-            "account": car_fuel_bill_1.account.id,
-            "datetime": car_fuel_bill_1.datetime,
-            "money_amount": car_fuel_bill_1.money_amount,
-            "car": car_fuel_bill_1.car.id,
-            "fuel": car_fuel_bill_1.fuel.id,
-            "liter_count": car_fuel_bill_1.liter_count,
-            "place": car_fuel_bill_1.place,
-        })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            fl.seek(0)
+            response = client.post(reverse('fuelbill-list'), data={
+                "account": car_fuel_bill_1.account.id,
+                "datetime": car_fuel_bill_1.datetime,
+                "money_amount": car_fuel_bill_1.money_amount,
+                "car": car_fuel_bill_1.car.id,
+                "fuel": car_fuel_bill_1.fuel.id,
+                "liter_count": car_fuel_bill_1.liter_count,
+                "place": car_fuel_bill_1.place,
+                "image": fl,
+            }, format='multipart')
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_car_fuel_bill_user_changes_of_approved_failed(self):
         car_fuel_bill_1 = create_fuel_bill_1(False)

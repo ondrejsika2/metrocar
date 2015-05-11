@@ -19,7 +19,6 @@ setup(
         'django-tables==0.2',
         'WebTest==1.3.3',
         'python-dateutil==2.1',
-        'django-piston==0.2.2.1',
         'selenium==2.25.0',
         'South==1.0',
         'pisa==3.0.33',

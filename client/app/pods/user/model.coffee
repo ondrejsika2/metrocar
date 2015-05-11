@@ -13,7 +13,7 @@ Model = DS.Model.extend LazyValidation,
       inline: EmberValidations.validator( ->
         re = /\S+@\S+\.\S+/;
         if re.test(@model.get('email')) is false
-          t = this.model.container.lookup('utils:t')
+          t = @model.container.lookup('utils:t')
           return t('errors.email')
       )
     username:
@@ -29,12 +29,13 @@ Model = DS.Model.extend LazyValidation,
       inline: EmberValidations.validator( ->
         re = /^[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/;
         if re.test(@model.get('primary_phone')) is false
-          t = this.model.container.lookup('utils:t')
+          t = @model.container.lookup('utils:t')
           return t('errors.phone')
       )
     password:
       presence: true
       inline: EmberValidations.validator(->
+        t = @model.container.lookup('utils:t')
         if !@model.get('password')
           return
         if !@model.get('retry_password')
@@ -44,12 +45,13 @@ Model = DS.Model.extend LazyValidation,
           @model.set('errors.retry_password', [])
           return
 
-        @model.set('errors.retry_password', ["Zadaná hesla musí být stejná"])
+        @model.set('errors.retry_password', [t('errors.passportConfirmation')])
         return
       )
     retry_password:
       presence: true
       inline: EmberValidations.validator(->
+        t = @model.container.lookup('utils:t')
         if !@model.get('password')
           return
         if !@model.get('retry_password')
@@ -59,11 +61,21 @@ Model = DS.Model.extend LazyValidation,
           @model.set('errors.retry_password', [])
           return
 
-        return "Zadaná hesla musí být stejná"
+        return t('errors.passportConfirmation')
       )
     drivers_licence_image:
       presence: true
     identity_card_image:
+      presence: true
+    street:
+      presence: true
+    land_registry_number:
+      presence: true
+      numericality: true
+    zip_code:
+      presence: true
+      numericality: true
+    city:
       presence: true
 
 
@@ -80,6 +92,13 @@ Model = DS.Model.extend LazyValidation,
   retry_password: null
   drivers_licence_image: DS.attr('file')
   identity_card_image: DS.attr('file')
+
+  street: DS.attr('string')
+  land_registry_number: DS.attr('number')
+  zip_code: DS.attr('number')
+  city: DS.attr('string')
+
+  journeys: DS.hasMany('journey')
 
 
 `export default Model`

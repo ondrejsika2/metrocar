@@ -134,13 +134,9 @@ INSTALLED_APPS = (
     'rest_framework_swagger',
 
     'django_nose',
-    'piston',
-    'olwidget',
-    'sorl.thumbnail',
     'south',
     'corsheaders',
 
-    'metrocar.api',
     'metrocar.audit',
     'metrocar.car_unit_api',
     'metrocar.cars',
@@ -156,7 +152,6 @@ INSTALLED_APPS = (
 
     'metrocar.tests',
 
-    'autofixture'
 )
 
 #password hassher set to SHA1 because of communication with car_units
@@ -272,6 +267,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
+
+    'CUSTOM_RECORDS_PER_PAGE': 10,
 
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }

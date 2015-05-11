@@ -1,0 +1,2 @@
+mc-modal title='Fotka občanského průkazu' close='removeModal'
+  img.mc-modal-image src=url

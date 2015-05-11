@@ -1,6 +1,8 @@
 @import "variables";
 
 body {
+  min-width: 1000px;
+  width: auto !important;
   background-color: @mc-gray-light;
 }
 
@@ -10,8 +12,15 @@ h1 {
 
 .mc-outlet {
   background-color: @mc-gray-lighter;
+  padding-left: 0;
+  padding-right: 0;
   padding-bottom: 20px;
   min-height: 100vh;
+}
+
+.mc-outlet > .col-xs-11 {
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .mc-content {
@@ -48,4 +57,31 @@ h1 {
   width: 100%;
 }
 
+.mc-attention {
+  width: 100%;
+  height: 20px;
+  background: @mc-yellow;
+  color: @mc-gray-darker;
+  text-align: center;
+}
 
+.mc-spinner {
+  position: relative;
+  width: 16px;
+  top: -2px;
+  margin-right: 7px;
+}
+
+
+.no-content {
+  text-align: center;
+  width: 100%;
+  display: block;
+  color: @mc-gray;
+  font-style: italic;
+  font-size: 200%;
+}
+
+.has-feedback .form-control {
+  padding-right: 0;
+}

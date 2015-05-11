@@ -1,4 +1,5 @@
 # encoding: utf-8
+from types import NoneType
 from django.utils import timezone
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -12,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _, ngettext
 from rest_framework.exceptions import APIException
 
 from metrocar.reservations.business import managers
-from metrocar.user_management.models import MetrocarUser, AccountActivity
+from metrocar.user_management.models import MetrocarUser, AccountActivity, Account
 from metrocar.utils.exceptions import CustomAPIException
 from metrocar.utils.models import SiteSettings
 from metrocar.utils.geo import get_car_last_position, create_journeys
@@ -56,9 +57,14 @@ class Reservation(models.Model):
             '%H:%M:%S %A, %d.%m.%Y')))
 
     def save(self, *args, **kwargs):
-        errors = Reservation.validate(self.user, self.car, self.reserved_from, self.reserved_until)
-        if errors[0] and len(errors[1]):
-            raise CustomAPIException(errors[1])
+
+        if 'force_save_user' in kwargs:
+            del kwargs['force_save_user']
+        else:
+            errors = Reservation.validate(self.user, self.car, self.reserved_from, self.reserved_until)
+            if not errors[0] and len(errors[1]):
+                raise CustomAPIException(errors[1])
+
         super(Reservation, self).save(*args, **kwargs)
 
     def is_valid(self):
@@ -90,7 +96,7 @@ class Reservation(models.Model):
         # datetime checks
         if datetime_from > datetime_till:
             errors.append(force_unicode(_('From datetime must be before till.')))
-        now = timezone.now()
+        now = datetime.utcnow()
         # lze udelat rezervaci nazpet v case o 1x RESERVATION_TIME_SHIFT
         if (now - timedelta(minutes=RESERVATION_TIME_SHIFT)) >= datetime_from:
             errors.append(force_unicode(_('Cannot create reservation in the past.')))
@@ -210,7 +216,10 @@ class Reservation(models.Model):
             Q(reserved_from__lte=dt_from, reserved_until__gte=dt_from) |
             Q(reserved_from__lte=dt_till, reserved_until__gte=dt_till)
         )
+        if conflicts is not NoneType and conflicts.__len__() is 1:
+            return []
         return conflicts
+
 
     def is_running(self):
         """

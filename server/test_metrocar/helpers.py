@@ -1,5 +1,5 @@
 from decimal import Decimal
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 
 from django.conf import settings
 from django.contrib.gis.geos.polygon import Polygon
@@ -14,17 +14,19 @@ from metrocar.subsidiaries.models import Subsidiary
 from metrocar.user_management.models import MetrocarUser
 from metrocar.invoices.models import UserInvoiceAddress
 from metrocar.reservations.models import Reservation
-from metrocar.tarification.models import Pricelist, PricelistDay,\
+from metrocar.tarification.models import Pricelist, PricelistDay, \
     PricelistDayTime
 
 
 def get_subsidiary():
     return Subsidiary.objects.get_current()
 
+
 class SubsidiaryEnabledTestCase(django.test.TestCase):
     def setUp(self):
         super(SubsidiaryEnabledTestCase, self).setUp()
         self.subsidiary = get_subsidiary()
+
 
 class UserEnabledTestCase(django.test.TestCase):
     def setUp(self):
@@ -36,12 +38,13 @@ class UserEnabledTestCase(django.test.TestCase):
             self.user.save()
         except MetrocarUser.DoesNotExist:
             self.user = MetrocarUser.objects.create_user('some_username', 'test@test.cz',
-                'testpass', is_active=True)            
+                                                         'testpass', is_active=True,
+                                                         date_of_birth=datetime.strptime('16Sep1990', '%d%b%Y'))
             self.user.account.balance = Decimal('100000.0')
         if self.user.get_invoice_address() == None:
-            UserInvoiceAddress.objects.create(street='Testing alley',land_registry_number=4815,zip_code=78916,city='Portland',user=self.user)
-             
-                
+            UserInvoiceAddress.objects.create(street='Testing alley', land_registry_number=4815, zip_code=78916,
+                                              city='Portland', user=self.user)
+
 
 def get_cars(**kwargs):
     manufacturer, created = CarModelManufacturer.objects.get_or_create(slug='slug', name='title')
@@ -68,10 +71,10 @@ def get_cars(**kwargs):
         car = Car.objects.create(registration_number='123123', **defaults)
 
     parking = Parking.objects.get_or_create(name='Test', places_count=200,
-        land_registry_number='100', street='Test', city='Praha',
-        polygon=Polygon(
-            ((0.0, 0.0), (0.0, 50.0), (50.0, 50.0), (50.0, 0.0), (0.0, 0.0))
-        )
+                                            land_registry_number='100', street='Test', city='Praha',
+                                            polygon=Polygon(
+                                                ((0.0, 0.0), (0.0, 50.0), (50.0, 50.0), (50.0, 0.0), (0.0, 0.0))
+                                            )
     )
 
     return car_model, car, parking
@@ -102,12 +105,13 @@ class CarEnabledWithoutReservationTestCase(UserEnabledTestCase):
             pricelist_day=pd
         )
 
+
 class CarEnabledTestCase(CarEnabledWithoutReservationTestCase):
     def setUp(self):
         super(CarEnabledTestCase, self).setUp()
         self.reservation, created = Reservation.objects.get_or_create(
-            reserved_from=datetime(year=2010, month=1, day=1, hour=10),
-            reserved_until=datetime(year=2010, month=1, day=1, hour=11),
+            reserved_from=(datetime.now() + timedelta(days=10, hours=3, minutes=40)),
+            reserved_until=(datetime.now() + timedelta(days=10, hours=8, minutes=40)),
             car=self.car,
             user=self.user
         )
@@ -129,16 +133,19 @@ def skip(reason):
     """
     Unconditionally skip a test.
     """
+
     def decorator(test_item):
         if not (isinstance(test_item, type) and issubclass(test_item, TestCase)):
             @wraps(test_item)
             def skip_wrapper(*args, **kwargs):
                 raise SkipTest(reason)
+
             test_item = skip_wrapper
 
         test_item.__django.test_skip__ = True
         test_item.__django.test_skip_why__ = reason
         return test_item
+
     return decorator
 
 

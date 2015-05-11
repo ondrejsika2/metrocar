@@ -1,26 +1,25 @@
 nav.navbar.navbar-top
-  div.navbar-header
+  div
     link-to .navbar-brand 'application'
       i.fa.fa-car.fa-fw
       | Metrocar
 
-
   if session.isAuthenticated
-    ul.nav.navbar-nav.navbar-right.mc-user-dropdown
+    ul.nav.pull-right.mc-user-dropdown
 
       li.dropdown
 
         a.dropdown-toggle.profile-picture data-toggle="dropdown" role="button" aria-expanded="false"
-          img src="http://www.gravatar.com/avatar/c281b763aeb9af1c303f1b95ade91724.png"
+          mc-avatar email=session.email
           span
-            | Vojtěch Knaisl
+            = session.name
             span.caret
 
         ul.dropdown-menu.caret-right role="menu"
 
-          li: a Dummy #1
-          li: a Dummy #1
-          li: a Dummy #1
+          li
+            link-to 'profile.changepassword'
+              | Změnit heslo
           li.divider
           li
             a{action 'invalidateSession'}

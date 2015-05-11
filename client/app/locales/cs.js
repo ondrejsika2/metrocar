@@ -9,7 +9,6 @@ export default {
     tooLong: "is too long (maximum is {{count}} characters)",
     tooShort: "Toto pole musí být dlouhé alespoň {{count}} znaků)",
     wrongLength: "is the wrong length (should be {{count}} characters)",
-    notANumber: "is not a number",
     notAnInteger: "must be an integer",
     greaterThan: "must be greater than {{count}}",
     greaterThanOrEqualTo: "must be greater than or equal to {{count}}",
@@ -23,9 +22,13 @@ export default {
     empty: "Toto políčko nesmí být prázdné",
     blank: "Toto políčko nesmí být prázdné",
     present: "Toto políčko musí zůstat prázdné",
+    notANumber: "Zadaná hodnota není číslo",
     email: "Zadaná hodnota musí být emailová adresa",
     phone: "Zadaná hodnota musí být telefonní číslo",
-    passport_confirmation: "Zadaná hesla se musí shodovat"
+    passportConfirmation: "Zadaná hesla se musí shodovat",
+    agree: "Musíte souhlasit s podmínkami",
+    badLogin: "Zadali jste špatné přihlašovací údaje",
+    badPassword: "Špatné heslo"
   }
 
 };

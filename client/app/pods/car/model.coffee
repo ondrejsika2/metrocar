@@ -20,6 +20,7 @@ Model = DS.Model.extend
 
   reservations: DS.hasMany('reservation')
   fuelbills: DS.hasMany('fuelbill')
+  journeys: DS.hasMany('journey')
 
   car_name: DS.attr('string')
 

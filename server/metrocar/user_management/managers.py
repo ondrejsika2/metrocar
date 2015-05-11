@@ -8,6 +8,8 @@ from datetime import datetime
 from django.db import models
 from django.db.transaction import commit_on_success
 from django.contrib.auth.models import UserManager
+from metrocar.settings.local import DEBUG
+
 
 class MetrocarUserManager(UserManager):
     @commit_on_success
@@ -99,9 +101,10 @@ class UserRegistrationRequestManager(models.Manager):
         """
         Creates new registration request for user requiring registration.
         """
-        #Send email to user - registration request accepted
-        from metrocar.utils.emails import EmailSender
-        EmailSender.send_mail([user.email], 'REG_REQ',user.language, user )
+        if DEBUG is False:
+            #Send email to user - registration request accepted
+            from metrocar.utils.emails import EmailSender
+            EmailSender.send_mail([user.email], 'REG_REQ',user.language, user )
 
         r = self.model(user=user)
         r.save()

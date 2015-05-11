@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
 from metrocar.user_management.views import UserViewSet, obtain_auth_token, AccountActivityListView, \
-    RegistrationViewSet
+    RegistrationViewSet, ChangePasswordViewSet
 from user_management.views import AccountViewSet
 
 router = DefaultRouter()
@@ -19,6 +19,7 @@ router.register(r'users', UserViewSet, base_name="user")
 router.register(r'userbalances', AccountViewSet, base_name="userbalance")
 router.register(r'parkings', ParkingViewSet, base_name="parking")
 router.register(r'registrations', RegistrationViewSet)
+router.register(r'changepasswords', ChangePasswordViewSet)
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browseable API.
@@ -26,5 +27,6 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth-token/', obtain_auth_token),
     url(r'accountactivities/',AccountActivityListView.as_view()),
-    url(r'journey/', JourneyListView.as_view(),name="journey-list"),
+    url(r'journeys/', JourneyListView.as_view(),name="journey-list"),
+
 ]

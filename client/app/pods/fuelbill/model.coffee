@@ -1,17 +1,30 @@
 `import DS from 'ember-data'`
+`import EmberValidations from 'ember-validations'`
 `import LazyValidation from 'client/app/mixins/lazyvalidation'`
 
 Model = DS.Model.extend LazyValidation,
 
   validations:
+    place:
+      presence: true
     money_amount:
       presence: true
     car:
       presence: true
+      inline: EmberValidations.validator( ->
+        if (Ember.isEmpty(this.model.get('car').get('content')))
+          t = this.model.container.lookup('utils:t')
+          return t('errors.empty')
+      )
     fuel:
       presence: true
     liter_count:
       presence: true
+    image:
+      presence: true
+
+
+
 
 
   FUEL_TYPES:

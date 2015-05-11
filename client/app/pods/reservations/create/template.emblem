@@ -1,47 +1,65 @@
 div.row.mc-header
 
-  h1 Nová rezervace
+	h1 Nová rezervace
 
-  div.mc-action-bar
-    button.btn.btn-green-filled.btn-large{action "submit"} type="submit"
-      i.fa.fa-plus
-      | Vytvořit
+	div.mc-action-bar
+		button.btn.btn-green-filled.btn-large{action "submit"} type="submit" disabled=saveButtonDisabled
+			i.fa.fa-plus
+			= saveButtonText
 
-    link-to .btn.btn-green.btn-large 'reservations.list'
-      | Zpět
 
 div.mc-content
 
-  div.col-xs-8
+	div.col-xs-6
 
-    div.form-group class={ reservation.errors.reserved_from:has-error reservation.errors.reserved_from:has-feedback }
-      label.control-label
-        | Začátek rezervace
-      bs-datetimepicker date=reservation.reserved_from format='DD.MM.YYYY HH:mm'
-      if reservation.errors.reserved_from
-        each error in reservation.errors.reserved_from
-          p.text-danger
-            = error
+		if alertDanger
+			div.alert.alert-danger role="alert"
+				strong
+					| Při vytváření rezervace se vyskytly tyto problémy:
+				ul
+					each alert in alertDanger
+						li
+							= alert
 
-    div.form-group class={ reservation.errors.reserved_until:has-error reservation.errors.reserved_until:has-feedback }
-      label.control-label
-        | Konec rezervace
-      bs-datetimepicker date=reservation.reserved_until format='DD.MM.YYYY HH:mm'
-      if reservation.errors.reserved_until
-        each error in reservation.errors.reserved_until
-          p.text-danger
-            = error
+		div.form-group class={ reservation.errors.reserved_from:has-error reservation.errors.reserved_from:has-feedback }
+			label.control-label
+				| Začátek rezervace
+			bs-datetimepicker date=reservation.reserved_from format='DD.MM.YYYY HH:mm'
+			if reservation.errors.reserved_from
+				each error in reservation.errors.reserved_from
+					p.text-danger
+						= error
 
-    div.form-group class={ reservation.errors.car:has-error reservation.errors.car:has-feedback }
-      label.control-label
-        | Auto
-      select-2 content=cars value=carId placeholder="Vyber auto" allowClear=true
-      if reservation.errors.car
-        each error in reservation.errors.car
-          p.text-danger
-            = error
+		div.form-group class={ reservation.errors.reserved_until:has-error reservation.errors.reserved_until:has-feedback }
+			label.control-label
+				| Konec rezervace
+			bs-datetimepicker date=reservation.reserved_until format='DD.MM.YYYY HH:mm'
+			if reservation.errors.reserved_until
+				each error in reservation.errors.reserved_until
+					p.text-danger
+						= error
 
-    div.form-group
-      if carId
-        label Aktuální poloha auta
-      mc-map polygon=polygon
+		div.form-group class={ reservation.errors.parking:has-error reservation.errors.parking:has-feedback }
+			label.control-label
+				| Vyber parkoviště
+			select-2 content=parkingsSelect value=parkingSelect placeholder="Vyber parkoviště" allowClear=true
+			if reservation.errors.parking
+				each error in reservation.errors.parking
+					p.text-danger
+						= error
+
+		if cars
+			div.form-group class={ reservation.errors.car:has-error reservation.errors.car:has-feedback }
+				label.control-label
+					| Seznam dostupných aut
+				select-2 content=carsSelect value=carSelect placeholder="Vyber auto" allowClear=true
+				if reservation.errors.car
+					each error in reservation.errors.car
+						p.text-danger
+							= error
+
+	div.col-xs-6
+		div.form-group
+			if parkingPolygon
+				label Mapa parkoviště
+			mc-map polygon=parkingPolygon

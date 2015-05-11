@@ -47,7 +47,7 @@ class MetrocarUserAdmin(UserAdmin):
                          'language'
                      )
                  }),
-                 (_('Contacts'), {'fields': ('email', 'primary_phone', 'secondary_phone')}),
+                 (_('Contacts'), {'fields': ('email', 'primary_phone')}),
                  (_('Important dates'), {'fields': ('last_login', 'date_joined', 'invoice_date')}),
                  (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
                  (_('Groups'), {'fields': ('groups',)}),
@@ -55,7 +55,7 @@ class MetrocarUserAdmin(UserAdmin):
     user_fieldsets = (
                       (None, {'fields': ('username', 'password')}),
                       (_('Personal info'), {'fields': ('first_name', 'last_name', 'gender', 'date_of_birth', 'identity_card_number', 'drivers_licence_number')}),
-                      (_('Contacts'), {'fields': ('email', 'primary_phone', 'secondary_phone')}),
+                      (_('Contacts'), {'fields': ('email', 'primary_phone')}),
                       (_('Important dates'), {'fields': ('last_login', 'date_joined', 'invoice_date')}),
                       )
 

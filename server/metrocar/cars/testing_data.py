@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 from metrocar.cars.utils import car_model, car_type, fuel, color, car, fuel_bill_1, fuel_bill_2, fuel_bill_3, \
-    manufacturer, parking_1, parking_2, parking_3, parking_4
+    manufacturer, parking_1, parking_2, parking_3, parking_4, pricelist
 from metrocar.user_management import testing_data as users_testing_data
 from metrocar.user_management.testing_data import get_account
 
@@ -23,6 +23,11 @@ def create():
         type=car_type('Combi'),
         engine='1.6 Ti-VCT 77kW')
 
+    pricelist(hyundai)
+    pricelist(fabia)
+    pricelist(octavia)
+    pricelist(focus)
+
     car_parking_1 = parking_1()
     car_parking_2 = parking_2()
     car_parking_3 = parking_3()
@@ -38,7 +43,12 @@ def create():
     car_fabia_2 = car(fabia, '1A3 7805', color=color(u'Černá'), parking=car_parking_2)
 
     return {
-        'car_models': [hyundai, fabia, octavia, focus],
+        'car_models': [
+            hyundai,
+            fabia,
+            octavia,
+            focus
+        ],
         'cars': [
             car_hyundai_1,
             car_fabia_1,

@@ -1,8 +1,10 @@
-from datetime import datetime
+from datetime import datetime, date, time
+from decimal import Decimal
 from django.contrib.gis.geos.polygon import Polygon
 
 from metrocar.cars.models import CarModelManufacturer, CarType, Fuel, \
     CarModel, Car, CarColor, Parking, FuelBill
+from metrocar.tarification.models import Pricelist, PricelistDay, PricelistDayTime
 from test_metrocar.test_metrocar_subsidiaries.fixtures import get_subsidiary
 from test_metrocar.test_metrocar_user_management.fixtures import create_user_1, create_account, create_user_admin_1
 
@@ -42,6 +44,35 @@ def create_car_color_1(save=True):
     if save:
         car_color.save()
     return car_color
+
+def create_pricelist_1(save=True, car_model=None):
+    pricelist = Pricelist(
+            available=True,
+            name='Test pricelist',
+            pickup_fee=100,
+            price_per_hour=10,
+            price_per_km=50,
+            reservation_fee=200,
+            valid_from=date(day=1, month=1, year=2000),
+            model=car_model
+        )
+    if save:
+        pricelist.save()
+
+    pricelist_day = PricelistDay(
+            weekday_from=0,
+            pricelist=pricelist
+        )
+    if save:
+        pricelist_day.save()
+    pricelist_day_time = PricelistDayTime(
+        car_unused_ratio=Decimal('0.5'), car_used_ratio=Decimal('1.6'),
+        late_return_ratio=Decimal('5'), time_from=time(hour=0),
+        pricelist_day=pricelist_day
+    )
+    if save:
+        pricelist_day_time.save()
+    return pricelist
 
 
 def create_car_model_1(save=True):

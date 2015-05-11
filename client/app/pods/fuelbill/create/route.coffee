@@ -4,6 +4,8 @@
 Route = Ember.Route.extend
 
   model: ->
+    if @session.get('active') is false
+      return @transitionTo('forbidden')
     return @store.findAll 'car'
 
   setupController: (controller, model) ->
@@ -21,8 +23,17 @@ Route = Ember.Route.extend
         text: fuelTypes[key]
     )
 
-    controller.set('fuel_bill', @store.createRecord('fuelbill'))
+    controller.set('fuelBill', @store.createRecord('fuelbill'))
 
+    controller.set('saveButtonText', 'Vytvořit')
+    controller.set('saveButtonDisabled', false)
+    controller.set('alertDanger', [])
+
+  actions:
+    willTransition: (transition) ->
+      fuelBill = @get('controller.fuelBill')
+      if fuelBill.get('id') is null
+        fuelBill.deleteRecord();
 
 
 

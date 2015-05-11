@@ -10,9 +10,6 @@ urlpatterns = patterns('',
     (r'^api/', include('metrocar.car_unit_api.urls')),
     (r'^docs/', include('rest_framework_swagger.urls')),
 
-    # Webservice API
-    (r'^', include('metrocar.api.urls')),
-
     (r'^invoices/', include('metrocar.invoices.urls.backend')),
 
     (r'^tests/', include('metrocar.tests.urls')),

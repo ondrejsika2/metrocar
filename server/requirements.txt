@@ -9,20 +9,6 @@ Pillow==2.3.0
 # editable maps for forms
 django-olwidget==0.47
 
-
-# TODO: explain why is this needed
-# found docs here: http://elsdoerfer.name/docs/django-tables/
-django-tables==0.2
-
-
-# TODO: explain why is this needed
-sorl-thumbnail==11.09.1
-
-
-# used for generic API, TODO: find out more info about that
-django-piston==0.2.2.1
-
-
 # used for generating PDF invoices
 pisa==3.0.33
 reportlab==2.5
@@ -71,6 +57,7 @@ flexipy
 djangorestframework==2.4.4
 django-rest-swagger==0.2.9
 django-cors-headers==1.0.0
+
 markdown==2.5.1
 django-filter==0.8
 django-nose==1.3

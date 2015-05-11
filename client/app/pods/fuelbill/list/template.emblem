@@ -2,28 +2,58 @@ div.row.mc-header
 
 	h1 Seznam žádostí o proplacení paliva
 
-	div.mc-action-bar
-	  link-to .btn.btn-green.btn-large 'fuelbill.create'
-	    i.fa.fa-plus
-	    | Vytvořit žádost
+	if session.active
+		div.mc-action-bar
+			link-to .btn.btn-green.btn-large 'fuelbill.create'
+				i.fa.fa-plus
+				| Vytvořit žádost
 
 div.mc-content
-  table.table.table-striped
-    thead
-      tr
-        th.col-xs-1: div.text-center Schváleno
-        th.col-xs-2 Datum podání
-        th.col-xs-7 Částka
-        th.col-xs-2 Fotka účtenky
-    tbody
-      each fuelbill in fuelbills
+
+  if fuelbillsSorted
+    table.table.table-striped
+      thead
         tr
-          td #{fuelbill-approved fuelbill.approved}
-          td #{time-format fuelbill.datetime 'DD.M.YYYY HH:mm'}
-          td #{currency-format fuelbill.money_amount}
-          td
-            a.btn.btn-green{action 'showModal' 'fuelbill/detail-bill-modal' fuelbill.image}
-              | Zobrazit účtenku
+          th.col-xs-1: div.text-center Schváleno
+          th.col-xs-2 Datum podání
+          th.col-xs-7 Částka
+          th.col-xs-2 Fotka účtenky
+      tbody
+        each fuelbill in fuelbillsSorted
+          tr
+            td #{fuelbill-approved fuelbill.approved}
+            td #{time-format fuelbill.datetime 'DD.M.YYYY HH:mm'}
+            td #{currency-format fuelbill.money_amount}
+            td
+              a.btn.btn-green{action 'showModal' 'fuelbill/detail-bill-modal' fuelbill.image}
+                | Zobrazit účtenku
+
+    div.pull-right
+
+      nav
+        ul.pagination
+          unless isFirstPage
+            li
+              link-to (query-params page=prevPage) class="btn btn-green-filled"
+                span aria-hidden="true"
+                  | &laquo;
+
+
+          each num in pageRange
+            li
+              link-to (query-params page=num) class="btn btn-green-filled"
+                = num
+
+          unless isLastPage
+            li
+              link-to (query-params page=nextPage) class="btn btn-green-filled"
+                span aria-hidden="true"
+                  | &raquo;
+
+
+  else
+    p.no-content
+      | Zatím žádné žádosti o proplacení paliva
 
 
 

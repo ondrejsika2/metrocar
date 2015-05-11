@@ -4,15 +4,34 @@ div.row.mc-header
 
 div.mc-content
 
-  ul.timeline
-    each acountactivity in accountactivities
+	if accountactivitiesSorted
+		ul.timeline
+			each acountactivity in accountactivitiesSorted
+				log acountactivity.datetime
 
-      if (is-even _view.contentIndex)
-        li
-          component acountactivity.componentName activity=acountactivity
-      else
-        li.timeline-inverted
-          component acountactivity.componentName activity=acountactivity
+				if (is-even _view.contentIndex)
+					li
+						component acountactivity.componentName activity=acountactivity
+				else
+					li.timeline-inverted
+						component acountactivity.componentName activity=acountactivity
+
+		if isLoading
+			a class="btn btn-default btn-load-mode" disabled="disabled"
+				img class="mc-spinner" src="/images/spinner.gif"
+				| Načítám nové aktivity...
+		else
+			if canLoadMore
+				a{action "loadMore"} class="btn btn-default btn-load-mode"
+					i.fa.fa-refresh
+					| Načíst nové aktivity
+			else
+				a class="btn btn-default btn-load-mode" disabled="disabled"
+					| Žádné další aktivity
+
+	else
+		p.no-content
+			| Zatím žádné pohyby na účtu
 
 
 

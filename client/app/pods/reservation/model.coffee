@@ -17,6 +17,8 @@ Model = DS.Model.extend LazyValidation,
           t = this.model.container.lookup('utils:t')
           return t('errors.blank')
       )
+    parking:
+      presence: true
 
   states:
     COMPLETED: 'completed'
@@ -36,7 +38,11 @@ Model = DS.Model.extend LazyValidation,
   started: DS.attr('date')
   user: DS.attr('number')
 
-  car: DS.belongsTo('car', async: true),
+  car: DS.belongsTo('car', async: true)
+
+  journeys: DS.hasMany('journey')
+
+  parking:null
 
 
   state: Ember.computed 'finished', 'cancelled', ->

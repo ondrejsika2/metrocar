@@ -50,7 +50,7 @@ class TestInvoicesManagement(UserEnabledTestCase):
     #     TODO: there is problem in FLexibee with deleting invoices that are paid
     #     therefore test fails. Undoing of pairing so far is not possible through REST API and flexipy.
     #     It must be done manually through the web interface of Flexibee
-    #     #test ability to pair payments and automatically 
+    #     #test ability to pair payments and automatically
     #     #mark invoices as paid
     #     #create bank item
     #     self.flexManager.create_invoice(self.invoice)

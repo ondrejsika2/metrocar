@@ -7,24 +7,26 @@ Controller = Ember.Controller.extend
     register: ->
       user = @get('user')
 
+      if user.get('agree') isnt true
+        errorMessage = (@get('t'))('errors.agree')
+        @set('user.errors.agree', [errorMessage])
+
       user.validate()
       .then((->
-        return user.save()
-        .then (->
-          @transitionTo('credentials.success')
-        ).bind(this)
-        .catch((e) ->
-
-          console.log e
-        )
-
+          return user.save()
+          .then (->
+            @transitionTo('credentials.success')
+          ).bind(this)
         ).bind(this))
       .catch(((e)->
-        if e.hasOwnProperty('responseText')
-          user_errors = @get('user.errors')
-          errors = JSON.parse(e.responseText)
-          for error_name of errors
-            user_errors.set(error_name, [errors[error_name]]);
+          if e.hasOwnProperty('responseText')
+            userErrors = @get('user.errors')
+            errors = JSON.parse(e.responseText)
+            if errors.hasOwnProperty('detail')
+              @set('alertDanger', errors.detail)
+            else
+              for errorName of errors
+                userErrors.set(errorName, [errors[errorName]]);
 
         ).bind(this))
 

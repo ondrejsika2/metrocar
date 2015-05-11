@@ -1,5 +1,7 @@
-from datetime import datetime, date
+# coding=utf-8
 from decimal import Decimal
+from django.utils import timezone
+from datetime import datetime, timedelta, date, MINYEAR
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -8,12 +10,15 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.signals import post_save
 from django.db.transaction import commit_on_success
-from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_unicode
+from django.utils.translation import ugettext_lazy as _, ngettext
 from rest_framework.authtoken.models import Token
 import managers
 from metrocar.subsidiaries.models import Subsidiary
+from metrocar.utils.exceptions import CustomAPIException
 from metrocar.utils.fields import *
 import re
+from metrocar.settings.local import DEBUG
 
 class Company(models.Model):
     name = models.CharField(max_length=80, blank=False, null=False,
@@ -42,14 +47,12 @@ class MetrocarUser(User):
                                      verbose_name=_('Date of birth'))
     drivers_licence_number = models.CharField(max_length=10, blank=False,
                                               null=False, verbose_name=_('Drivers licence number'))
-    gender = models.CharField(max_length=1, blank=False, null=False,
+    gender = models.CharField(max_length=1, blank=True, null=False,
                               choices=GENDER_CHOICES, verbose_name=_('Gender'))
     identity_card_number = IdentityCardNumberField(blank=False, null=False,
                                                    verbose_name=_('Identity card number'))
     primary_phone = PhoneField(blank=False, null=True,
                                verbose_name=_('Primary phone number'))
-    secondary_phone = PhoneField(blank=False, null=True,
-                                 verbose_name=_('Secondary phone number'))
     specific_symbol = models.IntegerField(max_length=12, blank=False,
         null=True, editable=False, verbose_name=_('Specific symbol'))
     invoice_date = models.DateField(blank=False, null=False,
@@ -61,7 +64,7 @@ class MetrocarUser(User):
 
     language = models.CharField(max_length=2, choices=settings.LANG_CHOICES)
 
-    drivers_licence_image = models.ImageField(upload_to='user-management/%Y/%m', blank=True,
+    drivers_licence_image = models.ImageField(upload_to='user-management/%Y/%m',
                               null=True, verbose_name=_('Drive licence image'), max_length=100000)
 
     identity_card_image = models.ImageField(upload_to='fuel_bills/%Y/%m',
@@ -162,22 +165,29 @@ class MetrocarUser(User):
         """
         params = {'password_reset_url': self.home_subsidiary.get_absolute_url() + "/" + slugify(_('users')) + "/" + slugify(_('password reset')) + "/" + self.username + "/" + self.get_unique_password_reset_hash_string()}
 
-        from metrocar.utils.emails import EmailSender
-        EmailSender.send_mail([self.email], 'REQ_RES', self.language, self.user, params)
+        if DEBUG is False:
+            from metrocar.utils.emails import EmailSender
+            EmailSender.send_mail([self.email], 'REQ_RES', self.language, self.user, params)
 
     def save(self, **kwargs):
         """
         Overload to set home subsidiary if missing
         """
+
+        errors = MetrocarUser.validate(self)
+
+        if not errors[0] and len(errors[1]):
+            raise CustomAPIException(errors[1])
+
         self.invoice_date = date.today()
         self.specific_symbol = self.parse_ss_from_id_card_number()
         if not self.pk:
+            self.language = settings.LANG_CHOICES[0][0]
             try:
                 self.home_subsidiary
             except Subsidiary.DoesNotExist:
                 self.home_subsidiary = Subsidiary.objects.get_current()
         super(MetrocarUser, self).save(**kwargs)
-
 
     def delete(self):
         """
@@ -185,6 +195,25 @@ class MetrocarUser(User):
         """
         self.is_active = False
         self.save()
+
+    @classmethod
+    def validate(cls, user):
+
+        errors = []
+
+        if isinstance(user.date_of_birth, datetime):
+            user.date_of_birth = user.date_of_birth.date()
+        delta = datetime.now().date() - user.date_of_birth
+        min_18 = timedelta(days=18*365.25)
+        if delta < min_18:
+            errors.append(force_unicode('Musí vám být nejméně 18 let.'))
+
+
+
+        if len(errors) == 0:
+            return True, []
+        else:
+            return False, errors
 
 class UserRegistrationRequest(models.Model):
     user = models.OneToOneField(MetrocarUser, unique=True, blank=False, null=False, verbose_name=_('User'), related_name='user_registration_request')
@@ -204,8 +233,9 @@ class UserRegistrationRequest(models.Model):
         """
         Approves user registration, sets the user account active.
         """
-        from metrocar.utils.emails import EmailSender
-        EmailSender.send_mail([self.user.email], 'REG_APP', self.user.language, self.user)
+        if DEBUG is False:
+            from metrocar.utils.emails import EmailSender
+            EmailSender.send_mail([self.user.email], 'REG_APP', self.user.language, self.user)
 
         self.user.is_active = True
         self.resolved = True
@@ -218,8 +248,9 @@ class UserRegistrationRequest(models.Model):
         """
         Rejects registration request.
         """
-        from metrocar.utils.emails import EmailSender
-        EmailSender.send_mail([self.user.email], 'REG_DNY', self.user.language, self)
+        if DEBUG is False:
+            from metrocar.utils.emails import EmailSender
+            EmailSender.send_mail([self.user.email], 'REG_DNY', self.user.language, self)
 
         self.resolved = True
         self.approved = False
@@ -314,16 +345,17 @@ class Account(models.Model):
         """
         Sends warning about negative balance on user account.
         """
-        from metrocar.utils.models import EmailTemplate
-        from django.core.mail import EmailMessage
-        from metrocar.utils.log import get_logger
-        et = EmailTemplate.objects.get(code='TAR_' + self.user.language)        
-        email = EmailMessage(et.subject, et.content, settings.EMAIL_HOST_USER, [self.user.email])
-        try:
-            email.send(fail_silently=False)
-            get_logger().info("Mail TAR_" + self.user.language + " sent to " + str([self.user.email]))
-        except Exception as ex:
-            get_logger().error("Mail TAR_" + self.user.language + " could not be sent. Exception was: " + str(ex))        
+        if DEBUG is False:
+            from metrocar.utils.models import EmailTemplate
+            from django.core.mail import EmailMessage
+            from metrocar.utils.log import get_logger
+            et = EmailTemplate.objects.get(code='TAR_' + self.user.language)
+            email = EmailMessage(et.subject, et.content, settings.EMAIL_HOST_USER, [self.user.email])
+            try:
+                email.send(fail_silently=False)
+                get_logger().info("Mail TAR_" + self.user.language + " sent to " + str([self.user.email]))
+            except Exception as ex:
+                get_logger().error("Mail TAR_" + self.user.language + " could not be sent. Exception was: " + str(ex))
 
 post_save.connect(Account.create_for_user, sender=MetrocarUser)
 

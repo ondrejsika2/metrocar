@@ -293,11 +293,11 @@ class Car(models.Model):
         return [fuelCount, kmTotal, fuelPriceCount, maintenancePriceCount, (fuelPriceCount + maintenancePriceCount), pricePerKm, timeTotal * 24]
 
     @classmethod
-    def list_of_available_cars(cls, datetime_start, datetime_end, home_subsidiary=None):
+    def list_of_available_cars(cls, datetime_start, datetime_end, parking, home_subsidiary=None):
         """
         Vrati vsechny automobily, ktere jsou v zadanem obdobi dostupne a patri ke zvolene pobocce
         """
-        cars = Car.objects.filter()
+        cars = Car.objects.filter(parking=parking)
         if (home_subsidiary is not None):
             cars = cars.filter(home_subsidiary=home_subsidiary)
 
@@ -322,8 +322,7 @@ class FuelBill(AccountActivity):
                                       verbose_name=_('Liter count'))
     place = models.CharField(max_length=100,
                              verbose_name=_('Place'))
-    image = models.ImageField(upload_to='fuel_bills/%Y/%m', blank=True,
-                              null=True, verbose_name=_('Bill image'))
+    image = models.ImageField(upload_to='fuel_bills/%Y/%m', verbose_name=_('Bill image'))
 
     class Meta:
         verbose_name = _('Fuel bill')
