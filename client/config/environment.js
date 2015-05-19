@@ -75,7 +75,9 @@ module.exports = function(environment) {
     ENV['simple-auth'] = {
       serverTokenEndpoint: 'https://server.metrocar.knaisl.cz/api/v1/auth-token/',
       crossOriginWhitelist: ['server.metrocar.knaisl.cz'],
-      store: 'simple-auth-session-store:local-storage'
+      store: 'simple-auth-session-store:local-storage',
+      authenticationRoute: 'credentials.login',
+      routeAfterAuthentication: 'reservations.list'
     };
 
   }

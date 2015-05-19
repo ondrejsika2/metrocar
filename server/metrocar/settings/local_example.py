@@ -1,4 +1,6 @@
 # Copy this to local.py and edit according to your needs.
+from metrocar.settings.base import *
+SECRET_KEY="skadjni,das.d,.3e2;3mkldasmdklas,.32"
 
 DATABASES = {
     'default': {
@@ -25,3 +27,5 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
+
+

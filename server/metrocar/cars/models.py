@@ -313,7 +313,7 @@ class Car(models.Model):
 class FuelBill(AccountActivity):
     code = models.CharField(max_length=20,
                             verbose_name=_('Code'),
-                            null=True)
+                            null=True, blank=True, default="")
     approved = models.BooleanField(default=False,
                                    verbose_name=_('Approved'))
     car = models.ForeignKey(Car, verbose_name=_('Car'))
@@ -322,7 +322,8 @@ class FuelBill(AccountActivity):
                                       verbose_name=_('Liter count'))
     place = models.CharField(max_length=100,
                              verbose_name=_('Place'))
-    image = models.ImageField(upload_to='fuel_bills/%Y/%m', verbose_name=_('Bill image'))
+
+    image = models.ImageField(upload_to='fuel_bills/%Y/%m', verbose_name=_('Bill image'), default=None)
 
     class Meta:
         verbose_name = _('Fuel bill')

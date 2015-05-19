@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,53 +8,80 @@ from django.db import models
 class Migration(SchemaMigration):
 
     depends_on = (
-        ("cars", "0004_auto__add_field_car_last_echo"),
+        ("reservations", "0003_auto__add_carfield"),
     )
 
     def forwards(self, orm):
-        # Adding field 'Car.last_echo'
-        db.add_column('reservations_reservation', 'car',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cars.Car'],
-                                                                            related_name='reservations'),
+        # Deleting model 'ParkingDescription'
+        db.delete_table(u'cars_parkingdescription')
+
+        # Deleting field 'Car.last_address'
+        db.delete_column(u'cars_car', 'last_address')
+
+        # Deleting field 'Car.last_position'
+        db.delete_column(u'cars_car', 'last_position')
+
+        # Adding field 'Car._last_position'
+        db.add_column(u'cars_car', '_last_position',
+                      self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, db_column='last_position', blank=True),
                       keep_default=False)
 
-        db.create_table(u'reservations_reservationreminder', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('datetime', self.gf('django.db.models.fields.DateTimeField')()),
-            ('sent', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('reservation', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['reservations.Reservation'], unique=True)),
-        ))
-        db.send_create_signal(u'reservations', ['ReservationReminder'])
+        # Adding field 'Car._last_address'
+        db.add_column(u'cars_car', '_last_address',
+                      self.gf('django.db.models.fields.CharField')(max_length=255, null=True, db_column='last_address', blank=True),
+                      keep_default=False)
 
-        # Adding model 'ReservationBill'
-        db.create_table(u'reservations_reservationbill', (
-            (u'accountactivity_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['user_management.AccountActivity'], unique=True, primary_key=True)),
-            ('reservation', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['reservations.Reservation'])),
-        ))
-        db.send_create_signal(u'reservations', ['ReservationBill'])
+        # Adding field 'Car.parking'
+        db.add_column(u'cars_car', 'parking',
+                      self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='parking', null=True, to=orm['cars.Parking']),
+                      keep_default=False)
 
 
-        # Changing field 'Reservation.created'
-        db.alter_column(u'reservations_reservation', 'created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True))
+        # Changing field 'FuelBill.code'
+        db.alter_column(u'cars_fuelbill', 'code', self.gf('django.db.models.fields.CharField')(max_length=20, null=True))
 
-        # Changing field 'Reservation.modified'
-        db.alter_column(u'reservations_reservation', 'modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True))
+        # Changing field 'FuelBill.image'
+        db.alter_column(u'cars_fuelbill', 'image', self.gf('django.db.models.fields.files.ImageField')(default='', max_length=100))
 
     def backwards(self, orm):
-        # Deleting field 'Car.last_echo'
-        db.delete_column('reservations_reservation', 'car')
+        # Adding model 'ParkingDescription'
+        db.create_table(u'cars_parkingdescription', (
+            ('car', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cars.Car'])),
+            ('parking', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cars.Parking'])),
+            ('description', self.gf('django.db.models.fields.TextField')()),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+        ))
+        db.send_create_signal('cars', ['ParkingDescription'])
 
-        db.delete_table(u'reservations_reservationreminder')
+        # Adding field 'Car.last_address'
+        db.add_column(u'cars_car', 'last_address',
+                      self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True),
+                      keep_default=False)
 
-        # Deleting model 'ReservationBill'
-        db.delete_table(u'reservations_reservationbill')
+        # Adding field 'Car.last_position'
+        db.add_column(u'cars_car', 'last_position',
+                      self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True),
+                      keep_default=False)
+
+        # Deleting field 'Car._last_position'
+        db.delete_column(u'cars_car', 'last_position')
+
+        # Deleting field 'Car._last_address'
+        db.delete_column(u'cars_car', 'last_address')
+
+        # Deleting field 'Car.parking'
+        db.delete_column(u'cars_car', 'parking_id')
 
 
-        # Changing field 'Reservation.created'
-        db.alter_column(u'reservations_reservation', 'created', self.gf('django.db.models.fields.DateTimeField')())
+        # User chose to not deal with backwards NULL issues for 'FuelBill.code'
+        raise RuntimeError("Cannot reverse this migration. 'FuelBill.code' and its values cannot be restored.")
+        
+        # The following code is provided here to aid in writing a correct migration
+        # Changing field 'FuelBill.code'
+        db.alter_column(u'cars_fuelbill', 'code', self.gf('django.db.models.fields.CharField')(max_length=20))
 
-        # Changing field 'Reservation.modified'
-        db.alter_column(u'reservations_reservation', 'modified', self.gf('django.db.models.fields.DateTimeField')())
+        # Changing field 'FuelBill.image'
+        db.alter_column(u'cars_fuelbill', 'image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True))
 
     models = {
         u'auth.group': {
@@ -138,6 +165,42 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
+        u'cars.fuelbill': {
+            'Meta': {'object_name': 'FuelBill', '_ormbases': [u'user_management.AccountActivity']},
+            u'accountactivity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['user_management.AccountActivity']", 'unique': 'True', 'primary_key': 'True'}),
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cars.Car']"}),
+            'code': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'fuel': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cars.Fuel']"}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'default': 'None', 'max_length': '100'}),
+            'liter_count': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '2'}),
+            'place': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'cars.journey': {
+            'Meta': {'object_name': 'Journey'},
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cars.Car']"}),
+            'comment': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'end_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'None', 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'length': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '8', 'decimal_places': '3'}),
+            'reservation': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'journeys'", 'null': 'True', 'to': u"orm['reservations.Reservation']"}),
+            'speedometer_end': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'speedometer_start': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'start_datetime': ('django.db.models.fields.DateTimeField', [], {}),
+            'total_price': ('django.db.models.fields.DecimalField', [], {'default': '0', 'null': 'True', 'max_digits': '8', 'decimal_places': '2', 'blank': 'True'}),
+            'type': ('django.db.models.fields.CharField', [], {'default': "'T'", 'max_length': '2'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['user_management.MetrocarUser']"})
+        },
+        u'cars.maintenancebill': {
+            'Meta': {'object_name': 'MaintenanceBill', '_ormbases': [u'user_management.AccountActivity']},
+            u'accountactivity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['user_management.AccountActivity']", 'unique': 'True', 'primary_key': 'True'}),
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'car': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cars.Car']"}),
+            'code': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'place': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'purpose': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
         u'cars.parking': {
             'Meta': {'object_name': 'Parking'},
             'city': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
@@ -171,18 +234,6 @@ class Migration(SchemaMigration):
             'reserved_until': ('django.db.models.fields.DateTimeField', [], {}),
             'started': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reservations'", 'to': u"orm['user_management.MetrocarUser']"})
-        },
-        u'reservations.reservationbill': {
-            'Meta': {'object_name': 'ReservationBill', '_ormbases': [u'user_management.AccountActivity']},
-            u'accountactivity_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['user_management.AccountActivity']", 'unique': 'True', 'primary_key': 'True'}),
-            'reservation': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['reservations.Reservation']"})
-        },
-        u'reservations.reservationreminder': {
-            'Meta': {'object_name': 'ReservationReminder'},
-            'datetime': ('django.db.models.fields.DateTimeField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'reservation': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['reservations.Reservation']", 'unique': 'True'}),
-            'sent': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'sites.site': {
             'Meta': {'ordering': "('domain',)", 'object_name': 'Site', 'db_table': "'django_site'"},
@@ -250,4 +301,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['reservations']
+    complete_apps = ['cars']
