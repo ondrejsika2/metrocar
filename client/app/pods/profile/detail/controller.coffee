@@ -31,14 +31,7 @@ Controller = Ember.Controller.extend EmberValidations.Mixin,
             @set('user.errors', [])
             return
 
-          return user.save().then(( ->
-            @set('isEditable', false)
-            @set('session.email',@get('user.email'))
-            @set('session.name', "#{@get('user.first_name')} #{@get('user.last_name')}")
-            @set('session.username', @get('user.username'))
-            @set('session.active', false)
-            @transitionTo('profile.success')
-          ).bind(this))
+          @send('showModal', 'profile/make-sure-modal', user)
 
         ).bind(this))
       .catch(((e)->

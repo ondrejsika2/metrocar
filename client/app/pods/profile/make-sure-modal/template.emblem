@@ -1,0 +1,3 @@
+mc-modal title='Opravdu chcete pokračovat?' ok='saveChanges' close='removeModal'
+  | Změna osobních údajů povede na částečné zablokování účtu. Provedené změny musí být schváleny manažerem.
+

@@ -25,4 +25,7 @@ Route = Ember.Route.extend
     ctrl.set('totalDistance', totalDistance)
     ctrl.set('alertDanger', [])
 
+    ctrl.set('isEditable', false)
+
+
 `export default Route`
