@@ -3,7 +3,7 @@
 Transform = DS.Transform.extend
 
   deserialize: (serialized) ->
-    return serialized
+    return moment(serialized)
 
   serialize: (deserialized) ->
     return deserialized.format('YYYY-MM-DD')

@@ -1,0 +1,6 @@
+Unit and Integration:
+From server/metrocar, where manage.py is located, run "sudo python manage.py test helpdesk".
+
+System and Acceptation - requires running server at 127.0.0.1:8000:
+a) Selenium IDE Test Cases: Requires Selenium IDE for Mozilla Firefox. Open test cases in this tool and click Start.
+b) system.py - from this folder, run "sudo python system.py"

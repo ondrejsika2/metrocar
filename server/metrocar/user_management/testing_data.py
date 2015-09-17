@@ -1,9 +1,9 @@
-import datetime
+from datetime import datetime, timedelta, date
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
-from metrocar.user_management.models import MetrocarUser, Deposit, Account
+from metrocar.user_management.models import MetrocarUser, Deposit, Account, UserRegistrationRequest
 from metrocar.invoices.models import UserInvoiceAddress
 
 
@@ -36,11 +36,9 @@ def create_user(username, password, first_name, last_name, email=None, **kwargs)
         identity_card_number='200453854',
         primary_phone='723341678',
         language=settings.LANG_CHOICES[0][0],
-        date_of_birth=datetime.date(
-            year=1990,
-            month=3,
-            day=12
-        )
+        date_of_birth=datetime.strptime('16Sep1990', '%d%b%Y'),
+        drivers_licence_image = "drivinglicence.jpg",
+        identity_card_image = "identitycard.jpg",
     )
     user, created = MetrocarUser.objects.get_or_create(
         defaults=dict(defaults, **kwargs), **id)
@@ -50,6 +48,12 @@ def create_user(username, password, first_name, last_name, email=None, **kwargs)
         user.save()
         create_invoice_address(user)
         create_api_token_for_user(user)
+        user_registration_request = UserRegistrationRequest.objects.get_or_create(
+            user=user
+        )[0]
+        user_registration_request.approved = True
+        user_registration_request.save()
+
     return user
 
 
@@ -67,18 +71,21 @@ def get_account(username):
     return Account.objects.get(user__username=username)
 
 def create_deposit(username, amount, comment='Testing deposit', **kwargs):
-    return Deposit.objects.get_or_create(
+    deposit, created = Deposit.objects.get_or_create(
         account=get_account(username),
         money_amount=amount,
         comment=comment,
-        defaults=kwargs)[0]
+        defaults=kwargs)
+    if created:
+        deposit.datetime = datetime.now() + timedelta(days=-100)
+        deposit.save()
 
 
 def create():
     return {
         'users': [
             create_admin(),
-            create_user('user', 'password', 'John', 'Dope'),
+            create_user('user', 'password', 'John', 'Dope', 'jan.novak12345612@gmail.com'),
         ],
         'deposits': [
             create_deposit('user', 9000),

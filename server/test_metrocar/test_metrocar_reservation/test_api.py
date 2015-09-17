@@ -6,8 +6,8 @@ from rest_framework.reverse import reverse
 from rest_framework import status
 
 from metrocar.reservations.models import Reservation
-from metrocar.user_management.models import MetrocarUser
-from test_metrocar.test_metrocar_cars.fixtures import create_car_1
+from metrocar.user_management.models import MetrocarUser, Account
+from test_metrocar.test_metrocar_cars.fixtures import create_car_1, create_pricelist_1
 from test_metrocar.test_metrocar_reservation.fixtures import create_reservation_1
 from test_metrocar.test_metrocar_user_management.fixtures import create_user_1, create_user_admin_1
 
@@ -18,17 +18,19 @@ class TestReservationsApi(django.test.TestCase):
     def setUpClass(cls):
         Reservation.objects.all().delete()
         MetrocarUser.objects.all().delete()
+        Account.objects.all().delete()
 
     @classmethod
     def tearDownClass(cls):
         Reservation.objects.all().delete()
         MetrocarUser.objects.all().delete()
+        Account.objects.all().delete()
 
     def setUp(self):
         self.reservation_1 = create_reservation_1()
 
     def tearDown(self):
-        pass
+        Account.objects.all().delete()
 
     def test_perm_1(self):
         client = APIClient()
@@ -42,15 +44,17 @@ class TestReservationsApi(django.test.TestCase):
         response = client.get(reverse('reservation-list'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
+        self.assertEqual(len(response.data["results"]), 0)
 
     def test_list(self):
         client = APIClient()
         client.force_authenticate(self.reservation_1.user)
         response = client.get(reverse('reservation-list'))
 
+        print response.data["results"]
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data["results"]), 1)
 
     def test_detail_success(self):
         client = APIClient()
@@ -80,7 +84,7 @@ class TestReservationsApi(django.test.TestCase):
                 "reserved_from": datetime.now(),
             })
 
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_success(self):
         client = APIClient()
@@ -137,6 +141,7 @@ class TestReservationsApi(django.test.TestCase):
     def test_create_success(self):
         user_1 = create_user_1()
         car_1 = create_car_1()
+        create_pricelist_1(car_model=car_1.model)
 
         client = APIClient()
         client.force_authenticate(user=user_1)

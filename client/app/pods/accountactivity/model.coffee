@@ -7,9 +7,9 @@ Model = DS.Model.extend
     DEPOSIT: 'Deposit'
     FUEL_BILL: 'FuelBill'
 
-  "datetime": DS.attr('date')
-  "money_amount": DS.attr('number')
-  "activity_type": DS.attr('string')
+  datetime: DS.attr('date')
+  money_amount: DS.attr('number')
+  activity_type: DS.attr('string')
 
   componentName: (->
     switch @get('activity_type')

@@ -1,0 +1,2 @@
+mc-modal class="mc-parking-modal" title='Mapa parkoviště' close='removeModal'
+  mc-map polygon=model.polygon

@@ -1,7 +1,8 @@
+import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from metrocar.user_management.models import MetrocarUser, Deposit, Account
+from metrocar.user_management.models import MetrocarUser, Deposit, Account, UserRegistrationRequest
 from metrocar.invoices.models import UserInvoiceAddress
 
 
@@ -11,6 +12,7 @@ def create_user_admin_1(save=True):
         last_name="Pecka",
         username='admin' + str(MetrocarUser.objects.count()),
         password='admin',
+        date_of_birth=datetime.datetime.strptime('16Sep1990', '%d%b%Y'),
         is_superuser=True,
         is_staff=True,
         email='mpecka@mailinator.com',
@@ -29,6 +31,7 @@ def create_user_1(save=True):
         last_name="Novak",
         username="jnovak",
         password="password",
+        date_of_birth=datetime.datetime.strptime('16Sep1990', '%d%b%Y'),
         email='jnovak@mailinator.com',
         drivers_licence_number='0000000',
         gender='M',
@@ -37,9 +40,17 @@ def create_user_1(save=True):
         language=settings.LANG_CHOICES[0][0],
     )[0]
     if save:
-        account = create_account(user.username)
+        account = create_account(user)
+        user.account = account
+        user.save()
         create_invoice_address(user)
-        create_deposit(account, 10000)
+        create_deposit(account, 100000)
+        user_registration_request = UserRegistrationRequest.objects.get_or_create(
+            user=user
+        )[0]
+        user_registration_request.approved = True
+        user_registration_request.save()
+
     return user
 
 
@@ -53,8 +64,10 @@ def create_invoice_address(user, save=True):
     )[0]
 
 
-def create_account(username):
-    return Account.objects.get_or_create(user__username=username)[0]
+def create_account(user):
+    return Account.objects.get_or_create(
+        user=user,
+    )[0]
 
 
 def create_deposit(account, amount, comment='Testing deposit', **kwargs):

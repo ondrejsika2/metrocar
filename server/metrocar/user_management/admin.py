@@ -33,8 +33,21 @@ class MetrocarUserAdmin(UserAdmin):
 
     fieldsets = (
                  (None, {'fields': ('username', 'password')}),
-                 (_('Personal info'), {'fields': ('first_name', 'last_name', 'gender', 'date_of_birth', 'identity_card_number', 'drivers_licence_number', 'home_subsidiary','language')}),
-                 (_('Contacts'), {'fields': ('email', 'primary_phone', 'secondary_phone')}),
+                 (_('Personal info'), {
+                     'fields': (
+                         'first_name',
+                         'last_name',
+                         'gender',
+                         'date_of_birth',
+                         'identity_card_number',
+                         'identity_card_image',
+                         'drivers_licence_number',
+                         'drivers_licence_image',
+                         'home_subsidiary',
+                         'language'
+                     )
+                 }),
+                 (_('Contacts'), {'fields': ('email', 'primary_phone')}),
                  (_('Important dates'), {'fields': ('last_login', 'date_joined', 'invoice_date')}),
                  (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
                  (_('Groups'), {'fields': ('groups',)}),
@@ -42,7 +55,7 @@ class MetrocarUserAdmin(UserAdmin):
     user_fieldsets = (
                       (None, {'fields': ('username', 'password')}),
                       (_('Personal info'), {'fields': ('first_name', 'last_name', 'gender', 'date_of_birth', 'identity_card_number', 'drivers_licence_number')}),
-                      (_('Contacts'), {'fields': ('email', 'primary_phone', 'secondary_phone')}),
+                      (_('Contacts'), {'fields': ('email', 'primary_phone')}),
                       (_('Important dates'), {'fields': ('last_login', 'date_joined', 'invoice_date')}),
                       )
 
@@ -88,7 +101,11 @@ class MetrocarUserAdmin(UserAdmin):
 class UserRegistrationRequestAdmin(admin.ModelAdmin):
     list_display = ('user', 'approved')
     fieldsets = (
-                 (None, {'fields': ()}),
+                 (None, {'fields': (
+                    'user',
+                    'approved',
+                    'resolved',
+                 )}),
                  )
 
     def set_approved(self, request, queryset):

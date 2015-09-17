@@ -240,15 +240,3 @@ urlpatterns += patterns('helpdesk.views.customer',
 	url(r'^customer/supplement/(?P<ticket_id>[0-9]+)', 'ticket_supplement', name='helpdesk_customer_ticket_supplement'),
 )
 
-urlpatterns += patterns('helpdesk.views.technician',
-	url(r'^technician/$', 'index', name='helpdesk_technician_index'),
-	url(r'^technician/show/(?P<ticket_id>[0-9]+)', 'show_ticket', name='helpdesk_technician_show_ticket'),
-	url(r'^technician/take/(?P<ticket_id>[0-9]+)', 'take_ticket', name='helpdesk_technician_take_ticket'),
-)
-
-urlpatterns += patterns('helpdesk.views.manager',
-	url(r'^manager/$', 'index', name='helpdesk_manager_index'),
-	url(r'^manager/show/(?P<ticket_id>[0-9]+)', 'show_ticket', name='helpdesk_manager_show_ticket'),
-)
-
-

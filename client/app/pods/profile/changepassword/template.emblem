@@ -1,0 +1,51 @@
+div.row.mc-header
+
+	h1 Změna hesla
+
+div.mc-content
+
+
+  div.mc-profile-box
+
+    div.mc-profile-box-header
+      h3 Vyplňte údaje
+
+      a.btn.btn-green-filled.btn-large{action 'changePassword'}
+        i.fa.fa-check
+        | Změnit heslo
+
+
+    form.form
+
+      div.col-xs-6
+
+        div.form-group class={ oldPassword_errors:has-error oldPassword_errors:has-feedback }
+          label.control-label
+            | Staré heslo
+          = input .form-control value=oldPassword type="password"
+          if oldPassword_errors
+            span.glyphicon.glyphicon-remove.form-control-feedback
+            each error in oldPassword_errors
+              p.text-danger
+                = error
+
+
+        div.form-group class={ newPassword_errors:has-error newPassword_errors:has-feedback }
+          label.control-label
+            | Heslo
+          = input .form-control value=newPassword type="password"
+          if newPassword_errors
+            span.glyphicon.glyphicon-remove.form-control-feedback
+            each error in newPassword_errors
+              p.text-danger
+                = error
+
+        div.form-group class={ newPasswordRetry_errors:has-error newPasswordRetry_errors:has-feedback }
+          label.control-label
+            | Zopakujte heslo
+          = input .form-control value=newPasswordRetry type="password"
+          if newPasswordRetry_errors
+            span.glyphicon.glyphicon-remove.form-control-feedback
+            each error in newPasswordRetry_errors
+              p.text-danger
+                = error

@@ -3,7 +3,9 @@
 # Django settings for metrocar project.
 from os.path import abspath, dirname, join
 
+
 PROJECT_PATH = abspath(join(dirname(__file__), '..'))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -106,6 +108,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -121,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.flatpages',
+    'django.contrib.gis',
     'django.contrib.markup',
     'django.contrib.messages',
     'django.contrib.sessions',
@@ -129,14 +133,12 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
 
     'django_nose',
-    'piston',
-    'olwidget',
-    'sorl.thumbnail',
     'south',
+    'corsheaders',
 
-    'metrocar.api',
     'metrocar.audit',
     'metrocar.car_unit_api',
     'metrocar.cars',
@@ -152,9 +154,6 @@ INSTALLED_APPS = (
 
     'metrocar.tests',
 
-    'autofixture',
-    
-    
     # ---------------------- HELPDESK
     'django.contrib.humanize',  # Required for elapsed time formatting
     'markdown_deux',  # Required for Knowledgebase item formatting
@@ -166,7 +165,7 @@ INSTALLED_APPS = (
 #password hassher set to SHA1 because of communication with car_units
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',    
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.BCryptPasswordHasher',
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
@@ -277,7 +276,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ],
 
+    'CUSTOM_RECORDS_PER_PAGE': 10,
+
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
 
 LOGIN_URL = '/bugrep/login/'

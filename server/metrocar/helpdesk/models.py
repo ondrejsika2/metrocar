@@ -27,15 +27,6 @@ class Queue(models.Model):
     a queue for each of Accounts, Pre-Sales, and Support.
 
     """
-    # ---------------- ADDED
-    active = models.BooleanField(
-		_('Active'),
-		default=True,
-		blank=False,
-		null=False,
-		help_text=_('Can be any report added to this queue?'),
-    )
-    # ------------------ ADDED
 
     title = models.CharField(
         _('Title'),
@@ -47,6 +38,24 @@ class Queue(models.Model):
         help_text=_('This slug is used when building ticket ID\'s. Once set, '
             'try not to change it or e-mailing may get messy.'),
         )
+        
+    # ---------------- ADDED
+    active = models.BooleanField(
+		_('Active'),
+		default=True,
+		blank=False,
+		null=False,
+		help_text=_('Can be any report added to this queue?'),
+    )
+    
+    description = models.CharField(
+		_('Description'),
+		max_length=256,		
+		blank=True,
+		null=True,
+		help_text=_('Description of this queue and its content. Tickets of which type/kind should be in this queue?'),
+    )
+    # ------------------ ADDED        
 
     email_address = models.EmailField(
         _('E-Mail Address'),
@@ -279,7 +288,7 @@ class Ticket(models.Model):
     OPEN_STATUS = 1
     REOPENED_STATUS = 2
     RESOLVED_STATUS = 3
-    CLOSED_STATUS = 4
+    #CLOSED_STATUS = 4
     DUPLICATE_STATUS = 5
     
     # --------- ADDED
@@ -315,11 +324,11 @@ class Ticket(models.Model):
         (5, _('5. Very Low')),
     )
     # ------------------ ADDED
-    which_car = models.ForeignKey(Car,default=None,null=True) # which car has defect
+    which_car = models.ForeignKey(Car,verbose_name=_('Which car?'),default=None,null=True) # which car has defect
     
-    who_created = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True,related_name="+") # who created report
+    who_created = models.ForeignKey(settings.AUTH_USER_MODEL,verbose_name=_('Who created?'),blank=True,null=True,related_name="+") # who created report
     
-    who_reported = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True,related_name="+"); # who reported defect
+    who_reported = models.ForeignKey(settings.AUTH_USER_MODEL,verbose_name=_('Who reported?'),blank=True,null=True,related_name="+"); # who reported defect
     # ------------------ END
     
     title = models.CharField(
@@ -461,7 +470,7 @@ class Ticket(models.Model):
         #if self.on_hold: held_msg = _(' - On Hold')
         dep_msg = ''
         #if self.can_be_resolved == False: dep_msg = _(' - Open dependencies')
-        status_str = "BIATCH"
+        status_str = ''
         for s in Ticket.STATUS_CHOICES:
 			if s[0] == self.status:
 				status_str = s[1]
@@ -511,7 +520,7 @@ class Ticket(models.Model):
         True = any dependencies are resolved
         False = There are non-resolved dependencies
         """
-        OPEN_STATUSES = (Ticket.NEW_STATUS)
+        OPEN_STATUSES = (Ticket.NEW_STATUS, Ticket.SUPPLEMENT_NEEDED_STATUS, Ticket.TO_RESOLVE_STATUS, Ticket.RESOLVING_STATUS, Ticket.CHECKING_STATUS)
         return TicketDependency.objects.filter(ticket=self).filter(depends_on__status__in=OPEN_STATUSES).count() == 0
     can_be_resolved = property(_can_be_resolved)
 

@@ -1,0 +1,2 @@
+mc-modal title='Fotka řidičského průkazu' close='removeModal'
+  img.mc-modal-image src=url

@@ -1,5 +1,11 @@
+
+
 partial "layout/left-panel"
 
 div.col-xs-10.mc-outlet
+  unless session.active
+    div.mc-attention
+      div.col-xs-11
+        p Máte omezený přístup do aplikace (čeká se na potvrzení manažerem)
   div.col-xs-11
     yield

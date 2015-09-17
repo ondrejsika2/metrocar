@@ -19,6 +19,8 @@ Model = DS.Model.extend
   parking: DS.belongsTo('parking', async: true),
 
   reservations: DS.hasMany('reservation')
+  fuelbills: DS.hasMany('fuelbill')
+  journeys: DS.hasMany('journey')
 
   car_name: DS.attr('string')
 

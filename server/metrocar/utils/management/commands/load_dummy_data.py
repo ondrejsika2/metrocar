@@ -43,7 +43,6 @@ An app can provide testing data the following way:
 """
 
 import traceback
-from clint.textui import colored
 
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
@@ -54,14 +53,14 @@ def report_result(data):
     Prints a report on created testing data for an app.
     """
     if isinstance(data, dict):
-        print ', '.join('%s %s' % (colored.green(len(value)), key)
+        print ', '.join('%s %s' % (len(value), key)
             for key, value in data.iteritems())
     elif isinstance(data, (tuple, list)):
-        print colored.green(len(data)) + ' items'
+        print len(data) + ' items'
     elif data is None:
-        print colored.red('X')
+        print ('X')
     else:
-        print colored.yellow('?')
+        print ('?')
 
 
 class Command(NoArgsCommand):
@@ -83,5 +82,7 @@ class Command(NoArgsCommand):
                 if verbosity > 1:
                     print "%s doesn't contain a create function" % mod
                 continue
+
             print 'Loading testing data for %s...' % app,
             report_result(testing_data.create())
+

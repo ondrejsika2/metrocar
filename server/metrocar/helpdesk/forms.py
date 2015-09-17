@@ -277,16 +277,16 @@ class TicketForm(CustomFieldMixin, forms.Form):
         
         messages_sent_to = []
 
-        if t.submitter_email:
+        if t.who_reported and t.who_reported.email:
             send_templated_mail(
                 'newticket_submitter',
                 context,
-                recipients=t.submitter_email,
+                recipients=t.who_reported.email,
                 sender=q.from_address,
                 fail_silently=True,
                 files=files,
                 )
-            messages_sent_to.append(t.submitter_email)
+            messages_sent_to.append(t.who_reported.email)
 
         if t.assigned_to and t.assigned_to != user and t.assigned_to.usersettings.settings.get('email_on_ticket_assign', False) and t.assigned_to.email and t.assigned_to.email not in messages_sent_to:
             send_templated_mail(
@@ -483,11 +483,11 @@ class PublicTicketForm(CustomFieldMixin, forms.Form):
 
 
 class UserSettingsForm(forms.Form):
-    login_view_ticketlist = forms.BooleanField(
-        label=_('Show Ticket List on Login?'),
-        help_text=_('Display the ticket list upon login? Otherwise, the dashboard is shown.'),
-        required=False,
-        )
+    #login_view_ticketlist = forms.BooleanField(
+    #    label=_('Show Ticket List on Login?'),
+    #    help_text=_('Display the ticket list upon login? Otherwise, the dashboard is shown.'),
+    #    required=False,
+    #    )
 
     email_on_ticket_change = forms.BooleanField(
         label=_('E-mail me on ticket change?'),
@@ -501,11 +501,11 @@ class UserSettingsForm(forms.Form):
         required=False,
         )
 
-    email_on_ticket_apichange = forms.BooleanField(
-        label=_('E-mail me when a ticket is changed via the API?'),
-        help_text=_('If a ticket is altered by the API, do you want to receive an e-mail?'),
-        required=False,
-        )
+    #email_on_ticket_apichange = forms.BooleanField(
+    #    label=_('E-mail me when a ticket is changed via the API?'),
+    #    help_text=_('If a ticket is altered by the API, do you want to receive an e-mail?'),
+    #    required=False,
+    #    )
 
     tickets_per_page = forms.IntegerField(
         label=_('Number of tickets to show per page'),
@@ -515,11 +515,11 @@ class UserSettingsForm(forms.Form):
         max_value=1000,
         )
 
-    use_email_as_submitter = forms.BooleanField(
-        label=_('Use my e-mail address when submitting tickets?'),
-        help_text=_('When you submit a ticket, do you want to automatically use your e-mail address as the submitter address? You can type a different e-mail address when entering the ticket if needed, this option only changes the default.'),
-        required=False,
-        )
+    #use_email_as_submitter = forms.BooleanField(
+    #    label=_('Use my e-mail address when submitting tickets?'),
+    #    help_text=_('When you submit a ticket, do you want to automatically use your e-mail address as the submitter address? You can type a different e-mail address when entering the ticket if needed, this option only changes the default.'),
+    #    required=False,
+    #    )
 
 class EmailIgnoreForm(forms.ModelForm):
     class Meta:
@@ -543,41 +543,50 @@ class TicketDependencyForm(forms.ModelForm):
         model = TicketDependency
         exclude = ('ticket',)
 
-# ----------------------------------------------------
-
+# ---------------------------------------------------- BELOW ADDED
+from django.utils.translation import ugettext_lazy
 from metrocar.cars.models import Car
 
 class CustomerTicketForm(forms.Form):
     """
-    Form for customer, to report new defect.
+    Form for reporting defect by user.
+    At first only for customer, but now even Technician and Superuser use it.
     """
+    # Defect type
     queue = forms.ChoiceField(
-        label=_('Queue'),
+        label=ugettext_lazy('Queue'),
         required=True,
         choices=()
         )
-
+    # Defect summary
     title = forms.CharField(
         max_length=100,
         required=True,
         widget=forms.TextInput(),
-        label=_('Summary of your query'),
+        label=ugettext_lazy('Summary of your query'),
         )
-
+    # Defect description
     body = forms.CharField(
         widget=forms.Textarea(),
-        label=_('Description of your issue'),
+        label=ugettext_lazy('Description of your issue'),
         required=True,
-        help_text=_('Please be as descriptive as possible, including any '
+        help_text=ugettext_lazy('Please be as descriptive as possible, including any '
             'details we may need to address your query.'),
         )
         
+    # Which car
+    which_car = forms.ChoiceField(
+        label=ugettext_lazy('Which car has defect?'),
+        required=True,
+        choices=()
+        )        
+    # Who created this ticket        
     who_created_r = None # needs to be filled in view
         
     def __init__(self, *args, **kwargs):
 		super(CustomerTicketForm, self).__init__(*args, **kwargs)
 		cars = [(c.id, c.__unicode__()) for c in Car.objects.all()] # add cars to SELECT in form
-		self.fields.insert(2,'which_car', forms.ChoiceField(label="Which car has defect?", choices=cars))
+		self.fields['which_car'].choices = cars
 		self.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.filter(active=True)] # only active queues
 		
 
@@ -618,6 +627,52 @@ class CustomerTicketForm(forms.Form):
         f.save()
 
         context = safe_template_context(t)
+        context['comment'] = f.comment
+        
+        messages_sent_to = []
+
+        if t.who_reported and t.who_reported.email:
+            send_templated_mail(
+                'newticket_submitter',
+                context,
+                recipients=t.who_reported.email,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )
+            messages_sent_to.append(t.who_reported.email)
+
+        if t.assigned_to and t.assigned_to != user and t.assigned_to.usersettings.settings.get('email_on_ticket_assign', False) and t.assigned_to.email and t.assigned_to.email not in messages_sent_to:
+            send_templated_mail(
+                'assigned_owner',
+                context,
+                recipients=t.assigned_to.email,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )
+            messages_sent_to.append(t.assigned_to.email)
+
+        if q.new_ticket_cc and q.new_ticket_cc not in messages_sent_to:
+            send_templated_mail(
+                'newticket_cc',
+                context,
+                recipients=q.new_ticket_cc,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )
+            messages_sent_to.append(q.new_ticket_cc)
+
+        if q.updated_ticket_cc and q.updated_ticket_cc != q.new_ticket_cc and q.updated_ticket_cc not in messages_sent_to:
+            send_templated_mail(
+                'newticket_cc',
+                context,
+                recipients=q.updated_ticket_cc,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )        
 
         return t
 	
@@ -628,9 +683,9 @@ class CustomerTicketSupplementForm(forms.Form):
 	
 	description = forms.CharField(
         widget=forms.Textarea(),
-        label=_('Description of your issue'),
+        label=ugettext_lazy('Description of your issue'),
         required=True,
-        help_text=_('Please be as descriptive as possible, including any '
+        help_text=ugettext_lazy('Please be as descriptive as possible, including any '
             'details we may need to address your query.'),
         )
         
@@ -648,7 +703,7 @@ class CustomerTicketSupplementForm(forms.Form):
 		# new followUp with added description
 		f = FollowUp(
             ticket = t,
-            title = _('Ticket Supplement'),
+            title = ugettext_lazy('Ticket Supplement'),
             date = timezone.now(),
             public = True,
             comment = self.cleaned_data['description'],
@@ -667,7 +722,7 @@ class TechnicianTicketForm(forms.Form):
     Should be accessible only to staff (Technician) and Administrator.
     """
     queue = forms.ChoiceField(
-        label=_('Queue'),
+        label=ugettext_lazy('Queue'),
         required=True,
         choices=()
         )
@@ -676,21 +731,21 @@ class TechnicianTicketForm(forms.Form):
         max_length=100,
         required=True,
         widget=forms.TextInput(),
-        label=_('Summary of your query'),
+        label=ugettext_lazy('Summary of your query'),
         )
 
     body = forms.CharField(
         widget=forms.Textarea(),
-        label=_('Description of your issue'),
+        label=ugettext_lazy('Description of your issue'),
         required=True,
-        help_text=_('Please be as descriptive as possible, including any '
+        help_text=ugettext_lazy('Please be as descriptive as possible, including any '
             'details we may need to address your query.'),
         )
     
     who_reported = forms.ChoiceField(
         required=True,
-        label="Who_reported",
-        help_text="Who reported this defect?",
+        label=ugettext_lazy("Who reported?"),
+        help_text=ugettext_lazy("Who reported this defect?"),
         )
         
     who_created_r = None # needs to be filled in view
@@ -698,7 +753,7 @@ class TechnicianTicketForm(forms.Form):
     def __init__(self, *args, **kwargs):
 		super(TechnicianTicketForm, self).__init__(*args, **kwargs)
 		cars = [(c.id, c.__unicode__()) for c in Car.objects.all()] # add cars to SELECT in form
-		self.fields.insert(2,'which_car', forms.ChoiceField(label="Which car has defect?", choices=cars))
+		self.fields.insert(2,'which_car', forms.ChoiceField(label=ugettext_lazy("Which car has defect?"), choices=cars))
 		self.fields['queue'].choices = [('', '--------')] + [[q.id, q.title] for q in Queue.objects.filter(active=True)]
 		self.fields['who_reported'].choices = [(u.id, (u.last_name + ' ' + u.first_name)) for u in User.objects.filter(is_active=True).order_by('last_name','first_name')]
 
@@ -740,6 +795,52 @@ class TechnicianTicketForm(forms.Form):
         f.save()
 
         context = safe_template_context(t)
+        context['comment'] = f.comment
+        
+        messages_sent_to = []
+
+        if t.who_reported and t.who_reported.email:
+            send_templated_mail(
+                'newticket_submitter',
+                context,
+                recipients=t.who_reported.email,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )
+            messages_sent_to.append(t.who_reported.email)
+
+        if t.assigned_to and t.assigned_to != user and t.assigned_to.usersettings.settings.get('email_on_ticket_assign', False) and t.assigned_to.email and t.assigned_to.email not in messages_sent_to:
+            send_templated_mail(
+                'assigned_owner',
+                context,
+                recipients=t.assigned_to.email,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )
+            messages_sent_to.append(t.assigned_to.email)
+
+        if q.new_ticket_cc and q.new_ticket_cc not in messages_sent_to:
+            send_templated_mail(
+                'newticket_cc',
+                context,
+                recipients=q.new_ticket_cc,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )
+            messages_sent_to.append(q.new_ticket_cc)
+
+        if q.updated_ticket_cc and q.updated_ticket_cc != q.new_ticket_cc and q.updated_ticket_cc not in messages_sent_to:
+            send_templated_mail(
+                'newticket_cc',
+                context,
+                recipients=q.updated_ticket_cc,
+                sender=q.from_address,
+                fail_silently=True,
+                files=None,
+                )    
 
         return t
 

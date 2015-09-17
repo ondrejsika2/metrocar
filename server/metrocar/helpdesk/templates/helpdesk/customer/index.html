@@ -6,28 +6,6 @@
 
 <div>
 <table class="table table-hover table-bordered table-striped">
-<caption>{% trans "All Tickets submitted by you" %}</caption>
-<thead>
-<tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th></tr>
-</thead>
-<tbody>
-{% for ticket in customer_reports %}
-<tr>
-<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.ticket }}</a></th>
-<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.title }}</a></th>
-<td>{{ ticket.queue }}</td>
-<td>{{ ticket.get_status }}</td>
-<td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
-</tr>
-{% empty %}
-<tr><td colspan='6'>{% trans "There are no tickets." %}</td></tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-
-<div>
-<table class="table table-hover table-bordered table-striped">
 <caption>{% trans "All Tickets submitted by you that need more specific information" %}</caption>
 <thead>
 <tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th><th>{% trans "Supplement" %}</th></tr>
@@ -48,6 +26,28 @@
 </tbody>
 </table>
 </div>
+</div>
+
+<div>
+<table class="table table-hover table-bordered table-striped">
+<caption>{% trans "All Tickets submitted by you" %}</caption>
+<thead>
+<tr><th>#</th><th>{% trans "Title" %}</th><th>{% trans "Queue" %}</th><th>{% trans "Status" %}</th><th>{% trans "Last Update" %}</th></tr>
+</thead>
+<tbody>
+{% for ticket in customer_reports %}
+<tr>
+<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.ticket }}</a></th>
+<th><a href='{% url 'helpdesk_customer_show_ticket' ticket.id %}'>{{ ticket.title }}</a></th>
+<td>{{ ticket.queue }}</td>
+<td>{{ ticket.get_status }}</td>
+<td><span title='{{ ticket.modified|date:"r" }}'>{{ ticket.modified|naturaltime }}</span></td>
+</tr>
+{% empty %}
+<tr><td colspan='6'>{% trans "There are no tickets." %}</td></tr>
+{% endfor %}
+</tbody>
+</table>
 </div>
 
 {% endblock %}

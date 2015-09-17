@@ -8,13 +8,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^api/', include('metrocar.car_unit_api.urls')),
+    (r'^docs/', include('rest_framework_swagger.urls')),
     
-    # -------------------------- Helpdesk
+    # --------------------------
     (r'^bugrep/', include('helpdesk.urls')), # helpdesk
-    # -------------------------- end of Helpdesk
-
-    # Webservice API
-    (r'^', include('metrocar.api.urls')),
+    # --------------------------
 
     (r'^invoices/', include('metrocar.invoices.urls.backend')),
 
@@ -23,7 +21,7 @@ urlpatterns = patterns('',
     (r'^', include(admin.site.urls)),
 
     url(r'^api/v1/', include('metrocar.urls_api')),
-    
+
 )
 
 

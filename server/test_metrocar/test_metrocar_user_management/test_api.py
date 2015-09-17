@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import logging
+import os
 
 import django.test
 from django.utils import timezone
@@ -13,7 +14,7 @@ from metrocar.user_management.models import MetrocarUser
 from test_metrocar.test_metrocar_user_management.fixtures import create_user_1, create_user_admin_1
 
 
-class TestReservationsApi(django.test.TestCase):
+class TestUsermanagementApi(django.test.TestCase):
     @classmethod
     def setUpClass(cls):
         MetrocarUser.objects.all().delete()
@@ -83,35 +84,92 @@ class TestReservationsApi(django.test.TestCase):
         client = APIClient()
         client.force_authenticate(user=self.user_1)
 
-        response = client.patch(
-            reverse('user-detail', kwargs={"pk": self.user_1.id}),
-            data={
-                "gender": "F",
-            })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl2:
+                fl.seek(0)
+                fl2.seek(0)
+                response = client.patch(reverse('user-detail', kwargs={"pk": self.user_1.id}), data={
+                    "first_name": "Pavel" + str(MetrocarUser.objects.count()),
+                    "last_name": "Miska",
+                    "username": 'admin' + str(MetrocarUser.objects.count()),
+                    "password": 'admin',
+                    "date_of_birth": datetime.strptime('16Sep1990', '%d%b%Y').strftime('%Y-%m-%d'),
+                    "is_superuser": True,
+                    "is_staff": True,
+                    "email": 'pmiska@mailinator.com',
+                    "drivers_licence_number": '0000000',
+                    "gender": 'F',
+                    "identity_card_number": '123123123',
+                    "primary_phone": '000 000000000',
+                    "home_subsidiary": 1,
+                    "invoice_date": datetime.now().strftime('%Y-%m-%d'),
+                    "language": settings.LANG_CHOICES[0][0],
+                    "identity_card_image": fl,
+                    "drivers_licence_image": fl2,
+                }, format='multipart')
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_user_not_permitted(self):
         client = APIClient()
         client.force_authenticate(user=self.user_1)
 
-        response = client.patch(
-            reverse('user-detail', kwargs={"pk": self.user_admin_1.id}),
-            data={
-                "gender": "F",
-            })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl2:
+                fl.seek(0)
+                fl2.seek(0)
+                response = client.patch(reverse('user-detail', kwargs={"pk": self.user_admin_1.id}), data={
+                    "first_name": "Pavel" + str(MetrocarUser.objects.count()),
+                    "last_name": "Miska",
+                    "username": 'admin' + str(MetrocarUser.objects.count()),
+                    "password": 'admin',
+                    "date_of_birth": datetime.strptime('16Sep1990', '%d%b%Y').strftime('%Y-%m-%d'),
+                    "is_superuser": True,
+                    "is_staff": True,
+                    "email": 'pmiska@mailinator.com',
+                    "drivers_licence_number": '0000000',
+                    "gender": 'F',
+                    "identity_card_number": '123123123',
+                    "primary_phone": '000 000000000',
+                    "home_subsidiary": 1,
+                    "invoice_date": datetime.now().strftime('%Y-%m-%d'),
+                    "language": settings.LANG_CHOICES[0][0],
+                    "identity_card_image": fl,
+                    "drivers_licence_image": fl2,
+                }, format='multipart')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+                self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_admin_success_1(self):
         client = APIClient()
         client.force_authenticate(user=self.user_admin_1)
 
-        response = client.patch(
-            reverse('user-detail', kwargs={"pk": self.user_1.id}),
-            data={
-                "gender": "F",
-            })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl2:
+                fl.seek(0)
+                fl2.seek(0)
+                response = client.patch(reverse('user-detail', kwargs={"pk": self.user_1.id}), data={
+                    "first_name": "Pavel" + str(MetrocarUser.objects.count()),
+                    "last_name": "Miska",
+                    "username": 'admin' + str(MetrocarUser.objects.count()),
+                    "password": 'admin',
+                    "date_of_birth": datetime.strptime('16Sep1990', '%d%b%Y').strftime('%Y-%m-%d'),
+                    "is_superuser": True,
+                    "is_staff": True,
+                    "email": 'pmiska@mailinator.com',
+                    "drivers_licence_number": '0000000',
+                    "gender": 'F',
+                    "identity_card_number": '123123123',
+                    "primary_phone": '000 000000000',
+                    "home_subsidiary": 1,
+                    "invoice_date": datetime.now().strftime('%Y-%m-%d'),
+                    "language": settings.LANG_CHOICES[0][0],
+                    "identity_card_image": fl,
+                    "drivers_licence_image": fl2,
+                }, format='multipart')
+
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -119,13 +177,31 @@ class TestReservationsApi(django.test.TestCase):
         client = APIClient()
         client.force_authenticate(user=self.user_admin_1)
 
-        response = client.patch(
-            reverse('user-detail', kwargs={"pk": self.user_admin_1.id}),
-            data={
-                "gender": "F",
-            })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl2:
+                fl.seek(0)
+                fl2.seek(0)
+                response = client.patch(reverse('user-detail', kwargs={"pk": self.user_admin_1.id}), data={
+                    "first_name": "Pavel" + str(MetrocarUser.objects.count()),
+                    "last_name": "Miska",
+                    "username": 'admin' + str(MetrocarUser.objects.count()),
+                    "password": 'admin',
+                    "date_of_birth": datetime.strptime('16Sep1990', '%d%b%Y').strftime('%Y-%m-%d'),
+                    "is_superuser": True,
+                    "is_staff": True,
+                    "email": 'pmiska@mailinator.com',
+                    "drivers_licence_number": '0000000',
+                    "gender": 'F',
+                    "identity_card_number": '123123123',
+                    "primary_phone": '000 000000000',
+                    "home_subsidiary": 1,
+                    "invoice_date": datetime.now().strftime('%Y-%m-%d'),
+                    "language": settings.LANG_CHOICES[0][0],
+                    "identity_card_image": fl,
+                    "drivers_licence_image": fl2,
+                }, format='multipart')
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_user_failed_1(self):
         client = APIClient()
@@ -167,55 +243,71 @@ class TestReservationsApi(django.test.TestCase):
         client = APIClient()
         client.force_authenticate(user=self.user_1)
 
-        response = client.post(reverse('user-list'), data={
-            "first_name": "Pavel" + str(MetrocarUser.objects.count()),
-            "last_name": "Miska",
-            "username": 'admin' + str(MetrocarUser.objects.count()),
-            "password": 'admin',
-            "is_superuser": True,
-            "is_staff": True,
-            "email": 'pmiska@mailinator.com',
-            "drivers_licence_number": '0000000',
-            "gender": 'M',
-            "identity_card_number": '123123123',
-            "primary_phone": '000 000000000',
-            "home_subsidiary": 1,
-            "invoice_date": datetime.now().strftime('%Y-%m-%d'),
-            "language": settings.LANG_CHOICES[0][0],
-        })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl2:
+                fl.seek(0)
+                fl2.seek(0)
+                response = client.post(reverse('user-list'), data={
+                    "first_name": "Pavel" + str(MetrocarUser.objects.count()),
+                    "last_name": "Miska",
+                    "username": 'admin' + str(MetrocarUser.objects.count()),
+                    "password": 'admin',
+                    "date_of_birth": datetime.strptime('16Sep1990', '%d%b%Y').strftime('%Y-%m-%d'),
+                    "is_superuser": True,
+                    "is_staff": True,
+                    "email": 'pmiska@mailinator.com',
+                    "drivers_licence_number": '0000000',
+                    "gender": 'M',
+                    "identity_card_number": '123123123',
+                    "primary_phone": '000 000000000',
+                    "home_subsidiary": 1,
+                    "invoice_date": datetime.now().strftime('%Y-%m-%d'),
+                    "language": settings.LANG_CHOICES[0][0],
+                    "identity_card_image": fl,
+                    "drivers_licence_image": fl2,
+                }, format='multipart')
 
-        # not all required data provided
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+                # not all required data provided
+                self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_create_admin_success(self):
         client = APIClient()
         client.force_authenticate(user=self.user_admin_1)
 
-        response = client.post(reverse('user-list'), data={
-            "first_name": "Pavel" + str(MetrocarUser.objects.count()),
-            "last_name": "Miska",
-            "username": 'admin' + str(MetrocarUser.objects.count()),
-            "password": 'admin',
-            "is_superuser": True,
-            "is_staff": True,
-            "email": 'pmiska@mailinator.com',
-            "drivers_licence_number": '0000000',
-            "gender": 'M',
-            "identity_card_number": '123123123',
-            "primary_phone": '000 000000000',
-            "home_subsidiary": 1,
-            "invoice_date": datetime.now().strftime('%Y-%m-%d'),
-            "language": settings.LANG_CHOICES[0][0],
-        })
+        with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl:
+            with open("{}/{}".format(os.path.dirname(__file__), 'test-file.jpg'), "rb") as fl2:
+                fl.seek(0)
+                fl2.seek(0)
+                response = client.post(reverse('user-list'), data={
+                    "first_name": "Pavel" + str(MetrocarUser.objects.count()),
+                    "last_name": "Miska",
+                    "username": 'admin' + str(MetrocarUser.objects.count()),
+                    "password": 'admin',
+                    "date_of_birth": datetime.strptime('16Sep1990', '%d%b%Y').strftime('%Y-%m-%d'),
+                    "is_superuser": True,
+                    "is_staff": True,
+                    "email": 'pmiska@mailinator.com',
+                    "drivers_licence_number": '0000000',
+                    "gender": 'M',
+                    "identity_card_number": '123123123',
+                    "primary_phone": '000 000000000',
+                    "home_subsidiary": 1,
+                    "invoice_date": datetime.now().strftime('%Y-%m-%d'),
+                    "language": settings.LANG_CHOICES[0][0],
+                    "identity_card_image": fl,
+                    "drivers_licence_image": fl2,
+                }, format='multipart')
 
-        # created
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                print response.data
 
-        response = client.get(
-            reverse('user-detail', kwargs={"pk": response.data['id']}))
+                # created
+                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        # make sure if it is saved
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+                response = client.get(
+                    reverse('user-detail', kwargs={"pk": response.data['id']}))
+
+                # make sure if it is saved
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_admin_no_content(self):
         client = APIClient()

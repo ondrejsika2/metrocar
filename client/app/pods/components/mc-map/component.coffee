@@ -3,36 +3,39 @@
 McMapComponent = Ember.Component.extend
 
   polygonChanged: (->
-    console.log @get('polygon')
+    setTimeout((->
 
-    first_lat = null
-    first_lng = null
+      if @get('polygon') != null
 
-    coords = []
-    for coord in @get('polygon')
-      first_lat = coord[1]
-      first_lng = coord[0]
-      coords.push(new google.maps.LatLng(coord[1], coord[0]))
+        first_lat = null
+        first_lng = null
 
-    map = new google.maps.Map(document.getElementById("map"),
-      zoom: 17,
-      center: new google.maps.LatLng(first_lat, first_lng)
-      mapTypeId: google.maps.MapTypeId.HYBRID
-    )
+        coords = []
+        for coord in @get('polygon')
+          first_lat = coord[1]
+          first_lng = coord[0]
+          coords.push(new google.maps.LatLng(coord[1], coord[0]))
 
-    metros = new google.maps.Polygon(
-      paths: coords
-      strokeColor: "#0000FF"
-      strokeOpacity: 0.8
-      strokeWeight: 2
-      fillColor: "#0000FF"
-      fillOpacity: 0.26
-    )
+        map = new google.maps.Map(document.getElementById("map"),
+          zoom: 17,
+          center: new google.maps.LatLng(first_lat, first_lng)
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        )
 
-    metros.setMap(map);
+        metros = new google.maps.Polygon(
+          paths: coords
+          strokeColor: "#0000FF"
+          strokeOpacity: 0.8
+          strokeWeight: 2
+          fillColor: "#0000FF"
+          fillOpacity: 0.26
+        )
 
+        metros.setMap(map);
 
-  ).observes('polygon')
+    ).bind(this), 1000)
+
+  ).observes('polygon').on('didInsertElement')
 
 
 `export default McMapComponent`

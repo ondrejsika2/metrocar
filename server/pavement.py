@@ -129,17 +129,22 @@ def test():
     """
     Run the test-suite.
     """
+    load_settings()
+    from metrocar.settings.local import DATABASES
+    build_db(DATABASES['testing'])
+
+    load_settings_for_testing()
     sh('python test_metrocar/run_tests.py')
 
 def dropdb(db_settings):
 
     def drop_postgis(db_settings):
-        sh('sudo -u postgres dropdb -U %(USER)s %(NAME)s' % db_settings, ignore_error=True)
-        sh("""sudo -u postgres psql -U %(USER)s postgres << EOF
+        sh('dropdb -U %(USER)s "%(NAME)s"' % db_settings, ignore_error=True)
+        sh("""psql -U %(USER)s postgres << EOF
 
-        CREATE DATABASE %(NAME)s
+        CREATE DATABASE "%(NAME)s"
           WITH ENCODING='UTF8'
-               OWNER=%(USER)s
+               OWNER="%(USER)s"
                TEMPLATE=template_postgis
                CONNECTION LIMIT=-1;
         """ % db_settings)
@@ -161,6 +166,22 @@ def dropdb(db_settings):
 
     recipes[engine](db_settings)
 
+def load_settings():
+    DJANGO_SETTINGS_MODULE = 'metrocar.settings.local'
+    os.environ['DJANGO_SETTINGS_MODULE'] = DJANGO_SETTINGS_MODULE
+
+def load_settings_for_testing():
+    DJANGO_SETTINGS_MODULE = 'test_metrocar.settings.local'
+    os.environ['DJANGO_SETTINGS_MODULE'] = DJANGO_SETTINGS_MODULE
+
+
+def build_db(DATABASE):
+    dropdb(DATABASE)
+    map(partial(managepy, 'metrocar'), [
+        'syncdb --all --noinput',
+        'migrate --fake',
+
+    ])
 
 @task
 def blankdb():
@@ -172,10 +193,7 @@ def blankdb():
 
         local    all    all    trust
     """
-    from metrocar.settings import DATABASES
-    dropdb(DATABASES['default'])
-    map(partial(managepy, 'metrocar'), [
-        'syncdb --all --noinput',
-        'migrate --fake',
-        'load_dummy_data',
-    ])
+    load_settings()
+    from metrocar.settings.local import DATABASES
+    build_db(DATABASES['default'])
+    managepy('metrocar', 'load_dummy_data',)

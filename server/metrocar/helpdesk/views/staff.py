@@ -299,7 +299,7 @@ def view_ticket(request, ticket_id):
             subscribe_staff_member_to_ticket(ticket, request.user)
             return HttpResponseRedirect(reverse('helpdesk_view', args=[ticket.id]))
 
-    if request.GET.has_key('close') and ticket.status == Ticket.RESOLVED_STATUS:
+    if request.GET.has_key('close') and ticket.status == Ticket.CHECKING_STATUS:
         if not ticket.assigned_to:
             owner = 0
         else:
@@ -405,9 +405,12 @@ def update_ticket(request, ticket_id, public=False):
 		
     if title == '':
         title = ticket.title
+
+    if new_status == Ticket.NEW_STATUS and ticket.status == Ticket.CLOSED_STATUS:
+        ticket.assigned_to = None  # closed ticket is opened again, reset assigned to   
     
     # ----- ADDED
-    logged_hours = float(request.POST.get('logged_hours', 0))
+    logged_hours_f = float(request.POST.get('logged_hours',0))
     # ----- END
 
     if not (due_date_year and due_date_month and due_date_day):
@@ -444,7 +447,7 @@ def update_ticket(request, ticket_id, public=False):
     if owner is -1 and ticket.assigned_to:
         owner = ticket.assigned_to.id
 
-    f = FollowUp(ticket=ticket, date=timezone.now(), comment=comment)
+    f = FollowUp(ticket=ticket, date=timezone.now(), comment=comment, logged_hours = logged_hours_f)
 
     if request.user.is_staff or helpdesk_settings.HELPDESK_ALLOW_NON_STAFF_TICKET_UPDATE:
         f.user = request.user
@@ -452,6 +455,11 @@ def update_ticket(request, ticket_id, public=False):
     f.public = public
 
     reassigned = False
+    
+    # user that solved this issue gave up
+    if new_status == Ticket.TO_RESOLVE_STATUS and ticket.status == Ticket.RESOLVING_STATUS:
+		owner = 0
+		#ticket.assigned_to = None
 
     if owner is not -1:
         if owner != 0 and ((ticket.assigned_to and owner != ticket.assigned_to.id) or not ticket.assigned_to):
@@ -481,9 +489,6 @@ def update_ticket(request, ticket_id, public=False):
         else:
             f.title = _('Updated')
 
-	# ------ ADDED
-	f.logged_hours = logged_hours
-	# ------ END
     f.save()
 
     files = []
@@ -536,9 +541,9 @@ def update_ticket(request, ticket_id, public=False):
         c.save()
         ticket.due_date = due_date
 
-    if new_status in [ Ticket.RESOLVED_STATUS, Ticket.CLOSED_STATUS ]:
-        if new_status == Ticket.RESOLVED_STATUS or ticket.resolution is None:
-            ticket.resolution = comment
+    if new_status in [ Ticket.CHECKING_STATUS, ]:
+        if new_status == Ticket.CHECKING_STATUS or ticket.resolution is None:
+            ticket.resolution = comment       
 
     messages_sent_to = []
 
@@ -550,10 +555,10 @@ def update_ticket(request, ticket_id, public=False):
         comment=f.comment,
         )
 
-    if public and (f.comment or (f.new_status in (Ticket.RESOLVED_STATUS, Ticket.CLOSED_STATUS))):
+    if public and (f.comment or (f.new_status in (Ticket.CHECKING_STATUS, Ticket.CLOSED_STATUS))):
 
 
-        if f.new_status == Ticket.RESOLVED_STATUS:
+        if f.new_status == Ticket.CHECKING_STATUS:
             template = 'resolved_'
         elif f.new_status == Ticket.CLOSED_STATUS:
             template = 'closed_'
@@ -562,16 +567,16 @@ def update_ticket(request, ticket_id, public=False):
 
         template_suffix = 'submitter'
 
-        if ticket.submitter_email:
+        if ticket.who_reported and ticket.who_reported.email:
             send_templated_mail(
                 template + template_suffix,
                 context,
-                recipients=ticket.submitter_email,
+                recipients=ticket.who_reported.email,
                 sender=ticket.queue.from_address,
                 fail_silently=True,
-                files=files,
+                files=None,
                 )
-            messages_sent_to.append(ticket.submitter_email)
+            messages_sent_to.append(ticket.who_reported.email)
 
         template_suffix = 'cc'
 
@@ -592,7 +597,7 @@ def update_ticket(request, ticket_id, public=False):
         # changed.
         if reassigned:
             template_staff = 'assigned_owner'
-        elif f.new_status == Ticket.RESOLVED_STATUS:
+        elif f.new_status == Ticket.CHECKING_STATUS:
             template_staff = 'resolved_owner'
         elif f.new_status == Ticket.CLOSED_STATUS:
             template_staff = 'closed_owner'
@@ -613,7 +618,7 @@ def update_ticket(request, ticket_id, public=False):
     if ticket.queue.updated_ticket_cc and ticket.queue.updated_ticket_cc not in messages_sent_to:
         if reassigned:
             template_cc = 'assigned_cc'
-        elif f.new_status == Ticket.RESOLVED_STATUS:
+        elif f.new_status == Ticket.CHECKING_STATUS:
             template_cc = 'resolved_cc'
         elif f.new_status == Ticket.CLOSED_STATUS:
             template_cc = 'closed_cc'
@@ -1079,7 +1084,7 @@ report_index = staff_member_required(report_index)
 
 
 def run_report(request, report):
-    if Ticket.objects.all().count() == 0 or report not in ('queuemonth', 'usermonth', 'queuestatus', 'queuepriority', 'userstatus', 'userpriority', 'userqueue', 'daysuntilticketclosedbymonth'):
+    if Ticket.objects.all().count() == 0 or report not in ('queuemonth', 'usermonth', 'queuestatus', 'queuepriority', 'userstatus', 'userpriority', 'userqueue', 'daysuntilticketclosedbymonth', 'userloggedhours'):
         return HttpResponseRedirect(reverse("helpdesk_report_index"))
 
     report_queryset = Ticket.objects.all().select_related()
@@ -1178,6 +1183,22 @@ def run_report(request, report):
         possible_options = periods
         charttype = 'date'
 
+    # logged hours
+    elif report == 'userloggedhours':
+        staff_members = User.objects.filter(is_staff=True) # only staff members work on ticket
+        records = {} # helper, username:sum
+        for u in staff_members: # count sum of logged hours for all staff members
+            sum_of_logged_hours = 0
+            for f in u.followup_set.filter(logged_hours__gt=0):
+                sum_of_logged_hours += f.logged_hours
+            records[u.username] = sum_of_logged_hours # save it to helper
+        from collections import OrderedDict
+        records = OrderedDict(reversed(sorted(records.items(), key=lambda t: t[1])))
+        title = _('Logged hours by User') # table title
+        col1heading = _('User') # column heading (name of possible_options)
+        possible_options = [_('Logged hours')] # column headers
+        charttype = 'bar' # chart type
+
     metric3 = False
     for ticket in report_queryset:
         if report == 'userpriority':
@@ -1214,30 +1235,43 @@ def run_report(request, report):
             metric3 = ticket.modified - ticket.created
             metric3 = metric3.days
 
+        elif report == 'userloggedhours': # break if report type has nothing to do with iterating through tickets
+			break            
 
         summarytable[metric1, metric2] += 1
         if metric3:
             if report == 'daysuntilticketclosedbymonth':
                 summarytable2[metric1, metric2] += metric3
-
-
+			
     table = []
 
     if report == 'daysuntilticketclosedbymonth':
         for key in summarytable2.keys():
             summarytable[key] = summarytable2[key] / summarytable[key]
+            
+    if not report == 'userloggedhours':
+        header1 = sorted(set(list( i.encode('utf-8') for i,_ in summarytable.keys() )))
+        print header1
+        column_headings = [col1heading] + possible_options
 
-    header1 = sorted(set(list( i.encode('utf-8') for i,_ in summarytable.keys() )))
+        # Pivot the data so that 'header1' fields are always first column
+        # in the row, and 'possible_options' are always the 2nd - nth columns.
+        for item in header1:
+            data = []
+            for hdr in possible_options:
+                data.append(summarytable[item, hdr])
+                print item, " ", hdr
+            table.append([item] + data)
+    else:
+		# all column headings for table
+		column_headings = [col1heading] + possible_options
+		data = []
+		for key, value in records.iteritems():
+			#data.append(records[po]) # list of sum of logged hours, e.g.: 12.0, 15.1, 12.3, ...
+		    table.append([key] + [value]) # pattern of records in table: ["name of value"] + list of values, meaning table is "list of lists"
 
-    column_headings = [col1heading] + possible_options
-
-    # Pivot the data so that 'header1' fields are always first column
-    # in the row, and 'possible_options' are always the 2nd - nth columns.
-    for item in header1:
-        data = []
-        for hdr in possible_options:
-            data.append(summarytable[item, hdr])
-        table.append([item] + data)
+    if report == 'userqueue':
+		print summarytable
 
     return render_to_response('helpdesk/report_output.html',
         RequestContext(request, {
@@ -1493,7 +1527,7 @@ def date_rel_to_today(today, offset):
     return today - timedelta(days = offset)
 
 def sort_string(begin, end):
-    return 'sort=created&date_from=%s&date_to=%s&status=%s&status=%s&status=%s' %(begin, end, Ticket.OPEN_STATUS, Ticket.REOPENED_STATUS, Ticket.RESOLVED_STATUS)
+    return 'sort=created&date_from=%s&date_to=%s&status=%s&status=%s&status=%s' %(begin, end, Ticket.NEW_STATUS, Ticket.TO_RESOLVE_STATUS, Ticket.CHECKING_STATUS)
 
 
 

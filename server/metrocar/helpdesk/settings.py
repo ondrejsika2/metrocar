@@ -13,11 +13,11 @@ except:
 
 if type(DEFAULT_USER_SETTINGS) != type(dict()):
     DEFAULT_USER_SETTINGS = {
-            'use_email_as_submitter': True,
+            'use_email_as_submitter': False,
             'email_on_ticket_assign': True,
             'email_on_ticket_change': True,
-            'login_view_ticketlist': True,
-            'email_on_ticket_apichange': True,
+            'login_view_ticketlist': False,
+            'email_on_ticket_apichange': False,
             'tickets_per_page': 25
             }
 

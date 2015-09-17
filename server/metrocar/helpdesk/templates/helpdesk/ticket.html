@@ -139,7 +139,7 @@ function googleTranslateElementInit() {
         <dd><textarea rows='8' cols='70' name='comment' id='commentBox'></textarea></dd>
         <dd class='form_help_text'>{% trans "You can insert ticket and queue details in your message. For more information, see the <a href='../../help/context/'>context help page</a>." %}</dd>
 
-        <dt><label>{% trans "New Status" %}</label></dt>
+        <dt><label>{% trans "New Status:" %}</label></dt>
         
         {% if user.is_superuser %}
         {% ifequal ticket.status 10 %}
@@ -164,6 +164,7 @@ function googleTranslateElementInit() {
 
 		{% if ticket.assigned_to.id == user.id %}
         {% ifequal ticket.status 14 %}
+        <input type='radio' name='new_status' value='13' id='st_to_resolve'><label for='st_to_resolve'>{% trans "To resolve" %}</label></dd> &laquo;
 		<input type='radio' name='new_status' value='14' id='st_resolving' checked='checked'><label for='st_resolving'>{% trans "Resolving" %}</label> &raquo;
         <input type='radio' name='new_status' value='15' id='st_checking'><label for='st_checking'>{% trans "Checking" %}</label></dd>
         {% endifequal %}
@@ -191,7 +192,7 @@ function googleTranslateElementInit() {
         
         {% ifequal ticket.assigned_to.id user.id %}
         {% ifequal ticket.status 14 %}
-        <dd><label for='logged_hours_id'>{% trans "Logged hours:" %}</label><input type='text' name='logged_hours' value='0' id='logged_hours_id'></dd>
+        <dd><label for='logged_hours_id'>{% trans "Logged hours" %}:</label><input type='text' name='logged_hours' value='0' id='logged_hours_id'></dd>
         {% endifequal %}
         {% endifequal %}
     </dl>

@@ -6,4 +6,10 @@ View = Ember.View.extend
 
   layoutName: 'layout/standard'
 
+  didInsertElement: ->
+    @$().bind('inview', ((event, isInView, visiblePartX, visiblePartY) ->
+      if isInView
+        Ember.tryInvoke(@get('controller'), 'loadMore')
+    ).bind(this))
+
 `export default View`

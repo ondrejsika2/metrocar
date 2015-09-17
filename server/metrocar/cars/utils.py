@@ -1,5 +1,6 @@
 # encoding: utf-8
-from datetime import datetime
+from datetime import datetime, date, time
+from decimal import Decimal
 from django.contrib.gis.geos import Polygon
 from pipetools import maybe, foreach, X
 
@@ -9,6 +10,7 @@ from olwidget.widgets import InfoMap, MapDisplay
 
 from metrocar.cars.models import Car, CarModelManufacturer, Fuel, CarType, CarColor, CarModel, FuelBill, Parking
 from metrocar.subsidiaries.models import Subsidiary
+from metrocar.tarification.models import Pricelist, PricelistDay, PricelistDayTime
 
 
 def get_car_infomap(width='100%', height='400px'):
@@ -107,6 +109,30 @@ def car_model(make, name, **kwargs):
     )[0]
 
 
+def pricelist(car_model):
+    pricelist_obj = Pricelist.objects.get_or_create(
+        available=True,
+        name='Test pricelist',
+        pickup_fee=100,
+        price_per_hour=10,
+        price_per_km=50,
+        reservation_fee=200,
+        valid_from=date(day=1, month=1, year=2000),
+        model=car_model
+    )[0]
+
+    pricelist_day = PricelistDay.objects.get_or_create(
+            weekday_from=0,
+            pricelist=pricelist_obj
+        )[0]
+    pricelist_day_time = PricelistDayTime.objects.get_or_create(
+        car_unused_ratio=Decimal('0.5'), car_used_ratio=Decimal('1.6'),
+        late_return_ratio=Decimal('5'), time_from=time(hour=0),
+        pricelist_day=pricelist_day
+    )[0]
+
+    return pricelist_obj
+
 def car(model, registration_number, parking, **kwargs):
     defaults = dict(
         active=True,
@@ -126,37 +152,41 @@ def car(model, registration_number, parking, **kwargs):
 def fuel_bill_1(account, car, fuel):
     return FuelBill.objects.get_or_create(
         account=account,
-        datetime=datetime(2015, 3, 31),
+        datetime=datetime(2015, 5, 10),
         money_amount=1000,
         car=car,
         fuel=fuel,
         liter_count=10,
         place="Praha",
+        approved=True,
+        image="fuelbill.jpg",
     )[0]
 
 
 def fuel_bill_2(account, car, fuel):
     return FuelBill.objects.get_or_create(
         account=account,
-        datetime=datetime(2015, 3, 24),
+        datetime=datetime(2015, 4, 24),
         money_amount=1500,
         car=car,
         fuel=fuel,
         liter_count=10,
         place="Praha",
-        approved=True,
+        image="fuelbill.jpg",
     )[0]
 
 
 def fuel_bill_3(account, car, fuel):
     return FuelBill.objects.get_or_create(
         account=account,
-        datetime=datetime(2015, 1, 3),
+        datetime=datetime(2015, 3, 12),
         money_amount=2000,
         car=car,
         fuel=fuel,
         liter_count=10,
         place="Praha",
+        approved=True,
+        image="fuelbill.jpg",
     )[0]
 
 

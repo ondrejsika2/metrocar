@@ -10,19 +10,26 @@ Router.map ->
   @route 'credentials', ->
     @route 'login'
     @route 'signup'
+    @route 'success'
 
   @route 'reservations', ->
     @route 'list'
     @route 'create'
-    @route 'browse-cars'
 
   @route 'fuelbill', ->
     @route 'list'
     @route 'create'
 
-  @route 'profile'
+  @route 'profile', ->
+    @route 'detail'
+    @route 'success'
+    @route 'changepassword'
+    @route 'successpassword'
 
   @route 'accountactivity', ->
     @route 'timeline'
+
+  @route 'forbidden', {path: '/forbidden'}
+  @route 'error', {path: '/*path'}
 
 `export default Router`

@@ -1,8 +1,13 @@
 @import "variables";
 
 .mc-left-panel {
+  margin-top: 20px;
   background: @mc-gray-light;
   padding: 0;
+}
+
+.mc-left-panel .list-group {
+  box-shadow: none;
 }
 
 .mc-left-panel .list-group a {
@@ -21,6 +26,7 @@
 .mc-left-panel .list-group a:focus {
   background: @mc-gray;
   border-left: 4px solid @mc-green;
+  border-radius: 0;
 }
 
 .mc-left-panel .list-group a.active {
@@ -50,3 +56,18 @@
   vertical-align: middle;
 }
 
+@media (max-width: 1150px) {
+  .mc-left-panel .list-group a {
+    padding: 12px 7px 5px 0;
+  }
+
+  .mc-left-panel .list-group a .mc-icon {
+    font-size: 80%;
+    width: 45px;
+  }
+
+  .mc-left-panel .list-group a .mc-text {
+    padding-top: 4px;
+    font-size: 90%;
+  }
+}

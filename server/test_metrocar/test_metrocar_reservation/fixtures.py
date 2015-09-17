@@ -1,17 +1,23 @@
 from datetime import datetime, timedelta
 from metrocar.cars.managers import JourneyManager
 from metrocar.reservations.models import Reservation, ReservationBill
-from test_metrocar.test_metrocar_cars.fixtures import create_car_1
+from metrocar.tarification.models import Pricelist
+from test_metrocar.test_metrocar_cars.fixtures import create_car_1, create_pricelist_1
 from test_metrocar.test_metrocar_user_management.fixtures import create_user_1
-from metrocar.user_management.models import UserCard
+from metrocar.user_management.models import UserCard, Account
 
 
 def create_reservation_1():
+
+    user = create_user_1()
+    car = create_car_1()
+    create_pricelist_1(car_model=car.model)
+
     reservation = Reservation.objects.get_or_create(
         reserved_from=(datetime.now() + timedelta(hours=1)),
         reserved_until=(datetime.now() + timedelta(hours=12)),
-        user=create_user_1(),
-        car=create_car_1(),
+        user=user,
+        car=car,
         price=120,
     )[0]
 
@@ -26,12 +32,3 @@ def create_reservation_1():
     ReservationBill.objects.create_for_reservation(reservation)
 
     return reservation
-
-
-def create_reservation_2():
-    return Reservation.objects.get_or_create(
-        reserved_from=(datetime.now() + timedelta(hours=13)),
-        reserved_until=(datetime.now() + timedelta(hours=22)),
-        user=create_user_1(),
-        car=create_car_1()
-    )[0]

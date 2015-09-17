@@ -317,3 +317,5 @@ msgstr "Vklad"
 msgid "Deposits"
 msgstr "Vklady"
 
+msgid "You have to be 18 years old at least."
+msgstr "Musí vám být nejméně 18 let."

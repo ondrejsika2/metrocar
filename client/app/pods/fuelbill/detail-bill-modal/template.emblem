@@ -1,0 +1,2 @@
+mc-modal title='Detail účtenky' close='removeModal'
+  img.mc-modal-image src=url

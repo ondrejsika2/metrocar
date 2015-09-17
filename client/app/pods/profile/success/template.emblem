@@ -1,0 +1,4 @@
+div.credentials-success
+  h1 Osobní údaje byly úspěšně změněny
+  div.bs-callout.bs-callout-green
+   | Vzhledem k nutnosti ověřit nově zadané údaje manažerem máte aktuálně pouze omezený přístup k aplikaci.

@@ -1,6 +1,86 @@
 div.row.mc-header
 
-	h1 Vytvořit žádost o proplacení paliva
+  h1 Vytvořit žádost o proplacení paliva
+
+  div.mc-action-bar
+    button.btn.btn-green-filled.btn-large{action "submit"} type="submit" disabled=saveButtonDisabled
+      i.fa.fa-plus
+      = saveButtonText
+
+    link-to .btn.btn-green.btn-large 'fuelbill.list'
+      | Zpět
 
 div.mc-content
+
+  form.col-xs-8
+
+    if alertDanger
+      div.alert.alert-danger role="alert"
+        strong
+          | Při vytváření rezervace se vyskytly tyto problémy:
+        ul
+          each alert in alertDanger
+            li
+              = alert
+
+    div.form-group class={ fuelBill.errors.place:has-error fuelBill.errors.place:has-feedback }
+      label.control-label
+        | Místo
+      = input .form-control value=fuelBill.place
+      if fuelBill.errors.place
+        span.glyphicon.glyphicon-remove.form-control-feedback
+        each error in fuelBill.errors.place
+          p.text-danger
+            = error
+
+    div.form-group class={ fuelBill.errors.liter_count:has-error fuelBill.errors.liter_count:has-feedback }
+      label.control-label
+        | Počet litrů
+      = input .form-control type="number" value=fuelBill.liter_count
+      if fuelBill.errors.liter_count
+        span.glyphicon.glyphicon-remove.form-control-feedback
+        each error in fuelBill.errors.liter_count
+          p.text-danger
+            = error
+
+    div.form-group class={ fuelBill.errors.money_amount:has-error fuelBill.errors.money_amount:has-feedback }
+      label.control-label
+        | Cena
+      = input .form-control type="number" value=fuelBill.money_amount
+      if fuelBill.errors.money_amount
+        span.glyphicon.glyphicon-remove.form-control-feedback
+        each error in fuelBill.errors.money_amount
+          p.text-danger
+            = error
+
+    div.form-group class={ fuelBill.errors.car:has-error fuelBill.errors.car:has-feedback }
+      label.control-label
+        | Auto
+      select-2 content=cars value=carId placeholder="Vyber auto" allowClear=true
+      if fuelBill.errors.car
+        each error in fuelBill.errors.car
+          p.text-danger
+            = error
+
+    div.form-group class={ fuelBill.errors.fuel:has-error fuelBill.errors.fuel:has-feedback }
+      label.control-label
+        | Palivo
+      select-2 content=fuels value=fuelId placeholder="Vyber palivo" allowClear=true
+      if fuelBill.errors.fuel
+        each error in fuelBill.errors.fuel
+          p.text-danger
+            = error
+
+    div.form-group class={ fuelBill.errors.image:has-error fuelBill.errors.image:has-feedback }
+      label.control-label
+        | Fotka účtenky
+      input#file-field.form-control type='file'
+      if fuelBill.errors.image
+        span.glyphicon.glyphicon-remove.form-control-feedback
+        each error in fuelBill.errors.image
+          p.text-danger
+            = error
+
+
+
 

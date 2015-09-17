@@ -1,0 +1,5 @@
+div.container: div.error
+  h1 Přístup odepřen
+
+  link-to .btn.btn-green-filled.btn-large 'index'
+    | Jít na domovskou stránu

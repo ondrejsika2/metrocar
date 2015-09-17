@@ -1,0 +1,5 @@
+div.container: div.error
+  h1 Něco se pokazilo ;-(
+
+  link-to .btn.btn-green-filled.btn-large 'index'
+    | Jít na domovskou stránu

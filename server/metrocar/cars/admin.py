@@ -90,4 +90,8 @@ class JourneyModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Journey, JourneyModelAdmin)
-admin.site.register(Parking, OSMGeoAdmin)
+
+class ParkingAdmin(OSMGeoAdmin):
+    openlayers_url= "js/openlayers/lib/OpenLayers.js"
+
+admin.site.register(Parking, ParkingAdmin)

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from metrocar.reservations.models import Reservation
 
-from helpers import CarEnabledTestCase
+from test_metrocar.helpers import CarEnabledTestCase
 
 class ReservationEnabledTestCase(CarEnabledTestCase):
     def setUp(self):

@@ -8,7 +8,7 @@
 		<field type="IntegerField" name="gps_retry_send_interval">180000</field>
 		<field type="IntegerField" name="gps_echo_interval">1800000</field>
 		<field type="IntegerField" name="reservation_min_duration">1300</field>
-		<field type="IntegerField" name="reservation_max_duration">60000</field>
+		<field type="IntegerField" name="reservation_max_duration">345600</field>
 		<field type="BooleanField" name="reservation_use_storno_fees">1</field>
 		<field type="IntegerField" name="reservation_cancel_interval">1200</field>
 		<field type="DecimalField" name="reservation_money_multiplier">1.5</field>

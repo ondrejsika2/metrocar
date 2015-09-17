@@ -7,3 +7,4 @@ Gettings started with the Metrocar project
    prerequisites
    installation
    contributing
+   production-deployment

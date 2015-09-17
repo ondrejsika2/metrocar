@@ -161,7 +161,7 @@ msgstr "Nejprve musíte vložit svou adresu v nastavení účtu. Tato informace 
 
 #: models.py:159
 msgid "Reservation cannot be created due to conflicting time"
-msgstr "Rezervace nemůže být dokončena, protože zadané časy nesouhlasí."
+msgstr "Rezervace nemůže být dokončena, protože v zadaném čase už je auto rezervováno."
 
 #: models.py:239
 msgid "Cannot cancel reservation which already begun"

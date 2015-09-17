@@ -4,7 +4,12 @@ Serializer = DS.RESTSerializer.extend
 
   extractArray: (store, type, payload) ->
     payloadTemp = {}
-    payloadTemp[type.typeKey] = payload
+
+    if payload.hasOwnProperty("results")
+      payloadTemp[type.typeKey] = payload["results"]
+    else
+      payloadTemp[type.typeKey] = payload
+
     return @_super(store, type, payloadTemp)
 
 

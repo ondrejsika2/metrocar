@@ -111,8 +111,10 @@ from rest_framework import viewsets, generics
 from metrocar.cars.models import Car
 from metrocar.cars.serializers import CarSerializer, CarModelSerializer, CarColorSerializer, FuelBillSerializer, \
     JourneySerializer, ParkingSerializer
-from metrocar.user_management.permissions import IsAdminOrReadOnly, IsAdminUserOrOwner, IsAccountOwner
-
+from metrocar.user_management.permissions import IsAdminOrReadOnly, IsAdminUserOrOwner, IsAccountOwner, \
+    IsUserFullyActive
+from metrocar.utils.api.paginations import CustomPaginationSerializer
+from metrocar.settings.base import REST_FRAMEWORK
 
 class CarViewSet(viewsets.ModelViewSet):
     permission_classes = (
@@ -125,16 +127,12 @@ class CarViewSet(viewsets.ModelViewSet):
 
         reserved_from = self.request.QUERY_PARAMS.get('reserved_from', None)
         reserved_until = self.request.QUERY_PARAMS.get('reserved_until', None)
+        parking = self.request.QUERY_PARAMS.get('parking', None)
 
-        print reserved_from
-        print reserved_until
-
-        if reserved_from is not None and reserved_until is not None:
+        if reserved_from is not None and reserved_until is not None and parking is not None:
             reserved_from = (datetime.strptime(reserved_from,'%Y-%m-%d, %X'))
             reserved_until = (datetime.strptime(reserved_until,'%Y-%m-%d, %X'))
-            print reserved_from
-            print reserved_until
-            return Car.list_of_available_cars(datetime_start=reserved_from,datetime_end=reserved_until)
+            return Car.list_of_available_cars(datetime_start=reserved_from,datetime_end=reserved_until, parking=parking)
 
         return Car.objects.all()
 
@@ -155,9 +153,12 @@ class CarColorViewSet(viewsets.ModelViewSet):
 class FuelBillViewSet(viewsets.ModelViewSet):
     permission_classes = (
         IsAccountOwner,
+        IsUserFullyActive,
     )
     queryset = FuelBill.objects.all()
     serializer_class = FuelBillSerializer
+    paginate_by = REST_FRAMEWORK['CUSTOM_RECORDS_PER_PAGE']
+    pagination_serializer_class = CustomPaginationSerializer
 
     def get_queryset(self):
         account = Account.objects.get(user=self.request.user)

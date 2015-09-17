@@ -39,7 +39,7 @@ class JourneyManager(models.Manager):
                 if reservation.started is None:
                     reservation.started = time
                     reservation.ended = time
-                    reservation.save()
+                    reservation.save(force_save_user=True)
                     j_params['reservation'] = reservation
             except Reservation.DoesNotExist:
                 raise AssertionError("Reservation expected, but not found. "

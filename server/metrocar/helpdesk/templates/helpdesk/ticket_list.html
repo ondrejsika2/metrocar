@@ -32,7 +32,7 @@ $(document).ready(function() {
 });
 </script>
 {% endblock %}
-{% block h1_title %}Tickets
+{% block h1_title %}{% trans "Tickets" %}
     {% if from_saved_query %} [{{ saved_query.title }}]{% endif %}{% endblock %}
 {% block helpdesk_body %}
 
