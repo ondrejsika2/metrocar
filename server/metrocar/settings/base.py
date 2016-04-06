@@ -134,7 +134,6 @@ INSTALLED_APPS = (
     'rest_framework_swagger',
 
     'django_nose',
-    'south',
     'corsheaders',
 
     'metrocar.audit',
