@@ -91,11 +91,11 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
 
 # ----- enable virtual host
 
-exec { 'install_geotrack':
+exec { 'a2enmod':
   command => 'sudo a2enmod ssl',
 }
 ->
-exec { 'install_metrocar':
+exec { 'a2ensite':
   command => 'sudo a2ensite server.metrocar.jezdito.cz.conf',
 }
 
