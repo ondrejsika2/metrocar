@@ -1,6 +1,6 @@
 # ----- create user
 
-user{ 'metrocar'
+user{ 'metrocar':
   ensure => 'present',
   password => 'metrocar'
 }
@@ -108,24 +108,24 @@ postgresql::server::db { 'metrocar':
   password => postgresql_password('metrocar', 'metrocar'),
 }
 
-postgresql::server::extension{
-  extension => 'postgis',
+postgresql::server::extension{ 'postgis':
   ensure => 'present',
+  database => 'metrocar',
 }
 
-postgresql::server::extension{
-  extension => 'postgis_topology',
+postgresql::server::extension{ 'postgis_topology':
   ensure => 'present',
+  database => 'metrocar',
 }
 
-postgresql::server::extension{
-  extension => 'fuzzystrmatch',
+postgresql::server::extension{ 'fuzzystrmatch':
   ensure => 'present',
+  database => 'metrocar',
 }
 
-postgresql::server::extension{
-  extension => 'postgis_tiger_geocoder',
+postgresql::server::extension{ 'postgis_tiger_geocoder':
   ensure => 'present',
+  database => 'metrocar',
 }
 
 # ----- create database
