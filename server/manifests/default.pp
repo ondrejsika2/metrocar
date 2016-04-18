@@ -206,9 +206,11 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
 # ----- enable site and restart apache
 
 exec { 'enable_site':
-  command => 'sudo a2ensite metrocar.jezdito.cz'
+  command => 'sudo a2ensite metrocar.jezdito.cz',
+  path => "/",
 }
 ->
 exec { 'restart_apache':
-  command => 'sudo service apache2 reload'
+  command => 'sudo service apache2 reload',
+    path => "/",
 }
