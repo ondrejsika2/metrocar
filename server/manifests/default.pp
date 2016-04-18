@@ -174,7 +174,7 @@ exec { 'bower_install':
   path => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
 }
 ->
-exec { 'bower_install':
+exec { 'ember_build':
   command => 'ember build --environment=production',
   path => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
 }
