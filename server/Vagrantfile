@@ -1,10 +1,38 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+Vagrant.configure(2) do |config|	
 
-Vagrant.configure(2) do |config|
-  config.vm.box = "hashicorp/precise64"
-  config.vm.network "forwarded_port", guest: 8000, host: 8080
+	# ----- provider config
+	#config.vm.provider "vmware_fusion"
+	config.vm.provider "virtualbox"
 
-  # SEE MORE: https://www.vagrantup.com/docs/provisioning/puppet_apply.html
-  config.vm.provision "puppet"
+	config.vm.box = "hashicorp/precise64"
+	#config.vm.box = "ubuntu/trusty64"
+	#config.vm.box = "debian/jessie64"
+	#config.vm.box = "debian/wheezy64"
+	config.vm.network "forwarded_port", guest: 80, host: 8080
+	config.vm.synced_folder "../", "/home/metrocar/repo"
+	
+	config.ssh.username = "vagrant"
+	config.ssh.password = "vagrant"
+	#config.ssh.insert_key = 'true'
+	#sudo passwd root
+
+	# ----- puppet provision
+	#config.vm.provision "puppet" do |puppet|
+	#	puppet.manifests_path = "puppet/manifests"
+	#	puppet.manifest_file  = "default.pp"
+	#	puppet.module_path = "puppet/modules"
+	#end
+
+	# ----- shell provision
+    $script = <<-SCRIPT
+        #sudo apt-get update
+        sudo apt-get install -y puppet
+        sudo puppet module install puppetlabs-apache
+        sudo puppet module install puppetlabs-postgresql
+        sudo puppet module install puppetlabs-vcsrepo
+        sudo cd /home/metrocar/repo/server
+        sudo cd puppet/manifests/default.py
+    SCRIPT
+    config.vm.provision "shell", inline: $script, privileged: false
+	
 end
