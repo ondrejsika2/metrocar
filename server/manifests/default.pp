@@ -93,10 +93,12 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
 
 exec { 'a2enmod':
   command => 'sudo a2enmod ssl',
+  path => "/",
 }
 ->
 exec { 'a2ensite':
   command => 'sudo a2ensite server.metrocar.jezdito.cz.conf',
+  path => "/",
 }
 
 # ----- create database
