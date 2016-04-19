@@ -1,3 +1,7 @@
+Exec {
+  path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ]
+}
+
 # ----- create user
 
 user{ 'metrocar':
@@ -24,7 +28,7 @@ $packages = [
   'python-dev',
   'virtualenv',
   'npm',
-  'nodejs-legacy',
+  'nodejs',
 ]
 
 package {
@@ -51,13 +55,18 @@ file { '/home/metrocar/repo/server/metrocar/settings/local.py':
 # ----- build python apps
 
 exec { 'install_geotrack':
-  command => 'pip install geotrack/dist/geotrack-0.0.0.tar.gz',
-  path    => '/home/metrocar/repo/',
+  command => 'pip install -e /home/metrocar/repo/geotrack/',
+  cwd    => '/home/metrocar/repo/',
 }
 ->
 exec { 'install_metrocar':
-  command => 'pip install server/dist/Metrocar-1.0.0.tar.gzz',
-  path    => '/home/metrocar/repo/',
+  command => 'pip install -e /home/metrocar/repo/server/',
+  cwd    => '/home/metrocar/repo/',
+}
+->
+exec { 'install_metrocar_requirements':
+  command => 'pip install -r /home/metrocar/repo/server/requirements.txt',
+  cwd    => '/home/metrocar/repo/',
 }
 
 # ----- apache set up
@@ -81,7 +90,7 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
         </Directory>
 
         WSGIPassAuthorization On
-        WSGIDaemonProcess metrocar python-path=/home/metrocar/Envs/metrocar/lib/python2.7/site-packages/
+        WSGIDaemonProcess metrocar python-cwd=/home/metrocar/Envs/metrocar/lib/python2.7/site-packages/
         WSGIProcessGroup metrocar
         WSGIScriptAlias / /home/metrocar/Envs/metrocar/lib/python2.7/site-packages/metrocar/wsgi.py
 
@@ -92,13 +101,13 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
 # ----- enable virtual host
 
 exec { 'a2enmod':
-  command => 'sudo a2enmod ssl',
-  path => "/",
+  command => 'a2enmod ssl',
+  cwd => "/",
 }
 ->
 exec { 'a2ensite':
-  command => 'sudo a2ensite server.metrocar.jezdito.cz.conf',
-  path => "/",
+  command => 'a2ensite server.metrocar.jezdito.cz.conf',
+  cwd => "/",
 }
 
 # ----- create database
@@ -133,24 +142,16 @@ postgresql::server::extension{ 'postgis_tiger_geocoder':
 # ----- create database
 
 exec { 'export_settings_module':
-  command => 'export DJANGO_SETTINGS_MODULE="metrocar.settings.local',
-  path => '/home/metrocar/repo/server/metrocar/'
+  command => '
+       bash -c "export DJANGO_SETTINGS_MODULE=metrocar.settings.local; python manage.py syncdb; python manage.py migrate --all;"
+    ',
+    cwd => '/home/metrocar/repo/server/metrocar/'
 }
 
-exec { 'python_syncdb':
-  command => 'python manage.py syncdb',
-  path => '/home/metrocar/repo/server/metrocar/'
-}
-
-exec { 'python_migrate':
-  command => 'python manage.py migrate --all',
-  path => '/home/metrocar/repo/server/metrocar/'
-}
-
-exec { 'python_dummy':
-  command => 'python manage.py load_dummy_data',
-  path => '/home/metrocar/repo/server/metrocar/'
-}
+#exec { 'python_dummy':
+#  command => 'python manage.py load_dummy_data',
+#  cwd => '/home/metrocar/repo/server/metrocar/'
+#}
 
 # ----- create log file TODO needed?
 
@@ -167,18 +168,18 @@ package { 'ember-cli':
 }
 
 exec { 'npm_install':
-  command => 'sudo npm install',
-  path => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
+  command => 'npm install',
+  cwd => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
 }
 ->
 exec { 'bower_install':
   command => 'bower install',
-  path => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
+  cwd => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
 }
 ->
 exec { 'ember_build':
   command => 'ember build --environment=production',
-  path => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
+  cwd => '/home/metrocar/metrocar/wagnejan_metrocar/client/'
 }
 
 # ----- www public folder
@@ -208,11 +209,12 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
 # ----- enable site and restart apache
 
 exec { 'enable_site':
-  command => 'sudo a2ensite metrocar.jezdito.cz',
-  path => "/",
+  command => 'a2ensite metrocar.jezdito.cz',
+  cwd => "/",
 }
 ->
 exec { 'restart_apache':
-  command => 'sudo service apache2 reload',
-    path => "/",
+  command => 'service apache2 reload',
+    cwd => "/",
 }
+
