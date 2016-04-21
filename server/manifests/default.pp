@@ -90,11 +90,12 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
         </Directory>
 
         WSGIPassAuthorization On
-        WSGIDaemonProcess metrocar python-cwd=/home/metrocar/Envs/metrocar/lib/python2.7/site-packages/
-        WSGIProcessGroup metrocar
-        WSGIScriptAlias / /home/metrocar/Envs/metrocar/lib/python2.7/site-packages/metrocar/wsgi.py
+        #WSGIDaemonProcess metrocar python-cwd=/home/metrocar/Envs/metrocar/lib/python2.7/site-packages/
+        #WSGIProcessGroup metrocar
+        #WSGIScriptAlias / /home/metrocar/Envs/metrocar/lib/python2.7/site-packages/metrocar/wsgi.py
 
-
+        WSGIScriptAlias / /home/metrocar/repo/server/metrocar/wsgi.py
+        WSGIPythonPath /home/metrocar/repo/server/metrocar/
     </VirtualHost>',
 }
 
