@@ -188,15 +188,18 @@ package { 'ember-cli':
   provider => 'npm',
 }
 ->
+file{'/home/metrocar/repo/client/':
+  ensure => 'directory',
+  mode => 777,
+  owner => 'metrocar',
+  seluser => 'metrocar',
+  recurse => true,
+}
+->
 exec { 'npm_install':
   command => 'npm install',
   cwd => '/home/metrocar/repo/client/',
   user => 'metrocar',
-}
-->
-exec { 'ensure_777_dir':
-  command => 'chmod 777 /home/metrocar/repo/client/bower_components/ -R',
-  cwd => '/',
 }
 ->
 exec { 'bower_install':
@@ -209,8 +212,10 @@ exec { 'ember_build':
   command => 'ember build --environment=production',
   cwd => '/home/metrocar/repo/client/',
   user => 'metrocar',
+
 }
 ->
+
 # ----- www public folder
 
 file { 'www_folder':
