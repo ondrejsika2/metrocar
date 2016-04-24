@@ -168,11 +168,21 @@ postgresql::server::extension{ 'postgis_tiger_geocoder':
 #}
 #->
 
-#exec { 'python_dummy':
-#  command => 'python manage.py load_dummy_data',
-#  cwd => '/home/metrocar/repo/server/metrocar/'
-#}
-#->
+exec { 'py_manage_sync_db':
+  command => 'python manage.py syncdb',
+  cwd => '/home/metrocar/repo/server/metrocar/',
+}
+->
+exec { 'py_manage_migrate':
+  command => 'python manage.py migrate --all',
+  cwd => '/home/metrocar/repo/server/metrocar/',
+}
+->
+exec { 'py_manage_dummy_data':
+  command => 'python manage.py load_dummy_data',
+  cwd => '/home/metrocar/repo/server/metrocar/',
+}
+->
 
 # ----- create log file TODO needed?
 
@@ -189,6 +199,14 @@ package { 'ember-cli':
 }
 ->
 file{'/home/metrocar/repo/client/':
+  ensure => 'directory',
+  mode => 777,
+  owner => 'metrocar',
+  seluser => 'metrocar',
+  recurse => true,
+}
+->
+file{'/home/metrocar/repo/server/metrocar/log/':
   ensure => 'directory',
   mode => 777,
   owner => 'metrocar',
