@@ -57,7 +57,7 @@ vcsrepo { '/home/metrocar/repo/':
   ensure   => latest,
   provider => git,
   source   => 'https://github.com/tomasj/metrocar.git',
-
+  revision => 'master',
 }
 ->
 
@@ -186,11 +186,11 @@ exec { 'py_manage_sync_db':
   cwd => '/home/metrocar/repo/server/metrocar/',
 }
 ->
-exec { 'py_manage_migrate':
-  command => 'python manage.py migrate --all',
-  cwd => '/home/metrocar/repo/server/metrocar/',
-}
-->
+# exec { 'py_manage_migrate':
+#   command => 'python manage.py migrate --all',
+#   cwd => '/home/metrocar/repo/server/metrocar/',
+# }
+# ->
 exec { 'py_manage_dummy_data':
   command => 'python manage.py load_dummy_data',
   cwd => '/home/metrocar/repo/server/metrocar/',
