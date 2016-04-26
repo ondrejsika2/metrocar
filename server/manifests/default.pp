@@ -54,9 +54,10 @@ file { '/usr/bin/node':
 # ----- clone git repo
 
 vcsrepo { '/home/metrocar/repo/':
-  ensure   => present,
+  ensure   => latest,
   provider => git,
   source   => 'https://github.com/tomasj/metrocar.git',
+
 }
 ->
 
