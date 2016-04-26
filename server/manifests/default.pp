@@ -169,10 +169,15 @@ postgresql::server::extension{ 'postgis_tiger_geocoder':
 #->
 
 # first we create a super user using a django shell
-exec { 'py_manage_create_su':
-  refreshonly => true,
-  command => 'echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'admin@metrocar.cz\', \'admin\')" | python manage.py shell --settings=metrocar.settings.local',
-  cwd => '/home/metrocar/repo/server/metrocar/',
+exec { 'py_django_su':
+  command => 'echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'admin@metrocar.cz\', \'admin\')" | python metrocar/manage.py shell',
+  cwd => '/home/metrocar/repo/server/',
+}
+->
+# django site
+exec { 'py_django_add_site':
+  command => 'echo "from django.contrib.sites.models import Site; site = Site(); site.domain = \'server.metrocar.jezdito.cz\'; site.name = \'server.metrocar.jezdito.cz\'; site.save(); " | python metrocar/manage.py shell',
+  cwd => '/home/metrocar/repo/server/',
 }
 ->
 exec { 'py_manage_sync_db':
@@ -187,18 +192,6 @@ exec { 'py_manage_migrate':
 ->
 exec { 'py_manage_dummy_data':
   command => 'python manage.py load_dummy_data',
-  cwd => '/home/metrocar/repo/server/metrocar/',
-}
-->
-# mark a django site (it will add an record do particular django db table)
-exec { 'py_django_su':
-  command => 'echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'admin@metrocar.cz\', \'admin\')" | python manage.py shell',
-  cwd => '/home/metrocar/repo/server/metrocar/',
-}
-->
-exec { 'py_django_add_site':
-  refreshonly => true,
-  command => 'echo "from django.contrib.sites.models import Site; site = Site(); site.domain = \'server.metrocar.jezdito.cz\'; site.name = \'server.metrocar.jezdito.cz\'; site.save(); " | python manage.py shell',
   cwd => '/home/metrocar/repo/server/metrocar/',
 }
 ->
