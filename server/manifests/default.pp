@@ -114,6 +114,8 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
 
         WSGIScriptAlias / /home/metrocar/repo/server/metrocar/wsgi.py
         #WSGIPythonPath /home/metrocar/repo/server/metrocar/
+
+        Alias /.well-known/acme-challenge /le/.acme-challenges
     </VirtualHost>',
 }
 ->
@@ -268,6 +270,7 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
         FallbackResource /index.html
+        Alias /.well-known/acme-challenge /le/.acme-challenges
 
     </VirtualHost>',
 }
