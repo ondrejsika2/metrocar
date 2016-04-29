@@ -1,6 +1,11 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
+
+  if (environment == null || environment == undefined) {
+    environment = 'production';
+  }
+
   var ENV = {
     modulePrefix: 'client/app',
     podModulePrefix: 'client/app/pods',
