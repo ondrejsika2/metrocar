@@ -48,6 +48,15 @@ exec { 'ember_build':
 }
 ->
 
+# ----- copy client files to www public folder
+
+file { 'www_folder':
+   path => '/var/www/metrocar.jezdito.cz',
+   source => '/home/metrocar/repo/client/dist/',
+   recurse => true,
+}
+->
+
 # ----- reload apache
 
 exec { 'restart_apache':

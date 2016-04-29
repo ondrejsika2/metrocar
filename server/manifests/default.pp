@@ -87,6 +87,44 @@ exec { 'install_metrocar_requirements':
 }
 ->
 
+# ----- create database
+
+postgresql::server::db { 'metrocar':
+  user     => 'metrocar',
+  password => postgresql_password('metrocar', 'metrocar'),
+}
+->
+postgresql::server::extension{ 'postgis':
+  ensure => 'present',
+  database => 'metrocar',
+}
+->
+postgresql::server::extension{ 'postgis_topology':
+  ensure => 'present',
+  database => 'metrocar',
+}
+->
+postgresql::server::extension{ 'fuzzystrmatch':
+  ensure => 'present',
+  database => 'metrocar',
+}
+->
+postgresql::server::extension{ 'postgis_tiger_geocoder':
+  ensure => 'present',
+  database => 'metrocar',
+}
+->
+
+# ----- create database
+
+#exec { 'export_settings_module':
+#  command => '
+#       bash -c "export DJANGO_SETTINGS_MODULE=metrocar.settings.local; python manage.py syncdb; python manage.py migrate --all;"
+#    ',
+#    cwd => '/home/metrocar/repo/server/metrocar/'
+#}
+#->
+
 # ----- apache set up
 
 file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
@@ -133,44 +171,14 @@ exec { 'a2ensite':
 }
 ->
 
-# ----- create database
+# ----- setup django
 
-postgresql::server::db { 'metrocar':
-  user     => 'metrocar',
-  password => postgresql_password('metrocar', 'metrocar'),
+# syncdb
+exec { 'py_manage_sync_db':
+  command => 'python manage.py syncdb --noinput --settings=metrocar.settings.local',
+  cwd => '/home/metrocar/repo/server/metrocar/',
 }
 ->
-postgresql::server::extension{ 'postgis':
-  ensure => 'present',
-  database => 'metrocar',
-}
-->
-postgresql::server::extension{ 'postgis_topology':
-  ensure => 'present',
-  database => 'metrocar',
-}
-->
-postgresql::server::extension{ 'fuzzystrmatch':
-  ensure => 'present',
-  database => 'metrocar',
-}
-->
-postgresql::server::extension{ 'postgis_tiger_geocoder':
-  ensure => 'present',
-  database => 'metrocar',
-}
-->
-
-# ----- create database
-
-#exec { 'export_settings_module':
-#  command => '
-#       bash -c "export DJANGO_SETTINGS_MODULE=metrocar.settings.local; python manage.py syncdb; python manage.py migrate --all;"
-#    ',
-#    cwd => '/home/metrocar/repo/server/metrocar/'
-#}
-#->
-
 # first we create a super user using a django shell
 exec { 'py_django_su':
   command => 'echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'admin@metrocar.cz\', \'admin\')" | python metrocar/manage.py shell',
@@ -181,11 +189,6 @@ exec { 'py_django_su':
 exec { 'py_django_add_site':
   command => 'echo "from django.contrib.sites.models import Site; site = Site(); site.domain = \'server.metrocar.jezdito.cz\'; site.name = \'server.metrocar.jezdito.cz\'; site.save(); " | python metrocar/manage.py shell',
   cwd => '/home/metrocar/repo/server/',
-}
-->
-exec { 'py_manage_sync_db':
-  command => 'python manage.py syncdb --settings=metrocar.settings.local',
-  cwd => '/home/metrocar/repo/server/metrocar/',
 }
 ->
 # exec { 'py_manage_migrate':
@@ -245,11 +248,10 @@ exec { 'ember_build':
   command => 'ember build --environment=production',
   cwd => '/home/metrocar/repo/client/',
   user => 'metrocar',
-
 }
 ->
 
-# ----- www public folder
+# ----- copy client files to www public folder
 
 file { 'www_folder':
    path => '/var/www/metrocar.jezdito.cz',
