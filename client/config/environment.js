@@ -39,8 +39,15 @@ module.exports = function(environment) {
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com"
     },
 
-
-
+    metrocarServer: 'http://server.metrocar.jezdito.cz',
+    
+    "simple-auth": {
+      serverTokenEndpoint: 'http://server.metrocar.jezdito.cz/api/v1/auth-token/',
+      crossOriginWhitelist: ['server.metrocar.jezdito.cz'],
+      store: 'simple-auth-session-store:local-storage',
+      authenticationRoute: 'credentials.login',
+      routeAfterAuthentication: 'reservations.list'
+    }
   };
 
   if (environment === 'development') {
