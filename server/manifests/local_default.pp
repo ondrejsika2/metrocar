@@ -3,29 +3,30 @@
 
 # default paths to executables
 Exec {
-  path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin' ]
+  path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin' ],
 }
 
 # class definitions
 class { 'postgresql::server': }
 
 # packages var definition
+# note: postgres downgraded to 9.3 to ensure Ubuntu 14 (OS) compatibility
 $packages = [
   'apache2',
-  'apache2.2-common',
+  #'apache2.2-common',
   'apache2-mpm-prefork',
   'apache2-utils',
   'libexpat1',
   'ssl-cert',
   'libapache2-mod-wsgi',
   'postgresql',
-  'postgresql-9.4-postgis-2.1',
-  'postgresql-server-dev-9.4',
+  'postgresql-9.3-postgis-2.1',
+  'postgresql-server-dev-9.3',
   'git',
   'python',
   'python-pip',
   'python-dev',
-  'virtualenv',
+  #'virtualenv',
   'npm',
   'nodejs',
 ]
@@ -50,15 +51,6 @@ file { '/usr/bin/node':
     ensure => 'link',
     target => '/usr/bin/nodejs',
   }
-->
-# ----- clone git repo
-
-vcsrepo { '/home/metrocar/repo/':
-  ensure   => latest,
-  provider => git,
-  source   => 'https://github.com/tomasj/metrocar.git',
-  revision => 'master',
-}
 ->
 
 # ----- create certificates for SSL TODO
@@ -123,7 +115,7 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
   ensure => 'present',
   content => '
       <VirtualHost *:80>
-        ServerName server.metrocar.jezdito.cz
+        ServerName localhost
 
         <Directory />
                 AllowOverride none
@@ -226,6 +218,7 @@ exec { 'npm_install':
   command => 'npm install',
   cwd => '/home/metrocar/repo/client/',
   user => 'metrocar',
+  timeout => 1800,
 }
 ->
 exec { 'bower_install':
@@ -247,6 +240,7 @@ file { 'www_folder':
    path => '/var/www/metrocar.jezdito.cz',
    source => '/home/metrocar/repo/client/dist/',
    recurse => true,
+
 }
 ->
 
@@ -256,7 +250,7 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
   ensure => 'present',
   content => '
     <VirtualHost *:80>
-        ServerName metrocar.jezdito.cz
+        ServerName localhost
         DocumentRoot /var/www/metrocar.jezdito.cz
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
