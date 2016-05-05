@@ -1,11 +1,6 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-
-  if (environment == null || environment == undefined) {
-    environment = 'production';
-  }
-
   var ENV = {
     modulePrefix: 'client/app',
     podModulePrefix: 'client/app/pods',
@@ -35,19 +30,12 @@ module.exports = function(environment) {
       'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com http://maps.google.com/maps/api/js?sensor=false",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' maps.gstatic.com server.metrocar.jezdito.cz local.server.metrocar.dev",
-      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com www.gravatar.com https://local.server.metrocar.dev",
+      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com www.gravatar.com http://server.metrocar.jezdito.cz",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com"
     },
 
-    metrocarServer: 'http://server.metrocar.jezdito.cz',
-    
-    "simple-auth": {
-      serverTokenEndpoint: 'http://server.metrocar.jezdito.cz/api/v1/auth-token/',
-      crossOriginWhitelist: ['server.metrocar.jezdito.cz'],
-      store: 'simple-auth-session-store:local-storage',
-      authenticationRoute: 'credentials.login',
-      routeAfterAuthentication: 'reservations.list'
-    }
+
+
   };
 
   if (environment === 'development') {
@@ -57,10 +45,10 @@ module.exports = function(environment) {
     //ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     //ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV['metrocarServer'] = 'http://local.server.metrocar.dev';
+    ENV['metrocarServer'] = 'http://server.metrocar.jezdito.cz';
     ENV['simple-auth'] = {
-      serverTokenEndpoint: 'http://local.server.metrocar.dev/api/v1/auth-token/',
-      crossOriginWhitelist: ['local.server.metrocar.dev'],
+      serverTokenEndpoint: 'http://server.metrocar.jezdito.cz/api/v1/auth-token/',
+      crossOriginWhitelist: ['server.metrocar.jezdito.cz'],
       store: 'simple-auth-session-store:local-storage',
       authenticationRoute: 'credentials.login',
       routeAfterAuthentication: 'reservations.list'
