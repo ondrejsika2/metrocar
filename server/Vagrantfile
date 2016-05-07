@@ -3,8 +3,9 @@ Vagrant.configure(2) do |config|
 	# ----- provider config
 	#config.vm.provider "vmware_fusion"
 	config.vm.provider "virtualbox" do |v|
-      v.memory = 1024
-      v.cpus = 2
+      v.memory = 3072
+      v.cpus = 4
+      v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
     end
 
     # ----- OS box config
@@ -12,9 +13,11 @@ Vagrant.configure(2) do |config|
 	config.vm.box = "ubuntu/trusty64"
 	#config.vm.box = "debian/jessie64"
 	#config.vm.box = "debian/wheezy64"
-	config.vm.network "forwarded_port", guest: 80, host: 8080
+	config.vm.network "forwarded_port", guest: 80, host: 80
+	config.vm.network "forwarded_port", guest: 8080, host: 8080
+	config.vm.network "forwarded_port", guest: 8000, host: 8000
 	config.vm.network "forwarded_port", guest: 10000, host: 10000
-	config.vm.synced_folder "../", "/home/metrocar/repo"
+	config.vm.synced_folder "../", "/home/vagrant/repo"
 	
 	config.ssh.username = "vagrant"
 	#config.ssh.username = "root"
@@ -26,8 +29,9 @@ Vagrant.configure(2) do |config|
     $script = <<-SCRIPT
         sudo apt-get update -y
         sudo apt-get install -y puppet
-        sudo puppet apply /home/metrocar/repo/server/manifests/local_tools.pp
-        sudo puppet apply /home/metrocar/repo/server/manifests/local_default.pp
+        sudo puppet apply /home/vagrant/repo/server/manifests/local_tools.pp
+        sudo puppet apply /home/vagrant/repo/server/manifests/local_default_server.pp
+        sudo puppet apply /home/vagrant/repo/server/manifests/local_default_client.pp
     SCRIPT
     config.vm.provision "shell", inline: $script, privileged: false
 

@@ -226,6 +226,7 @@ exec { 'npm_install':
   command => 'npm install',
   cwd => '/home/metrocar/repo/client/',
   user => 'metrocar',
+  timeout => 1800,
 }
 ->
 exec { 'bower_install':

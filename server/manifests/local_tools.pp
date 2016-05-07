@@ -3,6 +3,13 @@ Exec {
   cwd => "/home/vagrant/",
 }
 
+# ----- extends aptitude repositories
+
+exec { 'add_aptitude_repositories':
+  command => 'printf \'\n%s\n%s\n%s\n%s\n\' \'# ----- added to make apache2.2-common avail\' \'deb http://archive.ubuntu.com/ubuntu precise main restricted universe\' \'deb http://archive.ubuntu.com/ubuntu precise-updates main restricted universe\' \'deb http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse\' >> /etc/apt/sources.list',
+}
+->
+
 # --------------- install webmin
 
 exec { 'update_apt':
@@ -49,6 +56,7 @@ exec { 'phpPgAdmin':
 file{ '/etc/apache2/sites-available/admin.metrocar.jezdito.cz.conf':
   ensure => 'present',
   content => '
+      Listen 8000
       <VirtualHost *:8000>
         ServerName localhost
         DocumentRoot /usr/share/phppgadmin
@@ -69,8 +77,9 @@ exec { 'a2ensite':
 }
 ->
 exec { 'restart_apache':
-  command => 'service apache2 reload',
+  command => 'service apache2 restart',
 }
+
 
 # exec { 'adminer':
 #   command => 'apt-get -y adminer',

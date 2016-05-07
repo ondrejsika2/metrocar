@@ -82,5 +82,18 @@ module.exports = function(environment) {
 
   }
 
+    if (environment === 'local') {
+
+    ENV['metrocarServer'] = 'http://localhost:8080';
+    ENV['simple-auth'] = {
+      serverTokenEndpoint: 'http://localhost:8080/api/v1/auth-token/',
+      crossOriginWhitelist: ['localhost:8080'],
+      store: 'simple-auth-session-store:local-storage',
+      authenticationRoute: 'credentials.login',
+      routeAfterAuthentication: 'reservations.list'
+    };
+
+  }
+
   return ENV;
 };

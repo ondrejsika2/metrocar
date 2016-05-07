@@ -1,6 +1,5 @@
 Exec {
   path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin' ],
-  cwd => "/home/vagrant/",
 }
 
 # --------------- install webmin

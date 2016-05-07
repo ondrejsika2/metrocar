@@ -3,48 +3,38 @@ Exec {
   path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin' ]
 }
 
-# ----- checkout vcs
-
-vcsrepo { '/home/metrocar/repo/':
-  ensure   => latest,
-  provider => git,
-  source   => 'https://github.com/tomasj/metrocar.git',
-  revision => 'master',
-}
-->
-
 # ----- rebuild python apps
 
 exec { 'install_geotrack':
-  command => 'pip install -e /home/metrocar/repo/geotrack/',
-  cwd    => '/home/metrocar/repo/',
+  command => 'pip install -e /home/vagrant/repo/geotrack/',
+  cwd    => '/home/vagrant/repo/',
 }
 ->
 exec { 'install_metrocar':
-  command => 'pip install -e /home/metrocar/repo/server/',
-  cwd    => '/home/metrocar/repo/',
+  command => 'pip install -e /home/vagrant/repo/server/',
+  cwd    => '/home/vagrant/repo/',
 }
 ->
 
 # ----- rebuild client
 
 exec { 'npm_install':
-  command => 'npm install',
-  cwd => '/home/metrocar/repo/client/',
-  user => 'metrocar',
+  command => 'npm install --no-bin-links',
+  cwd => '/home/vagrant/repo/client/',
+  user => 'vagrant',
+  timeout => 1800,
 }
 ->
 exec { 'bower_install':
-  command => 'bower install',
-  cwd => '/home/metrocar/repo/client/',
-  user => 'metrocar',
+  command => 'bower install --allow-root',
+  cwd => '/home/vagrant/repo/client/',
+  user => 'vagrant',
 }
 ->
 exec { 'ember_build':
-  command => 'ember build --environment=production',
-  cwd => '/home/metrocar/repo/client/',
-  user => 'metrocar',
-
+  command => 'ember build --no-bin-links --environment=production',
+  cwd => '/home/vagrant/repo/client/',
+  user => 'vagrant',
 }
 ->
 
@@ -52,7 +42,7 @@ exec { 'ember_build':
 
 file { 'www_folder':
    path => '/var/www/metrocar.jezdito.cz',
-   source => '/home/metrocar/repo/client/dist/',
+   source => '/home/vagrant/repo/client/dist/',
    recurse => true,
 }
 ->
