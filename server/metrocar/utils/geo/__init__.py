@@ -161,8 +161,8 @@ def create_journey(entries, user=None, **kwargs):
         end_datetime=entries[-1]['timestamp'],
         length=distance(entries),
         user_id=user.id if user else entries[0]['user_id'],
-        speedometer_start=entries[0].get('odometer'),
-        speedometer_end=entries[-1].get('odometer'),
+        odometer_start=entries[0].get('odometer'),
+        odometer_end=entries[-1].get('odometer'),
         **kwargs)
 
 

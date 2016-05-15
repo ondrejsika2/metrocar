@@ -331,11 +331,11 @@ msgid "User"
 msgstr "Uživatel"
 
 #: models.py:504
-msgid "Speedometer start state"
+msgid "Odometer start state"
 msgstr "Stav tachometru na začátku"
 
 #: models.py:507
-msgid "Speedometer end state"
+msgid "Odometer end state"
 msgstr "Stav tachometru na konci"
 
 #: models.py:514
@@ -360,12 +360,12 @@ msgstr "Čas začátku jízdu musí být větší než začátek rezervace nebo 
 
 #: models.py:548
 msgid ""
-"State of speedometer in the end of the journey must be higher than in the "
+"State of odometer in the end of the journey must be higher than in the "
 "beginning of the journey."
 msgstr "Stav tachometru na konci jízdy musí být vyšší než na začátku jízdy."
 
 #: models.py:551
-msgid "Values of speedometer can not be empty."
+msgid "Values of odometer can not be empty."
 msgstr "Hodnoty tachometru nemohou být prázdné."
 
 #: templates/admin/cars/car/change_auth_key.html:10

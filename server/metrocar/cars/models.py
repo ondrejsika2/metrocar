@@ -468,12 +468,7 @@ class Journey(models.Model):
 
         if self.odometer_end is not None and self.odometer_start is not None:
             if self.odometer_end <= self.odometer_start:
-                raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))
-
-        # TODO: why not? (find out why this was put here)
-        # else:
-        #     if self.type == self.TYPE_TRIP:
-        #         raise AssertionError(_('Values of speedometer can not be empty.'))
+                raise AssertionError(_('State of odometer in the end of the journey must be higher than in the beginning of the journey.'))
 
         return True
 

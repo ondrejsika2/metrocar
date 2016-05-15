@@ -49,8 +49,8 @@ class JourneyManager(models.Manager):
             car=car,
             user=user,
             reservation=reservation,
-            speedometer_start=123,
-            speedometer_end=321,
+            odometer_start=123,
+            odometer_end=321,
             total_price=120
         )
         journey.save() # validation happens in save method automatically
