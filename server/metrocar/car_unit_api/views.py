@@ -116,8 +116,8 @@ class DataUploadView(APICall):
         print 'Request meta:', request.META
         print 'Request meta.xxx:', request.META["SERVER_SOFTWARE"]
         print json.loads(request.REQUEST["json"])
-        print 'Request meta.uid:', request.META["HTTP_UID"]
-        print 'Request meta.key:', request.META["HTTP_KEY"]
+        print 'Request meta.uid:', request.META["HTTP_X_UID"]
+        print 'Request meta.key:', request.META["HTTP_X_KEY"]
 
         # custom authentication
         if not self.authenticate(request):
@@ -156,8 +156,8 @@ class DataUploadView(APICall):
         Checks for a valid combination of ``unit_id`` and ``secret_key`` values in
         `data`.
         """
-        unit_id = request.META["HTTP_UID"]
-        secret_key = request.META["HTTP_KEY"]
+        unit_id = request.META["HTTP_X_UID"]
+        secret_key = request.META["HTTP_X_KEY"]
 
         try:
             unit = CarUnit.objects.get(unit_id=unit_id, secret_key=secret_key)
