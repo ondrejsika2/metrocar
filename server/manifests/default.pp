@@ -262,6 +262,11 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
+        <Directory />
+            AllowOverride none
+            Require all granted
+        </Directory>
+
         FallbackResource /index.html
         Alias /.well-known/acme-challenge /le/.acme-challenges
 

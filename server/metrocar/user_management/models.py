@@ -19,6 +19,7 @@ from metrocar.utils.exceptions import CustomAPIException
 from metrocar.utils.fields import *
 import re
 from metrocar.settings.local import DEBUG
+from django.utils.crypto import get_random_string
 
 class Company(models.Model):
     name = models.CharField(max_length=80, blank=False, null=False,
@@ -43,7 +44,7 @@ class MetrocarUser(User):
     GENDER_CHOICES = (('M', _('Male')), ('F', _('Female')),)
 
     user = models.OneToOneField(User, parent_link=True)
-    date_of_birth = models.DateField(blank=False, null=True,
+    date_of_birth = models.DateField(blank=False, null=True, editable=True,
                                      verbose_name=_('Date of birth'))
     drivers_licence_number = models.CharField(max_length=10, blank=False,
                                               null=False, verbose_name=_('Drivers licence number'))
@@ -265,14 +266,14 @@ class UserCard(models.Model):
     active = models.BooleanField(blank=False, null=False, default=True,
                                  verbose_name=_('Active'))
     code = models.IntegerField(max_length=8, blank=False, null=False,
-                               verbose_name=_('User card'))
+                               verbose_name=_('User card code'))
     last_modified = models.DateTimeField(default=datetime.now(), editable=False,
                                          verbose_name=_('Last modified'))
-    registration_number = models.IntegerField(max_length=10, blank=False,
-                                              null=False, verbose_name=_('Registration number'))
+    card_key = models.CharField(max_length=20, blank=False, editable=True, null=True,
+                                verbose_name=_('Card key'))
     is_service_card = models.BooleanField(blank=False, null=False,
                                           default=False, verbose_name=_('Service card'))
-    user = models.OneToOneField(MetrocarUser, editable=False,
+    user = models.OneToOneField(MetrocarUser, editable=True,
                                 related_name='user_card', verbose_name=_('User'))
 
     class Meta:
@@ -286,9 +287,9 @@ class UserCard(models.Model):
         """
         Overload of save for generation of code and registration number.
         """
-        if not self.pk:
-            self.code = self.create_code()
-            self.registration_number = self.create_registration_number()
+        # if not self.pk:
+        self.code = self.create_code()
+        self.registration_number = self.create_registration_number()
         super(UserCard, self).save(*args, ** kwargs)
 
     @classmethod
@@ -314,6 +315,7 @@ class UserCard(models.Model):
         if kwargs['created']:
             card = UserCard()
             card.user = kwargs['instance']
+            card.card_key = get_random_string(length=20)
             card.save()
 
 post_save.connect(UserCard.create_for_user, sender=MetrocarUser)

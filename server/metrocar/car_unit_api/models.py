@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from geotrack.api import query
 
-from metrocar.cars.models import Car
+from metrocar.cars.models import Car, Journey
 
 
 class Events:
@@ -69,6 +69,28 @@ class CarUnit(models.Model):
     def get_last_position(self):
         return query('last_position', units=[self.unit_id]).get(self.unit_id)
 
+class JourneyDataFile(models.Manager):
+
+    def get_for(self, journey):
+        """
+        Returns a datafile for particular journey.
+        Relation is 1-to-1, exception is raised when more than one datafile is found.
+        """
+        return unless(JourneyDataFile.DoesNotExist, self.get_query_set().get)(journey=journey)
+
+class JourneyDataFile(models.Model):
+    """
+    A model representing a data file collected during a trip/journey of particular car.
+    """
+    journey = models.ForeignKey(Journey,  verbose_name=_('Car'), help_text=_(
+         'A unique identifier of jurney, to which this datafile belongs'))
+
+    filename = models.TextField(blank=True, null=True, verbose_name=_('File name'), help_text=_(
+        'Name of a datafile, including extension'))
+
+    filesize = models.IntegerField(null=True, verbose_name=_('Filesize'), blank=True)
+    uploaded = models.BooleanField(default=False, help_text=_(
+          'Boolean flag marking an upload status, True - file was successfuly uploaded, False - otherwise'))
 
 if settings.GEO_ENABLED:
 

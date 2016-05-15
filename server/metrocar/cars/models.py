@@ -424,12 +424,11 @@ class Journey(models.Model):
     car = models.ForeignKey(Car,  verbose_name=_('Car'))
     user = models.ForeignKey(MetrocarUser,  verbose_name=_('User'))
 
-    # TODO: rename (or delete?)
-    speedometer_start = models.IntegerField(null=True, verbose_name=_('Speedometer start state'),
-                                            blank=True)
+    odometer_start = models.IntegerField(null=True, verbose_name=_('Odometer start state'),
+                                         blank=True)
 
-    speedometer_end = models.IntegerField(null=True, verbose_name=_('Speedometer end state'),
-                                            blank=True)
+    odometer_end = models.IntegerField(null=True, verbose_name=_('Odometer end state'),
+                                       blank=True)
 
     objects = managers.JourneyManager()
 
@@ -467,8 +466,8 @@ class Journey(models.Model):
             if self.start_datetime < reservation.reserved_from:
                 raise AssertionError(_('Journey start time must be after reservation start time or equal.'))
 
-        if self.speedometer_end is not None and self.speedometer_start is not None:
-            if self.speedometer_end <= self.speedometer_start:
+        if self.odometer_end is not None and self.odometer_start is not None:
+            if self.odometer_end <= self.odometer_start:
                 raise AssertionError(_('State of speedometer in the end of the journey must be higher than in the beginning of the journey.'))
 
         # TODO: why not? (find out why this was put here)
@@ -525,7 +524,7 @@ class Journey(models.Model):
         """
         Prepares data and updates journey
         """
-        self.length = self.speedometer_end - self.speedometer_start
+        self.length = self.odometer_end - self.odometer_start
         self.car = self.reservation.car
         self.user = self.reservation.user
         self.update_total_price()

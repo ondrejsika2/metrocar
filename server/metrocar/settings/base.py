@@ -1,7 +1,8 @@
 # encoding: utf-8
 
 # Django settings for metrocar project.
-from os.path import abspath, dirname, join
+from os.path import abspath, dirname, join, exists
+from os import makedirs
 
 
 PROJECT_PATH = abspath(join(dirname(__file__), '..'))
@@ -67,6 +68,7 @@ STATICFILES_FINDERS = (
 # User-uploaded files #########################################################
 
 MEDIA_ROOT = join(PROJECT_PATH, '..', 'files')
+UNIT_DATA_FILES_DIR = join(MEDIA_ROOT, 'unit_data_files')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -275,3 +277,7 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
+
+# create dirs
+if not exists(UNIT_DATA_FILES_DIR):
+    makedirs(UNIT_DATA_FILES_DIR)

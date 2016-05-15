@@ -1,17 +1,25 @@
+# coding:UTF8
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from datetime import datetime
 from django.core import serializers
 from pipetools import pipe, X, foreach
-
 import geotrack
-
-from metrocar.car_unit_api.models import CarUnit
+import json
+from metrocar.car_unit_api.models import CarUnit, JourneyDataFile
 from metrocar.car_unit_api.utils import authenticate, update_car_status
 from metrocar.car_unit_api.validation import valid_timestamp, valid_user_id
 from metrocar.reservations.models import Reservation
 from metrocar.utils.apis import APICall, parse_json, process_request, validate_request
 from metrocar.utils.geo.validation import valid_location
 from metrocar.utils.validation import required, optional, validate_each, valid_int, valid_string, valid_float
+from metrocar.cars.models import Journey
+from metrocar.utils.validation import validate
+from django.conf import settings
+from metrocar.user_management.models import UserCard, MetrocarUser
 
+# --------------------------------------------------------------------------------
+# ----- Uložení záznamu ----------------------------------------------------------
 
 class StoreLog(APICall):
     """
@@ -56,6 +64,8 @@ def store(unit_id, entries):
 
     update_car_status(unit_id, entries)
 
+# --------------------------------------------------------------------------------
+# ----- Získání rezervací --------------------------------------------------------
 
 class Reservations(APICall):
     """
@@ -64,7 +74,7 @@ class Reservations(APICall):
     """
 
     @process_request(pipe | parse_json | authenticate)
-    def get(self, request, data):
+    def post(self, request, data):
         return {
             'status': 'ok',
             'timestamp': datetime.now(),
@@ -93,3 +103,146 @@ def reservation_user_data(user):
         'username': user['username'],
         'password': user['password'],
     }
+
+# --------------------------------------------------------------------------------
+# ----- Upload souboru s jízdními daty -------------------------------------------
+
+class DataUploadView(APICall):
+
+    @method_decorator(csrf_exempt)
+    def post(self, request):
+
+        print 'Request data:', request.REQUEST
+        print 'Request meta:', request.META
+        print 'Request meta.xxx:', request.META["SERVER_SOFTWARE"]
+        print json.loads(request.REQUEST["json"])
+        print 'Request meta.uid:', request.META["HTTP_UID"]
+        print 'Request meta.key:', request.META["HTTP_KEY"]
+
+        # custom authentication
+        if not self.authenticate(request):
+            return {
+                'status': 'failed',
+                'reason': 'auth not successful'
+            }
+
+        # datafile entity id
+        datafileID = json.loads(request.REQUEST["json"])["datafile"];
+        print 'Upload datafile ID:', datafileID
+
+        # save a file to filesystem
+        dataFile = request.FILES['bin']
+        destination = open(settings.UNIT_DATA_FILES_DIR + "/" + dataFile.name, 'wb+')
+        for chunk in dataFile.chunks():
+             destination.write(chunk)
+             destination.close()
+        print 'File saved'
+
+        # save a datafile entity
+        datafile = JourneyDataFile.objects.get(id = datafileID)
+        datafile.filename = dataFile.name
+        datafile.filesize = dataFile._size
+        datafile.uploaded = True
+        datafile.save()
+
+        return {
+            'status': 'ok',
+            'timestamp': datetime.now(),
+        }
+
+    @staticmethod
+    def authenticate(request):
+        """
+        Checks for a valid combination of ``unit_id`` and ``secret_key`` values in
+        `data`.
+        """
+        unit_id = request.META["HTTP_UID"]
+        secret_key = request.META["HTTP_KEY"]
+
+        try:
+            unit = CarUnit.objects.get(unit_id=unit_id, secret_key=secret_key)
+        except CarUnit.DoesNotExist:
+            unit = None
+
+        return unit
+
+
+# --------------------------------------------------------------------------------
+# ----- Přidání jízdy ------------------------------------------------------------
+
+class JourneyAPI(APICall):
+    """
+    An API method that returns upcoming reservations for the unit making the
+    request.
+    """
+
+    @process_request(pipe | parse_json | authenticate)
+    def post(self, request, data):
+
+        journey = Journey(comment=data.get("comment", "nic"),
+                          start_datetime = data["start_datetime"],
+                          end_datetime = data["end_datetime"],
+                          length = data["length"],
+                          type = data["type"],
+                          car_id = data["car_id"],
+                          user_id = data["user_id"],
+                          odometer_start = data["odometer_start"],
+                          odometer_end = data["odometer_end"],
+                          )
+        journey.save()
+
+        datafile = JourneyDataFile(journey = journey);
+        datafile.save()
+
+        return {
+            'status': 'ok',
+            'timestamp': datetime.now(),
+            'datafile': datafile.id
+        }
+
+# --------------------------------------------------------------------------------
+# ----- Přihlášení uživatele k rezervaci -----------------------------------------
+
+class ReservationCheckIn(APICall):
+    """
+    An API method handling user's card contact with on-board device.
+    It check's whether user have an active reservation for current time and
+    given car.
+    """
+
+    @process_request(pipe | parse_json | authenticate)
+    def post(self, request, data):
+
+        # nested user authentication using a card
+        userCard = self.authenticate(data)
+        if not userCard:
+            return {
+                'status': 'failed',
+                'reason': 'card auth not successful'
+            }
+
+        #
+        user = userCard.user
+
+        return {
+            'status': 'ok',
+            'user': user.id,
+            'user_firstname': user.user.first_name,
+            'user_lastname': user.user.last_name,
+        }
+
+    @staticmethod
+    def authenticate(data):
+        """
+        Checks for a valid user card using stored code and key
+        """
+        cardID = data["card_id"]
+        code = data["card_code"]
+        card_key = data["card_key"]
+
+        try:
+            unit = UserCard.objects.get(id=cardID, code=code, card_key=card_key)
+        except CarUnit.DoesNotExist:
+            unit = None
+
+        return unit
