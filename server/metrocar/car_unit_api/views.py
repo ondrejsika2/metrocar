@@ -127,7 +127,8 @@ class DataUploadView(APICall):
             }
 
         # datafile entity id
-        datafileID = json.loads(request.REQUEST["json"])["datafile"];
+        # datafileID = json.loads(request.REQUEST["json"])["datafile"];
+        datafileID = request.META["HTTP_X_DATAFILE_ID"]
         print 'Upload datafile ID:', datafileID
 
         # save a file to filesystem
@@ -179,15 +180,16 @@ class JourneyAPI(APICall):
     @process_request(pipe | parse_json | authenticate)
     def post(self, request, data):
 
-        journey = Journey(comment=data.get("comment", "nic"),
+        # TODO retrieve proper car from db
+
+        journey = Journey(comment=data.get("comment", ""),
                           start_datetime = data["start_datetime"],
                           end_datetime = data["end_datetime"],
                           length = data["length"],
-                          type = data["type"],
-                          car_id = data["car_id"],
+                          duration = data["duration"],
+                          type = "T",
+                          car_id = 2,
                           user_id = data["user_id"],
-                          odometer_start = data["odometer_start"],
-                          odometer_end = data["odometer_end"],
                           )
         journey.save()
 
@@ -197,7 +199,8 @@ class JourneyAPI(APICall):
         return {
             'status': 'ok',
             'timestamp': datetime.now(),
-            'datafile': datafile.id
+            'local_journey_id': data.get("local_journey_id"),
+            'datafile_server_id': datafile.id
         }
 
 # --------------------------------------------------------------------------------
