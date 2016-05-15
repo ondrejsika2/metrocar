@@ -407,12 +407,21 @@ class Journey(models.Model):
                     )
 
     comment = models.TextField(blank=True, null=True, verbose_name=_('Comment'))
-    start_datetime = models.DateTimeField(
+
+    # time when car is unlocked before journey
+    start_datetime = models.DateTimeField(blank=True, null=True, default=None,
                                           verbose_name=_('Start datetime'))
+
+    # time when car is lcoked after journey
     end_datetime = models.DateTimeField(blank=True, null=True, default=None,
                                         verbose_name=_('End datetime'))
-    length = models.DecimalField(decimal_places=3, max_digits=8,
-                                  default=0, verbose_name=_('Length'), editable=False)
+
+    # journey traveled distance (meters)
+    length = models.IntegerField(null=False, default=0, verbose_name=_('Length'), editable=True)
+
+    # journey time (seconds) = time when motor was running
+    duration = models.IntegerField(null=False, default=0, verbose_name=_('Duration'), editable=True)
+
     total_price = models.DecimalField(decimal_places=2, max_digits=8,
                                       blank=True, null=True, default=0, verbose_name=_('Price'))
     type = models.CharField(max_length=2,

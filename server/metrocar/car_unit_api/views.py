@@ -246,3 +246,24 @@ class ReservationCheckIn(APICall):
             unit = None
 
         return unit
+
+# --------------------------------------------------------------------------------
+# ----- Defaultní PIDy  ----------------------------------------------------------
+
+class DefautPIDs(APICall):
+    """
+    An API method returning default car unit OBD2 PIDs
+    """
+
+    @process_request(pipe | parse_json | authenticate)
+    def post(self, request, data):
+
+        return {
+            "pids":[
+                [1, "Rychlost", "obd_speed", "010D1", "A", 0, 255, 1, 1],
+                [2, "Otáčky", "obd_rpm", "010C2", "((A*256)+B)/4", 0, 6000, 1, 1],
+                [3, "Pozice plynu", "obd_throttle", "01111", "(A*100)/255", 0, 100, 0, 0],
+                [4, "Teplota motoru", "obd_engine_temp", "01051", "A-40", -40, 215, 0, 0],
+                [5, "Airflow", "obd_airflow", "01102",  "((A*256)+B)/100", 0, 655, 0, 0]
+            ]
+        }

@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-from metrocar.car_unit_api.views import StoreLog, Reservations, DataUploadView, JourneyAPI, ReservationCheckIn
+from metrocar.car_unit_api.views import StoreLog, Reservations, DataUploadView, JourneyAPI, ReservationCheckIn, DefautPIDs
 
 
 urlpatterns = patterns('',
@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^journey/$', JourneyAPI.as_view(), name='journey'),
     url(r'^dataUpload/$', DataUploadView.as_view(), name='journey'),
     url(r'^reservationCheckIn/$', ReservationCheckIn.as_view(), name='reservation-check-in'),
+    url(r'^downloadDefaultPids/$', DefautPIDs.as_view(), name='default-pids'),
 )
