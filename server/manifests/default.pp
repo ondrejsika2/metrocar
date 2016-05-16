@@ -30,6 +30,42 @@ $packages = [
   'nodejs',
 ]
 
+# ----- ssl keys
+
+# public key of certificate
+$sslInitKey = '-----BEGIN CERTIFICATE-----
+MIICWDCCAcGgAwIBAgIJAI/6/vNRKMpZMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+BAYTAkNaMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
+aWRnaXRzIFB0eSBMdGQwHhcNMTYwNTE2MTcxODE3WhcNMjYwNTE0MTcxODE3WjBF
+MQswCQYDVQQGEwJDWjETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50
+ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKB
+gQC0uTROcPIb3/LSgNI15SGJT4C3GU9ahlOFxvRfXNHjPWYYzwR7m/kh7OnVEKHm
+EJbeJnL0DKpKAG7ebKm+m6Eykkco4W0m3wcBVnDPz0SJ4fgicnVG3n9hqmgMBATR
+ZJz4eFM3QIxM3D767ZXlkLWKAJ3ePw3KZUTmD/6DxuCh2wIDAQABo1AwTjAdBgNV
+HQ4EFgQUk77mRWFArC4xPH1gH2gOCAkeuMUwHwYDVR0jBBgwFoAUk77mRWFArC4x
+PH1gH2gOCAkeuMUwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOBgQCexUBH
+96Eyfg8/nBmD5ucSkgZyYuIOukXhEzZq7pxZgr6vzn/n6/dqkOMEi3YJrTPR16sM
+QgtUhTav6n7MaBPQ109DKTFTv82BFKZnJuYGe5H3hH00mfSChSQoBFhzFetKxLpp
+JZ/oRL+Ft3MsOpvxK8CHxeKqX3lDMNTzFPi0dQ==
+-----END CERTIFICATE-----';
+
+# self signed certificate
+$sslInitCert = '-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQC0uTROcPIb3/LSgNI15SGJT4C3GU9ahlOFxvRfXNHjPWYYzwR7
+m/kh7OnVEKHmEJbeJnL0DKpKAG7ebKm+m6Eykkco4W0m3wcBVnDPz0SJ4fgicnVG
+3n9hqmgMBATRZJz4eFM3QIxM3D767ZXlkLWKAJ3ePw3KZUTmD/6DxuCh2wIDAQAB
+AoGAQuVnYj3WsNDF7nu21DJbppsiNySMRiMA2b0aig4utyHsH/TJYQQMRS2QJMlC
+VIoBfnvXA1WI11mvsG+iqaasFQ/gZP91gKzP3Fdtc5OVUJA9shi5/SyjrBUiNgF6
+eraZFjvz9iGd2ZdhXWvgDfSIozg5crjKvKzAHmVA0tMpexkCQQDbnqaH5DyZBVJ+
+jxTgEcAxdsJ01Yh5n2RyC7ACK9liFp+Aw9mlzS36zy7pihGFzG7TxRNnF7BbdsTk
+9DhVVmJtAkEA0qkXRa4EbjT/4ri+P2EtJMM96//8dXniIhoTba5q/f/wQFcr0iYd
+FY6v4SoK7pdYhR0kr/47pM6CBzjEsfYoZwJBAM1GFNGfeyRr3Rd+FTz6WnHhVxBt
+JgrH+NLAKdtdsOoFy0BHzv8yMG/lhyuyaX5t/ojiA6iwc56J/K8jtiPNgmECQQCM
+dWPn+NRJaxsmX0myVqfT+D4kSgVZis/lLv+/ROlfvDPDopu8Pd9sjTvl5LNvTAgg
+kULx+ZBpHawDBq3XfqqHAkAdouVtL+Iq1uGBf3rpiGOJdoGzf/I6SstNBnaOjFjw
+6/diF5pCKR2A4L3Xr1PIDGMVvibSd00HpzVXJyfx0Juk
+-----END RSA PRIVATE KEY-----';
+
 # ----- create user
 
 user{ 'metrocar':
@@ -117,12 +153,35 @@ postgresql::server::extension{ 'postgis_tiger_geocoder':
 }
 ->
 
+# ----- save SSL keys
+
+file{ '/etc/ssl/':
+  ensure => 'directory',
+}
+->
+file{ '/etc/ssl/key.pem':
+  ensure => 'present',
+  content => $sslInitKey,
+}
+->
+file{ '/etc/ssl/cert.pem':
+  ensure => 'present',
+  content => $sslInitCert,
+}
+->
+
 # ----- apache set up
 
 file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
   ensure => 'present',
   content => '
       <VirtualHost *:80>
+        ServerName server.metrocar.jezdito.cz
+        RewriteEngine On
+        RewriteRule ^/(.*) https://%{SERVER_NAME}/$1 [L,R]
+      </VirtualHost>
+
+      <VirtualHost *:443>
         ServerName server.metrocar.jezdito.cz
 
         <Directory />
@@ -146,6 +205,10 @@ file{ '/etc/apache2/sites-available/server.metrocar.jezdito.cz.conf':
         #WSGIPythonPath /home/metrocar/repo/server/metrocar/
 
         Alias /.well-known/acme-challenge /le/.acme-challenges
+
+        SSLEngine on
+        SSLCertificateFile /etc/ssl/cert.pem
+        SSLCertificateKeyFile /etc/ssl/key.pem
     </VirtualHost>',
 }
 ->
@@ -257,6 +320,12 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
   ensure => 'present',
   content => '
     <VirtualHost *:80>
+      ServerName metrocar.jezdito.cz
+      RewriteEngine On
+      RewriteRule ^/(.*) https://%{SERVER_NAME}/$1 [L,R]
+    </VirtualHost>
+
+    <VirtualHost *:443>
         ServerName metrocar.jezdito.cz
         DocumentRoot /var/www/metrocar.jezdito.cz
         ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -270,6 +339,9 @@ file{ '/etc/apache2/sites-available/metrocar.jezdito.cz.conf':
         FallbackResource /index.html
         Alias /.well-known/acme-challenge /le/.acme-challenges
 
+        SSLEngine on
+        SSLCertificateFile /etc/ssl/cert.pem
+        SSLCertificateKeyFile /etc/ssl/key.pem
     </VirtualHost>',
 }
 ->
