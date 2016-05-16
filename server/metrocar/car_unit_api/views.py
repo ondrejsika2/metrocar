@@ -115,7 +115,7 @@ class DataUploadView(APICall):
         print 'Request data:', request.REQUEST
         print 'Request meta:', request.META
         print 'Request meta.xxx:', request.META["SERVER_SOFTWARE"]
-        print json.loads(request.REQUEST["json"])
+        # print json.loads(request.REQUEST["json"])
         print 'Request meta.uid:', request.META["HTTP_X_UID"]
         print 'Request meta.key:', request.META["HTTP_X_KEY"]
 
