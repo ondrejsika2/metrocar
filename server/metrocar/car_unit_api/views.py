@@ -132,7 +132,7 @@ class DataUploadView(APICall):
         print 'Upload datafile ID:', datafileID
 
         # save a file to filesystem
-        dataFile = request.FILES['bin']
+        dataFile = request.FILES['uploadedfile']
         destination = open(settings.UNIT_DATA_FILES_DIR + "/" + dataFile.name, 'wb+')
         for chunk in dataFile.chunks():
              destination.write(chunk)
