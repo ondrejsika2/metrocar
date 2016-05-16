@@ -47,7 +47,7 @@ PH1gH2gOCAkeuMUwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOBgQCexUBH
 96Eyfg8/nBmD5ucSkgZyYuIOukXhEzZq7pxZgr6vzn/n6/dqkOMEi3YJrTPR16sM
 QgtUhTav6n7MaBPQ109DKTFTv82BFKZnJuYGe5H3hH00mfSChSQoBFhzFetKxLpp
 JZ/oRL+Ft3MsOpvxK8CHxeKqX3lDMNTzFPi0dQ==
------END CERTIFICATE-----';
+-----END CERTIFICATE-----'
 
 # self signed certificate
 $sslInitCert = '-----BEGIN RSA PRIVATE KEY-----
@@ -64,7 +64,7 @@ JgrH+NLAKdtdsOoFy0BHzv8yMG/lhyuyaX5t/ojiA6iwc56J/K8jtiPNgmECQQCM
 dWPn+NRJaxsmX0myVqfT+D4kSgVZis/lLv+/ROlfvDPDopu8Pd9sjTvl5LNvTAgg
 kULx+ZBpHawDBq3XfqqHAkAdouVtL+Iq1uGBf3rpiGOJdoGzf/I6SstNBnaOjFjw
 6/diF5pCKR2A4L3Xr1PIDGMVvibSd00HpzVXJyfx0Juk
------END RSA PRIVATE KEY-----';
+-----END RSA PRIVATE KEY-----'
 
 # ----- create user
 
