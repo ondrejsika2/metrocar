@@ -1,68 +1,106 @@
-{% extends "admin/change_form.html" %}
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_modify %}
+{% load admin_urls %}
 
-{% load i18n %}
-
-{% block extrastyle %}
-<link href="{{ STATIC_URL }}admin/css/admin.css" media="screen,projection" rel="stylesheet" type="text/css" />
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+{{ media }}
 {% endblock %}
 
-{% block after_field_sets %}
-{% if not add %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
 
-<fieldset class="module aligned">
-  <h2>{% trans "Pricing summary" %}</h2>
-  <div class="description">{% trans "Detailed information about journey price" %}.</div>
+{% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
 
-  {% if service_journey %}
-  <div class="form-row">
-  	<p>{% trans "Journey is service journey and therefore has no pricing." %}</p>
-  </div>
-  {% else %}
-  <div class="form-row">
-	  <div>
-	  	<label>{% trans "Price for kms driven" %}:</label>
-	  	<strong>{{ pricing.km_price|floatformat:"-2" }} Kč</strong>
-	  </div>
-  </div>
-  <div class="form-row">
-	  <div>
-	  	<label>{% trans "Price for time elapsed" %}:</label>
-	  	<strong>{{ pricing.time_price|floatformat:"-2" }} Kč</strong>
-	  </div>
-  </div>
-  <div class="form-row">
-	  <div>
-	  	<label>{% trans "Total price" %}:</label>
-	  	<strong>{{ pricing.total_price|floatformat:"-2" }} Kč</strong>
-	  </div>
-  </div>
-  <h2>{% trans "Pricing details" %}</h2>
-  <table class="pricing-summary">
-  	  <tr>
-  	  	  <th>{% trans "From" %}</th>
-  	  	  <th>{% trans "Till" %}</th>
-  	  	  <th>{% trans "Price per hour" %}</th>
-  	  	  <th>{% trans "Price" %}</th>
-  	  </tr>
-	  {% for part in pricing.journey_parts %}
-	  <tr>
-	  	  <td>{{ part.start|date:"H:i:s d.m.Y" }}</td>
-	  	  <td>{{ part.end|date:"H:i:s d.m.Y" }}</td>
-	  	  <td>{{ part.price_per_hour|floatformat:"-2" }} Kč</td>
-	  	  <td>{{ part.price|floatformat:"-2" }} Kč</td>
-	  </tr>
-	  {% endfor %}
-	  <tr>
-	  	  <td colspan="3">{% trans "Price for kms driven" %}</td>
-	  	  <td>{{ pricing.km_price|floatformat:"-2" }} Kč</td>
-	  </tr>
-	  <tr class="sum">
-	  	  <td colspan="3">{% trans "Total price" %}</td>
-	  	  <td><strong style="text-decoration: underline;">{{ pricing.total_price|floatformat:"-2" }} Kč</strong></td>
-	  </tr>
-  </table>
-  {% endif %}
-</fieldset>
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+&rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
+&rsaquo; {% if add %}{% trans 'Add' %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+</div>
+{% endblock %}
 {% endif %}
 
+{% block content %}<div id="content-main">
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools">
+    {% block object-tools-items %}
+    <li><a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}" class="historylink">{% trans "History" %}</a></li>
+    {% if has_absolute_url %}<li><a href="{% url 'admin:view_on_site' content_type_id original.pk %}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+    {% endblock %}
+  </ul>
+{% endif %}{% endif %}
+{% endblock %}
+<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+{% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+{% if errors %}
+    <p class="errornote">
+    {% blocktrans count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+    {{ adminform.form.non_field_errors }}
+{% endif %}
+
+{% block field_sets %}
+{% for fieldset in adminform %}
+  {% include "admin/includes/fieldset.html" %}
+{% endfor %}
+{% endblock %}
+
+{% block after_field_sets %}{% endblock %}
+
+{% block inline_field_sets %}
+{% for inline_admin_formset in inline_admin_formsets %}
+    {% include inline_admin_formset.opts.template %}
+{% endfor %}
+{% endblock %}
+
+{% block after_related_objects %}{% endblock %}
+
+{% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+{% block detail %}
+    <fieldset class="module aligned">
+        <h2>Detail jízdy</h2>
+        <div style="padding:10px">
+            {% if datafile %}
+            <script type="text/javascript" src="{% static "admin/js/jquery-1.11.1.min.js" %}"></script>
+            <script type="text/javascript" src="{% static "admin/js/dygraph-combined.js" %}"></script>
+            <script type="text/javascript" src="{% static "admin/js/journeyViewer.js" %}"></script>
+            <script type="text/javascript" src="{% static "admin/js/json2.min.js" %}"></script>
+            <script type="text/javascript">
+                $(window).load(function(){
+                    var datafile = '{{ datafile.filename }}';
+                    //alert("jQuery version: " + jQuery.fn.jquery + " datafile: " + datafile);
+                    jQuery.ajax({
+                        url: '/files/unit_data_files/' + datafile + '/',
+                        success: function(data, status, xhr) {
+                            window.loadAndDrawJourney(data, $(".journey-detail"));
+                        }
+                    });
+                });
+            </script>
+            <div class="journey-info"></div>
+            <div class="journey-detail"></div>
+            {% else %}
+            <span>Pro tuto jízdu není zaznamenán žádný datový soubor.</span>
+            {% endif %}
+        </div>
+    </fieldset>
+{% endblock %}
+
+{% if adminform.first_field and add %}
+   <script type="text/javascript">document.getElementById("{{ adminform.first_field.id_for_label }}").focus();</script>
+{% endif %}
+
+{# JavaScript for prepopulated fields #}
+{% prepopulated_fields_js %}
+
+</div>
+</form></div>
 {% endblock %}

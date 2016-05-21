@@ -11,6 +11,7 @@ from django.db import models
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy as _, ngettext
 from rest_framework.exceptions import APIException
+from django.db.models import get_model
 
 from metrocar.reservations.business import managers
 from metrocar.user_management.models import MetrocarUser, AccountActivity, Account
@@ -24,7 +25,6 @@ RESERVATION_TIME_SHIFT = settings.RESERVATION_TIME_SHIFT
 
 class ReservationError(Exception):
     pass
-
 
 class Reservation(models.Model):
     cancelled = models.BooleanField(_('Cancelled'), default=False)
@@ -404,6 +404,38 @@ class Reservation(models.Model):
         journeys = Journey.objects.filter(reservation=self)
         return len(journeys) > 0
 
+    @property
+    def datafile(self):
+
+        # import models here to avoid circular reference
+        from metrocar.cars.models import Journey
+        from metrocar.car_unit_api.models import JourneyDataFile
+        from django.core.exceptions import ObjectDoesNotExist
+
+        # find journey
+        try:
+            journey = Journey.objects.get(reservation = self.id)
+        except ObjectDoesNotExist:
+            journey = None
+
+        if journey == None:
+            return None
+
+        print "Reservation id: ", self.id
+        print "Journey id: ", journey.id
+
+        # find datafile
+        try:
+            datafile = JourneyDataFile.objects.get(journey = journey.id)
+        except ObjectDoesNotExist:
+            datafile = None
+
+        if datafile == None:
+            print "No file"
+            return None
+        else:
+            print "File id: ", datafile.id
+            return datafile.id
 
 class ReservationReminder(models.Model):
     datetime = models.DateTimeField(_('Date time'))

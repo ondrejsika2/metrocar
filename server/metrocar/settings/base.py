@@ -7,7 +7,6 @@ from os import makedirs
 
 PROJECT_PATH = abspath(join(dirname(__file__), '..'))
 
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SERVE_STATIC_FILES = False
@@ -68,12 +67,13 @@ STATICFILES_FINDERS = (
 # User-uploaded files #########################################################
 
 MEDIA_ROOT = join(PROJECT_PATH, '..', 'files')
-UNIT_DATA_FILES_DIR = join(MEDIA_ROOT, 'unit_data_files')
+UNIT_DATA_FILES_DIR = abspath(join(MEDIA_ROOT, 'unit_data_files'))
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/files/'
+UNIT_DATA_FILES_URL = join(MEDIA_URL, 'unit_data_files/')
 
 
 # Make this unique, and don't share it with anybody.

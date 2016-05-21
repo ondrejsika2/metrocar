@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from cars.views import CarModelViewSet, CarColorViewSet, FuelBillViewSet, JourneyListView, ParkingViewSet
 from metrocar.cars.views import CarViewSet
 from metrocar.reservations.views import ReservationViewSet
+from metrocar.car_unit_api.views import DataDownloadView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
@@ -28,5 +29,5 @@ urlpatterns = [
     url(r'^auth-token/', obtain_auth_token),
     url(r'accountactivities/',AccountActivityListView.as_view()),
     url(r'journeys/', JourneyListView.as_view(),name="journey-list"),
-
+    url(r'datafile/(?P<fileid>\d+)/', DataDownloadView.as_view())
 ]

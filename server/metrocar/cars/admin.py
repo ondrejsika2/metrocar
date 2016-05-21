@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from metrocar.cars.models import CarModelManufacturer, Car, CarColor, CarType, Fuel, FuelBill, MaintenanceBill, CarModel, Journey, Parking
 from metrocar.utils.permissions import PermissionsNameConst as PermName
+from metrocar.car_unit_api.models import JourneyDataFile
 
 if settings.GEO_ENABLED:
     from django.contrib.gis import admin
@@ -70,23 +71,80 @@ admin.site.register(Car, CarAdmin)
 
 
 class JourneyModelAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'car', 'start_datetime', 'end_datetime', 'type', 'length', 'is_finished', 'reservation', 'is_service', 'total_price',)
+    list_display = (
+        'id',
+        'user',
+        'car',
+        'start_datetime',
+        'end_datetime',
+        'type',
+        'length',
+        'duration',
+        'is_finished',
+        'reservation',
+        'is_service',
+        'total_price',
+    )
     list_filter = ('car', 'user', 'type')
     fieldsets = (
-                 (_('Basic information'), {'fields': ('user', 'car', 'reservation', 'start_datetime', 'end_datetime', 'total_price', 'odometer_start', 'odometer_end'), 'classes': ('show', 'extrapretty',)}),
-                 )
+        (_('Basic information'), {'fields': (
+        'user', 'car', 'reservation', 'start_datetime', 'end_datetime', 'total_price', 'odometer_start',
+        'odometer_end'), 'classes': ('show', 'extrapretty',)}),
+    )
     ordering = ('start_datetime',)
 
-    def change_view(self, request, object_id, extra_content=None):
-        journey = Journey.objects.get(pk=object_id)
-        pricing = journey.get_pricing_info()
-        extra_content = {
-            'service_journey': journey.is_service(),
-            'pricing': pricing
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        print "Object id:", object_id
+
+        # import models here to avoid circular reference
+        from django.core.exceptions import ObjectDoesNotExist
+
+        # find journey
+        try:
+            journey = Journey.objects.get(id = object_id)
+            is_service = journey.is_service()
+            pricing = journey.get_pricing_info()
+            print "Journey id:", journey.id
+        except ObjectDoesNotExist:
+            journey = None
+            is_service = None
+            pricing = None
+            datafile = None
+            print "No journey"
+
+        # find datafile
+        if journey:
+            try:
+                datafile = JourneyDataFile.objects.get(journey=object_id)
+                print "Datafile id:", datafile.id
+            except ObjectDoesNotExist:
+                datafile = None
+                print "No datafile"
+
+        extra_context = {
+            'journey': journey,
+            'datafile': datafile,
+            'service_journey': is_service,
+            'pricing': pricing,
+            'filedir': settings.UNIT_DATA_FILES_URL
         }
-        return super(JourneyModelAdmin, self).change_view(
-                                                          request, object_id, extra_content
-                                                          )
+        return super(JourneyModelAdmin, self).change_view(request, object_id, form_url, extra_context = extra_context)
+
+    # def change_view(self, request, object_id, extra_context=None):
+    #     journey = Journey.objects.get(pk=object_id)
+    #     pricing = journey.get_pricing_info()
+    #
+    #
+    #     context = {}
+    #     context.update(extra_context or {})
+    #     context.update({
+    #         'journey': journey,
+    #         'service_journey': journey.is_service(),
+    #         'pricing': pricing
+    #     })
+    #     return super(JourneyModelAdmin, self).change_view(
+    #         request, object_id, context
+    #     )
 
 
 admin.site.register(Journey, JourneyModelAdmin)

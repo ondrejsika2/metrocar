@@ -3,6 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from datetime import datetime
 from django.core import serializers
+from django.core.servers.basehttp import FileWrapper
+from django.http import HttpResponse
 from pipetools import pipe, X, foreach
 import geotrack
 import json
@@ -105,7 +107,7 @@ def reservation_user_data(user):
     }
 
 # --------------------------------------------------------------------------------
-# ----- Upload souboru s jízdními daty -------------------------------------------
+# ----- Upload souboru s jízdními daty / Download --------------------------------
 
 class DataUploadView(APICall):
 
@@ -167,6 +169,24 @@ class DataUploadView(APICall):
 
         return unit
 
+class DataDownloadView(APICall):
+
+    def get(self, request, **kwargs):
+
+        # load the file db entry to locate file on filesystem
+        fileid = kwargs['fileid']
+        datafile = JourneyDataFile.objects.get(id = fileid)
+        print "File id: ", datafile.id
+        print "Filename: ", datafile.filename
+        # return "File name iz: " + datafile.filename;
+        filename = settings.UNIT_DATA_FILES_DIR + "/" + datafile.filename
+
+        # retrieve the file from FS
+        wrapper = FileWrapper(file(filename))
+        response = HttpResponse(wrapper, content_type='application/json')
+        response['Content-Disposition'] = 'attachment; filename=%s' + datafile.filename
+        response['Content-Length'] = datafile.filesize
+        return response
 
 # --------------------------------------------------------------------------------
 # ----- Přidání jízdy ------------------------------------------------------------
