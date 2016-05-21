@@ -41,6 +41,7 @@ Model = DS.Model.extend LazyValidation,
   car: DS.belongsTo('car', async: true)
 
   journeys: DS.hasMany('journey')
+  datafile: DS.attr('number')
 
   parking:null
 

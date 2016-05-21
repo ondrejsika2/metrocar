@@ -16,6 +16,9 @@ Router.map ->
     @route 'list'
     @route 'create'
 
+  @route 'journey', ->
+    @route 'detail'
+
   @route 'fuelbill', ->
     @route 'list'
     @route 'create'

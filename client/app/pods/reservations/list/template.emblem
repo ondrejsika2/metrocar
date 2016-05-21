@@ -25,6 +25,10 @@ div.mc-content
             td
               a.btn.btn-green{action 'showModal' 'reservations/parking-modal' reservation.car.parking}
                 | Zobrazit parkoviště na mapě
+              if reservation.datafile
+                link-to .btn.btn-green 'journey.detail' (query-params datafile=reservation.datafile)
+                  i.fa.fa-area-chart
+                  | Detail
               if session.active
                 if reservation.is_pending
                   a.btn.btn-red{action 'showModal' 'reservations/delete-confirm-modal' reservation}

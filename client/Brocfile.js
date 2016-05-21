@@ -37,6 +37,10 @@ app.import('bower_components/moment/locale/cs.js');
 app.import('bower_components/cryptojslib/rollups/md5.js');
 app.import('bower_components/cryptojslib/components/enc-base64.js');
 
+app.import('vendor/js/dygraph-combined.js');
+app.import('vendor/js/json2.min.js');
+app.import('vendor/js/journeyViewer.js');
+
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //
