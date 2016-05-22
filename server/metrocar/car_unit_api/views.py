@@ -69,6 +69,22 @@ def store(unit_id, entries):
 # --------------------------------------------------------------------------------
 # ----- Získání rezervací --------------------------------------------------------
 
+class PingView(APICall):
+    """
+    An API method that returns upcoming reservations for the unit making the
+    request.
+    """
+
+    @process_request(pipe | parse_json | authenticate)
+    def post(self, request, data):
+        return {
+            'status': 'ok',
+            'timestamp': datetime.now(),
+        }
+
+# --------------------------------------------------------------------------------
+# ----- Získání rezervací --------------------------------------------------------
+
 class Reservations(APICall):
     """
     An API method that returns upcoming reservations for the unit making the
