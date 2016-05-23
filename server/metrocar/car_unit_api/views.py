@@ -5,20 +5,21 @@ from datetime import datetime
 from django.core import serializers
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
+from django.contrib.contenttypes.models import ContentType
 from pipetools import pipe, X, foreach
 import geotrack
 import json
 from metrocar.car_unit_api.models import CarUnit, JourneyDataFile
 from metrocar.car_unit_api.utils import authenticate, update_car_status
 from metrocar.car_unit_api.validation import valid_timestamp, valid_user_id
-from metrocar.reservations.models import Reservation
+from metrocar.reservations.models import Reservation, ReservationBill
 from metrocar.utils.apis import APICall, parse_json, process_request, validate_request
 from metrocar.utils.geo.validation import valid_location
 from metrocar.utils.validation import required, optional, validate_each, valid_int, valid_string, valid_float
 from metrocar.cars.models import Journey
 from metrocar.utils.validation import validate
 from django.conf import settings
-from metrocar.user_management.models import UserCard, MetrocarUser
+from metrocar.user_management.models import UserCard, MetrocarUser, Account, AccountActivity
 
 # --------------------------------------------------------------------------------
 # ----- Uložení záznamu ----------------------------------------------------------
@@ -216,27 +217,56 @@ class JourneyAPI(APICall):
     @process_request(pipe | parse_json | authenticate)
     def post(self, request, data):
 
-        # TODO retrieve proper car from db
+        # reservation
+        reservation_id = data["reservation"]
+        try:
+            reservation = Reservation.objects.get(id=reservation_id)
+        except Reservation.DoesNotExist:
+            reservation = None
+        if not reservation:
+            return {
+                'status': 'failed',
+                'reason': 'reservation not recognised'
+            }
 
+        # user
+        user_id = data["user_id"];
+
+        # journey
         journey = Journey(comment=data.get("comment", ""),
                           start_datetime = data["start_datetime"],
                           end_datetime = data["end_datetime"],
                           length = data["length"],
                           duration = data["duration"],
                           type = "T",
-                          car_id = 2,
-                          user_id = data["user_id"],
+                          car_id = reservation.car_id,
+                          user_id = user_id,
                           )
         journey.save()
 
+        # prepare datafile for future upload
         datafile = JourneyDataFile(journey = journey);
         datafile.save()
+
+        # close the reservation, calc price
+        reservation.cancelled = False
+        reservation.finished = True
+        reservation.price = reservation.count_total_price(journey)
+        reservation.save(force_save_user = True)
+        print "Reservation price:", reservation.price
+
+        # get user account
+        account = Account.objects.get(user_id=user_id)
+
+        # bill the reservation + journey -> create account activity
+        reservation_bill = ReservationBill.objects.create_for_reservation(reservation)
 
         return {
             'status': 'ok',
             'timestamp': datetime.now(),
             'local_journey_id': data.get("local_journey_id"),
-            'datafile_server_id': datafile.id
+            'datafile_server_id': datafile.id,
+            'cost_billed': float(reservation.price)
         }
 
 # --------------------------------------------------------------------------------
@@ -252,6 +282,23 @@ class ReservationCheckIn(APICall):
     @process_request(pipe | parse_json | authenticate)
     def post(self, request, data):
 
+        # get car unit making request, already authenticated
+        unit_id=data['unit_id']
+        try:
+            unit = CarUnit.objects.get(unit_id=unit_id)
+        except CarUnit.DoesNotExist:
+            unit = None
+        if not unit:
+            return {
+                'status': 'failed',
+                'reason': 'car unit not recognized'
+            }
+        if not unit.car_id:
+            return {
+                'status': 'failed',
+                'reason': 'car unit not associated to a car'
+            }
+
         # nested user authentication using a card
         userCard = self.authenticate(data)
         if not userCard:
@@ -260,14 +307,32 @@ class ReservationCheckIn(APICall):
                 'reason': 'card auth not successful'
             }
 
-        #
+        # get user linked with the card
         user = userCard.user
+        if not userCard:
+            return {
+                'status': 'failed',
+                'reason': 'card have no user'
+            }
+
+        # get user's actual reservations
+        now = datetime.now()
+        try:
+            reservation = Reservation.objects.get(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
+        except Reservation.DoesNotExist:
+            reservation = None
+        if not reservation:
+            return {
+                'status': 'failed',
+                'reason': 'no reservation found'
+            }
 
         return {
             'status': 'ok',
             'user': user.id,
             'user_firstname': user.user.first_name,
             'user_lastname': user.user.last_name,
+            'reservation': reservation.id
         }
 
     @staticmethod
@@ -281,7 +346,7 @@ class ReservationCheckIn(APICall):
 
         try:
             unit = UserCard.objects.get(id=cardID, code=code, card_key=card_key)
-        except CarUnit.DoesNotExist:
+        except UserCard.DoesNotExist:
             unit = None
 
         return unit

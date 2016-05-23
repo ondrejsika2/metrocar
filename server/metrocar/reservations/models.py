@@ -1,4 +1,5 @@
 # encoding: utf-8
+import math
 from types import NoneType
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -313,6 +314,23 @@ class Reservation(models.Model):
 
         pricelist = self.car.model.get_pricelist()
         total_price += (pricelist.pickup_fee + pricelist.reservation_fee)
+
+        return total_price
+
+    def count_total_price(self, journey):
+        total_price = 0
+
+        # get car's pricelist
+        pricelist = self.car.model.get_pricelist()
+
+        # add one-time fees
+        total_price += (pricelist.pickup_fee + pricelist.reservation_fee)
+
+        # add time based fee -> for every started hour
+        total_price += Decimal(math.ceil(journey.duration/60)*float(pricelist.price_per_hour))
+
+        # add distance based fee -> for kilometers (no rounding)
+        total_price += Decimal((journey.length/1000)*float(pricelist.price_per_km))
 
         return total_price
 
