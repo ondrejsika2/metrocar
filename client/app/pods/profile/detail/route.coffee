@@ -19,10 +19,10 @@ Route = Ember.Route.extend
 
     totalDistance = 0
     model['journeys'].forEach((journey) ->
-      distance = journey.get('speedometer_end') - journey.get('speedometer_start')
+      distance = parseInt(journey.get('length'))
       totalDistance += distance
     )
-    ctrl.set('totalDistance', totalDistance)
+    ctrl.set('totalDistance', totalDistance/1000)
     ctrl.set('alertDanger', [])
 
     ctrl.set('isEditable', false)
