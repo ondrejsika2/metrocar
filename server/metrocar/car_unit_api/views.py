@@ -329,6 +329,7 @@ class ReservationCheckIn(APICall):
 
         return {
             'status': 'ok',
+            'timestamp': datetime.now(),
             'user': user.id,
             'user_firstname': user.user.first_name,
             'user_lastname': user.user.last_name,
