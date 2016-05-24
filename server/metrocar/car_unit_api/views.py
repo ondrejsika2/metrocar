@@ -233,9 +233,11 @@ class JourneyAPI(APICall):
         user_id = data["user_id"];
 
         # journey
+        print "start date:", data["start_datetime"]
+        print "end date:", data["end_datetime"]
         journey = Journey(comment="",
-                          start_datetime = data["start_datetime"],
-                          end_datetime = data["end_datetime"],
+                          start_datetime = datetime.strptime(data["start_datetime"], "%Y-%m-%d %H:%M:%S.%f"),
+                          end_datetime = datetime.strptime(data["end_datetime"], "%Y-%m-%d %H:%M:%S.%f"),
                           length = data["length"],
                           duration = data["duration"],
                           type = "T",
