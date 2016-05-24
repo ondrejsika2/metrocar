@@ -69,6 +69,7 @@
         <h2>Detail jízdy</h2>
         <div style="padding:10px">
             {% if datafile %}
+                {% if datafile.uploaded %}
             <script type="text/javascript" src="{% static "admin/js/jquery-1.11.1.min.js" %}"></script>
             <script type="text/javascript" src="{% static "admin/js/dygraph-combined.js" %}"></script>
             <script type="text/javascript" src="{% static "admin/js/journeyViewer.js" %}"></script>
@@ -87,6 +88,9 @@
             </script>
             <div class="journey-info"></div>
             <div class="journey-detail"></div>
+                {% else %}
+                <span>Pro tuto jízdu není zaznamenán žádný datový soubor.</span>
+                {% endif %}
             {% else %}
             <span>Pro tuto jízdu není zaznamenán žádný datový soubor.</span>
             {% endif %}
