@@ -71,9 +71,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
 
-    ENV['metrocarServer'] = 'http://server.metrocar.jezdito.cz';
+    ENV['metrocarServer'] = 'https://server.metrocar.jezdito.cz';
     ENV['simple-auth'] = {
-      serverTokenEndpoint: 'http://server.metrocar.jezdito.cz/api/v1/auth-token/',
+      serverTokenEndpoint: 'https://server.metrocar.jezdito.cz/api/v1/auth-token/',
       crossOriginWhitelist: ['server.metrocar.jezdito.cz'],
       store: 'simple-auth-session-store:local-storage',
       authenticationRoute: 'credentials.login',
