@@ -233,7 +233,7 @@ class JourneyAPI(APICall):
         user_id = data["user_id"];
 
         # journey
-        journey = Journey(comment=data.get("comment", ""),
+        journey = Journey(comment="",
                           start_datetime = data["start_datetime"],
                           end_datetime = data["end_datetime"],
                           length = data["length"],
@@ -241,6 +241,7 @@ class JourneyAPI(APICall):
                           type = "T",
                           car_id = reservation.car_id,
                           user_id = user_id,
+                          reservation = reservation.id
                           )
         journey.save()
 
