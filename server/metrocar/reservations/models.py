@@ -431,13 +431,11 @@ class Reservation(models.Model):
         from django.core.exceptions import ObjectDoesNotExist
 
         # find journey
-        try:
-            journey = Journey.objects.get(reservation = self.id)
-        except ObjectDoesNotExist:
-            journey = None
-
-        if journey == None:
+        journeys = Journey.objects.filter(reservation = self.id)
+        if len(journeys) == 0:
             return None
+        else:
+            journey = journeys[0]
 
         print "Reservation id: ", self.id
         print "Journey id: ", journey.id
