@@ -342,6 +342,8 @@ class ReservationCheckIn(APICall):
             'user': user.id,
             'user_firstname': user.user.first_name,
             'user_lastname': user.user.last_name,
+            'from': reservation.reserved_from,
+            'to': reservation.reserved_until,
             'reservation': reservation.id
         }
 
