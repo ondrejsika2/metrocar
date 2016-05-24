@@ -243,7 +243,8 @@ class JourneyAPI(APICall):
                           type = "T",
                           car_id = reservation.car_id,
                           user_id = user_id,
-                          reservation = reservation
+                          reservation = reservation,
+                          total_price = reservation.count_total_price(journey)
                           )
         journey.save()
 
@@ -254,7 +255,7 @@ class JourneyAPI(APICall):
         # close the reservation, calc price
         reservation.cancelled = False
         reservation.finished = True
-        reservation.price = reservation.count_total_price(journey)
+        reservation.price = journey.total_price
         reservation.save(force_save_user = True)
         print "Reservation price:", reservation.price
 
@@ -263,6 +264,8 @@ class JourneyAPI(APICall):
 
         # bill the reservation + journey -> create account activity
         reservation_bill = ReservationBill.objects.create_for_reservation(reservation)
+
+        journey
 
         return {
             'status': 'ok',

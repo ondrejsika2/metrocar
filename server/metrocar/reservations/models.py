@@ -323,8 +323,13 @@ class Reservation(models.Model):
         # get car's pricelist
         pricelist = self.car.model.get_pricelist()
 
-        # add one-time fees
-        total_price += (pricelist.pickup_fee + pricelist.reservation_fee)
+        # get all journey under this reservation
+        from metrocar.cars.models import Journey
+        journeys = Journey.objects.filter(reservation_id = self.id)
+
+        # add one-time fees for first journey
+        if len(journeys) == 0:
+            total_price += (pricelist.pickup_fee + pricelist.reservation_fee)
 
         # add time based fee -> for every started hour
         total_price += Decimal(math.ceil(journey.duration/60)*float(pricelist.price_per_hour))
