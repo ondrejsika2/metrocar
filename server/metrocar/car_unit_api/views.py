@@ -319,6 +319,9 @@ class ReservationCheckIn(APICall):
         now = datetime.now()
         try:
             reservation = Reservation.objects.get(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
+        except Reservation.MultipleObjectsReturned:
+            reservations = Reservation.objects.filter(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
+            reservation = reservations[0]
         except Reservation.DoesNotExist:
             reservation = None
         if not reservation:
