@@ -241,7 +241,7 @@ class JourneyAPI(APICall):
                           type = "T",
                           car_id = reservation.car_id,
                           user_id = user_id,
-                          reservation = reservation.id
+                          reservation = reservation
                           )
         journey.save()
 
@@ -318,13 +318,18 @@ class ReservationCheckIn(APICall):
 
         # get user's actual reservations
         now = datetime.now()
-        try:
-            reservation = Reservation.objects.get(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
-        except Reservation.MultipleObjectsReturned:
-            reservations = Reservation.objects.filter(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
-            reservation = reservations[0]
-        except Reservation.DoesNotExist:
+        reservations = Reservation.objects.filter(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
+        if len(reservations) == 0:
             reservation = None
+        else:
+            reservation = reservations[0]
+        # try:
+        #     reservation = Reservation.objects.get(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
+        # except Reservation.MultipleObjectsReturned:
+        #     reservations = Reservation.objects.filter(reserved_from__lt = now, reserved_until__gt = now, car_id = unit.car_id, user_id = user.id)
+        #     reservation = reservations[0]
+        # except Reservation.DoesNotExist:
+        #     reservation = None
         if not reservation:
             return {
                 'status': 'failed',
